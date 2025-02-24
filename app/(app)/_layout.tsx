@@ -16,14 +16,6 @@ export default function AuthenticatedLayout() {
   const [loading, setLoading] = useState(false);
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // const isAuthenticated = authenStore((store) => !!store.cookie);
-
-  // console.log("AuthenticatedLayout 💯 isAuthenticated:", isAuthenticated);
-
-  // useEffect(() => {
-  //   setIsLoggedIn(false);
-  // }, []);
-
   if (!isLoggedIn) {
     return <Redirect href={"/login"} />;
   }

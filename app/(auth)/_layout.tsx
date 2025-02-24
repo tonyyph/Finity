@@ -1,6 +1,7 @@
+import { BackButton } from "@/components/common/back-button";
 import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { Redirect, Stack } from "expo-router";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 
 export default function UnAuthenticatedLayout() {
   const { isLoggedIn } = useUserAuthenticateStore();
@@ -10,8 +11,32 @@ export default function UnAuthenticatedLayout() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
-      <Stack screenOptions={{ headerShown: false }} />
-    </SafeAreaView>
+    <Stack
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "230 8% 85%"
+        },
+        headerShadowVisible: false,
+        headerLeft: () => <BackButton />,
+        headerTitle: ""
+      }}
+    >
+      <Stack.Screen
+        name="login"
+        options={{
+          headerLeft: () => null,
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="verify-2factor"
+        options={{
+          headerStyle: {
+            backgroundColor: "230 12% 81%"
+          }
+        }}
+      />
+      <Stack.Screen name="step-three" />
+    </Stack>
   );
 }

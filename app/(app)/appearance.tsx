@@ -29,31 +29,31 @@ export default function AppearanceScreen() {
     {
       id: Palette.Default,
       label: t(i18n)`Default`,
-      themeVariables: themeVariables[Palette.Default]["dark"],
+      themeVariables: themeVariables[Palette.Default]["light"],
       pro: false
     },
     {
       id: Palette.TokyoNight,
       label: t(i18n)`Tokyo Night`,
-      themeVariables: themeVariables[Palette.TokyoNight]["dark"],
+      themeVariables: themeVariables[Palette.TokyoNight]["light"],
       pro: false
     },
     {
       id: Palette.WinterIsComing,
       label: t(i18n)`Winter is coming`,
-      themeVariables: themeVariables[Palette.WinterIsComing]["dark"],
+      themeVariables: themeVariables[Palette.WinterIsComing]["light"],
       pro: false
     },
     {
       id: Palette.Catppuccin,
       label: t(i18n)`Catppuccin`,
-      themeVariables: themeVariables[Palette.Catppuccin]["dark"],
+      themeVariables: themeVariables[Palette.Catppuccin]["light"],
       pro: false
     },
     {
       id: Palette.RosePine,
       label: t(i18n)`Rosé Pine`,
-      themeVariables: themeVariables[Palette.RosePine]["dark"],
+      themeVariables: themeVariables[Palette.RosePine]["light"],
       pro: false
     }
   ];

@@ -1,6 +1,6 @@
 export const validateUsername = (username?: string, required?: boolean) => {
   if (!username) {
-    return { error: "Email or Phone Number is required.", valid: false };
+    return { error: "Enter your email address", valid: false };
   }
   if (username?.includes("@")) {
     const re = /\S+@\S+\.\S+/;
@@ -35,7 +35,7 @@ export const validateLetter = (email?: string, required?: boolean) => {
 
 export const validatePassword = (password?: string, required?: boolean) => {
   if (!password) {
-    return { error: "Password is required.", valid: false };
+    return { error: "Enter your password", valid: false };
   }
   // if (password.length < 6) {
   //   return { error: "Password is too short.", valid: false };

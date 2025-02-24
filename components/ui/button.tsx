@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { type VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
 import { Pressable } from "react-native";
+import { AnimatedSpinner } from "./spinner";
 
 const buttonVariants = cva(
   "group flex flex-row items-center justify-center gap-2 rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
@@ -51,7 +52,7 @@ const buttonTextVariants = cva(
       size: {
         default: "",
         sm: "",
-        lg: "native:text-lg",
+        lg: "native:text-[18px]",
         icon: ""
       }
     },
@@ -63,12 +64,15 @@ const buttonTextVariants = cva(
 );
 
 type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
-  VariantProps<typeof buttonVariants>;
+  VariantProps<typeof buttonVariants> & {
+    loading?: boolean;
+    title?: string;
+  };
 
 const Button = React.forwardRef<
   React.ElementRef<typeof Pressable>,
   ButtonProps
->(({ className, variant, size, ...props }, ref) => {
+>(({ className, variant, size, loading, ...props }, ref) => {
   return (
     <TextClassContext.Provider
       value={cn(

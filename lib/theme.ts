@@ -71,7 +71,7 @@ export const themeVariables: Record<
       "--input": "240 6% 14%",
       "--card": "240 9% 4%",
       "--card-foreground": "0 0% 90%",
-      "--primary": "174 72% 56%",
+      "--primary": "0 0% 90%",
       "--primary-foreground": "240 9% 4%",
       "--secondary": "240 6% 14%",
       "--secondary-foreground": "0 0% 98%",

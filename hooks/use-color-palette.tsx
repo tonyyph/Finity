@@ -13,7 +13,7 @@ export function useColorPalette() {
   const preferredPalette = useUserSettingsStore().preferredPalette;
   const { colorScheme } = useColorScheme();
 
-  const colorPalette = themeVariables[preferredPalette]["dark"];
+  const colorPalette = themeVariables[preferredPalette]["light"];
 
   const getColor = (colorKey: ColorKey, options?: GetColorOptions) => {
     const { alpha = 1 } = options ?? {};
