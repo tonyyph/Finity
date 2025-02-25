@@ -36,7 +36,30 @@ export default function UnAuthenticatedLayout() {
           }
         }}
       />
-      <Stack.Screen name="step-three" />
+      <Stack.Screen
+        name="access-denied"
+        options={{
+          headerStyle: {
+            backgroundColor: "230 12% 81%"
+          }
+        }}
+      />
+      <Stack.Screen
+        name="page-not-found"
+        options={{
+          headerStyle: {
+            backgroundColor: "230 12% 81%"
+          }
+        }}
+      />
+      <Stack.Screen
+        name="st-went-wrong"
+        options={{
+          headerStyle: {
+            backgroundColor: "230 12% 81%"
+          }
+        }}
+      />
     </Stack>
   );
 }

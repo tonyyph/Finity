@@ -70,7 +70,6 @@ export default function Verify2FactorScreen() {
   }, []);
 
   useEffect(() => {
-    console.log("otpString.length", otpString.length);
     if (otpString.length === 6 && wrongOTP === false) {
       if (otpString === "123456") {
         handleSendEmailToResetPassword();

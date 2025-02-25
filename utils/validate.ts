@@ -5,9 +5,9 @@ export const validateUsername = (username?: string, required?: boolean) => {
   if (username?.includes("@")) {
     const re = /\S+@\S+\.\S+/;
 
-    if (!re.test(username)) {
-      return { error: "Invalid email address.", valid: false };
-    }
+    // if (!re.test(username)) {
+    //   return { error: "Invalid email address.", valid: false };
+    // }
     return { error: "", valid: true };
   }
   return { error: "", valid: true };

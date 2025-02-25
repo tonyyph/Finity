@@ -1,5 +1,4 @@
-import { CheckBox, UnCheckBox } from "@/components/common/icons";
-import { AuthIllustration } from "@/components/svg-assets/auth-illustration";
+import { CircleAlert } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import { AnimatedSpinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
@@ -8,24 +7,19 @@ import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Link, router } from "expo-router";
-import LottieView from "lottie-react-native";
 import {
   CircleAlertIcon,
-  EyeClosedIcon,
   EyeIcon,
   EyeOffIcon,
   KeyIcon,
-  User,
   UserRoundIcon
 } from "lucide-react-native";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   Image,
   Linking,
   ScrollView,
   StatusBar,
-  StyleSheet,
   TextInput,
   TouchableOpacity,
   View
@@ -40,14 +34,25 @@ export default function LoginScreen() {
   const { onLogin, usernameState, passwordState } = useLogin();
   const handleSignedIn = useCallback(() => {
     // setIsLoggedIn(true);
+    const setError = (error: string = "Invalid password") => {
+      passwordState.setState((prev) => ({ ...prev, error }));
+    };
 
     setLoading(true);
     setTimeout(() => {
-      StatusBar.setBarStyle("dark-content");
       setLoading(false);
-      router.push("/(auth)/verify-2factor");
-    }, 3000);
-  }, []);
+      if (passwordState.value === "access") {
+        StatusBar.setBarStyle("dark-content");
+        router.push("/(auth)/access-denied");
+      }
+      if (passwordState.value === "123456") {
+        StatusBar.setBarStyle("dark-content");
+        router.push("/(auth)/verify-2factor");
+      } else {
+        setError("Incorrect email address or password. Try again.");
+      }
+    }, 1500);
+  }, [passwordState.value]);
 
   const onPressSecurePassword = () => {
     setSecurePassword((prev) => !prev);
@@ -96,11 +101,11 @@ export default function LoginScreen() {
                 </View>
               </View>
               {!!usernameState.error && (
-                <View className=" flex flex-row items-center gap-x-2 mt-1">
-                  <CircleAlertIcon className="size-4 text-red-400" />
-                  <Text className="text-red-400 text-sm font-medium">
+                <View className=" flex flex-row items-center mt-1">
+                  <CircleAlert className="top-1" />
+                  <Text className="text-red-500 text-sm font-medium">
                     {usernameState.error?.charAt(0).toUpperCase() +
-                      usernameState.error?.slice(1)}
+                      usernameState.error?.slice(1)}{" "}
                   </Text>
                 </View>
               )}
@@ -134,9 +139,9 @@ export default function LoginScreen() {
                 </TouchableOpacity>
               </View>
               {!!passwordState.error && (
-                <View className=" flex flex-row items-center gap-x-2 mt-1">
-                  <CircleAlertIcon className="size-4 text-red-400" />
-                  <Text className="text-red-400 text-sm font-medium">
+                <View className=" flex flex-row items-center mt-1">
+                  <CircleAlert className="top-1" />
+                  <Text className="text-red-500 text-sm font-medium">
                     {passwordState.error?.charAt(0).toUpperCase() +
                       passwordState.error?.slice(1)}
                   </Text>
@@ -161,11 +166,14 @@ export default function LoginScreen() {
             <View className="px-4 mt-2">
               <Trans>
                 <Text className="mx-auto text-center text-muted-foreground">
-                  <Link href="/(aux)/forgot-password">
-                    <Text className="text-primary text-base font-medium">
-                      Forgot password?
-                    </Text>
-                  </Link>
+                  <Text
+                    className="text-primary text-base font-medium"
+                    onPress={() =>
+                      Linking.openURL("https://www.finity.co.uk/rewards/")
+                    }
+                  >
+                    Forgot password?
+                  </Text>
                 </Text>
               </Trans>
             </View>
@@ -175,19 +183,3 @@ export default function LoginScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  label: {
-    alignSelf: "stretch",
-    fontSize: 16,
-    letterSpacing: 0,
-    lineHeight: 22,
-    fontWeight: "500",
-    fontFamily: "PP Neue Montreal",
-    color: "#404040",
-    textAlign: "left",
-    display: "flex",
-    alignItems: "center",
-    height: 24
-  }
-});
