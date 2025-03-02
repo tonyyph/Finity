@@ -45,6 +45,14 @@ export default function LoginScreen() {
         StatusBar.setBarStyle("dark-content");
         router.push("/(auth)/access-denied");
       }
+      if (passwordState.value === "wrong") {
+        StatusBar.setBarStyle("dark-content");
+        router.push("/(auth)/st-went-wrong");
+      }
+      if (passwordState.value === "notfound") {
+        StatusBar.setBarStyle("dark-content");
+        router.push("/(auth)/page-not-found");
+      }
       if (passwordState.value === "123456") {
         StatusBar.setBarStyle("dark-content");
         router.push("/(auth)/verify-2factor");
