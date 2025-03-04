@@ -92,6 +92,7 @@ export default function RootLayout() {
                         }}
                       />
                       <Stack.Screen name="(request_card)" />
+                      <Stack.Screen name="(order_card)" />
                     </Stack>
                     <ToastRoot />
                     <PortalHost />

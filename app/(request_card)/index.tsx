@@ -36,6 +36,7 @@ function RequestCard() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      router.back();
     }, 5000);
   };
 
@@ -102,9 +103,7 @@ function RequestCard() {
           >
             {loading && <AnimatedSpinnerV2 size={20} color={colors.orange} />}
             <Text className="text-white text-base font-medium">
-              {loading
-                ? ti18n(`Confirming...`)
-                : ti18n(`Confirm and request card`)}
+              {loading ? t`Confirming...` : t`Confirm and request card`}
             </Text>
           </Button>
         </View>

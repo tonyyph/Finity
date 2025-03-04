@@ -7,14 +7,17 @@ import { exactDesign, SCREEN_HEIGHT, SCREEN_WIDTH } from "@/utils";
 import CardTab from "./cardTap";
 import PointsTap from "./pointsTap";
 
-type Props = {};
+type Props = {
+  onLoadCard?: (params?: any) => void;
+  onSendPoints?: (params?: any) => void;
+};
 
 const routes = [
   { key: "card", title: "Card" },
   { key: "points", title: "Points" },
 ];
 
-function CardAndPointTab({}: Props) {
+function CardAndPointTab({ onLoadCard, onSendPoints }: Props) {
   const [index, setIndex] = useState<number>(0);
 
   const renderScene = ({ route }: any) => {
@@ -35,10 +38,16 @@ function CardAndPointTab({}: Props) {
   return (
     <View className="flex-1 ">
       <View className="flex-row gap-2 pl-4 pr-4 mb-4">
-        <Touch className="bg-black h-[48px] justify-center items-center flex-1 rounded-full">
+        <Touch
+          onPress={onLoadCard}
+          className="bg-black h-[48px] justify-center items-center flex-1 rounded-full"
+        >
           <Text className="color-white text-sm font-medium">Load card</Text>
         </Touch>
-        <Touch className="bg-white h-[48px] justify-center items-center flex-1 rounded-full border border-[#D4D4D4]">
+        <Touch
+          onPress={onSendPoints}
+          className="bg-white h-[48px] justify-center items-center flex-1 rounded-full border border-[#D4D4D4]"
+        >
           <Text className="color-black text-sm font-medium">Send points</Text>
         </Touch>
       </View>

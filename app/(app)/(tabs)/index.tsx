@@ -29,7 +29,14 @@ function home() {
           <PointsBalanceCom value={123890} />
         </View>
         <View className="mt-4" />
-        <CardAndPointTab />
+        <CardAndPointTab
+          onLoadCard={() => {
+            router.navigate({
+              pathname: "/(order_card)",
+            });
+          }}
+          onSendPoints={() => {}}
+        />
       </ScrollView>
     </View>
   );
