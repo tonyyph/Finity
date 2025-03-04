@@ -39,6 +39,12 @@ export default function LoginScreen() {
       if (passwordState.value === "access") {
         router.push("/(auth)/access-denied");
       }
+      if (passwordState.value === "wrong") {
+        router.push("/(auth)/st-went-wrong");
+      }
+      if (passwordState.value === "notfound") {
+        router.push("/(auth)/page-not-found");
+      }
       if (passwordState.value === "123456") {
         router.push("/(auth)/verify-2factor");
       } else {
