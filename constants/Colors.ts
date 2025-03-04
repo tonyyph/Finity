@@ -30,7 +30,11 @@ export const Colors = {
 export const colors = {
   tertiary: "#737373",
   backgroundSubtle: "#FAFAFA",
+  white: "#FFFFFF",
   secondary: "#404040",
   black: "#0A0A0A",
   orange: "#e75e2d",
+  border: "#A3A3A3",
+  neutral: "#525252",
+  errormessage: "#D9323D",
 };

@@ -68,7 +68,11 @@ function BiometricsSuccess() {
     <View className="flex-1 bg-white">
       <SafeAreaView className="flex-1">
         <View className="flex-1 px-4 gap-3 items-center top-28">
-          <Image source={require("../../assets/images/success-filled.png")} />
+          <Image
+            className="w-16 h-16"
+            resizeMode="contain"
+            source={require("../../assets/images/success-filled.png")}
+          />
           <Text className="text-2xl font-semibold ">{t(
             i18n
           )`${authenticationType?.title}`}</Text>

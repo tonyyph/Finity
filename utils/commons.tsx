@@ -1,6 +1,4 @@
 import { commonStore } from "@/stores/commonStore";
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import { ComponentType, memo, MemoExoticComponent } from "react";
 import fastCompare from "react-fast-compare";
 import { Dimensions } from "react-native";
@@ -106,8 +104,3 @@ export function formatNumber({
     decimalCount ? decimal + decimalPart : ""
   }`;
 }
-
-export const ti18n = (value: string) => {
-  const { i18n } = useLingui();
-  return t(i18n)`${value}`;
-};
