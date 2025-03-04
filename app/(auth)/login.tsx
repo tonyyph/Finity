@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { AnimatedSpinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { useLogin } from "@/hooks/auth/useLogin";
+import { useUser } from "@clerk/clerk-expo";
 import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { router } from "expo-router";
@@ -29,6 +30,7 @@ export default function LoginScreen() {
   const { i18n } = useLingui();
   const { onLogin, usernameState, passwordState } = useLogin();
   const handleSignedIn = useCallback(() => {
+    Keyboard.dismiss();
     const setError = (error: string = "Invalid password") => {
       passwordState.setState((prev) => ({ ...prev, error }));
     };

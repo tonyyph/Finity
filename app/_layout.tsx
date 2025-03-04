@@ -19,6 +19,9 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Svg from "react-native-svg";
 import "../global.css";
 import "../utils/ReactotronConfig";
+import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
+import { tokenCache } from "@/lib/cache";
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -70,31 +73,38 @@ export default function RootLayout() {
         disabled: false
       }}
     >
-      <LocaleProvider>
-        <ThemeProvider value={DefaultTheme}>
-          <CustomPaletteWrapper>
-            <SafeAreaProvider>
-              <GestureHandlerRootView>
-                <KeyboardProvider>
-                  <BottomSheetModalProvider>
-                    <Stack screenOptions={{ headerShown: false }}>
-                      <Stack.Screen
-                        name="(aux)"
-                        options={{
-                          presentation: "modal"
-                        }}
-                      />
-                      <Stack.Screen name="(request_card)" />
-                    </Stack>
-                    <ToastRoot />
-                    <PortalHost />
-                  </BottomSheetModalProvider>
-                </KeyboardProvider>
-              </GestureHandlerRootView>
-            </SafeAreaProvider>
-          </CustomPaletteWrapper>
-        </ThemeProvider>
-      </LocaleProvider>
+      <ClerkProvider
+        publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
+        tokenCache={tokenCache}
+      >
+        <ClerkLoaded>
+          <LocaleProvider>
+            <ThemeProvider value={DefaultTheme}>
+              <CustomPaletteWrapper>
+                <SafeAreaProvider>
+                  <GestureHandlerRootView>
+                    <KeyboardProvider>
+                      <BottomSheetModalProvider>
+                        <Stack screenOptions={{ headerShown: false }}>
+                          <Stack.Screen
+                            name="(aux)"
+                            options={{
+                              presentation: "modal"
+                            }}
+                          />
+                          <Stack.Screen name="(request_card)" />
+                        </Stack>
+                        <ToastRoot />
+                        <PortalHost />
+                      </BottomSheetModalProvider>
+                    </KeyboardProvider>
+                  </GestureHandlerRootView>
+                </SafeAreaProvider>
+              </CustomPaletteWrapper>
+            </ThemeProvider>
+          </LocaleProvider>
+        </ClerkLoaded>
+      </ClerkProvider>
     </PostHogProvider>
   );
 }

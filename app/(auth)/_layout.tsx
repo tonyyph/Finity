@@ -14,64 +14,94 @@ export default function UnAuthenticatedLayout() {
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: "230 8% 85%",
+          backgroundColor: "230 8% 85%"
         },
         headerShadowVisible: false,
         headerLeft: () => <BackButton />,
-        headerTitle: "",
+        headerTitle: ""
       }}
     >
+      <Stack.Screen
+        name="success-2factor"
+        options={{
+          headerLeft: () => <BackButton />,
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="pin-success"
+        options={{
+          headerLeft: () => <BackButton />,
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="pin-verify"
+        options={{
+          headerStyle: {
+            backgroundColor: "230 12% 81%"
+          }
+        }}
+      />
+      <Stack.Screen
+        name="pin-confirm"
+        options={{
+          headerStyle: {
+            backgroundColor: "230 12% 81%"
+          }
+        }}
+      />
       <Stack.Screen
         name="biometrics"
         options={{
           headerLeft: () => <BackButton />,
-          headerShown: false,
+          headerShown: false
         }}
       />
       <Stack.Screen
         name="biometrics-success"
         options={{
           headerLeft: () => <BackButton />,
-          headerShown: false,
+          headerShown: false
         }}
       />
       <Stack.Screen
         name="login"
         options={{
           headerLeft: () => null,
-          headerShown: false,
+          headerShown: false
         }}
       />
       <Stack.Screen
         name="verify-2factor"
         options={{
           headerStyle: {
-            backgroundColor: "230 12% 81%",
-          },
+            backgroundColor: "230 12% 81%"
+          }
         }}
       />
       <Stack.Screen
         name="access-denied"
         options={{
           headerStyle: {
-            backgroundColor: "230 12% 81%",
-          },
+            backgroundColor: "230 12% 81%"
+          }
         }}
       />
       <Stack.Screen
         name="page-not-found"
         options={{
           headerStyle: {
-            backgroundColor: "230 12% 81%",
-          },
+            backgroundColor: "230 12% 81%"
+          }
         }}
       />
       <Stack.Screen
         name="st-went-wrong"
         options={{
           headerStyle: {
-            backgroundColor: "230 12% 81%",
-          },
+            backgroundColor: "230 12% 81%"
+          }
         }}
       />
     </Stack>

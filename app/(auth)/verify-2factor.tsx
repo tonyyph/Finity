@@ -1,25 +1,17 @@
 import { CircleAlert } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
-import { OTPInput } from "@/components/ui/otp-input";
 import { AnimatedSpinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
-import { useForgotPassword } from "@/hooks/auth/useForgotPassword";
 import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { router } from "expo-router";
-import {
-  CircleAlertIcon,
-  MailIcon,
-  SquareAsterisk,
-  User
-} from "lucide-react-native";
+import { SquareAsterisk } from "lucide-react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Alert,
   Keyboard,
-  ScrollView,
   StyleSheet,
   TextInput,
+  TouchableWithoutFeedback,
   View
 } from "react-native";
 import Animated, {
@@ -28,7 +20,6 @@ import Animated, {
 } from "react-native-reanimated";
 
 export default function Verify2FactorScreen() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const { i18n } = useLingui();
   const [loading, setLoading] = useState(false);
   const [wrongOTP, setWrongOTP] = useState(false);
@@ -59,15 +50,16 @@ export default function Verify2FactorScreen() {
     .join("");
 
   const handleSendEmailToResetPassword = useCallback(() => {
-    setLoading(true);
-    Keyboard.dismiss();
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
     if (otpString === "123456") {
-      alert("success");
+      router.push(`/success-2factor`);
+    } else {
+      setLoading(true);
+      Keyboard.dismiss();
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
     }
-  }, []);
+  }, [otpString]);
 
   useEffect(() => {
     if (otpString.length === 6 && wrongOTP === false) {
@@ -84,21 +76,17 @@ export default function Verify2FactorScreen() {
   }, [otpString]);
 
   return (
-    <View className="flex-1">
-      <ScrollView
-        className="bg-background"
-        contentContainerClassName="gap-4 p-8 flex-1"
-        automaticallyAdjustKeyboardInsets
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <View className="flex-1 ">
+    <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
+      <View className="bg-background gap-4 p-8 flex-1">
+        <View className="flex-1">
           {/* Welcome */}
           <View className="z-10">
             <Trans>
               <View className="gap-2">
-                <Text style={styles.heading}>Two-factor authentication</Text>
-                <Text style={styles.writeASubheading}>
+                <Text className="text-neutral-950 text-2xl font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
+                  Two-factor authentication
+                </Text>
+                <Text className="text-neutral-950 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">
                   Enter the 6-digit verification code generated from your app.
                 </Text>
               </View>
@@ -255,7 +243,7 @@ export default function Verify2FactorScreen() {
             <Button
               variant="default"
               size={"lg"}
-              disabled={otpString.length !== 6}
+              disabled={otpString.length !== 6 || loading}
               className="mt-8 rounded-full bg-primary h-[48px]"
               loading={loading}
               onPress={handleSendEmailToResetPassword}
@@ -267,32 +255,12 @@ export default function Verify2FactorScreen() {
             </Button>
           </View>
         </Animated.View>
-      </ScrollView>
-    </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
-  heading: {
-    alignSelf: "stretch",
-    fontSize: 24,
-    letterSpacing: 0,
-    lineHeight: 30,
-    fontWeight: "600",
-    fontFamily: "PP Neue Montreal",
-    color: "#0a0a0a",
-    textAlign: "left"
-  },
-  writeASubheading: {
-    alignSelf: "stretch",
-    fontSize: 16,
-    letterSpacing: 0,
-    lineHeight: 22,
-    width: "80%",
-    fontFamily: "PP Neue Montreal",
-    color: "#0a0a0a",
-    textAlign: "left"
-  },
   otpContainer: {
     justifyContent: "space-evenly",
     marginTop: 24,
