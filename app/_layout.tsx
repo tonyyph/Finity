@@ -95,6 +95,11 @@ export default function RootLayout() {
                     </Stack>
                     <ToastRoot />
                     <PortalHost />
+                    <StatusBar
+                      translucent={false}
+                      style="dark"
+                      backgroundColor="transparent"
+                    />
                   </BottomSheetModalProvider>
                 </KeyboardProvider>
               </GestureHandlerRootView>
