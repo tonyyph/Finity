@@ -3,7 +3,7 @@ import Touch from "@/components/ui/touch";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import React, { useEffect, useCallback, useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { Platform, SafeAreaView, StyleSheet, View } from "react-native";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
 import { find } from "lodash-es";
@@ -37,6 +37,31 @@ const authentication: Array<AuthenticationProps> = [
   },
 ];
 
+const authenticationAndroid: Array<AuthenticationProps> = [
+  {
+    authenticationType:
+      LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
+    title: `Setup biometric authentication`,
+    subTitle: `Use your face recognition for secure access to your account and easy transaction approvals.`,
+    subTitle2: `You can enable it now or later in settings.`,
+    submit: "Setup biometrics",
+  },
+  {
+    authenticationType: LocalAuthentication.AuthenticationType.FINGERPRINT,
+    title: `Setup biometric authentication`,
+    subTitle: `Use your fingerprint for secure access to your account and easy transaction approvals.`,
+    subTitle2: `You can enable it now or later in settings.`,
+    submit: "Setup biometrics",
+  },
+  {
+    authenticationType: LocalAuthentication.AuthenticationType.IRIS,
+    title: `Setup biometric authentication`,
+    subTitle: `Use your fingerprint or face recognition for secure access to your account and easy transaction approvals..`,
+    subTitle2: `You can enable it now or later in settings.`,
+    submit: "Setup biometrics",
+  },
+];
+
 function Biometrics() {
   const { typeAuthentication } = useLocalSearchParams();
   const [loading, setLoading] = useState<Boolean>(false);
@@ -47,7 +72,7 @@ function Biometrics() {
   useEffect(() => {
     setAuthenticationType(
       find(
-        authentication,
+        Platform.OS === "ios" ? authentication : authenticationAndroid,
         (au) => String(au.authenticationType) == String(typeAuthentication)
       )
     );
@@ -58,6 +83,7 @@ function Biometrics() {
     const result = await LocalAuthentication.authenticateAsync({
       // disableDeviceFallback: true,
     });
+
     setLoading(false);
     if (result.success) {
       router.replace({

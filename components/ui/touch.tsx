@@ -12,7 +12,7 @@ function Touch(props: TouchableOpacityProps & Props) {
     <TouchableOpacity
       style={styles.container}
       {...props}
-      activeOpacity={props?.activeOpacity || 0}
+      activeOpacity={(props.activeOpacity = !1 ? props.activeOpacity : 1)}
     >
       {props.children}
     </TouchableOpacity>
