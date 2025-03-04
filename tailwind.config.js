@@ -44,6 +44,7 @@ module.exports = {
         bold: ['ppneuemontreal-bold'],
       },
       colors: {
+        pin: '#f9f9f9',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

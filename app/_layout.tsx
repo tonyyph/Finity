@@ -1,30 +1,26 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider
-} from "@react-navigation/native";
+import { CustomPaletteWrapper } from "@/components/common/custom-palette-wrapper";
+import { ToastRoot } from "@/components/common/toast";
+import { LocaleProvider } from "@/locales/provider";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { PortalHost } from "@rn-primitives/portal";
 import { useFonts } from "expo-font";
+import { LinearGradient } from "expo-linear-gradient";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
-import "react-native-reanimated";
-import { PostHogProvider } from "posthog-react-native";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { LocaleProvider } from "@/locales/provider";
-import { cssInterop } from "nativewind";
-import { LinearGradient } from "expo-linear-gradient";
-import Svg from "react-native-svg";
 import LottieView from "lottie-react-native";
-
-import "../global.css";
-import { CustomPaletteWrapper } from "@/components/common/custom-palette-wrapper";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { cssInterop } from "nativewind";
+import { PostHogProvider } from "posthog-react-native";
+import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { ToastRoot } from "@/components/common/toast";
-import { PortalHost } from "@rn-primitives/portal";
 import { KeyboardProvider } from "react-native-keyboard-controller";
+import "react-native-reanimated";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Svg from "react-native-svg";
+import "../global.css";
+import "../utils/ReactotronConfig";
+import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
+import { tokenCache } from "@/lib/cache";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -77,30 +73,38 @@ export default function RootLayout() {
         disabled: false
       }}
     >
-      <LocaleProvider>
-        <ThemeProvider value={DarkTheme}>
-          <CustomPaletteWrapper>
-            <SafeAreaProvider>
-              <GestureHandlerRootView>
-                <KeyboardProvider>
-                  <BottomSheetModalProvider>
-                    <Stack screenOptions={{ headerShown: false }}>
-                      <Stack.Screen
-                        name="(aux)"
-                        options={{
-                          presentation: "modal"
-                        }}
-                      />
-                    </Stack>
-                    <ToastRoot />
-                    <PortalHost />
-                  </BottomSheetModalProvider>
-                </KeyboardProvider>
-              </GestureHandlerRootView>
-            </SafeAreaProvider>
-          </CustomPaletteWrapper>
-        </ThemeProvider>
-      </LocaleProvider>
+      <ClerkProvider
+        publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
+        tokenCache={tokenCache}
+      >
+        <ClerkLoaded>
+          <LocaleProvider>
+            <ThemeProvider value={DefaultTheme}>
+              <CustomPaletteWrapper>
+                <SafeAreaProvider>
+                  <GestureHandlerRootView>
+                    <KeyboardProvider>
+                      <BottomSheetModalProvider>
+                        <Stack screenOptions={{ headerShown: false }}>
+                          <Stack.Screen
+                            name="(aux)"
+                            options={{
+                              presentation: "modal"
+                            }}
+                          />
+                          <Stack.Screen name="(request_card)" />
+                        </Stack>
+                        <ToastRoot />
+                        <PortalHost />
+                      </BottomSheetModalProvider>
+                    </KeyboardProvider>
+                  </GestureHandlerRootView>
+                </SafeAreaProvider>
+              </CustomPaletteWrapper>
+            </ThemeProvider>
+          </LocaleProvider>
+        </ClerkLoaded>
+      </ClerkProvider>
     </PostHogProvider>
   );
 }

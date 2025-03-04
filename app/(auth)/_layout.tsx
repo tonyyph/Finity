@@ -22,6 +22,50 @@ export default function UnAuthenticatedLayout() {
       }}
     >
       <Stack.Screen
+        name="success-2factor"
+        options={{
+          headerLeft: () => <BackButton />,
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="pin-success"
+        options={{
+          headerLeft: () => <BackButton />,
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="pin-verify"
+        options={{
+          headerStyle: {
+            backgroundColor: "230 12% 81%"
+          }
+        }}
+      />
+      <Stack.Screen
+        name="pin-confirm"
+        options={{
+          headerStyle: {
+            backgroundColor: "230 12% 81%"
+          }
+        }}
+      />
+      <Stack.Screen
+        name="biometrics"
+        options={{
+          headerLeft: () => <BackButton />,
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="biometrics-success"
+        options={{
+          headerLeft: () => <BackButton />,
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
         name="login"
         options={{
           headerLeft: () => null,

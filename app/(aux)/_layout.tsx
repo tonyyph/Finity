@@ -4,10 +4,10 @@ import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native";
+import { useUser } from "@clerk/clerk-expo";
 
 export default function AuxiliaryLayout() {
   const { getColor } = useColorPalette();
-
   const { i18n } = useLingui();
 
   return (

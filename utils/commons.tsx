@@ -1,4 +1,6 @@
 import { commonStore } from "@/stores/commonStore";
+import { t } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import { ComponentType, memo, MemoExoticComponent } from "react";
 import fastCompare from "react-fast-compare";
 import { Dimensions } from "react-native";
@@ -65,4 +67,47 @@ export const actionWithTimeout = <T extends any>(
 
     return { result, timedOut };
   };
+};
+
+const pivotWidth = 390;
+const pivotHeight = 844;
+
+export const exactDesign = (value: any) => {
+  const ratio = (SCREEN_HEIGHT * SCREEN_WIDTH) / (pivotHeight * pivotWidth);
+  return ratio >= 1 ? value : value * ratio;
+};
+
+export function formatNumber({
+  value,
+  decimalCount = 2,
+  decimal = ".",
+  thousands = ",",
+}: {
+  value: string | number;
+  decimalCount?: number;
+  decimal?: string;
+  thousands?: string;
+}): string {
+  const num = typeof value === "string" ? parseFloat(value) : value;
+
+  if (isNaN(num)) return `${0}${decimal}00`;
+
+  const negativeSign = num < 0 ? "-" : "";
+  const absoluteAmount = Math.abs(num);
+  const fixedAmount = absoluteAmount.toFixed(decimalCount);
+  const [integerPart, decimalPart] = fixedAmount.split(".");
+
+  const formattedInteger = integerPart.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    thousands
+  );
+
+  return `${negativeSign}${formattedInteger}${
+    decimalCount ? decimal + decimalPart : ""
+  }`;
+}
+
+export const ti18n = (value: string) => {
+  const { i18n } = useLingui();
+  return t(i18n)`${value}`;
 };
