@@ -3,6 +3,6 @@ import { View } from "react-native";
 
 function card() {
   useEffect(() => {}, []);
-  return <View className="flex-1 bg-red"></View>;
+  return <View className="flex-1 bg-white"></View>;
 }
 export default card;

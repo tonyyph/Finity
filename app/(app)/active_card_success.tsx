@@ -16,18 +16,18 @@ const type = [
   {
     title: t`Something went wrong`,
     sub: t`An unexpected error occurred while processing your request. Please try again.`,
-    icon: require("../../assets/images/error-filled.png"),
+    icon: require("@/assets/images/error-filled.png"),
     button: t`Try again`,
   },
   {
     title: t`Card activated successfully!`,
     sub: t`Your card has been activated and is ready for use. Enjoy your transactions!`,
-    icon: require("../../assets/images/success-filled.png"),
+    icon: require("@/assets/images/success-filled.png"),
     button: t`Return to home`,
   },
 ];
 
-function OrderCardSuccessScreen() {
+function ActiveCardSuccessScreen() {
   const { success } = useLocalSearchParams();
   const [localType, setLocalType] = useState<propsLocal>();
   useEffect(() => {
@@ -70,4 +70,4 @@ function OrderCardSuccessScreen() {
     </View>
   );
 }
-export default OrderCardSuccessScreen;
+export default ActiveCardSuccessScreen;

@@ -9,13 +9,14 @@ type Props = {
   subTitle?: string;
   textButtonLabel?: string;
   onPress?: (params?: any) => void;
+  requested?: boolean;
 };
 
 function RequestCardNoti({
   imageCard,
   title = "Finity Rewards card",
   subTitle = "Convert points, start spending anywhere you like.",
-  textButtonLabel = "Request card",
+  requested = false,
   onPress,
 }: Props) {
   return (
@@ -40,7 +41,7 @@ function RequestCardNoti({
           <Text className="text-bs leading-5">{subTitle}</Text>
         </View>
         <Text className="text-bs font-semibold underline">
-          {textButtonLabel}
+          {requested ? "Activate card" : "Request card"}
         </Text>
       </View>
     </Touch>

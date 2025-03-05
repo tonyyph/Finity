@@ -62,18 +62,36 @@ export default function AuthenticatedLayout() {
           headerTitleStyle: {
             fontFamily: "Poppins-SemiBold",
             fontSize: 16,
-            color: getColor("--foreground")
+            color: getColor("--foreground"),
           },
           headerStyle: {
-            backgroundColor: getColor("--background")
+            backgroundColor: getColor("--background"),
           },
-          headerLeft: () => <BackButton />
+          headerLeft: () => <BackButton />,
         }}
       >
         <Stack.Screen
           name="(tabs)"
           options={{
-            headerShown: false
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="active_card"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="active_card_success"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="request_card"
+          options={{
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -84,20 +102,20 @@ export default function AuthenticatedLayout() {
           name="appearance"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Appearance`
+            headerTitle: t(i18n)`Appearance`,
           }}
         />
         <Stack.Screen
           name="profile-edit"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Fill Your Profile`
+            headerTitle: t(i18n)`Fill Your Profile`,
           }}
         />
         <Stack.Screen
           name="category/index"
           options={{
-            headerTitle: t(i18n)`Categories`
+            headerTitle: t(i18n)`Categories`,
           }}
         />
         <Stack.Screen
@@ -116,14 +134,14 @@ export default function AuthenticatedLayout() {
           name="feedback"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Feedback`
+            headerTitle: t(i18n)`Feedback`,
           }}
         />
         <Stack.Screen
           name="language"
           options={{
             presentation: "modal",
-            headerTitle: t(i18n)`Language`
+            headerTitle: t(i18n)`Language`,
           }}
         />
       </Stack>

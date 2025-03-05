@@ -19,29 +19,30 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Svg from "react-native-svg";
 import "../global.css";
 import "../utils/ReactotronConfig";
+import { StatusBar } from "react-native";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 cssInterop(Svg, {
   className: {
     target: "style",
-    nativeStyleToProp: { width: true, height: true }
-  }
+    nativeStyleToProp: { width: true, height: true },
+  },
 });
 cssInterop(LinearGradient, {
   className: {
-    target: "style"
-  }
+    target: "style",
+  },
 });
 
 cssInterop(LottieView, {
   className: {
-    target: "style"
-  }
+    target: "style",
+  },
 });
 
 export const unstable_settings = {
-  initialRouteName: "(app)"
+  initialRouteName: "(app)",
 };
 
 export default function RootLayout() {
@@ -49,7 +50,7 @@ export default function RootLayout() {
     "NeueMontreal-Regular": require("../assets/fonts/ppneuemontreal-book.otf"),
     "NeueMontreal-Medium": require("../assets/fonts/ppneuemontreal-medium.otf"),
     "NeueMontreal-SemiBold": require("../assets/fonts/ppneuemontreal-semibolditalic.otf"),
-    "NeueMontreal-Bold": require("../assets/fonts/ppneuemontreal-bold.otf")
+    "NeueMontreal-Bold": require("../assets/fonts/ppneuemontreal-bold.otf"),
   });
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export default function RootLayout() {
       apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
       options={{
         host: process.env.EXPO_PUBLIC_POSTHOG_HOST!,
-        disabled: false
+        disabled: false,
       }}
     >
       <LocaleProvider>
@@ -81,14 +82,16 @@ export default function RootLayout() {
                       <Stack.Screen
                         name="(aux)"
                         options={{
-                          presentation: "modal"
+                          presentation: "modal",
                         }}
                       />
-                      <Stack.Screen name="(request_card)" />
-                      <Stack.Screen name="(order_card)" />
                     </Stack>
                     <ToastRoot />
                     <PortalHost />
+                    <StatusBar
+                      barStyle={"dark-content"}
+                      backgroundColor={"transparent"}
+                    />
                   </BottomSheetModalProvider>
                 </KeyboardProvider>
               </GestureHandlerRootView>

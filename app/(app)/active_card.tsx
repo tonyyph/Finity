@@ -10,7 +10,7 @@ import { router } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Keyboard, SafeAreaView, TextInput, View } from "react-native";
 
-function OrderCardScreen() {
+function ActiveCardScreen() {
   const [loading, setLoading] = useState<boolean>();
   const [error, setError] = useState<boolean>();
   const inputRefs = [
@@ -56,18 +56,21 @@ function OrderCardScreen() {
   };
 
   const handleSubmit = useCallback(() => {
+    Keyboard.dismiss();
     const enteredOtp = cardNumber.join("");
     if (enteredOtp.length === 4) {
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
         if (enteredOtp == "1234") {
+          setCardNumber(["", "", "", ""]);
           router.replace({
-            pathname: "/order_card_success",
+            pathname: "/active_card_success",
           });
         } else {
+          setCardNumber(["", "", "", ""]);
           router.navigate({
-            pathname: "/order_card_success",
+            pathname: "/active_card_success",
             params: {
               success: "false",
             },
@@ -93,6 +96,7 @@ function OrderCardScreen() {
           <View className="flex-row gap-2 items-start justify-center">
             {cardNumber.map((_, index) => (
               <TextInput
+                editable={!loading}
                 autoFocus={index == 0}
                 className="border w-14 h-14 rounded-lg items-center justify-center text-center text-h1"
                 style={[
@@ -151,4 +155,4 @@ function OrderCardScreen() {
     </View>
   );
 }
-export default OrderCardScreen;
+export default ActiveCardScreen;

@@ -10,6 +10,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 
 function home() {
   useEffect(() => {}, []);
+  const [requested, setRequested] = useState<boolean>(false);
   return (
     <View
       className="flex-1 bg-white pt-4 gap-4"
@@ -19,24 +20,25 @@ function home() {
       <ScrollView className="flex-1">
         <RequestCardNoti
           onPress={() => {
-            router.navigate({
-              pathname: "/(request_card)",
-            });
+            if (!requested) {
+              router.navigate({
+                pathname: "/request_card",
+              });
+              setRequested(true);
+            } else {
+              router.navigate({
+                pathname: "/active_card",
+              });
+            }
           }}
+          requested={requested}
         />
         <View className="gap-2 mt-4">
           <CardBalanceCom value={0} />
           <PointsBalanceCom value={123890} />
         </View>
         <View className="mt-4" />
-        <CardAndPointTab
-          onLoadCard={() => {
-            router.navigate({
-              pathname: "/(order_card)",
-            });
-          }}
-          onSendPoints={() => {}}
-        />
+        <CardAndPointTab onLoadCard={() => {}} onSendPoints={() => {}} />
       </ScrollView>
     </View>
   );

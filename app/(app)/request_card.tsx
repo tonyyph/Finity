@@ -3,7 +3,7 @@ import { AnimatedSpinner } from "@/components/ui/spinner";
 import AnimatedSpinnerV2 from "@/components/ui/spinnerIndicator";
 import { Text } from "@/components/ui/text";
 import { colors } from "@/constants/Colors";
-import { exactDesign, ti18n } from "@/utils";
+import { exactDesign } from "@/utils";
 import { t } from "@lingui/macro";
 import { router } from "expo-router";
 import { ArrowLeftIcon } from "lucide-react-native";

@@ -5,6 +5,7 @@ import { useLingui } from "@lingui/react";
 import { t } from "@lingui/macro";
 import { exactDesign } from "@/utils";
 import Touch from "../ui/touch";
+import { colors } from "@/constants/Colors";
 
 type HomeHeaderProps = {
   haveNoti?: boolean;
@@ -23,7 +24,10 @@ export function HomeHeader({ haveNoti, onNoti }: HomeHeaderProps) {
   };
 
   return (
-    <View className="flex flex-row items-center justify-between gap-4 bg-background px-6 pb-3">
+    <View
+      className="flex flex-row items-center justify-between gap-4 bg-background px-6 pb-3"
+      style={{ backgroundColor: colors.backgroundSubtle }}
+    >
       <View className="flex flex-1 flex-row items-center gap-3">
         <View className="flex-1 gap-1">
           <Text className="text-h3 font-bold">{`${t(i18n)`Hi`}, ${
