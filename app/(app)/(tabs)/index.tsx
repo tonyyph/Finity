@@ -4,13 +4,19 @@ import { HomeHeader } from "@/components/home/header";
 import PointsBalanceCom from "@/components/home/points_balance";
 import RequestCardNoti from "@/components/home/request_card_noti";
 import { colors } from "@/constants/Colors";
+import useHome from "@/stores/useHome";
 import { router } from "expo-router";
 import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 function home() {
-  useEffect(() => {}, []);
   const [requested, setRequested] = useState<boolean>(false);
+  const { data, doRequest } = useHome();
+
+  useEffect(() => {
+    doRequest({});
+  }, []);
+
   return (
     <View
       className="flex-1 bg-white pt-4 gap-4"
