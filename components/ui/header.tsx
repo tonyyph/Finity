@@ -30,7 +30,7 @@ function Header({
       <SafeAreaView className="">
         <View className="flex-row justify-between">
           {renderLeftView ??
-            (!!onBack && !!onLeftFunction ? (
+            (!!onBack || !!onLeftFunction ? (
               <Button
                 className="flex-shrink"
                 onPress={(value) => {
@@ -49,7 +49,7 @@ function Header({
             ))}
           {renderCenterView ?? (
             <View className="flex-shrink justify-center items-cente">
-              <Text className="text-center text-h2 font-bold">{title}</Text>
+              <Text className="text-center text-[18px] font-bold">{title}</Text>
             </View>
           )}
           {renderRightView ??

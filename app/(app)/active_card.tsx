@@ -144,7 +144,6 @@ function ActiveCardScreen() {
             loading={loading}
             onPress={null}
           >
-            {loading && <AnimatedSpinnerV2 size={20} color={colors.orange} />}
             <Text className="text-white text-base font-medium">
               {loading ? t`Activating......` : t`Activate card`}
             </Text>

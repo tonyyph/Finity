@@ -101,7 +101,6 @@ function RequestCard() {
             loading={loading}
             onPress={handleConfirm}
           >
-            {loading && <AnimatedSpinnerV2 size={20} color={colors.orange} />}
             <Text className="text-white text-base font-medium">
               {loading ? t`Confirming...` : t`Confirm and request card`}
             </Text>

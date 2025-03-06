@@ -95,6 +95,12 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
+          name="load_card"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="breaking-news"
           options={{ headerTitle: t(i18n)`Breaking News` }}
         />

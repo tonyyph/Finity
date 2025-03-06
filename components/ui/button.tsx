@@ -5,6 +5,7 @@ import * as React from "react";
 import { Pressable } from "react-native";
 import { AnimatedSpinner } from "./spinner";
 import { colors } from "@/constants/Colors";
+import AnimatedSpinnerV2 from "./spinnerIndicator";
 
 const buttonVariants = cva(
   "group flex flex-row items-center justify-center gap-2 rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
@@ -68,6 +69,7 @@ type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
   VariantProps<typeof buttonVariants> & {
     loading?: boolean;
     title?: string;
+    children?: React.ReactNode;
   };
 
 const Button = React.forwardRef<
@@ -90,7 +92,10 @@ const Button = React.forwardRef<
         ref={ref}
         role="button"
         {...props}
-      />
+      >
+        {loading && <AnimatedSpinnerV2 size={20} color={"#e75e2d"} />}
+        {props?.children}
+      </Pressable>
     </TextClassContext.Provider>
   );
 });
