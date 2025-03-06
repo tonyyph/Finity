@@ -7,7 +7,7 @@ import {
 
 type Props = {};
 
-function Touch(props: TouchableOpacityProps & Props) {
+const Touch: React.FC<TouchableOpacityProps & Props> = (props) => {
   return (
     <TouchableOpacity
       style={styles.container}
@@ -17,7 +17,7 @@ function Touch(props: TouchableOpacityProps & Props) {
       {props.children}
     </TouchableOpacity>
   );
-}
+};
 export default Touch;
 
 const styles = StyleSheet.create({

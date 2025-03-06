@@ -4,12 +4,14 @@ import { Text } from "../ui/text";
 import { exactDesign, formatNumber } from "@/utils";
 import Touch from "../ui/touch";
 
+import { colors } from "@/constants/Colors";
+import Tooltip from "../ui/tooltip";
+
 type Props = {
   title?: string;
   value?: number | string;
   currence?: string;
   onTouch?: (params?: any) => void;
-  onTouchInfo?: (params?: any) => void;
 };
 
 function PointsBalanceCom({
@@ -17,13 +19,12 @@ function PointsBalanceCom({
   value = 0,
   currence = "£",
   onTouch,
-  onTouchInfo,
 }: Props) {
   return (
     <Touch
       onPress={onTouch}
       className="flex-row ml-4 mr-4 p-6 border rounded-xl justify-between"
-      style={style.container}
+      style={styles.container}
     >
       <View className="gap-4">
         <Text className="text-sm font-medium">{title}</Text>
@@ -38,21 +39,22 @@ function PointsBalanceCom({
         </Text>
       </View>
       <View className="items-start bottom-2">
-        <Touch
-          onPress={onTouchInfo}
-          className="rounded-full w-5 h-5 justify-center items-center"
-          style={{ backgroundColor: "#525252" }}
-        >
-          <Text className="color-white text-xs font-medium">i</Text>
-        </Touch>
+        <Tooltip content="1 point = £0.1">
+          <View
+            className="rounded-full w-5 h-5 justify-center items-center"
+            style={{ backgroundColor: colors.neutral }}
+          >
+            <Text className="color-white text-xs font-medium">i</Text>
+          </View>
+        </Tooltip>
       </View>
     </Touch>
   );
 }
 export default PointsBalanceCom;
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    borderColor: "#E5E5E5",
+    borderColor: colors.border2,
   },
 });

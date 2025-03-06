@@ -35,6 +35,7 @@ export const colors = {
   black: "#0A0A0A",
   orange: "#e75e2d",
   border: "#A3A3A3",
+  border2: "#E5E5E5",
   neutral: "#525252",
   errormessage: "#D9323D",
 };
