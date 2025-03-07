@@ -20,7 +20,7 @@ export function HomeHeader({ haveNoti, onNoti }: HomeHeaderProps) {
     id: "123",
     fullName: "Tony Phan",
     imageUrl:
-      "https://media.licdn.com/dms/image/v2/C4E0BAQHRcd8MW8NoEQ/company-logo_200_200/company-logo_200_200/0/1631373100497?e=2147483647&v=beta&t=1pTjV_f6c_HEPpm-zTeobA6HYV_YNV4aLrGLGBB0K-w",
+      "https://media.licdn.com/dms/image/v2/C4E0BAQHRcd8MW8NoEQ/company-logo_200_200/company-logo_200_200/0/1631373100497?e=2147483647&v=beta&t=1pTjV_f6c_HEPpm-zTeobA6HYV_YNV4aLrGLGBB0K-w"
   };
 
   return (
@@ -30,7 +30,7 @@ export function HomeHeader({ haveNoti, onNoti }: HomeHeaderProps) {
     >
       <View className="flex flex-1 flex-row items-center gap-3">
         <View className="flex-1 gap-1">
-          <Text className="text-h3 font-bold">{`${t(i18n)`Hi`}, ${
+          <Text className="text-h3 font-bold">{`${`Hi`}, ${
             user.fullName
           }`}</Text>
         </View>

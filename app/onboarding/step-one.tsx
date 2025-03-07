@@ -21,17 +21,15 @@ export default function StepOneScreen() {
       contentContainerStyle={{ paddingBottom: bottom + 32 }}
     >
       <View className="gap-4">
-        <Text className="font-semiBold text-3xl">
-          {t(i18n)`Welcome to Finity!`}
-        </Text>
+        <Text className="font-semiBold text-3xl">{`Welcome to Finity!`}</Text>
         <Text className="text-muted-foreground">
-          {t(i18n)`Get started by setting your monthly budget.`}
+          {`Get started by setting your monthly budget.`}
         </Text>
       </View>
       <OnboardIllustration className="my-16 h-[326px] text-foreground" />
       <Link href="/onboarding/step-two" asChild>
         <Button className="mx-auto">
-          <Text>{t(i18n)`Set Monthly Budget`}</Text>
+          <Text>{`Set Monthly Budget`}</Text>
           <ArrowRightIcon className="size-6 text-primary-foreground" />
         </Button>
       </Link>

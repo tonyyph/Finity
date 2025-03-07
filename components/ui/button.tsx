@@ -21,19 +21,19 @@ const buttonVariants = cva(
         secondary: "bg-secondary web:hover:opacity-80 active:opacity-80",
         ghost:
           "web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
-        link: "web:underline-offset-4 web:hover:underline web:focus:underline ",
+        link: "web:underline-offset-4 web:hover:underline web:focus:underline "
       },
       size: {
         default: "h-10 native:h-12 native:px-5 px-4 native:py-3 py-2",
         sm: "h-9 rounded-md px-3",
         lg: "h-1 native:h-14 rounded-md px-8",
-        icon: "h-10 w-10",
-      },
+        icon: "h-10 w-10"
+      }
     },
     defaultVariants: {
       variant: "default",
-      size: "default",
-    },
+      size: "default"
+    }
   }
 );
 
@@ -49,19 +49,19 @@ const buttonTextVariants = cva(
         secondary:
           "text-secondary-foreground group-active:text-secondary-foreground",
         ghost: "group-active:text-accent-foreground",
-        link: "text-primary group-active:underline",
+        link: "text-primary group-active:underline"
       },
       size: {
         default: "",
         sm: "",
         lg: "native:text-[18px]",
-        icon: "",
-      },
+        icon: ""
+      }
     },
     defaultVariants: {
       variant: "default",
-      size: "default",
-    },
+      size: "default"
+    }
   }
 );
 
@@ -93,7 +93,7 @@ const Button = React.forwardRef<
         role="button"
         {...props}
       >
-        {loading && <AnimatedSpinnerV2 size={20} color={"#e75e2d"} />}
+        {loading && <AnimatedSpinnerV2 size={16} color={"#fb923c"} />}
         {props?.children}
       </Pressable>
     </TextClassContext.Provider>

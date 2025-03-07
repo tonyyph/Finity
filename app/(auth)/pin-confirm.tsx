@@ -15,6 +15,7 @@ import Animated, {
   useAnimatedStyle
 } from "react-native-reanimated";
 import { twMerge } from "tailwind-merge";
+import { colors } from "@/constants/Colors";
 
 export default function ConfirmPINScreen() {
   const { pin } = useLocalSearchParams();
@@ -84,11 +85,12 @@ export default function ConfirmPINScreen() {
             </View>
           </View>
           {wrongPin && (
-            <View className=" flex flex-row items-center justify-center mt-5">
-              <CircleAlert className="top-1" />
-              <Text className="text-[#d9323d] text-sm font-medium font-['PP Neue Montreal'] leading-tight tracking-tight">
-                Incorrect PIN. Try again.
-              </Text>
+            <View className="flex flex-row items-center justify-center mt-5">
+              <CircleAlert className="top-1 right-1" />
+              <Text
+                className="font-['PP Neue Montreal'] leading-tight tracking-tight"
+                style={{ color: colors.errormessage }}
+              >{`Incorrect PIN. Try again.`}</Text>
             </View>
           )}
         </View>

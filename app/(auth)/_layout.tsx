@@ -1,10 +1,12 @@
 import { BackButton } from "@/components/common/back-button";
+import { useColorPalette } from "@/hooks/use-color-palette";
 import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { Redirect, Stack } from "expo-router";
 import { SafeAreaView, View } from "react-native";
 
 export default function UnAuthenticatedLayout() {
   const { isLoggedIn } = useUserAuthenticateStore();
+  const { getColor } = useColorPalette();
 
   if (isLoggedIn) {
     return <Redirect href={"/"} />;
@@ -14,7 +16,7 @@ export default function UnAuthenticatedLayout() {
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: "230 8% 85%"
+          backgroundColor: getColor("--background")
         },
         headerShadowVisible: false,
         headerLeft: () => <BackButton />,
@@ -36,10 +38,17 @@ export default function UnAuthenticatedLayout() {
         }}
       />
       <Stack.Screen
+        name="pin-change-success"
+        options={{
+          headerLeft: () => <BackButton />,
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
         name="pin-verify"
         options={{
           headerStyle: {
-            backgroundColor: "230 12% 81%"
+            backgroundColor: getColor("--background")
           }
         }}
       />
@@ -47,7 +56,7 @@ export default function UnAuthenticatedLayout() {
         name="pin-confirm"
         options={{
           headerStyle: {
-            backgroundColor: "230 12% 81%"
+            backgroundColor: getColor("--background")
           }
         }}
       />
@@ -76,7 +85,7 @@ export default function UnAuthenticatedLayout() {
         name="verify-2factor"
         options={{
           headerStyle: {
-            backgroundColor: "230 12% 81%"
+            backgroundColor: getColor("--background")
           }
         }}
       />
@@ -84,7 +93,7 @@ export default function UnAuthenticatedLayout() {
         name="access-denied"
         options={{
           headerStyle: {
-            backgroundColor: "230 12% 81%"
+            backgroundColor: getColor("--background")
           }
         }}
       />
@@ -92,7 +101,7 @@ export default function UnAuthenticatedLayout() {
         name="page-not-found"
         options={{
           headerStyle: {
-            backgroundColor: "230 12% 81%"
+            backgroundColor: getColor("--background")
           }
         }}
       />
@@ -100,7 +109,7 @@ export default function UnAuthenticatedLayout() {
         name="st-went-wrong"
         options={{
           headerStyle: {
-            backgroundColor: "230 12% 81%"
+            backgroundColor: getColor("--background")
           }
         }}
       />

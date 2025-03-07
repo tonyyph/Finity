@@ -26,7 +26,7 @@ export default function FeedbackScreen() {
   });
 
   async function handleSubmit(data: z.infer<typeof feedbackSchema>) {
-    toast.success(t(i18n)`Thank you for your feedback!`);
+    toast.success(`Thank you for your feedback!`);
     router.back();
   }
 
@@ -41,10 +41,8 @@ export default function FeedbackScreen() {
       >
         <InputField
           name="comments"
-          label={t(i18n)`Your message`}
-          placeholder={t(
-            i18n
-          )`Report a bug, request a feature, or just say hi!`}
+          label={`Your message`}
+          placeholder={`Report a bug, request a feature, or just say hi!`}
           autoFocus
           disabled={feedbackForm.formState.isLoading}
           multiline
@@ -55,7 +53,7 @@ export default function FeedbackScreen() {
           disabled={feedbackForm.formState.isLoading}
           className="mt-4"
         >
-          <Text>{t(i18n)`Send feedback`}</Text>
+          <Text>{`Send feedback`}</Text>
         </SubmitButton>
       </ScrollView>
     </FormProvider>

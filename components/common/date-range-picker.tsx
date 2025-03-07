@@ -51,7 +51,7 @@ function SpinnerDatePicker({
           onChange(date);
         }}
       >
-        <Text>{t(i18n)`Save`}</Text>
+        <Text>{`Save`}</Text>
       </Button>
     </View>
   );
@@ -89,7 +89,7 @@ export function DateRangePicker({
           <Text
             className={cn(fromDate ? "text-primary" : "text-muted-foreground")}
           >
-            {fromDate ? formatDateShort(fromDate) : t(i18n)`From date`}
+            {fromDate ? formatDateShort(fromDate) : `From date`}
           </Text>
         </Button>
         <ArrowRightIcon className="h-5 w-5 text-muted-foreground" />
@@ -105,7 +105,7 @@ export function DateRangePicker({
           <Text
             className={cn(toDate ? "text-primary" : "text-muted-foreground")}
           >
-            {toDate ? formatDateShort(toDate) : t(i18n)`To date`}
+            {toDate ? formatDateShort(toDate) : `To date`}
           </Text>
         </Button>
       </View>
@@ -116,7 +116,7 @@ export function DateRangePicker({
           }}
         >
           <SpinnerDatePicker
-            title={t(i18n)`Period start date`}
+            title={`Period start date`}
             value={fromDate}
             onChange={async (date = fromDate) => {
               sheetFromRef.current?.close();
@@ -141,7 +141,7 @@ export function DateRangePicker({
           }}
         >
           <SpinnerDatePicker
-            title={t(i18n)`Period end date`}
+            title={`Period end date`}
             value={toDate}
             onChange={async (date = toDate) => {
               sheetToRef.current?.close();

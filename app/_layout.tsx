@@ -29,23 +29,23 @@ SplashScreen.preventAutoHideAsync();
 cssInterop(Svg, {
   className: {
     target: "style",
-    nativeStyleToProp: { width: true, height: true },
-  },
+    nativeStyleToProp: { width: true, height: true }
+  }
 });
 cssInterop(LinearGradient, {
   className: {
-    target: "style",
-  },
+    target: "style"
+  }
 });
 
 cssInterop(LottieView, {
   className: {
-    target: "style",
-  },
+    target: "style"
+  }
 });
 
 export const unstable_settings = {
-  initialRouteName: "(app)",
+  initialRouteName: "(app)"
 };
 
 export default function RootLayout() {
@@ -53,7 +53,7 @@ export default function RootLayout() {
     "NeueMontreal-Regular": require("../assets/fonts/ppneuemontreal-book.otf"),
     "NeueMontreal-Medium": require("../assets/fonts/ppneuemontreal-medium.otf"),
     "NeueMontreal-SemiBold": require("../assets/fonts/ppneuemontreal-semibolditalic.otf"),
-    "NeueMontreal-Bold": require("../assets/fonts/ppneuemontreal-bold.otf"),
+    "NeueMontreal-Bold": require("../assets/fonts/ppneuemontreal-bold.otf")
   });
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function RootLayout() {
       apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
       options={{
         host: process.env.EXPO_PUBLIC_POSTHOG_HOST!,
-        disabled: false,
+        disabled: false
       }}
     >
       <ClerkProvider
@@ -93,11 +93,10 @@ export default function RootLayout() {
                               presentation: "modal"
                             }}
                           />
-                          <Stack.Screen name="(request_card)" />
                         </Stack>
                         <ToastRoot />
                         <PortalHost />
-                        <StatusBar  barStyle={"dark-content"} backgroundColor={'transparent'}/>
+                        {/* <StatusBar  barStyle={"dark-content"} backgroundColor={'transparent'}/> */}
                       </BottomSheetModalProvider>
                     </KeyboardProvider>
                   </GestureHandlerRootView>

@@ -34,7 +34,7 @@ export function VerticalNews({
         />
         <View className="flex-1 gap-3">
           <Text className="text-muted-foreground font-bold text-xs">
-            {t(i18n)`${category}`}
+            {`${category}`}
           </Text>
           <Text
             numberOfLines={2}

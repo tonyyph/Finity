@@ -48,9 +48,7 @@ export default function ForgotPasswordScreen() {
             router.back();
           }}
         >
-          <Text className="text-black text-base font-medium">
-            {t(i18n)`Go back`}
-          </Text>
+          <Text className="text-black text-base font-medium">{`Go back`}</Text>
         </Button>
         <Button
           variant="default"
@@ -61,7 +59,7 @@ export default function ForgotPasswordScreen() {
           }}
         >
           <Text className="text-black text-base font-medium">
-            {t(i18n)`Reset Password`}
+            {`Reset Password`}
           </Text>
         </Button>
       </View>
@@ -107,7 +105,7 @@ export default function ForgotPasswordScreen() {
             <View className="border-2 border-border rounded-lg relative">
               <TextInput
                 className="pl-10 pr-4 rounded-lg bg-background h-12 text-white"
-                placeholder={t(i18n)`Enter your email address`}
+                placeholder={`Enter your email address`}
                 placeholderTextColor={"gray"}
                 autoCapitalize="none"
                 value={emailState.value}

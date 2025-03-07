@@ -108,7 +108,7 @@ export function AuthEmail({
     //     }
     //   } else {
     //     authEmailForm.setError('emailAddress', {
-    //       message: err?.errors?.[0]?.message || t(i18n)`An error occurred`,
+    //       message: err?.errors?.[0]?.message || `An error occurred`,
     //     })
     //   }
     // }
@@ -169,8 +169,8 @@ export function AuthEmail({
         <View className="gap-4">
           <InputField
             name="emailAddress"
-            label={t(i18n)`Email`}
-            placeholder={t(i18n)`Enter your email address`}
+            label={`Email`}
+            placeholder={`Enter your email address`}
             keyboardType="email-address"
             autoCapitalize="none"
             autoFocus
@@ -197,7 +197,7 @@ export function AuthEmail({
               onPress={authEmailForm.handleSubmit(onContinue)}
               disabled={verifying}
             >
-              <Text>{t(i18n)`Continue`}</Text>
+              <Text>{`Continue`}</Text>
             </SubmitButton>
           )}
         </View>
@@ -207,17 +207,15 @@ export function AuthEmail({
           <View className="mt-3 gap-4">
             <InputField
               name="code"
-              label={t(i18n)`Verification code`}
-              placeholder={t(i18n)`Enter the code sent to your email`}
+              label={`Verification code`}
+              placeholder={`Enter the code sent to your email`}
               keyboardType="number-pad"
               autoCapitalize="none"
               autoFocus
               onEndEditing={verifyEmailForm.handleSubmit(onVerify)}
             />
             <SubmitButton onPress={verifyEmailForm.handleSubmit(onVerify)}>
-              <Text>
-                {mode === "signUp" ? t(i18n)`Sign Up` : t(i18n)`Sign in`}
-              </Text>
+              <Text>{mode === "signUp" ? `Sign Up` : `Sign in`}</Text>
             </SubmitButton>
           </View>
         </FormProvider>

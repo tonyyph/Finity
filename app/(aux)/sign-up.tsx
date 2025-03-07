@@ -61,9 +61,7 @@ export default function SignUpScreen() {
             router.dismiss();
           }}
         >
-          <Text className="text-black text-base font-medium">
-            {t(i18n)`Login`}
-          </Text>
+          <Text className="text-black text-base font-medium">{`Login`}</Text>
         </Button>
       </View>
     );
@@ -109,7 +107,7 @@ export default function SignUpScreen() {
                 <View className="border border-border rounded-lg relative">
                   <TextInput
                     className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
-                    placeholder={t(i18n)`ex: Tony .D`}
+                    placeholder={`ex: Tony .D`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
                     value={firstNameState.value}
@@ -131,7 +129,7 @@ export default function SignUpScreen() {
                 <View className="border border-border rounded-lg relative">
                   <TextInput
                     className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
-                    placeholder={t(i18n)`ex: Phan`}
+                    placeholder={`ex: Phan`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
                     value={lastNameState.value}
@@ -154,7 +152,7 @@ export default function SignUpScreen() {
               <View className="border border-border rounded-lg relative">
                 <TextInput
                   className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
-                  placeholder={t(i18n)`ex: tonyphan@example.com`}
+                  placeholder={`ex: tonyphan@example.com`}
                   placeholderTextColor={"gray"}
                   autoCapitalize="none"
                   value={emailAddressState.value}
@@ -242,7 +240,7 @@ export default function SignUpScreen() {
               <View className="border border-border rounded-lg relative">
                 <TextInput
                   className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
-                  placeholder={t(i18n)`Enter your password`}
+                  placeholder={`Enter your password`}
                   placeholderTextColor={"gray"}
                   secureTextEntry
                   value={passwordState.value}
@@ -263,7 +261,7 @@ export default function SignUpScreen() {
               <View className="border border-border rounded-lg relative">
                 <TextInput
                   className="pl-10 pr-10 rounded-lg bg-background h-12 text-white"
-                  placeholder={t(i18n)`Enter your confirm password`}
+                  placeholder={`Enter your confirm password`}
                   placeholderTextColor={"gray"}
                   secureTextEntry
                   value={confirmPasswordState.value}
@@ -297,7 +295,7 @@ export default function SignUpScreen() {
               onPress={onSignUp}
             >
               <Text className="text-black text-base font-medium">
-                {t(i18n)`Sign Up`}
+                {`Sign Up`}
               </Text>
             </Button>
           </View>

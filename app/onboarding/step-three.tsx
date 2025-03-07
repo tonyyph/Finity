@@ -31,15 +31,15 @@ export default function StepThreeScreen() {
     >
       <View className="gap-4">
         <Text className="font-semiBold text-3xl">
-          {t(i18n)`Enable spending alerts`}
+          {`Enable spending alerts`}
         </Text>
         <Text className="text-muted-foreground">
-          {t(i18n)`Keeping up with your spending and budgets.`}
+          {`Keeping up with your spending and budgets.`}
         </Text>
       </View>
       <NotificationIllustration className="my-16 h-[326px] text-foreground" />
       <Button className="mx-auto" onPress={handleEnableNotification}>
-        <Text>{t(i18n)`Enable Push Notifications`}</Text>
+        <Text>{`Enable Push Notifications`}</Text>
       </Button>
     </ScrollView>
   );

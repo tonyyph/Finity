@@ -17,14 +17,14 @@ const type = [
     title: t`Something went wrong`,
     sub: t`An unexpected error occurred while processing your request. Please try again.`,
     icon: require("@/assets/images/error-filled.png"),
-    button: t`Try again`,
+    button: t`Try again`
   },
   {
     title: t`Card activated successfully!`,
     sub: t`Your card has been activated and is ready for use. Enjoy your transactions!`,
     icon: require("@/assets/images/success-filled.png"),
-    button: t`Return to home`,
-  },
+    button: t`Return to home`
+  }
 ];
 
 function ActiveCardSuccessScreen() {
@@ -45,7 +45,7 @@ function ActiveCardSuccessScreen() {
   return (
     <View className="flex-1 bg-white">
       <SafeAreaView className="flex-1">
-        <View className="flex-1 px-4 gap-3 items-center top-28">
+        <View className="flex-1 px-4 gap-3 items-center top-32">
           <Image
             className="w-16 h-16"
             resizeMode="contain"

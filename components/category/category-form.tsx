@@ -60,8 +60,8 @@ export const CategoryForm = ({
         <InputField
           ref={nameInputRef}
           name="name"
-          label={t(i18n)`Name`}
-          placeholder={t(i18n)`Category name`}
+          label={`Name`}
+          placeholder={`Category name`}
           autoCapitalize="none"
           autoFocus={!defaultValues}
           className="!pl-[62px]"
@@ -77,7 +77,7 @@ export const CategoryForm = ({
 
         {!isTypeHidden && (
           <>
-            <Text className="font-medium">{t(i18n)`Type`}</Text>
+            <Text className="font-medium">{`Type`}</Text>
             <Controller
               control={categoryForm.control}
               name="type"
@@ -92,13 +92,13 @@ export const CategoryForm = ({
                       disabled={categoryForm.formState.isLoading}
                       value="EXPENSE"
                     >
-                      <Text>{t(i18n)`Expense`}</Text>
+                      <Text>{`Expense`}</Text>
                     </TabsTrigger>
                     <TabsTrigger
                       disabled={categoryForm.formState.isLoading}
                       value="INCOME"
                     >
-                      <Text>{t(i18n)`Income`}</Text>
+                      <Text>{`Income`}</Text>
                     </TabsTrigger>
                   </TabsList>
                 </Tabs>
@@ -112,7 +112,7 @@ export const CategoryForm = ({
           disabled={categoryForm.formState.isLoading}
           className="mt-4"
         >
-          <Text>{t(i18n)`Save`}</Text>
+          <Text>{`Save`}</Text>
         </SubmitButton>
       </View>
     </FormProvider>

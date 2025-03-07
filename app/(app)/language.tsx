@@ -14,7 +14,7 @@ export default function LanguageScreen() {
   return (
     <ScrollView className="bg-background">
       <MenuItem
-        label={t(i18n)`English`}
+        label={`English`}
         rightSection={
           language === "en" && (
             <CheckIcon className="size-6 text-amount-positive" />
@@ -26,7 +26,7 @@ export default function LanguageScreen() {
         }}
       />
       <MenuItem
-        label={t(i18n)`Vietnamese`}
+        label={`Vietnamese`}
         rightSection={
           language === "vi" && (
             <CheckIcon className="size-6 text-amount-positive" />

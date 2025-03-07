@@ -31,19 +31,19 @@ export default function TabLayout() {
             borderColor: getColor("--border"),
             borderTopColor: getColor("--border"),
             height: exactDesign(64),
-            paddingBottom: bottom ? exactDesign(36) : exactDesign(16),
+            paddingBottom: bottom ? exactDesign(36) : exactDesign(16)
           },
           tabBarLabelStyle: {
-            fontSize: exactDesign(12),
+            fontSize: exactDesign(12)
           },
           headerTitleStyle: {
             fontFamily: "Poppins-SemiBold",
             fontSize: exactDesign(16),
-            color: getColor("--foreground"),
+            color: getColor("--foreground")
           },
           headerStyle: {
-            backgroundColor: getColor("--background"),
-          },
+            backgroundColor: getColor("--background")
+          }
         }}
       >
         <Tabs.Screen
@@ -59,9 +59,9 @@ export default function TabLayout() {
             ),
             tabBarLabel: "Home",
             headerShown: false,
-            headerTitle: t(i18n)`Home`,
+            headerTitle: `Home`,
             headerTitleStyle: { marginLeft: 5 },
-            headerTitleAlign: "center",
+            headerTitleAlign: "center"
           }}
         />
         <Tabs.Screen
@@ -77,9 +77,9 @@ export default function TabLayout() {
             ),
             tabBarLabel: "Card",
             headerShown: false,
-            headerTitle: t(i18n)`Card`,
+            headerTitle: `Card`,
             headerTitleStyle: { marginLeft: 5 },
-            headerTitleAlign: "center",
+            headerTitleAlign: "center"
           }}
         />
         <Tabs.Screen
@@ -95,9 +95,9 @@ export default function TabLayout() {
             ),
             tabBarLabel: "Profile",
             headerShown: false,
-            headerTitle: t(i18n)`Profile`,
+            headerTitle: `Profile`,
             headerTitleStyle: { marginLeft: 5 },
-            headerTitleAlign: "center",
+            headerTitleAlign: "center"
           }}
         />
       </Tabs>

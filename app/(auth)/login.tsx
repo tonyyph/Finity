@@ -1,10 +1,9 @@
 import { CircleAlert } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
-import { AnimatedSpinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { useLogin } from "@/hooks/auth/useLogin";
-import { useUser } from "@clerk/clerk-expo";
-import { Trans, t } from "@lingui/macro";
+import { cn } from "@/lib/utils";
+import { Trans } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { router } from "expo-router";
 import {
@@ -44,6 +43,12 @@ export default function LoginScreen() {
       if (passwordState.value === "wrong") {
         router.push("/(auth)/st-went-wrong");
       }
+      if (passwordState.value === "bio") {
+        router.push({
+          pathname: "/(auth)/biometrics",
+          params: { typeAuthentication: 1 }
+        });
+      }
       if (passwordState.value === "notfound") {
         router.push("/(auth)/page-not-found");
       }
@@ -81,8 +86,14 @@ export default function LoginScreen() {
                 </Text>
                 <View className="rounded-lg relative">
                   <TextInput
-                    className="pl-10 pr-4 rounded-lg bg-background border border-border h-[48px]"
-                    placeholder={t(i18n)`Enter your username`}
+                    className={cn(
+                      "pl-10 pr-4 rounded-lg bg-background border-2 border-border h-[48px]",
+                      {
+                        "border-errormessage": !!passwordState.error,
+                        "border-2": !!passwordState.error
+                      }
+                    )}
+                    placeholder={`Enter your username`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
                     value={usernameState.value}
@@ -95,7 +106,7 @@ export default function LoginScreen() {
                 {!!usernameState.error && (
                   <View className=" flex flex-row items-center mt-1">
                     <CircleAlert className="top-1" />
-                    <Text className="text-red-500 text-sm font-medium">
+                    <Text className="text-errormessage text-sm font-medium">
                       {usernameState.error?.charAt(0).toUpperCase() +
                         usernameState.error?.slice(1)}{" "}
                     </Text>
@@ -109,8 +120,14 @@ export default function LoginScreen() {
                 </Text>
                 <View className="rounded-lg relative">
                   <TextInput
-                    className="px-10 rounded-lg bg-background border border-border h-[48px]"
-                    placeholder={t(i18n)`Enter your password`}
+                    className={cn(
+                      "pl-10 pr-4 rounded-lg bg-background border-2 border-border h-[48px]",
+                      {
+                        "border-errormessage": !!passwordState.error,
+                        "border-2": !!passwordState.error
+                      }
+                    )}
+                    placeholder={`Enter your password`}
                     placeholderTextColor={"gray"}
                     secureTextEntry={securePassword}
                     value={passwordState.value}
@@ -131,9 +148,9 @@ export default function LoginScreen() {
                   </TouchableOpacity>
                 </View>
                 {!!passwordState.error && (
-                  <View className=" flex flex-row items-center mt-1">
+                  <View className="flex flex-row items-center mt-4">
                     <CircleAlert className="top-1" />
-                    <Text className="text-red-500 text-sm font-medium">
+                    <Text className="text-errormessage text-sm font-medium">
                       {passwordState.error?.charAt(0).toUpperCase() +
                         passwordState.error?.slice(1)}
                     </Text>
@@ -151,9 +168,8 @@ export default function LoginScreen() {
                 loading={loading}
                 onPress={handleSignedIn}
               >
-                {loading && <AnimatedSpinner />}
                 <Text className="text-white text-base font-medium">
-                  {loading ? t(i18n)`Signing in...` : t(i18n)`Sign in`}
+                  {loading ? `Signing in...` : `Sign in`}
                 </Text>
               </Button>
               {/* Forgot password */}

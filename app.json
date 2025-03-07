@@ -15,7 +15,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.cuongphan2.Finity"
+      "bundleIdentifier": "com.cuongphan2.Finity",
+      "appleTeamId": "VCEZ5B84PU"
     },
     "android": {
       "adaptiveIcon": {

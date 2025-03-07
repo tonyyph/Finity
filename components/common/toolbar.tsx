@@ -18,7 +18,7 @@ export function Toolbar() {
           <View className="absolute left-3 flex-row items-center gap-x-2">
             <Search className="size-5 text-muted-foreground" />
             <Text className="text-muted-foreground text-base font-medium">
-              {t(i18n)`Search news, topics and more`}
+              {`Search news, topics and more`}
             </Text>
           </View>
         </Button>

@@ -84,7 +84,7 @@ export function SignUpButton({
   const { i18n } = useLingui();
   return (
     <AuthButton
-      label={t(i18n)`Sign in with Google`}
+      label={`Sign in with Google`}
       icon={GoogleLogo}
       strategy="oauth_google"
       onSignedIn={onSignedIn}
@@ -108,7 +108,7 @@ export function LoginInButton({
   const { i18n } = useLingui();
   return (
     <AuthButton
-      label={t(i18n)`Login`}
+      label={`Login`}
       strategy="oauth_apple"
       onSignedIn={onSignedIn}
     />

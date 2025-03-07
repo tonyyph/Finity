@@ -74,13 +74,13 @@ export default function EditProfileScreen() {
   }
 
   function onSubmit(data: ProfileFormValues) {
-    Alert.alert(t(i18n)`Are you sure you want to change profile?`, "", [
+    Alert.alert(`Are you sure you want to change profile?`, "", [
       {
-        text: t(i18n)`Cancel`,
+        text: `Cancel`,
         style: "cancel"
       },
       {
-        text: t(i18n)`Confirm`,
+        text: `Confirm`,
         style: "destructive",
         onPress: async () => {
           // await signOut()
@@ -98,11 +98,11 @@ export default function EditProfileScreen() {
       )`Are you sure you want to delete your account? This action cannot be undone.`,
       [
         {
-          text: t(i18n)`Cancel`,
+          text: `Cancel`,
           style: "cancel"
         },
         {
-          text: t(i18n)`Delete`,
+          text: `Delete`,
           style: "destructive",
           onPress: async () => {
             // await mutateDeleteAccount()
@@ -133,11 +133,11 @@ export default function EditProfileScreen() {
           </Pressable>
           <View className=" flex-1 bg-background mb-2">
             <Text className="text-base font-extrabold text-foreground mb-1">
-              {t(i18n)`Avatar`}
+              {`Avatar`}
             </Text>
             <View className="flex-row items-center gap-2">
               <Button variant="secondary" size="sm" onPress={handlePickImage}>
-                <Text>{t(i18n)`Upload new photo`}</Text>
+                <Text>{`Upload new photo`}</Text>
               </Button>
               <Button
                 variant="ghost"
@@ -153,8 +153,8 @@ export default function EditProfileScreen() {
           </View>
           <InputField
             name="fullName"
-            label={t(i18n)`Display name`}
-            placeholder={t(i18n)`Your display name`}
+            label={`Display name`}
+            placeholder={`Your display name`}
             autoCapitalize="words"
             disabled={profileForm.formState.isLoading}
           />
@@ -165,14 +165,14 @@ export default function EditProfileScreen() {
               profileForm.formState.isLoading || !profileForm.formState.isDirty
             }
           >
-            <Text>{t(i18n)`Save changes`}</Text>
+            <Text>{`Save changes`}</Text>
           </SubmitButton>
         </View>
       </FormProvider>
       <Separator className="mt-20 mb-4" />
       <View className="gap-3">
         <Text className="font-medium text-base text-foreground">
-          {t(i18n)`Danger zone`}
+          {`Danger zone`}
         </Text>
         <Button
           onPress={handleDeleteAccount}
@@ -181,10 +181,10 @@ export default function EditProfileScreen() {
           size="sm"
           className="self-start"
         >
-          <Text>{t(i18n)`Delete account`}</Text>
+          <Text>{`Delete account`}</Text>
         </Button>
         <Text className="mb-4 text-muted-foreground text-sm">
-          {t(i18n)`All your data will be deleted`}
+          {`All your data will be deleted`}
         </Text>
       </View>
     </ScrollView>

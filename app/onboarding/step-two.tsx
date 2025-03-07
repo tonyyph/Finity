@@ -47,7 +47,7 @@
 //       disabled={form.formState.isLoading || !amount}
 //       className="m-2 self-end"
 //     >
-//       <Text>{t(i18n)`Set Budget`}</Text>
+//       <Text>{`Set Budget`}</Text>
 //     </SubmitButton>
 //   )
 // }
@@ -73,7 +73,7 @@
 
 //     await mutateAsync({
 //       data: {
-//         name: t(i18n)`Monthly budget`,
+//         name: `Monthly budget`,
 //         description: '',
 //         preferredCurrency: data.currency,
 //         type: BudgetTypeSchema.Enum.SPENDING,
@@ -110,7 +110,7 @@
 //       >
 //         <View className="gap-4 px-8">
 //           <Text className="font-semiBold text-3xl">
-//             {t(i18n)`Set your monthly spending goal`}
+//             {`Set your monthly spending goal`}
 //           </Text>
 //           <Text className="text-muted-foreground">
 //             {t(
@@ -121,7 +121,7 @@
 //         <View className="h-24 w-full items-center justify-end gap-2">
 //           <TransactionAmount />
 //           <Text className="text-muted-foreground">
-//             {t(i18n)`* you can always change this later.`}
+//             {`* you can always change this later.`}
 //           </Text>
 //         </View>
 //         <View>

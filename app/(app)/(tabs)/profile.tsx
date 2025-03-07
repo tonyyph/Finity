@@ -2,41 +2,34 @@ import * as Application from "expo-application";
 import * as Haptics from "expo-haptics";
 
 import { FooterGradient } from "@/components/common/footer-gradient";
-import { Logo } from "@/components/common/logo";
 import { MenuItem } from "@/components/common/menu-item";
 import { toast } from "@/components/common/toast";
+import { ProfileCard } from "@/components/profile/profile-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";
 import { useLocale } from "@/locales/provider";
+import { useUserAuthenticateStore } from "@/stores";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import * as Clipboard from "expo-clipboard";
 import * as Notifications from "expo-notifications";
 import { Link } from "expo-router";
 import {
-  BeanIcon,
   BellIcon,
   BookTypeIcon,
   ChevronRightIcon,
   EarthIcon,
-  GithubIcon,
   InboxIcon,
-  LockKeyholeIcon,
   LogOutIcon,
   MessageSquareQuoteIcon,
-  PencilRulerIcon,
   ScrollTextIcon,
   ShapesIcon,
   Share2Icon,
-  SparklesIcon,
-  SwatchBookIcon,
-  WalletCardsIcon
+  SwatchBookIcon
 } from "lucide-react-native";
 import {
-  Alert,
   Image,
   Linking,
   ScrollView,
@@ -45,8 +38,6 @@ import {
   View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { HomeHeader } from "@/components/home/header";
-import { ProfileCard } from "@/components/profile/profile-card";
 
 export default function ProfileScreen() {
   const { i18n } = useLingui();
@@ -54,9 +45,10 @@ export default function ProfileScreen() {
   const { language } = useLocale();
   const { setEnabledPushNotifications, enabledPushNotifications } =
     useUserSettingsStore();
+  const { isLoggedIn, setIsLoggedIn } = useUserAuthenticateStore();
 
   async function handleCopyVersion() {
-    toast.success(t(i18n)`Copied version to clipboard`);
+    toast.success(`Copied version to clipboard`);
   }
 
   async function handleShare() {
@@ -80,11 +72,11 @@ export default function ProfileScreen() {
       >
         <ProfileCard />
         <View className="mt-4 gap-2">
-          <Text className="mx-6 text-muted-foreground">{t(i18n)`General`}</Text>
+          <Text className="mx-6 text-muted-foreground">{`General`}</Text>
           <View>
             <Link href="/category" asChild>
               <MenuItem
-                label={t(i18n)`Categories`}
+                label={`Categories`}
                 icon={ShapesIcon}
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -92,11 +84,11 @@ export default function ProfileScreen() {
               />
             </Link>
             <MenuItem
-              label={t(i18n)`Magic inbox`}
+              label={`Magic inbox`}
               icon={InboxIcon}
               rightSection={
                 <Badge variant="outline">
-                  <Text className="text-xs">{t(i18n)`Coming soon`}</Text>
+                  <Text className="text-xs">{`Coming soon`}</Text>
                 </Badge>
               }
               disabled
@@ -104,13 +96,11 @@ export default function ProfileScreen() {
           </View>
         </View>
         <View className="gap-2">
-          <Text className="mx-6 text-muted-foreground">
-            {t(i18n)`App settings`}
-          </Text>
+          <Text className="mx-6 text-muted-foreground">{`App settings`}</Text>
           <View>
             <Link href="/appearance" asChild>
               <MenuItem
-                label={t(i18n)`Appearance`}
+                label={`Appearance`}
                 icon={SwatchBookIcon}
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -119,12 +109,12 @@ export default function ProfileScreen() {
             </Link>
             <Link href="/language" asChild>
               <MenuItem
-                label={t(i18n)`Language`}
+                label={`Language`}
                 icon={EarthIcon}
                 rightSection={
                   <View className="flex flex-row items-center gap-2">
                     <Text className="text-muted-foreground uppercase">
-                      {t(i18n)`${language}`}
+                      {`${language}`}
                     </Text>
                     <ChevronRightIcon className="h-5 w-5 text-foreground" />
                   </View>
@@ -132,7 +122,7 @@ export default function ProfileScreen() {
               />
             </Link>
             <MenuItem
-              label={t(i18n)`Push notifications`}
+              label={`Push notifications`}
               icon={BellIcon}
               disabled
               rightSection={
@@ -150,15 +140,13 @@ export default function ProfileScreen() {
                         finalStatus = status;
                       }
                       if (finalStatus !== "granted") {
-                        toast.error(
-                          t(i18n)`Push notifications are not enabled`
-                        );
+                        toast.error(`Push notifications are not enabled`);
                         setEnabledPushNotifications(false);
                         return;
                       }
-                      toast.success(t(i18n)`Push notifications are enabled`);
+                      toast.success(`Push notifications are enabled`);
                     } else {
-                      toast.success(t(i18n)`Push notifications are disabled`);
+                      toast.success(`Push notifications are disabled`);
                     }
                     setEnabledPushNotifications(checked);
                   }}
@@ -168,11 +156,11 @@ export default function ProfileScreen() {
           </View>
         </View>
         <View className="gap-2">
-          <Text className="mx-6 text-muted-foreground">{t(i18n)`Others`}</Text>
+          <Text className="mx-6 text-muted-foreground">{`Others`}</Text>
           <View>
             <Link href="/privacy-policy" asChild>
               <MenuItem
-                label={t(i18n)`Privacy policy`}
+                label={`Privacy policy`}
                 icon={ScrollTextIcon}
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -180,7 +168,7 @@ export default function ProfileScreen() {
               />
             </Link>
             <MenuItem
-              label={t(i18n)`Terms of use`}
+              label={`Terms of use`}
               icon={BookTypeIcon}
               rightSection={
                 <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -193,7 +181,7 @@ export default function ProfileScreen() {
             />
             <Link href="/feedback" asChild>
               <MenuItem
-                label={t(i18n)`Send feedback`}
+                label={`Send feedback`}
                 icon={MessageSquareQuoteIcon}
                 rightSection={
                   <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -201,7 +189,7 @@ export default function ProfileScreen() {
               />
             </Link>
             <MenuItem
-              label={t(i18n)`Share with friends`}
+              label={`Share with friends`}
               icon={Share2Icon}
               rightSection={
                 <ChevronRightIcon className="h-5 w-5 text-foreground" />
@@ -210,27 +198,14 @@ export default function ProfileScreen() {
             />
             <Button
               variant="ghost"
-              onPress={() =>
-                Alert.alert(t(i18n)`Are you sure you want to sign out?`, "", [
-                  {
-                    text: t(i18n)`Cancel`,
-                    style: "cancel"
-                  },
-                  {
-                    text: t(i18n)`Sign out`,
-                    style: "destructive",
-                    onPress: async () => {
-                      // await signOut()
-                      // await cancelAllScheduledNotifications()
-                    }
-                  }
-                ])
-              }
+              onPress={() => {
+                setIsLoggedIn(false);
+              }}
               className="!px-6 justify-start gap-6"
             >
               <LogOutIcon className="h-5 w-5 text-red-500" />
               <Text className="font-regular text-red-500 group-active:text-red-500">
-                {t(i18n)`Sign out`}
+                {`Sign out`}
               </Text>
             </Button>
           </View>
@@ -246,7 +221,7 @@ export default function ProfileScreen() {
             className="mx-auto h-16 w-16 rounded-full"
           />
           <Text className="text-muted-foreground text-sm">
-            {t(i18n)`ver.`}
+            {`ver.`}
             {Application.nativeApplicationVersion}
           </Text>
         </TouchableOpacity>

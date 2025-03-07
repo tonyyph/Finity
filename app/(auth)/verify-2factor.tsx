@@ -2,6 +2,7 @@ import { CircleAlert } from "@/components/common/icons";
 import { Button } from "@/components/ui/button";
 import { AnimatedSpinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
+import { useUserAuthenticateStore } from "@/stores";
 import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { router } from "expo-router";
@@ -38,6 +39,8 @@ export default function Verify2FactorScreen() {
     6: ""
   });
 
+  const { setIsLoggedIn } = useUserAuthenticateStore();
+
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
     return {
@@ -50,20 +53,24 @@ export default function Verify2FactorScreen() {
     .join("");
 
   const handleSendEmailToResetPassword = useCallback(() => {
-    if (otpString === "123456") {
-      router.push(`/success-2factor`);
-    } else {
-      setLoading(true);
-      Keyboard.dismiss();
-      setTimeout(() => {
-        setLoading(false);
-      }, 3000);
-    }
+    setLoading(true);
+    Keyboard.dismiss();
+    setTimeout(() => {
+      setLoading(false);
+      if (otpString === "123456") {
+        router.push(`/success-2factor`);
+      } else {
+        if (otpString === "111111") {
+          setIsLoggedIn(true);
+        } else {
+        }
+      }
+    }, 1500);
   }, [otpString]);
 
   useEffect(() => {
     if (otpString.length === 6 && wrongOTP === false) {
-      if (otpString === "123456") {
+      if (otpString === "123456" || otpString === "111111") {
         handleSendEmailToResetPassword();
       } else {
         // Alert.alert("Invalid OTP");
@@ -77,7 +84,7 @@ export default function Verify2FactorScreen() {
 
   return (
     <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
-      <View className="bg-background gap-4 p-8 flex-1">
+      <View className="bg-background gap-4 p-8 flex-1 ">
         <View className="flex-1">
           {/* Welcome */}
           <View className="z-10">
@@ -248,9 +255,8 @@ export default function Verify2FactorScreen() {
               loading={loading}
               onPress={handleSendEmailToResetPassword}
             >
-              {loading && <AnimatedSpinner />}
               <Text className="text-white text-base font-medium">
-                {loading ? t(i18n)`Verifying...` : t(i18n)`Verify`}
+                {loading ? `Verifying...` : `Verify`}
               </Text>
             </Button>
           </View>

@@ -1,31 +1,29 @@
 import { Button } from "@/components/ui/button";
-import { AnimatedSpinner } from "@/components/ui/spinner";
-import AnimatedSpinnerV2 from "@/components/ui/spinnerIndicator";
 import { Text } from "@/components/ui/text";
 import { colors } from "@/constants/Colors";
 import { exactDesign } from "@/utils";
 import { t } from "@lingui/macro";
 import { router } from "expo-router";
 import { ArrowLeftIcon } from "lucide-react-native";
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Image, SafeAreaView, View } from "react-native";
 
 const content = [
   {
     title: "Free card",
     sub: "Request a physical card at no cost.",
-    icons: require("@/assets/images/free-card.png"),
+    icons: require("@/assets/images/free-card.png")
   },
   {
     title: "Convert points",
     sub: "Convert your points into card balance effortlessly.",
-    icons: require("@/assets/images/convert-icon.png"),
+    icons: require("@/assets/images/convert-icon.png")
   },
   {
     title: "Spend anywhere",
     sub: "Pay in any store where Mastercard® is accepted, locally and overseas.",
-    icons: require("@/assets/images/spend-icon.png"),
-  },
+    icons: require("@/assets/images/spend-icon.png")
+  }
 ];
 
 function RequestCard() {

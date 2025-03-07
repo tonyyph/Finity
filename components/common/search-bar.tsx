@@ -35,7 +35,7 @@ export const SearchBar = memoFC(({}: SearchBarProps) => {
         <TextInput
           ref={textRef}
           className="pl-10 rounded-full bg-background h-12"
-          placeholder={t(i18n)`Search news, topics and more`}
+          placeholder={`Search news, topics and more`}
           onChangeText={() => {}}
         />
         <View className="absolute top-3.5 left-3">
