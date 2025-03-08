@@ -1,8 +1,6 @@
 import axios from "axios";
 
 export const signUpWithEmail = async (data: SignUpRequest) => {
-  console.log("signUpWithEmail 💯 data:", data);
-
   return await axios.post<SignUpResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/users`,
     {

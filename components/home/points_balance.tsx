@@ -15,26 +15,22 @@ type Props = {
 };
 
 function PointsBalanceCom({
-  title = "Card balance",
+  title = "Points balance",
   value = 0,
   currence = "£",
-  onTouch,
+  onTouch
 }: Props) {
   return (
     <Touch
       onPress={onTouch}
-      className="flex-row ml-4 mr-4 p-6 border rounded-xl justify-between"
+      className="flex-row ml-4 bg-white mr-4 p-6 border rounded-xl justify-between"
       style={styles.container}
     >
       <View className="gap-4">
-        <Text className="text-sm font-medium">{title}</Text>
-        <Text
-          style={{
-            fontSize: exactDesign(24),
-            fontWeight: "bold",
-            fontFamily: "PP Neue Montreal",
-          }}
-        >
+        <Text className="relative justify-start text-neutral-700 text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
+          {title}
+        </Text>
+        <Text className="relative justify-center text-neutral-950 text-[28px] font-semibold font-['PP_Neue_Montreal'] leading-[34px] tracking-wide">
           {`${formatNumber({ value, decimalCount: 0 })}`}
         </Text>
       </View>
@@ -55,6 +51,6 @@ export default PointsBalanceCom;
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: colors.border2,
-  },
+    borderColor: colors.border2
+  }
 });

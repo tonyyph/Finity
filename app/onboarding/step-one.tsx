@@ -18,7 +18,7 @@ export default function StepOneScreen() {
       contentContainerClassName="gap-4 p-8 pt-4 flex-1 justify-between"
       automaticallyAdjustKeyboardInsets
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ paddingBottom: bottom + 32 }}
+      // contentContainerStyle={{ paddingBottom: bottom + 32 }}
     >
       <View className="gap-4">
         <Text className="font-semiBold text-3xl">{`Welcome to Finity!`}</Text>

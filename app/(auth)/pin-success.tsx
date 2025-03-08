@@ -1,13 +1,13 @@
 import { Text } from "@/components/ui/text";
 import Touch from "@/components/ui/touch";
 import { useLingui } from "@lingui/react";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
 import { Image, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 function SetupPinSuccess() {
-  const { i18n } = useLingui();
+  const { isResetPin } = useLocalSearchParams();
 
   const handleContinue = useCallback(() => {
     router.replace({
@@ -24,8 +24,14 @@ function SetupPinSuccess() {
             resizeMode="contain"
             source={require("@/assets/images/success-filled.png")}
           />
-          <Text className="text-2xl font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">{`PIN successfully set`}</Text>
-          <Text className="text-neutral-950 text-center text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">{`Your PIN has been set. Tap 'Continue' to go to your Home page and get started.`}</Text>
+          <Text className="text-2xl font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">
+            {!!isResetPin ? `PIN changed` : `PIN successfully set`}
+          </Text>
+          <Text className="text-neutral-950 text-center text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">
+            {!!isResetPin
+              ? `Remember to keep your new PIN private and update it regularly.`
+              : `Your PIN has been set. Tap 'Continue' to go to your Home page and get started.`}
+          </Text>
         </View>
         <View className="px-6 gap-6 py-6">
           <Touch

@@ -18,7 +18,7 @@ import { twMerge } from "tailwind-merge";
 import { colors } from "@/constants/Colors";
 
 export default function ConfirmPINScreen() {
-  const { pin } = useLocalSearchParams();
+  const { pin, isResetPin } = useLocalSearchParams();
 
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
@@ -43,7 +43,10 @@ export default function ConfirmPINScreen() {
   useEffect(() => {
     if (confirmPin?.length === 4) {
       if (confirmPin === pin) {
-        router.push("/(auth)/pin-success");
+        router.push({
+          pathname: "/(auth)/pin-success",
+          params: { isResetPin }
+        });
       } else {
         setWrongPin(true);
       }
@@ -58,39 +61,33 @@ export default function ConfirmPINScreen() {
         <View className="flex-1">
           {/* Welcome */}
           <View className="z-10">
-            <Trans>
-              <View className="gap-2">
-                <Text className="text-neutral-950 text-2xl font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
-                  Confirm your PIN code
-                </Text>
-                <Text className="text-neutral-950 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">
-                  Re-enter your PIN for confirmation.
-                </Text>
-              </View>
-            </Trans>
+            <View className="gap-2">
+              <Text className="text-neutral-950 text-2xl font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
+                Confirm your PIN code
+              </Text>
+              <Text className="text-neutral-950 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">
+                Re-enter your PIN for confirmation.
+              </Text>
+            </View>
           </View>
 
           {/* PIN container */}
-          <View className="flex flex-row mt-10 justify-center">
-            <View className="h-7 justify-center items-center gap-14 inline-flex flex-row">
-              {[...Array(4)].map((_, i) => (
-                <View
-                  key={i}
-                  className={twMerge(
-                    "w-3 h-3 bg-neutral-300 rounded-full",
-                    confirmPin.length > i && "bg-black"
-                  )}
-                />
-              ))}
-            </View>
+          {/* PIN container */}
+          <View className="flex-row h-7 inline-flex justify-center items-center gap-12 mt-8">
+            {[...Array(4)].map((_, i) => (
+              <View
+                key={i}
+                className={twMerge(
+                  "w-3 h-3 relative bg-neutral-300 rounded-full",
+                  confirmPin.length > i && "bg-black"
+                )}
+              />
+            ))}
           </View>
           {wrongPin && (
-            <View className="flex flex-row items-center justify-center mt-5">
+            <View className="flex flex-row items-center justify-center mt-4">
               <CircleAlert className="top-1 right-1" />
-              <Text
-                className="font-['PP Neue Montreal'] leading-tight tracking-tight"
-                style={{ color: colors.errormessage }}
-              >{`Incorrect PIN. Try again.`}</Text>
+              <Text className="relative justify-start text-errormessage text-sm font-medium font-['PP_Neue_Montreal'] leading-tight tracking-tight">{`Incorrect PIN. Try again.`}</Text>
             </View>
           )}
         </View>
@@ -106,7 +103,7 @@ export default function ConfirmPINScreen() {
                 <TouchableOpacity
                   key={num}
                   onPress={() => handlePress(num)}
-                  className="h-[72px] w-[72px] p-4 bg-[#f9f9f9] rounded-[120px] flex-col justify-center items-center inline-flex"
+                  className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
                 >
                   <Text className="text-neutral-950 text-[28px] font-medium font-['PP Neue Montreal'] leading-9">
                     {num}
@@ -119,7 +116,7 @@ export default function ConfirmPINScreen() {
                 <TouchableOpacity
                   key={num}
                   onPress={() => handlePress(num)}
-                  className="h-[72px] w-[72px] p-4 bg-[#f9f9f9] rounded-[120px] flex-col justify-center items-center inline-flex"
+                  className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
                 >
                   <Text className="text-neutral-950 text-[28px] font-medium font-['PP Neue Montreal'] leading-9">
                     {num}
@@ -132,7 +129,7 @@ export default function ConfirmPINScreen() {
                 <TouchableOpacity
                   key={num}
                   onPress={() => handlePress(num)}
-                  className="h-[72px] w-[72px] p-4 bg-[#f9f9f9] rounded-[120px] flex-col justify-center items-center inline-flex"
+                  className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
                 >
                   <Text className="text-neutral-950 text-[28px] font-medium font-['PP Neue Montreal'] leading-9">
                     {num}
@@ -143,7 +140,7 @@ export default function ConfirmPINScreen() {
             <View className="flex-row justify-between">
               <TouchableOpacity
                 disabled
-                className="h-[72px] opacity-0 w-[72px] p-4 bg-[#f9f9f9] rounded-[120px] flex-col justify-center items-center inline-flex"
+                className="h-[72px] opacity-0 w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
               >
                 <Text className="text-neutral-950 text-[28px] font-medium font-['PP Neue Montreal'] leading-9">
                   0
@@ -151,7 +148,7 @@ export default function ConfirmPINScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => handlePress("0")}
-                className="h-[72px] w-[72px] p-4 bg-[#f9f9f9] rounded-[120px] flex-col justify-center items-center inline-flex"
+                className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
               >
                 <Text className="text-neutral-950 text-[28px] font-medium font-['PP Neue Montreal'] leading-9">
                   0
@@ -159,7 +156,7 @@ export default function ConfirmPINScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={handleDelete}
-                className="h-[72px] w-[72px] bg-[#f9f9f9] rounded-[120px] justify-center items-center"
+                className="h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center"
               >
                 <RemoveNumpad className="bottom-2 right-3" />
               </TouchableOpacity>

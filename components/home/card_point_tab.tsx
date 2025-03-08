@@ -14,7 +14,7 @@ type Props = {
 
 const routes = [
   { key: "card", title: "Card" },
-  { key: "points", title: "Points" },
+  { key: "points", title: "Points" }
 ];
 
 function CardAndPointTab({ onLoadCard, onSendPoints }: Props) {
@@ -42,13 +42,17 @@ function CardAndPointTab({ onLoadCard, onSendPoints }: Props) {
           onPress={onLoadCard}
           className="bg-black h-[48px] justify-center items-center flex-1 rounded-full"
         >
-          <Text className="color-white text-sm font-medium">Load card</Text>
+          <Text className="relative text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
+            Load card
+          </Text>
         </Touch>
         <Touch
           onPress={onSendPoints}
           className="bg-white h-[48px] justify-center items-center flex-1 rounded-full border border-[#D4D4D4]"
         >
-          <Text className="color-black text-sm font-medium">Send points</Text>
+          <Text className="color-black relative text-center justify-center text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
+            Send points
+          </Text>
         </Touch>
       </View>
       <TabView
@@ -62,12 +66,12 @@ function CardAndPointTab({ onLoadCard, onSendPoints }: Props) {
             indicatorStyle={{
               backgroundColor: "black",
               height: exactDesign(4),
-              borderRadius: exactDesign(100),
+              borderRadius: exactDesign(100)
             }}
-            style={{
+            contentContainerStyle={{
               shadowColor: "white",
               borderBottomWidth: 1,
-              borderBottomColor: "#E5E5E5",
+              borderBottomColor: "#E5E5E5"
             }}
             indicatorContainerStyle={{ backgroundColor: "white" }}
             renderTabBarItem={(props) => (
@@ -82,7 +86,7 @@ function CardAndPointTab({ onLoadCard, onSendPoints }: Props) {
           />
         )}
         style={{
-          minHeight: SCREEN_HEIGHT / 2,
+          minHeight: SCREEN_HEIGHT / 2
           //  height:  Item height * Data.length
         }}
       />

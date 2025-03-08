@@ -1,11 +1,14 @@
-import { RemoveNumpad } from "@/components/common/icons";
+import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
+import { LoadingScreen } from "@/components/common/loading";
 import { Text } from "@/components/ui/text";
-import { Trans } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
+import { colors } from "@/constants/Colors";
 import { router, useLocalSearchParams } from "expo-router";
+import LottieView from "lottie-react-native";
 import { useEffect, useState } from "react";
 import {
+  Image,
   Keyboard,
+  Modal,
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -15,21 +18,23 @@ import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle
 } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { twMerge } from "tailwind-merge";
 
-export default function VerifyPINScreen() {
-  const { isResetPin } = useLocalSearchParams();
-
-  const [pin, setPin] = useState<string>("");
+export default function LoginWithPinScreen() {
+  const { top, bottom } = useSafeAreaInsets();
+  const [loading, setLoading] = useState(false);
+  const [wrongPin, setWrongPin] = useState(false);
+  const [confirmPin, setConfirmPin] = useState<string>("");
 
   const handlePress = (num: string) => {
-    if (pin.length < 4) {
-      setPin((prev) => prev + num);
+    if (confirmPin.length < 4) {
+      setConfirmPin((prev) => prev + num);
     }
   };
 
   const handleDelete = () => {
-    setPin((prev) => prev.slice(0, -1));
+    setConfirmPin((prev) => prev.slice(0, -1));
   };
 
   const keyboard = useAnimatedKeyboard();
@@ -40,29 +45,36 @@ export default function VerifyPINScreen() {
   });
 
   useEffect(() => {
-    if (pin.length === 4) {
-      router.push({
-        pathname: "/(auth)/pin-confirm",
-        params: {
-          pin: pin,
-          isResetPin
+    if (confirmPin?.length === 4) {
+      if (confirmPin === "1234") {
+        router.push("/(auth)/pin-success");
+      } else {
+        if (confirmPin === "0000") {
+          setLoading(true);
+        } else {
+          setWrongPin(true);
         }
-      });
+      }
+    } else {
+      setWrongPin(false);
     }
-  }, [pin]);
+  }, [confirmPin]);
 
   return (
     <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
-      <View className="bg-background gap-4 p-8 flex-1">
+      <View className="bg-background gap-4 p-8 flex-1 pt-32">
+        <LoadingScreen loading={loading} />
         <View className="flex-1">
           {/* Welcome */}
           <View className="z-10">
-            <View className="gap-2">
-              <Text className="text-neutral-950 text-2xl font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
-                Set up your PIN code
-              </Text>
-              <Text className="text-neutral-950 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">
-                Create a 4-digit PIN to sign in faster next time.
+            <View className="gap-14 items-center">
+              <Image
+                source={require("@/assets/images/logo.png")}
+                className="w-[152px] h-10 "
+                resizeMode="contain"
+              />
+              <Text className="relative text-center justify-start text-[#212121] text-base font-normal font-['PP_Neue_Montreal'] leading-snug tracking-wide">
+                Welcome back, Tony Phan
               </Text>
             </View>
           </View>
@@ -73,12 +85,18 @@ export default function VerifyPINScreen() {
               <View
                 key={i}
                 className={twMerge(
-                  "w-3 h-3 bg-neutral-300 rounded-full",
-                  pin.length > i && "bg-black"
+                  "w-3 h-3 relative bg-neutral-300 rounded-full",
+                  confirmPin.length > i && "bg-black"
                 )}
               />
             ))}
           </View>
+          {wrongPin && (
+            <View className="flex flex-row items-center justify-center mt-4">
+              <CircleAlert className="top-1 right-1" />
+              <Text className="relative justify-start text-errormessage text-sm font-medium font-['PP_Neue_Montreal'] leading-tight tracking-tight">{`Incorrect PIN. Try again.`}</Text>
+            </View>
+          )}
         </View>
 
         {/* Button */}
@@ -152,6 +170,22 @@ export default function VerifyPINScreen() {
             </View>
           </View>
         </Animated.View>
+        {/* Forgot password */}
+        <View className="px-4 mt-2">
+          <Text className="mx-auto text-center text-muted-foreground">
+            <Text
+              className="relative text-center justify-center text-neutral-950 text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide"
+              onPress={() => {
+                router.push({
+                  pathname: "/(auth)/pin-forgot"
+                });
+              }}
+            >
+              Forgot PIN?
+            </Text>
+          </Text>
+        </View>
+        <View style={{ height: bottom }} />
       </View>
     </TouchableWithoutFeedback>
   );

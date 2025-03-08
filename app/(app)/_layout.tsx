@@ -10,6 +10,12 @@ export default function AuthenticatedLayout() {
   const { i18n } = useLingui();
   const { isLoggedIn, setIsLoggedIn } = useUserAuthenticateStore();
 
+  const isLoginWithPin = true;
+
+  if (isLoginWithPin) {
+    return <Redirect href={"/login-with-pin"} />;
+  }
+
   if (!isLoggedIn) {
     return <Redirect href={"/login"} />;
   }
@@ -59,6 +65,7 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="request_card"
           options={{
+            headerLeft: () => <BackButton />,
             headerShown: false
           }}
         />

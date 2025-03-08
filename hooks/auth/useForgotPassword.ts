@@ -1,5 +1,5 @@
 import { forgotPassword } from "@/api";
-import { actionWithLoading, validateUsername } from "@/utils";
+import { actionWithLoading, validatePassword, validateUsername } from "@/utils";
 import { AxiosError } from "axios";
 import { Alert, Keyboard } from "react-native";
 import { useMemoFunc, useValidateInput } from "../commons";
@@ -8,6 +8,11 @@ export const useForgotPassword = () => {
   const emailState = useValidateInput({
     defaultValue: "",
     validate: validateUsername
+  });
+
+  const passwordState = useValidateInput({
+    defaultValue: "",
+    validate: validatePassword
   });
 
   const onForgotPassword = useMemoFunc(
@@ -45,6 +50,7 @@ export const useForgotPassword = () => {
 
   return {
     emailState,
+    passwordState,
     onForgotPassword
   };
 };

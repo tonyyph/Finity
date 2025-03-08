@@ -67,7 +67,7 @@ export default function ProfileScreen() {
     <View className="flex-1 bg-background">
       <ScrollView
         contentContainerClassName="py-4 gap-4"
-        contentContainerStyle={{ paddingBottom: bottom + 80 }}
+        // contentContainerStyle={{ paddingBottom: bottom + 80 }}
         className="bg-background"
       >
         <ProfileCard />

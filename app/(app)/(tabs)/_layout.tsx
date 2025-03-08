@@ -1,23 +1,19 @@
-import { TabBar } from "@/components/common/tab-bar";
 import { colors } from "@/constants/Colors";
 import { useColorPalette } from "@/hooks/use-color-palette";
 import { exactDesign } from "@/utils";
-import { Feather, MaterialIcons } from "@expo/vector-icons";
-import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { Tabs } from "expo-router";
-import { BarChartBigIcon } from "lucide-react-native";
-import { Image, SafeAreaView, useWindowDimensions } from "react-native";
+import { Image, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TabLayout() {
   const { getColor } = useColorPalette();
   const { i18n } = useLingui();
   const { width } = useWindowDimensions();
-  const { bottom } = useSafeAreaInsets();
+  const { top, bottom } = useSafeAreaInsets();
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <View className="flex-1 bg-backgroundSubtle" style={{ paddingTop: top }}>
       <Tabs
         // tabBar={(props) => <TabBar {...props} />}
         screenOptions={{
@@ -30,8 +26,7 @@ export default function TabLayout() {
             backgroundColor: getColor("--background"),
             borderColor: getColor("--border"),
             borderTopColor: getColor("--border"),
-            height: exactDesign(64),
-            paddingBottom: bottom ? exactDesign(36) : exactDesign(16)
+            height: bottom ? exactDesign(100) : exactDesign(80)
           },
           tabBarLabelStyle: {
             fontSize: exactDesign(12)
@@ -101,6 +96,6 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-    </SafeAreaView>
+    </View>
   );
 }

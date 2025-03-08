@@ -17,7 +17,7 @@ function RequestCardNoti({
   title = "Finity Rewards card",
   subTitle = "Convert points, start spending anywhere you like.",
   requested = false,
-  onPress,
+  onPress
 }: Props) {
   return (
     <Touch
@@ -26,21 +26,19 @@ function RequestCardNoti({
       style={{ backgroundColor: "#B8E4E5" }}
     >
       <Image
-        source={{
-          uri:
-            imageCard ??
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO7LvNClb9Hn8hvGPz4w69JCTauj8hM_tN0w&s",
-        }}
-        className="w-16 h-24"
+        source={require("@/assets/images/card.png")}
+        className="w-[64px] h-[100px]"
       />
-      <View className="pl-4 flex-auto justify-between">
+      <View className="pl-4 flex-auto">
         <View className="">
-          <Text className="text-sm leading-5 font-bold color-black">
+          <Text className="text-neutral-950 text-lg font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
             {title}
           </Text>
-          <Text className="text-bs leading-5">{subTitle}</Text>
+          <Text className="text-neutral-950 text-base font-regular font-['PP Neue Montreal']">
+            {subTitle}
+          </Text>
         </View>
-        <Text className="text-bs font-semibold underline">
+        <Text className="text-base mt-2 font-semibold underline">
           {requested ? "Activate card" : "Request card"}
         </Text>
       </View>

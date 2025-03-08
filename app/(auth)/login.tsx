@@ -26,6 +26,8 @@ import {
 export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const [securePassword, setSecurePassword] = useState(true);
+  const [focusUsername, setFocusUsername] = useState(false);
+  const [focusPassword, setFocusPassword] = useState(false);
   const { i18n } = useLingui();
   const { onLogin, usernameState, passwordState } = useLogin();
   const handleSignedIn = useCallback(() => {
@@ -89,10 +91,13 @@ export default function LoginScreen() {
                     className={cn(
                       "pl-10 pr-4 rounded-lg bg-background border-2 border-border h-[48px]",
                       {
+                        "border-black": !!focusUsername,
                         "border-errormessage": !!passwordState.error,
                         "border-2": !!passwordState.error
                       }
                     )}
+                    onFocus={() => setFocusUsername(true)}
+                    onEndEditing={() => setFocusUsername(false)}
                     placeholder={`Enter your username`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
@@ -104,7 +109,7 @@ export default function LoginScreen() {
                   </View>
                 </View>
                 {!!usernameState.error && (
-                  <View className=" flex flex-row items-center mt-1">
+                  <View className=" flex flex-row items-center mt-4">
                     <CircleAlert className="top-1" />
                     <Text className="text-errormessage text-sm font-medium">
                       {usernameState.error?.charAt(0).toUpperCase() +
@@ -123,10 +128,13 @@ export default function LoginScreen() {
                     className={cn(
                       "pl-10 pr-4 rounded-lg bg-background border-2 border-border h-[48px]",
                       {
+                        "border-black": !!focusPassword,
                         "border-errormessage": !!passwordState.error,
                         "border-2": !!passwordState.error
                       }
                     )}
+                    onFocus={() => setFocusPassword(true)}
+                    onEndEditing={() => setFocusPassword(false)}
                     placeholder={`Enter your password`}
                     placeholderTextColor={"gray"}
                     secureTextEntry={securePassword}
@@ -141,9 +149,9 @@ export default function LoginScreen() {
                     className="absolute top-[14px] right-3"
                   >
                     {securePassword ? (
-                      <EyeOffIcon className="size-6 text-muted-foreground" />
+                      <EyeOffIcon className="size-6 text-[#525252]" />
                     ) : (
-                      <EyeIcon className="size-6 text-muted-foreground" />
+                      <EyeIcon className="size-6 text-[#525252]" />
                     )}
                   </TouchableOpacity>
                 </View>
@@ -174,18 +182,16 @@ export default function LoginScreen() {
               </Button>
               {/* Forgot password */}
               <View className="px-4 mt-2">
-                <Trans>
-                  <Text className="mx-auto text-center text-muted-foreground">
-                    <Text
-                      className="text-primary text-base font-medium"
-                      onPress={() =>
-                        Linking.openURL("https://www.finity.co.uk/rewards/")
-                      }
-                    >
-                      Forgot password?
-                    </Text>
+                <Text className="mx-auto text-center text-muted-foreground">
+                  <Text
+                    className="text-primary text-base font-medium"
+                    onPress={() =>
+                      Linking.openURL("https://www.finity.co.uk/rewards/")
+                    }
+                  >
+                    Forgot password?
                   </Text>
-                </Trans>
+                </Text>
               </View>
             </View>
           </View>

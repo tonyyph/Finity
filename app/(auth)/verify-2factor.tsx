@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { AnimatedSpinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { useUserAuthenticateStore } from "@/stores";
+import { exactDesign } from "@/utils";
 import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { SquareAsterisk } from "lucide-react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -22,6 +23,8 @@ import Animated, {
 
 export default function Verify2FactorScreen() {
   const { i18n } = useLingui();
+  const { isResetPin } = useLocalSearchParams();
+
   const [loading, setLoading] = useState(false);
   const [wrongOTP, setWrongOTP] = useState(false);
   const firstInput = useRef<TextInput>(null);
@@ -58,7 +61,10 @@ export default function Verify2FactorScreen() {
     setTimeout(() => {
       setLoading(false);
       if (otpString === "123456") {
-        router.push(`/success-2factor`);
+        router.push({
+          pathname: "/success-2factor",
+          params: { isResetPin: 0 }
+        });
       } else {
         if (otpString === "111111") {
           setIsLoggedIn(true);
@@ -69,11 +75,21 @@ export default function Verify2FactorScreen() {
   }, [otpString]);
 
   useEffect(() => {
-    if (otpString.length === 6 && wrongOTP === false) {
+    if (otpString?.length === 6 && wrongOTP === false && !!isResetPin) {
+      if (otpString === "123456") {
+        router.push({
+          pathname: "/success-2factor",
+          params: { isResetPin: 1 }
+        });
+      } else {
+        setWrongOTP(true);
+        Keyboard.dismiss();
+      }
+    }
+    if (otpString.length === 6 && wrongOTP === false && !isResetPin) {
       if (otpString === "123456" || otpString === "111111") {
         handleSendEmailToResetPassword();
       } else {
-        // Alert.alert("Invalid OTP");
         setWrongOTP(true);
         Keyboard.dismiss();
       }
@@ -88,19 +104,17 @@ export default function Verify2FactorScreen() {
         <View className="flex-1">
           {/* Welcome */}
           <View className="z-10">
-            <Trans>
-              <View className="gap-2">
-                <Text className="text-neutral-950 text-2xl font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
-                  Two-factor authentication
-                </Text>
-                <Text className="text-neutral-950 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">
-                  Enter the 6-digit verification code generated from your app.
-                </Text>
-              </View>
-            </Trans>
+            <View className="gap-2">
+              <Text className="text-neutral-950 text-2xl font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
+                Two-factor authentication
+              </Text>
+              <Text className="text-neutral-950 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide w-[90%]">
+                Enter the 6-digit verification code generated from your app.
+              </Text>
+            </View>
           </View>
           {/* Illustration */}
-          <SquareAsterisk className="absolute top-16 right-0 size-80 text-muted-foreground opacity-30" />
+          {/* <SquareAsterisk className="absolute top-16 right-0 size-80 text-muted-foreground opacity-30" /> */}
           {/* OTP container */}
           <View style={styles.otpContainer}>
             <View
@@ -272,7 +286,6 @@ const styles = StyleSheet.create({
     marginTop: 24,
     flexDirection: "row",
     alignItems: "center",
-    width: 344,
     gap: 8
   },
   otpBox: {
@@ -282,8 +295,8 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: "#a3a3a3",
     borderWidth: 1,
-    width: "100%",
-    height: 48,
+    width: exactDesign(48),
+    height: exactDesign(48),
     justifyContent: "center",
     alignItems: "center",
     maxWidth: 48

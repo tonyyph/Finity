@@ -8,7 +8,12 @@ export function BackButton() {
     return null;
   }
   return (
-    <Button size="icon" variant="ghost" onPress={router.back}>
+    <Button
+      size="icon"
+      variant="ghost"
+      onPress={router.back}
+      // className="right-4"
+    >
       <ArrowLeftIcon className="h-8 w-8 text-foreground" />
     </Button>
   );

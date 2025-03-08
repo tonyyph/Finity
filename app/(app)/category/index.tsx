@@ -37,7 +37,7 @@ export default function CategoriesScreen() {
   return (
     <SectionList
       className="flex-1 bg-background"
-      contentContainerStyle={{ paddingBottom: bottom }}
+      // contentContainerStyle={{ paddingBottom: bottom }}
       refreshing={false}
       sections={sections}
       // keyExtractor={(item) => item?.id as any}

@@ -300,27 +300,25 @@ export default function SignUpScreen() {
             </Button>
           </View>
           <View className="justify-end mt-6">
-            <Trans>
-              <Text className="mx-auto text-center text-muted-foreground text-xs">
-                By signing up, you agree to the{" "}
-                <Text
-                  className="text-primary text-xs"
-                  onPress={() =>
-                    Linking.openURL(
-                      "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-                    )
-                  }
-                >
-                  Terms of Service
-                </Text>{" "}
-                and{" "}
-                <Link href="/(aux)/privacy-policy">
-                  <Text className="text-primary text-xs">
-                    Data Processing Agreement
-                  </Text>
-                </Link>
-              </Text>
-            </Trans>
+            <Text className="mx-auto text-center text-muted-foreground text-xs">
+              By signing up, you agree to the{" "}
+              <Text
+                className="text-primary text-xs"
+                onPress={() =>
+                  Linking.openURL(
+                    "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+                  )
+                }
+              >
+                Terms of Service
+              </Text>{" "}
+              and{" "}
+              <Link href="/(aux)/privacy-policy">
+                <Text className="text-primary text-xs">
+                  Data Processing Agreement
+                </Text>
+              </Link>
+            </Text>
           </View>
         </View>
       </ScrollView>

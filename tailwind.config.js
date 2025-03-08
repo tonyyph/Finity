@@ -52,6 +52,8 @@ module.exports = {
         border: "#A3A3A3",
         border2: "#E5E5E5",
         neutral: "#525252",
+        "subtle": "#FAFAFA",
+        "neutral-950": "#0A0A0A",
         "neutral-300": "#D4D4D4",
         "neutral-100": "#F5F5F5",
         subtitle: "#D4D4D4",

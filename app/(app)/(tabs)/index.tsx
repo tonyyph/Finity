@@ -9,7 +9,7 @@ import { router } from "expo-router";
 import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 
-function home() {
+function HomeScreen() {
   const [requested, setRequested] = useState<boolean>(false);
   const { data, doRequest } = useHome();
 
@@ -18,28 +18,25 @@ function home() {
   }, []);
 
   return (
-    <View
-      className="flex-1 bg-white pt-4 gap-4"
-      style={{ backgroundColor: colors.backgroundSubtle }}
-    >
+    <View className="flex-1 bg-backgroundSubtle pt-4 gap-4">
       <HomeHeader haveNoti onNoti={() => console.log("Click Noti")} />
       <ScrollView className="flex-1">
         <RequestCardNoti
           onPress={() => {
             if (!requested) {
               router.navigate({
-                pathname: "/request_card",
+                pathname: "/request_card"
               });
               setRequested(true);
             } else {
               router.navigate({
-                pathname: "/active_card",
+                pathname: "/active_card"
               });
             }
           }}
           requested={requested}
         />
-        <View className="gap-2 mt-4">
+        <View className="gap-2 mt-4 mb-1">
           <CardBalanceCom value={0} />
           <PointsBalanceCom value={123890} />
         </View>
@@ -47,7 +44,7 @@ function home() {
         <CardAndPointTab
           onLoadCard={() => {
             router.navigate({
-              pathname: "/(app)/load_card",
+              pathname: "/(app)/load_card"
             });
           }}
           onSendPoints={() => {}}
@@ -56,4 +53,4 @@ function home() {
     </View>
   );
 }
-export default home;
+export default HomeScreen;

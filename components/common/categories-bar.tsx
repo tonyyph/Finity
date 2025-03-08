@@ -49,7 +49,7 @@ export const CategoriesBar = ({ onPress }: any) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         className="flex-1 mb-2"
-        contentContainerStyle={{}}
+        // contentContainerStyle={{}}
       >
         {categories.map((data, index) => (
           <View key={index.toString()} className="px-3">

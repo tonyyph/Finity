@@ -9,6 +9,10 @@ import { t } from "@lingui/macro";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Keyboard, SafeAreaView, TextInput, View } from "react-native";
+import Animated, {
+  useAnimatedKeyboard,
+  useAnimatedStyle
+} from "react-native-reanimated";
 
 function ActiveCardScreen() {
   const [loading, setLoading] = useState<boolean>();
@@ -17,8 +21,15 @@ function ActiveCardScreen() {
     useRef<TextInput>(null),
     useRef<TextInput>(null),
     useRef<TextInput>(null),
-    useRef<TextInput>(null),
+    useRef<TextInput>(null)
   ];
+
+  const keyboard = useAnimatedKeyboard();
+  const translateStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: -keyboard.height.value }]
+    };
+  });
 
   const [cardNumber, setCardNumber] = useState(["", "", "", ""]);
   const [indexCursor, setIndexCursor] = useState<number>(0);
@@ -35,7 +46,7 @@ function ActiveCardScreen() {
     if (/^\d?$/.test(text)) {
       setIndexCursor(index + 1);
       inputRefs[index].current?.setNativeProps({
-        selection: { start: text.length, end: text.length },
+        selection: { start: text.length, end: text.length }
       });
       const newOtp = [...cardNumber];
       newOtp[index] = text;
@@ -65,15 +76,15 @@ function ActiveCardScreen() {
         if (enteredOtp == "1234") {
           setCardNumber(["", "", "", ""]);
           router.replace({
-            pathname: "/active_card_success",
+            pathname: "/active_card_success"
           });
         } else {
           setCardNumber(["", "", "", ""]);
           router.navigate({
             pathname: "/active_card_success",
             params: {
-              success: "false",
-            },
+              success: "false"
+            }
           });
           setError(true);
         }
@@ -103,12 +114,12 @@ function ActiveCardScreen() {
                   { borderColor: colors.border },
                   indexCursor === index && {
                     borderWidth: exactDesign(2),
-                    borderColor: colors.black,
+                    borderColor: colors.black
                   },
                   error && {
                     borderWidth: exactDesign(2),
-                    borderColor: colors.errormessage,
-                  },
+                    borderColor: colors.errormessage
+                  }
                 ]}
                 key={index}
                 ref={inputRefs[index]}
@@ -135,7 +146,7 @@ function ActiveCardScreen() {
             </View>
           )}
         </View>
-        <View>
+        <Animated.View style={translateStyle} className="justify-end flex-1">
           <Button
             variant="default"
             disabled={loading}
@@ -148,7 +159,7 @@ function ActiveCardScreen() {
               {loading ? t`Activating......` : t`Activate card`}
             </Text>
           </Button>
-        </View>
+        </Animated.View>
       </View>
       <SafeAreaView />
     </View>

@@ -13,14 +13,18 @@ function CardTab() {
       <FlashList
         data={DATA}
         renderItem={({ item }) => {
-          return <Text>{item?.title}</Text>;
+          return (
+            <Text className="relative justify-center text-neutral-950 text-base font-semibold font-['PP_Neue_Montreal'] leading-snug tracking-wide">
+              {"TEST"}
+            </Text>
+          );
         }}
         estimatedItemSize={50}
         ListEmptyComponent={() => {
           return (
             <View className="pt-4 justify-center items-center">
               <Text
-                className="text-sm font-normal"
+                className="relative text-center justify-start text-neutral-500 text-base font-normal font-['PP_Neue_Montreal'] leading-snug tracking-wide"
                 style={{ color: colors.tertiary }}
               >
                 No transactions yet.

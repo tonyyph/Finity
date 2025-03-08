@@ -24,15 +24,12 @@ export function HomeHeader({ haveNoti, onNoti }: HomeHeaderProps) {
   };
 
   return (
-    <View
-      className="flex flex-row items-center justify-between gap-4 bg-background px-6 pb-3"
-      style={{ backgroundColor: colors.backgroundSubtle }}
-    >
+    <View className="flex flex-row items-center justify-between gap-4 bg-backgroundSubtle px-6 pb-3">
       <View className="flex flex-1 flex-row items-center gap-3">
         <View className="flex-1 gap-1">
-          <Text className="text-h3 font-bold">{`${`Hi`}, ${
-            user.fullName
-          }`}</Text>
+          <Text className="relative justify-start text-neutral-950 text-2xl font-bold font-['PP_Neue_Montreal'] leading-[30px] tracking-wide">
+            {`${`Hi`}, ${user.fullName}`}
+          </Text>
         </View>
       </View>
       <Touch onPress={onNoti}>

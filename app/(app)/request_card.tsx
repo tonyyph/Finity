@@ -39,14 +39,8 @@ function RequestCard() {
   };
 
   return (
-    <View
-      className="flex-1"
-      style={{ backgroundColor: colors.backgroundSubtle }}
-    >
+    <View className="flex-1 bg-backgroundSubtle">
       <SafeAreaView className="flex-1">
-        <Button size="icon" variant="ghost" onPress={router.back}>
-          <ArrowLeftIcon className="h-8 w-8 left-2 text-foreground" />
-        </Button>
         <View className="p-4 gap-2">
           <Text className="text-h2 font-bold">{"Request a physical card"}</Text>
           <Text className="">

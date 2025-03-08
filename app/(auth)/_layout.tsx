@@ -82,7 +82,22 @@ export default function UnAuthenticatedLayout() {
         }}
       />
       <Stack.Screen
+        name="login-with-pin"
+        options={{
+          headerLeft: () => null,
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
         name="verify-2factor"
+        options={{
+          headerStyle: {
+            backgroundColor: getColor("--background")
+          }
+        }}
+      />
+      <Stack.Screen
+        name="pin-forgot"
         options={{
           headerStyle: {
             backgroundColor: getColor("--background")
