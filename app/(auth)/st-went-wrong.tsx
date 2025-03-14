@@ -1,9 +1,9 @@
 import { CircleAlertX } from "@/components/common/icons";
+import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { Text } from "@/components/ui/text";
 import { router, useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { Linking, View } from "react-native";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SomethingWentWrong() {
@@ -18,14 +18,14 @@ export default function SomethingWentWrong() {
   return (
     <View className="flex-1 bg-background px-4">
       <View className=" flex-1 bg-background items-center">
-        <CircleAlertX className="" />
-        <Text className="text-heading-small font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">
+        <CircleAlertX />
+        <Typography type="heading-small" weight="semibold" className="mt-4">
           Something went wrong
-        </Text>
-        <Text className="text-neutral-950 text-center mt-4 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">
+        </Typography>
+        <Typography weight="regular" className="text-center mt-4">
           An unexpected error occurred while processing your request. Please try
           again.
-        </Text>
+        </Typography>
       </View>
 
       <Button
@@ -36,7 +36,9 @@ export default function SomethingWentWrong() {
           router.back();
         }}
       >
-        <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">{`Try again`}</Text>
+        <Typography type="body-default" weight="medium" textColor="white">
+          Try again
+        </Typography>
       </Button>
       <View style={{ height: bottom }} />
     </View>

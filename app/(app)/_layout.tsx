@@ -3,7 +3,6 @@ import { useColorPalette } from "@/hooks/use-color-palette";
 import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { Redirect, Stack } from "expo-router";
 import { useLayoutEffect } from "react";
-import { View } from "react-native";
 
 export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
@@ -92,8 +91,12 @@ export default function AuthenticatedLayout() {
         }}
       />
       <Stack.Screen
-        name="explore-categories"
-        options={{ headerTitle: `Explore Categories` }}
+        name="pin-forgot"
+        options={{
+          headerStyle: {
+            backgroundColor: getColor("--background")
+          }
+        }}
       />
       <Stack.Screen
         name="notifications"

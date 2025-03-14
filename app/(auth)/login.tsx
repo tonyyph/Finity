@@ -1,17 +1,10 @@
 import { CircleAlert } from "@/components/common/icons";
+import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { Text } from "@/components/ui/text";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { cn } from "@/lib/utils";
-import { Trans } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import { router } from "expo-router";
-import {
-  EyeIcon,
-  EyeOffIcon,
-  KeyIcon,
-  UserRoundIcon
-} from "lucide-react-native";
+import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { useCallback, useState } from "react";
 import {
   Image,
@@ -47,7 +40,7 @@ export default function LoginScreen() {
       if (passwordState.value === "bio") {
         router.push({
           pathname: "/(auth)/biometrics",
-          params: { typeAuthentication: 1 }
+          params: { typeAuthentication: 2 }
         });
       }
       if (passwordState.value === "notfound") {
@@ -81,17 +74,22 @@ export default function LoginScreen() {
           <View className="flex-1 rounded-t-[18px] z-20 bg-orange-400">
             <View className="flex-1 flex-col gap-3 bg-white top-2 p-4 pt-6 rounded-t-[24px]">
               {/* Username Field */}
-              <View className="">
-                <Text className="text-base font-medium text-foreground h-[24px] self-stretch flex items-center">
+              <View className="gap-1">
+                <Typography
+                  type="body-default"
+                  weight="medium"
+                  textColor="#404040"
+                >
                   Email
-                </Text>
+                </Typography>
                 <View className="rounded-lg relative">
                   <TextInput
                     className={cn(
-                      "pl-10 pr-4 rounded-lg bg-background border-2 border-border h-[48px]",
+                      "px-3 rounded-lg bg-background border-2 border-border h-[48px]",
                       {
                         "border-black": !!focusUsername,
-                        "border-errormessage": !!passwordState.error,
+                        "border-errormessage":
+                          !!passwordState.error || !!usernameState.error,
                         "border-2": !!passwordState.error
                       }
                     )}
@@ -103,29 +101,34 @@ export default function LoginScreen() {
                     value={usernameState.value}
                     onChangeText={usernameState.onChangeText}
                   />
-                  <View className="absolute top-[15px] left-3">
-                    <UserRoundIcon className="size-5 text-muted-foreground" />
-                  </View>
                 </View>
                 {!!usernameState.error && (
-                  <View className=" flex flex-row items-center mt-4">
+                  <View className=" flex flex-row items-center mt-2">
                     <CircleAlert className="top-1" />
-                    <Text className="text-errormessage text-sm font-medium">
+                    <Typography
+                      type="body-small"
+                      weight="medium"
+                      textColor="#D9323D"
+                    >
                       {usernameState.error?.charAt(0).toUpperCase() +
                         usernameState.error?.slice(1)}{" "}
-                    </Text>
+                    </Typography>
                   </View>
                 )}
               </View>
               {/* Password Field */}
-              <View className="mt-4">
-                <Text className="text-base font-medium text-foreground h-[24px] self-stretch flex items-center">
+              <View className="mt-4 gap-1">
+                <Typography
+                  type="body-default"
+                  weight="medium"
+                  textColor="#404040"
+                >
                   Password
-                </Text>
+                </Typography>
                 <View className="rounded-lg relative">
                   <TextInput
                     className={cn(
-                      "pl-10 pr-4 rounded-lg bg-background border-2 border-border h-[48px]",
+                      "px-3 rounded-lg bg-background border-2 border-border h-[48px]",
                       {
                         "border-black": !!focusPassword,
                         "border-errormessage": !!passwordState.error,
@@ -140,12 +143,9 @@ export default function LoginScreen() {
                     value={passwordState.value}
                     onChangeText={passwordState.onChangeText}
                   />
-                  <View className="absolute top-[15px] left-3">
-                    <KeyIcon className="size-5 text-muted-foreground" />
-                  </View>
                   <TouchableOpacity
                     onPress={onPressSecurePassword}
-                    className="absolute top-[14px] right-3"
+                    className="absolute top-[14px] right-4"
                   >
                     {securePassword ? (
                       <EyeOffIcon className="size-6 text-[#525252]" />
@@ -155,12 +155,21 @@ export default function LoginScreen() {
                   </TouchableOpacity>
                 </View>
                 {!!passwordState.error && (
-                  <View className="flex flex-row items-center mt-4">
+                  <View
+                    className={cn(
+                      "flex flex-row items-center mt-4",
+                      !!usernameState.error && "mt-2"
+                    )}
+                  >
                     <CircleAlert className="top-1" />
-                    <Text className="text-errormessage text-sm font-medium">
+                    <Typography
+                      type="body-small"
+                      weight="medium"
+                      textColor="#D9323D"
+                    >
                       {passwordState.error?.charAt(0).toUpperCase() +
                         passwordState.error?.slice(1)}
-                    </Text>
+                    </Typography>
                   </View>
                 )}
               </View>
@@ -175,22 +184,26 @@ export default function LoginScreen() {
                 loading={loading}
                 onPress={handleSignedIn}
               >
-                <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
+                <Typography
+                  type="body-default"
+                  weight="medium"
+                  textColor="white"
+                >
                   {loading ? `Signing in...` : `Sign in`}
-                </Text>
+                </Typography>
               </Button>
               {/* Forgot password */}
               <View className="px-4 mt-2">
-                <Text className="mx-auto text-center text-muted-foreground">
-                  <Text
-                    className="text-primary text-base font-medium"
-                    onPress={() =>
-                      Linking.openURL("https://www.finity.co.uk/rewards/")
-                    }
-                  >
-                    Forgot password?
-                  </Text>
-                </Text>
+                <Typography
+                  type="body-default"
+                  weight="medium"
+                  className="text-center mt-2"
+                  onPress={() =>
+                    Linking.openURL("https://www.finity.co.uk/rewards/")
+                  }
+                >
+                  Forgot password?
+                </Typography>
               </View>
             </View>
           </View>

@@ -1,13 +1,10 @@
 import { CircleAlert } from "@/components/common/icons";
+import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { AnimatedSpinner } from "@/components/ui/spinner";
-import { Text } from "@/components/ui/text";
 import { useUserAuthenticateStore } from "@/stores";
 import { exactDesign } from "@/utils";
-import { Trans, t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import { router, useLocalSearchParams } from "expo-router";
-import { SquareAsterisk } from "lucide-react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Keyboard,
@@ -109,19 +106,16 @@ export default function Verify2FactorScreen() {
       >
         <View className="flex-1">
           {/* Welcome */}
-          <View className="z-10">
+          <View className="z-10 mb-2">
             <View className="gap-2">
-              <Text className="text-neutral-950 text-heading-small font-semibold leading-[30px] tracking-wide">
+              <Typography type="heading-small" weight="semibold">
                 Two-factor authentication
-              </Text>
-              <Text className="text-neutral-950 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide w-[90%]">
+              </Typography>
+              <Typography weight="regular">
                 Enter the 6-digit verification code generated from your app.
-              </Text>
+              </Typography>
             </View>
           </View>
-          {/* Illustration */}
-          {/* <SquareAsterisk className="absolute top-16 right-0 size-80 text-muted-foreground opacity-30" /> */}
-          {/* OTP container */}
           <View style={styles.otpContainer}>
             <View
               style={[
@@ -256,9 +250,9 @@ export default function Verify2FactorScreen() {
           {wrongOTP && (
             <View className=" flex flex-row items-center mt-3">
               <CircleAlert className="top-1" />
-              <Text className="text-red-500 text-base font-medium">
+              <Typography type="body-small" weight="medium" textColor="#D9323D">
                 Incorrect verification code. Try again.
-              </Text>
+              </Typography>
             </View>
           )}
         </View>
@@ -275,9 +269,9 @@ export default function Verify2FactorScreen() {
               loading={loading}
               onPress={handleSendEmailToResetPassword}
             >
-              <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
+              <Typography type="body-default" weight="medium" textColor="white">
                 {loading ? `Verifying...` : `Verify`}
-              </Text>
+              </Typography>
             </Button>
           </View>
         </Animated.View>

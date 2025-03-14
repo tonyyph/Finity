@@ -97,14 +97,6 @@ export default function UnAuthenticatedLayout() {
         }}
       />
       <Stack.Screen
-        name="pin-forgot"
-        options={{
-          headerStyle: {
-            backgroundColor: getColor("--background")
-          }
-        }}
-      />
-      <Stack.Screen
         name="access-denied"
         options={{
           headerStyle: {

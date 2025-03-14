@@ -1,16 +1,10 @@
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import { LoadingScreen } from "@/components/common/loading";
-import { Text } from "@/components/ui/text";
+import Typography from "@/components/common/text-typography";
 import { useUserAuthenticateStore } from "@/stores";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import {
-  Image,
-  Keyboard,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View
-} from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle
@@ -63,132 +57,132 @@ export default function LoginWithPinScreen() {
   }, [confirmPin]);
 
   return (
-    <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
-      <View className="bg-background gap-4 p-8 flex-1 pt-32">
-        <LoadingScreen loading={loading} />
-        <View className="flex-1">
-          {/* Welcome */}
-          <View className="z-10">
-            <View className="gap-14 items-center">
-              <Image
-                source={require("@/assets/images/logo.png")}
-                className="w-[152px] h-10 "
-                resizeMode="contain"
-              />
-              <Text className="relative text-center justify-start text-[#212121] text-base font-normal font-['PP_Neue_Montreal'] leading-snug tracking-wide">
-                Welcome back, Tony Phan
-              </Text>
-            </View>
+    <View
+      className="bg-background gap-4 p-8 flex-1"
+      style={{ paddingBottom: bottom * 2, paddingTop: top * 2 }}
+    >
+      <LoadingScreen loading={loading} />
+      <View className="flex-1">
+        {/* Welcome */}
+        <View className="z-10">
+          <View className="gap-14 items-center">
+            <Image
+              source={require("@/assets/images/logo.png")}
+              className="w-[152px] h-[40px]"
+              resizeMode="contain"
+            />
+            <Typography weight="regular">
+              {`Welcome back, Tony Phan`}
+            </Typography>
           </View>
-
-          {/* PIN container */}
-          <View className="flex-row h-7 inline-flex justify-center items-center gap-12 mt-8">
-            {[...Array(4)].map((_, i) => (
-              <View
-                key={i}
-                className={twMerge(
-                  "w-3 h-3 relative bg-neutral-300 rounded-full",
-                  confirmPin.length > i && "bg-black"
-                )}
-              />
-            ))}
-          </View>
-          {wrongPin && (
-            <View className="flex flex-row items-center justify-center mt-4">
-              <CircleAlert className="top-1 right-1" />
-              <Text className="relative justify-start text-errormessage text-sm font-medium font-['PP_Neue_Montreal'] leading-tight tracking-tight">{`Incorrect PIN. Try again.`}</Text>
-            </View>
-          )}
         </View>
 
-        {/* Button */}
-        <Animated.View
-          style={translateStyle}
-          className="justify-end flex-1 mx-5"
-        >
-          <View className="py-4 gap-3">
-            <View className="flex-row justify-between">
-              {["1", "2", "3"].map((num) => (
-                <TouchableOpacity
-                  key={num}
-                  onPress={() => handlePress(num)}
-                  className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-                >
-                  <Text className="text-neutral-950 text-[28px] font-medium font-['PP Neue Montreal'] leading-9">
-                    {num}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-            <View className="flex-row justify-between">
-              {["4", "5", "6"].map((num) => (
-                <TouchableOpacity
-                  key={num}
-                  onPress={() => handlePress(num)}
-                  className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-                >
-                  <Text className="text-neutral-950 text-[28px] font-medium font-['PP Neue Montreal'] leading-9">
-                    {num}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-            <View className="flex-row justify-between">
-              {["7", "8", "9"].map((num) => (
-                <TouchableOpacity
-                  key={num}
-                  onPress={() => handlePress(num)}
-                  className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-                >
-                  <Text className="text-neutral-950 text-[28px] font-medium font-['PP Neue Montreal'] leading-9">
-                    {num}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-            <View className="flex-row justify-between">
+        {/* PIN container */}
+        <View className="flex-row h-7 inline-flex justify-center items-center gap-14 mt-8">
+          {[...Array(4)].map((_, i) => (
+            <View
+              key={i}
+              className={twMerge(
+                "w-3 h-3 relative bg-neutral-300 rounded-full",
+                confirmPin.length > i && "bg-black border border-black"
+              )}
+            />
+          ))}
+        </View>
+        {wrongPin && (
+          <View className="flex flex-row items-center justify-center mt-4">
+            <CircleAlert className="top-1 right-1" />
+            <Typography type="body-small" weight="medium" textColor="#D9323D">
+              {`Incorrect PIN. Try again.`}
+            </Typography>
+          </View>
+        )}
+      </View>
+
+      {/* Button */}
+      <Animated.View style={translateStyle} className="justify-end flex-1 mx-5">
+        <View className="py-4 gap-3">
+          <View className="flex-row justify-between">
+            {["1", "2", "3"].map((num) => (
               <TouchableOpacity
-                disabled
-                className="h-[72px] opacity-0 w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-              >
-                <Text className="text-neutral-950 text-[28px] font-medium font-['PP Neue Montreal'] leading-9">
-                  0
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => handlePress("0")}
+                key={num}
+                onPress={() => handlePress(num)}
                 className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
               >
-                <Text className="text-neutral-950 text-[28px] font-medium font-['PP Neue Montreal'] leading-9">
-                  0
-                </Text>
+                <Typography type="heading-medium" weight="medium">
+                  {num}
+                </Typography>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={handleDelete}
-                className="h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center"
-              >
-                <RemoveNumpad className="bottom-2 right-3" />
-              </TouchableOpacity>
-            </View>
+            ))}
           </View>
-        </Animated.View>
-        {/* Forgot password */}
-        <View className="px-4 mt-2">
-          <Text className="mx-auto text-center text-muted-foreground">
-            <Text
-              className="relative text-center justify-center text-neutral-950 text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide"
-              onPress={() => {
-                router.push({
-                  pathname: "/(auth)/pin-forgot"
-                });
-              }}
+          <View className="flex-row justify-between">
+            {["4", "5", "6"].map((num) => (
+              <TouchableOpacity
+                key={num}
+                onPress={() => handlePress(num)}
+                className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
+              >
+                <Typography type="heading-medium" weight="medium">
+                  {num}
+                </Typography>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View className="flex-row justify-between">
+            {["7", "8", "9"].map((num) => (
+              <TouchableOpacity
+                key={num}
+                onPress={() => handlePress(num)}
+                className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
+              >
+                <Typography type="heading-medium" weight="medium">
+                  {num}
+                </Typography>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View className="flex-row justify-between">
+            <TouchableOpacity
+              disabled
+              className="h-[72px] opacity-0 w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
             >
-              Forgot PIN?
-            </Text>
-          </Text>
+              <Typography type="heading-medium" weight="medium">
+                0
+              </Typography>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handlePress("0")}
+              className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
+            >
+              <Typography type="heading-medium" weight="medium">
+                0
+              </Typography>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleDelete}
+              className="h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center"
+            >
+              <RemoveNumpad className="bottom-2 right-3" />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={{ height: bottom }} />
+      </Animated.View>
+      {/* Forgot PIN */}
+      <View className="px-4 mt-2">
+        <Typography
+          type="body-default"
+          weight="medium"
+          className="text-center mt-2"
+          onPress={() =>
+            router.navigate({
+              pathname: "/(app)/pin-forgot"
+            })
+          }
+        >
+          {`Forgot PIN?`}
+        </Typography>
       </View>
-    </TouchableWithoutFeedback>
+      <View style={{ height: bottom }} />
+    </View>
   );
 }
