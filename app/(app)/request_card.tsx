@@ -4,7 +4,6 @@ import { colors } from "@/constants/Colors";
 import { exactDesign } from "@/utils";
 import { t } from "@lingui/macro";
 import { router } from "expo-router";
-import { ArrowLeftIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Image, SafeAreaView, View } from "react-native";
 
@@ -42,8 +41,10 @@ function RequestCard() {
     <View className="flex-1 bg-backgroundSubtle">
       <SafeAreaView className="flex-1">
         <View className="p-4 gap-2">
-          <Text className="text-h2 font-bold">{"Request a physical card"}</Text>
-          <Text className="">
+          <Text className="self-stretch justify-end text-neutral-950 text-heading-small font-semibold font-['PP_Neue_Montreal'] leading-[30px] tracking-wide">
+            {"Request a physical card"}
+          </Text>
+          <Text className="self-stretch justify-start text-neutral-950 text-base font-normal font-['PP_Neue_Montreal'] leading-snug tracking-wide">
             {
               "Convert your points into real value and start enjoying the rewards."
             }
@@ -68,20 +69,24 @@ function RequestCard() {
                   />
                 </View>
                 <View className="flex-1 gap-1">
-                  <Text className="text-sm font-bold">{e.title}</Text>
-                  <Text className="text-sm font-normal">{e.sub}</Text>
+                  <Text className="justify-start text-neutral-950 text-base font-600 leading-snug tracking-wide">
+                    {e.title}
+                  </Text>
+                  <Text className="self-stretch justify-start text-neutral-950 text-base font-normal leading-snug tracking-wide">
+                    {e.sub}
+                  </Text>
                 </View>
               </View>
             );
           })}
         </View>
-        <View className="ml-4 mr-4 mb-4">
+        <View className="mx-4 mb-4">
           <Text
-            className="text-sm font-extralight"
+            className="self-stretch justify-center text-neutral-700 text-base font-normal font-['PP_Neue_Montreal'] leading-tight tracking-wide"
             style={{ color: colors.secondary }}
           >
             {`By proceeding, you agree to bank’s `}
-            <Text className="text-sm underline color-black font-medium">
+            <Text className="text-neutral-950 text-base font-medium font-['PP_Neue_Montreal'] underline leading-tight tracking-tight">
               Terms and Conditions
             </Text>
           </Text>
@@ -93,7 +98,7 @@ function RequestCard() {
             loading={loading}
             onPress={handleConfirm}
           >
-            <Text className="text-white text-base font-medium">
+            <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
               {loading ? t`Confirming...` : t`Confirm and request card`}
             </Text>
           </Button>

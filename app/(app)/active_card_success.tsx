@@ -51,7 +51,9 @@ function ActiveCardSuccessScreen() {
             resizeMode="contain"
             source={localType?.icon}
           />
-          <Text className="text-2xl font-semibold ">{localType?.title}</Text>
+          <Text className="text-heading-small font-semibold ">
+            {localType?.title}
+          </Text>
           <Text className="text-base font-regular text-center">
             {localType?.sub}
           </Text>

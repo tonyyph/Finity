@@ -1,3 +1,4 @@
+import { LoadingScreen } from "@/components/common/loading";
 import CardBalanceCom from "@/components/home/card_balance";
 import CardAndPointTab from "@/components/home/card_point_tab";
 import { HomeHeader } from "@/components/home/header";

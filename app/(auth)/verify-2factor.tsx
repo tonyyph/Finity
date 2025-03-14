@@ -20,10 +20,12 @@ import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle
 } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Verify2FactorScreen() {
   const { i18n } = useLingui();
   const { isResetPin } = useLocalSearchParams();
+  const { top, bottom } = useSafeAreaInsets();
 
   const [loading, setLoading] = useState(false);
   const [wrongOTP, setWrongOTP] = useState(false);
@@ -42,7 +44,7 @@ export default function Verify2FactorScreen() {
     6: ""
   });
 
-  const { setIsLoggedIn } = useUserAuthenticateStore();
+  const { setIsLoggedIn, setIsLoginWithPin } = useUserAuthenticateStore();
 
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
@@ -68,6 +70,7 @@ export default function Verify2FactorScreen() {
       } else {
         if (otpString === "111111") {
           setIsLoggedIn(true);
+          setIsLoginWithPin(true);
         } else {
         }
       }
@@ -100,12 +103,15 @@ export default function Verify2FactorScreen() {
 
   return (
     <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
-      <View className="bg-background gap-4 p-8 flex-1 ">
+      <View
+        className="bg-background gap-4 p-8 flex-1"
+        style={{ paddingBottom: bottom }}
+      >
         <View className="flex-1">
           {/* Welcome */}
           <View className="z-10">
             <View className="gap-2">
-              <Text className="text-neutral-950 text-2xl font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
+              <Text className="text-neutral-950 text-heading-small font-semibold leading-[30px] tracking-wide">
                 Two-factor authentication
               </Text>
               <Text className="text-neutral-950 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide w-[90%]">
@@ -265,11 +271,11 @@ export default function Verify2FactorScreen() {
               variant="default"
               size={"lg"}
               disabled={otpString.length !== 6 || loading}
-              className="mt-8 rounded-full bg-primary h-[48px]"
+              className="rounded-full bg-primary h-[48px]"
               loading={loading}
               onPress={handleSendEmailToResetPassword}
             >
-              <Text className="text-white text-base font-medium">
+              <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
                 {loading ? `Verifying...` : `Verify`}
               </Text>
             </Button>

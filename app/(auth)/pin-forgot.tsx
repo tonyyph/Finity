@@ -72,7 +72,7 @@ export default function ForgotPINScreen() {
           {/* Welcome */}
           <View className="z-10">
             <View className="gap-2">
-              <Text className="text-neutral-950 text-2xl font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
+              <Text className="text-neutral-950 text-heading-small font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
                 Forgot PIN
               </Text>
               <Text className="text-neutral-950 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">
@@ -180,7 +180,7 @@ export default function ForgotPINScreen() {
               loading={loading}
               onPress={handleContinue}
             >
-              <Text className="text-white text-base font-medium">
+              <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
                 {loading ? `Continuing...` : `Continue`}
               </Text>
             </Button>

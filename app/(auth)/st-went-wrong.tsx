@@ -19,7 +19,7 @@ export default function SomethingWentWrong() {
     <View className="flex-1 bg-background px-4">
       <View className=" flex-1 bg-background items-center">
         <CircleAlertX className="" />
-        <Text className="text-2xl font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">
+        <Text className="text-heading-small font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">
           Something went wrong
         </Text>
         <Text className="text-neutral-950 text-center mt-4 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">
@@ -36,7 +36,7 @@ export default function SomethingWentWrong() {
           router.back();
         }}
       >
-        <Text className="text-white text-base font-medium">{`Try again`}</Text>
+        <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">{`Try again`}</Text>
       </Button>
       <View style={{ height: bottom }} />
     </View>

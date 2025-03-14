@@ -24,7 +24,7 @@ function SetupPinSuccess() {
             resizeMode="contain"
             source={require("@/assets/images/success-filled.png")}
           />
-          <Text className="text-2xl font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">
+          <Text className="text-heading-small font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">
             {!!isResetPin ? `PIN changed` : `PIN successfully set`}
           </Text>
           <Text className="text-neutral-950 text-center text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">

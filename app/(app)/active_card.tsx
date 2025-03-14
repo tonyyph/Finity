@@ -155,7 +155,7 @@ function ActiveCardScreen() {
             loading={loading}
             onPress={null}
           >
-            <Text className="text-white text-base font-medium">
+            <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
               {loading ? t`Activating......` : t`Activate card`}
             </Text>
           </Button>

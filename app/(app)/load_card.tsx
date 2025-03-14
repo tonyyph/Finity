@@ -32,10 +32,7 @@ function LoadCardScreen() {
             />
             {/* point balance */}
             <View className="flex-row gap-1">
-              <View
-                className="rounded-full w-5 h-5 justify-center items-center"
-                style={{ backgroundColor: colors.neutral }}
-              >
+              <View className="rounded-full w-5 h-5 justify-center items-center bg-neutral">
                 <Text className="color-white text-xs font-medium">i</Text>
               </View>
               <Text className="text-bs">{t`Conversion rate: 1 point = £0.1`}</Text>
@@ -47,7 +44,7 @@ function LoadCardScreen() {
             <View className="flex-row justify-between items-center rounded-lg  border-[1px] border-subtitle pl-[12] pr-[12]">
               <TextInput
                 value={enterAmount}
-                className="flex-1 bg-white h-[72px]  text-[28px] font-medium"
+                className="flex-1 bg-white h-[72px] text-[28px] font-medium"
                 keyboardType="number-pad"
                 onChangeText={(text) => {
                   let numericValue = text
@@ -60,12 +57,12 @@ function LoadCardScreen() {
                   setEnterEmount(formattedValue);
                 }}
               />
-              <Text className="color-tertiary text-[18px]">{t`points`}</Text>
+              <Text className="color-tertiary text-lg">{t`points`}</Text>
             </View>
             {!!Number(enterAmount.replace(/,/g, "")) && (
-              <Text className="text-[14px] color-neutral">
+              <Text className="text-sm color-neutral">
                 {`You’ll receive: £${formatNumber({
-                  value: Number(enterAmount.replace(/,/g, "")) * 0.1,
+                  value: Number(enterAmount.replace(/,/g, "")) * 0.1
                 })}`}
               </Text>
             )}
@@ -81,7 +78,7 @@ function LoadCardScreen() {
             // loading
             onPress={null}
           >
-            <Text className="text-white text-base font-medium">
+            <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
               {t`Continue`}
             </Text>
           </Button>

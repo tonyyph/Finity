@@ -103,7 +103,7 @@ function Biometrics() {
         <ArrowLeftIcon className="h-8 w-8 left-4 text-foreground" />
       </Button>
       <View className="flex-1 px-4 gap-3 top-6">
-        <Text className="text-2xl font-semibold ">{t(
+        <Text className="text-heading-small font-semibold ">{t(
           i18n
         )`${authenticationType?.title}`}</Text>
         <Text className="text-base font-regular">{t(

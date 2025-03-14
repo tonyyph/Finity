@@ -27,7 +27,7 @@ export function HomeHeader({ haveNoti, onNoti }: HomeHeaderProps) {
     <View className="flex flex-row items-center justify-between gap-4 bg-backgroundSubtle px-6 pb-3">
       <View className="flex flex-1 flex-row items-center gap-3">
         <View className="flex-1 gap-1">
-          <Text className="relative justify-start text-neutral-950 text-2xl font-bold font-['PP_Neue_Montreal'] leading-[30px] tracking-wide">
+          <Text className="self-stretch justify-start text-neutral-950 text-heading-small font-semibold font-['PP_Neue_Montreal'] leading-[30px] tracking-wide">
             {`${`Hi`}, ${user.fullName}`}
           </Text>
         </View>

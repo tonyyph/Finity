@@ -73,7 +73,7 @@ function BiometricsSuccess() {
             resizeMode="contain"
             source={require("@/assets/images/success-filled.png")}
           />
-          <Text className="text-2xl font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">{`${authenticationType?.title}`}</Text>
+          <Text className="text-heading-small font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">{`${authenticationType?.title}`}</Text>
           <Text className="text-neutral-950 text-center text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">{`${authenticationType?.subTitle}`}</Text>
         </View>
         <View className="px-6 gap-6 py-6">

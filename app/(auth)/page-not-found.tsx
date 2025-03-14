@@ -19,7 +19,7 @@ export default function PageNotFound() {
     <View className="flex-1 bg-background px-4">
       <View className=" flex-1 bg-background items-center">
         <CircleAlertX className="" />
-        <Text className="text-2xl font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">
+        <Text className="text-heading-small font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">
           Page not found
         </Text>
         <Text className="text-neutral-950 text-center mt-4 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">
@@ -44,7 +44,7 @@ export default function PageNotFound() {
           router.back();
         }}
       >
-        <Text className="text-white text-base font-medium">{`Return to home`}</Text>
+        <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">{`Return to home`}</Text>
       </Button>
       <View style={{ height: bottom }} />
     </View>

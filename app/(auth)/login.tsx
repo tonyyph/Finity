@@ -28,7 +28,6 @@ export default function LoginScreen() {
   const [securePassword, setSecurePassword] = useState(true);
   const [focusUsername, setFocusUsername] = useState(false);
   const [focusPassword, setFocusPassword] = useState(false);
-  const { i18n } = useLingui();
   const { onLogin, usernameState, passwordState } = useLogin();
   const handleSignedIn = useCallback(() => {
     Keyboard.dismiss();
@@ -176,7 +175,7 @@ export default function LoginScreen() {
                 loading={loading}
                 onPress={handleSignedIn}
               >
-                <Text className="text-white text-base font-medium">
+                <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
                   {loading ? `Signing in...` : `Sign in`}
                 </Text>
               </Button>

@@ -24,7 +24,7 @@ function ChangePinSuccess() {
             resizeMode="contain"
             source={require("@/assets/images/success-filled.png")}
           />
-          <Text className="text-2xl font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">{`PIN changed`}</Text>
+          <Text className="text-heading-small font-semibold text-neutral-950 font-['PP Neue Montreal'] leading-[30px] tracking-wide">{`PIN changed`}</Text>
           <Text className="text-neutral-950 text-center text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">{`Remember to keep your new PIN private and update it regularly.`}</Text>
         </View>
         <View className="px-6 gap-6 py-6">

@@ -16,6 +16,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { twMerge } from "tailwind-merge";
 import { colors } from "@/constants/Colors";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ConfirmPINScreen() {
   const { pin, isResetPin } = useLocalSearchParams();
@@ -54,15 +55,19 @@ export default function ConfirmPINScreen() {
       setWrongPin(false);
     }
   }, [confirmPin]);
+  const { top, bottom } = useSafeAreaInsets();
 
   return (
     <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
-      <View className="bg-background gap-4 p-8 flex-1">
+      <View
+        className="bg-background gap-4 p-8 flex-1"
+        style={{ paddingBottom: bottom }}
+      >
         <View className="flex-1">
           {/* Welcome */}
           <View className="z-10">
             <View className="gap-2">
-              <Text className="text-neutral-950 text-2xl font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
+              <Text className="text-neutral-950 text-heading-small font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
                 Confirm your PIN code
               </Text>
               <Text className="text-neutral-950 text-base font-normal font-['PP Neue Montreal'] leading-snug tracking-wide">

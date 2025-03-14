@@ -1,15 +1,12 @@
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import { LoadingScreen } from "@/components/common/loading";
 import { Text } from "@/components/ui/text";
-import { colors } from "@/constants/Colors";
-import { router, useLocalSearchParams } from "expo-router";
-import LottieView from "lottie-react-native";
+import { useUserAuthenticateStore } from "@/stores";
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   Image,
   Keyboard,
-  Modal,
-  StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View
@@ -26,6 +23,7 @@ export default function LoginWithPinScreen() {
   const [loading, setLoading] = useState(false);
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
+  const { setIsLoginWithPin } = useUserAuthenticateStore();
 
   const handlePress = (num: string) => {
     if (confirmPin.length < 4) {
@@ -51,6 +49,10 @@ export default function LoginWithPinScreen() {
       } else {
         if (confirmPin === "0000") {
           setLoading(true);
+          setTimeout(() => {
+            setLoading(false);
+            setIsLoginWithPin(true);
+          }, 1500);
         } else {
           setWrongPin(true);
         }
@@ -190,62 +192,3 @@ export default function LoginWithPinScreen() {
     </TouchableWithoutFeedback>
   );
 }
-
-const styles = StyleSheet.create({
-  heading: {
-    alignSelf: "stretch",
-    fontSize: 24,
-    letterSpacing: 0,
-    lineHeight: 30,
-    fontWeight: "600",
-    fontFamily: "PP Neue Montreal",
-    color: "#0a0a0a",
-    textAlign: "left"
-  },
-  writeASubheading: {
-    alignSelf: "stretch",
-    fontSize: 16,
-    letterSpacing: 0,
-    lineHeight: 22,
-    fontFamily: "PP Neue Montreal",
-    color: "#0a0a0a",
-    textAlign: "left"
-  },
-  otpContainer: {
-    justifyContent: "space-evenly",
-    marginTop: 24,
-    flexDirection: "row",
-    alignItems: "center",
-    width: 344,
-    gap: 8
-  },
-  otpBox: {
-    borderRadius: 8,
-    backgroundColor: "#fff",
-    borderStyle: "solid",
-    borderColor: "#a3a3a3",
-    borderWidth: 1,
-    width: 12,
-    height: 12,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  otpText: {
-    fontSize: 24,
-    color: "#0a0a0a",
-    padding: 0,
-    textAlign: "center",
-    paddingHorizontal: 12,
-    paddingVertical: 10
-  },
-  divider: {
-    width: 9,
-    height: 1,
-    alignItems: "center"
-  },
-  pinSlotBorder: {
-    borderWidth: 1,
-    borderColor: "#a3a3a3",
-    borderStyle: "solid"
-  }
-});
