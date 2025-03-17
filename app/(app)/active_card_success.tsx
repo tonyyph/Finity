@@ -1,9 +1,12 @@
+import Typography from "@/components/common/text-typography";
+import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import Touch from "@/components/ui/touch";
 import { t } from "@lingui/macro";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState, useEffect, useCallback } from "react";
 import { Image, SafeAreaView, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface propsLocal {
   title: string;
@@ -29,6 +32,7 @@ const type = [
 
 function ActiveCardSuccessScreen() {
   const { success } = useLocalSearchParams();
+  const { top, bottom } = useSafeAreaInsets();
   const [localType, setLocalType] = useState<propsLocal>();
   useEffect(() => {
     if (success != "false") {
@@ -43,32 +47,32 @@ function ActiveCardSuccessScreen() {
   }, []);
 
   return (
-    <View className="flex-1 bg-white">
-      <SafeAreaView className="flex-1">
-        <View className="flex-1 px-4 gap-3 items-center top-32">
-          <Image
-            className="w-16 h-16"
-            resizeMode="contain"
-            source={localType?.icon}
-          />
-          <Text className="text-heading-small font-semibold ">
-            {localType?.title}
-          </Text>
-          <Text className="text-base font-regular text-center">
-            {localType?.sub}
-          </Text>
-        </View>
-        <View className="px-6 gap-6 py-6">
-          <Touch
-            onPress={handleReturnHome}
-            className=" bg-black rounded-full px-6 py-3 justify-center items-center h-12"
-          >
-            <Text className="text-base font-semibold color-white ">
-              {localType?.button}
-            </Text>
-          </Touch>
-        </View>
-      </SafeAreaView>
+    <View className="flex-1 bg-background px-4" style={{ paddingTop: top }}>
+      <View className=" flex-1 bg-background items-center mt-28">
+        <Image
+          className="w-16 h-16"
+          resizeMode="contain"
+          source={localType?.icon}
+        />
+        <Typography type="heading-small" weight="semibold" className="mt-4">
+          {localType?.title}
+        </Typography>
+        <Typography weight="regular" className="text-center mt-4">
+          {localType?.sub}
+        </Typography>
+      </View>
+
+      <Button
+        variant="default"
+        size={"lg"}
+        className="rounded-full bg-primary h-[48px]"
+        onPress={handleReturnHome}
+      >
+        <Typography type="body-default" weight="medium" textColor="white">
+          {localType?.button}
+        </Typography>
+      </Button>
+      <View style={{ height: bottom }} />
     </View>
   );
 }

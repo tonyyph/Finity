@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
-import Touch from "../ui/touch";
-import { Text } from "../ui/text";
-import { TabView, SceneMap, TabBar, TabBarItem } from "react-native-tab-view";
 import { exactDesign, SCREEN_HEIGHT, SCREEN_WIDTH } from "@/utils";
+import { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { TabBar, TabBarItem, TabView } from "react-native-tab-view";
+import Typography from "../common/text-typography";
+import Touch from "../ui/touch";
 import CardTab from "./cardTap";
 import PointsTap from "./pointsTap";
 
@@ -42,17 +42,17 @@ function CardAndPointTab({ onLoadCard, onSendPoints }: Props) {
           onPress={onLoadCard}
           className="bg-black h-[48px] justify-center items-center flex-1 rounded-full"
         >
-          <Text className="relative text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
+          <Typography weight="medium" textColor="white" type="body-default">
             Load card
-          </Text>
+          </Typography>
         </Touch>
         <Touch
           onPress={onSendPoints}
           className="bg-white h-[48px] justify-center items-center flex-1 rounded-full border border-[#D4D4D4]"
         >
-          <Text className="color-black relative text-center justify-center text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
+          <Typography weight="medium" type="body-default">
             Send points
-          </Text>
+          </Typography>
         </Touch>
       </View>
       <TabView
@@ -78,17 +78,15 @@ function CardAndPointTab({ onLoadCard, onSendPoints }: Props) {
               <TabBarItem
                 {...props}
                 key={`${props.key}`}
-                labelStyle={[{ color: "black" }]}
+                labelStyle={[styles.labelStyle]}
                 inactiveColor={"#404040"}
+                labelAllowFontScaling
                 activeColor="black"
               />
             )}
           />
         )}
-        style={{
-          minHeight: SCREEN_HEIGHT / 2
-          //  height:  Item height * Data.length
-        }}
+        style={styles.tabVIewContainer}
       />
       {/* <CardTab /> */}
     </View>
@@ -96,4 +94,16 @@ function CardAndPointTab({ onLoadCard, onSendPoints }: Props) {
 }
 export default CardAndPointTab;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  tabVIewContainer: {
+    minHeight: SCREEN_HEIGHT / 2
+  },
+  labelStyle: {
+    color: "black",
+    fontSize: 16,
+    fontFamily: "PP Neue Montreal",
+    fontWeight: "600",
+    lineHeight: 22,
+    letterSpacing: 0.48
+  }
+});

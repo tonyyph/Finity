@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Image } from "react-native";
-import { Text } from "../ui/text";
-import { exactDesign, formatNumber } from "@/utils";
+import { formatNumber } from "@/utils";
+import { Image, View } from "react-native";
+import Typography from "../common/text-typography";
 import Touch from "../ui/touch";
 
 type Props = {
@@ -20,19 +19,20 @@ function CardBalanceCom({
   return (
     <Touch
       onPress={onTouch}
-      className="flex-row bg-white ml-4 mr-4 p-6 border rounded-xl justify-between"
-      style={style.container}
+      className="flex-row bg-white ml-4 mr-4 p-4 border rounded-xl border-border justify-between"
     >
       <View className="gap-4">
-        <Text className="relative justify-start text-neutral-700 text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
+        <Typography weight="medium" textColor="#404040" type="body-default">
           {title}
-        </Text>
-        <Text className="relative justify-center text-neutral-950 text-[28px] font-semibold font-['PP_Neue_Montreal'] leading-[34px] tracking-wide">
-          <Text className="relative justify-center text-neutral-950 text-[28px] font-semibold font-['PP_Neue_Montreal'] leading-[34px] tracking-wide">{`${currence}`}</Text>
-          {`${formatNumber({ value })}`}
-        </Text>
+        </Typography>
+        <Typography weight="medium" type="heading-medium">
+          {`${currence}`}
+          <Typography weight="semibold" type="heading-medium">
+            {`${formatNumber({ value })}`}
+          </Typography>
+        </Typography>
       </View>
-      <View className="items-start bottom-2">
+      <View className="items-start">
         <Image
           className="w-10 h-7"
           source={require(`@/assets/images/mastercard-icon.png`)}
@@ -42,9 +42,3 @@ function CardBalanceCom({
   );
 }
 export default CardBalanceCom;
-
-const style = StyleSheet.create({
-  container: {
-    borderColor: "#E5E5E5"
-  }
-});

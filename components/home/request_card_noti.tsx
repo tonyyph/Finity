@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Image, View } from "react-native";
 import { Text } from "../ui/text";
 import Touch from "../ui/touch";
+import Typography from "../common/text-typography";
 
 type Props = {
   imageCard?: string;
@@ -12,7 +13,7 @@ type Props = {
   requested?: boolean;
 };
 
-function RequestCardNoti({
+function RequestCardNotification({
   imageCard,
   title = "Finity Rewards card",
   subTitle = "Convert points, start spending anywhere you like.",
@@ -31,18 +32,18 @@ function RequestCardNoti({
       />
       <View className="pl-4 flex-auto">
         <View className="">
-          <Text className="text-neutral-950 text-lg font-semibold font-['PP Neue Montreal'] leading-[30px] tracking-wide">
+          <Typography weight="semibold" type="body-default">
             {title}
-          </Text>
-          <Text className="text-neutral-950 text-base font-regular font-['PP Neue Montreal']">
+          </Typography>
+          <Typography weight="regular" type="body-small">
             {subTitle}
-          </Text>
+          </Typography>
         </View>
-        <Text className="text-base mt-2 font-semibold underline">
+        <Typography type="body-small" className="mt-2 self-start border-b">
           {requested ? "Activate card" : "Request card"}
-        </Text>
+        </Typography>
       </View>
     </Touch>
   );
 }
-export default RequestCardNoti;
+export default RequestCardNotification;

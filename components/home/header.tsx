@@ -1,19 +1,18 @@
+import { exactDesign } from "@/utils";
 import { useRouter } from "expo-router";
 import { Image, View } from "react-native";
-import { Text } from "../ui/text";
-import { useLingui } from "@lingui/react";
-import { t } from "@lingui/macro";
-import { exactDesign } from "@/utils";
+import Typography from "../common/text-typography";
 import Touch from "../ui/touch";
-import { colors } from "@/constants/Colors";
 
 type HomeHeaderProps = {
-  haveNoti?: boolean;
-  onNoti?: (params?: any) => void;
+  haveNotification?: boolean;
+  onNotification?: (params?: any) => void;
 };
 
-export function HomeHeader({ haveNoti, onNoti }: HomeHeaderProps) {
-  const { i18n } = useLingui();
+export function HomeHeader({
+  haveNotification,
+  onNotification
+}: HomeHeaderProps) {
   //   const { user } = useUser()
   const router = useRouter();
   const user = {
@@ -27,18 +26,18 @@ export function HomeHeader({ haveNoti, onNoti }: HomeHeaderProps) {
     <View className="flex flex-row items-center justify-between gap-4 bg-backgroundSubtle px-6 pb-3">
       <View className="flex flex-1 flex-row items-center gap-3">
         <View className="flex-1 gap-1">
-          <Text className="self-stretch justify-start text-neutral-950 text-heading-small font-semibold font-['PP_Neue_Montreal'] leading-[30px] tracking-wide">
+          <Typography weight="semibold" type="heading-small">
             {`${`Hi`}, ${user.fullName}`}
-          </Text>
+          </Typography>
         </View>
       </View>
-      <Touch onPress={onNoti}>
+      <Touch onPress={onNotification}>
         <Image
           source={require("@/assets/images/bellIcon.png")}
           style={{ width: exactDesign(22), height: exactDesign(22) }}
           resizeMode="contain"
         />
-        {haveNoti && (
+        {haveNotification && (
           <View className="rounded-full w-2 h-2 bg-orange-500 absolute right-0.5 top-0.5" />
         )}
       </Touch>

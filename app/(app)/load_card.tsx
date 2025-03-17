@@ -35,7 +35,7 @@ function LoadCardScreen() {
               <View className="rounded-full w-5 h-5 justify-center items-center bg-neutral">
                 <Text className="color-white text-xs font-medium">i</Text>
               </View>
-              <Text className="text-bs">{t`Conversion rate: 1 point = £0.1`}</Text>
+              <Text className="text-bs">{t`Conversion rate: 1 point = £0.10`}</Text>
             </View>
           </View>
           {/* Enter amount */}

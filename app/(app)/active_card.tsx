@@ -1,18 +1,18 @@
+import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
-import AnimatedSpinnerV2 from "@/components/ui/spinnerIndicator";
 import { Text } from "@/components/ui/text";
 import { colors } from "@/constants/Colors";
 import { exactDesign } from "@/utils";
 import { MaterialIcons } from "@expo/vector-icons";
-import { t } from "@lingui/macro";
 import { router } from "expo-router";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Alert, Keyboard, SafeAreaView, TextInput, View } from "react-native";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Alert, Keyboard, TextInput, View } from "react-native";
 import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle
 } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function ActiveCardScreen() {
   const [loading, setLoading] = useState<boolean>();
@@ -23,11 +23,17 @@ function ActiveCardScreen() {
     useRef<TextInput>(null),
     useRef<TextInput>(null)
   ];
+  const { bottom } = useSafeAreaInsets();
 
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: -keyboard.height.value }]
+      transform: [
+        {
+          translateY:
+            -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0)
+        }
+      ]
     };
   });
 
@@ -95,21 +101,28 @@ function ActiveCardScreen() {
   }, [cardNumber]);
 
   return (
-    <View className="flex-1 bg-white">
+    <View
+      className="bg-background gap-4 p-6 flex-1"
+      style={{ paddingBottom: bottom }}
+    >
       <Header onRightFuntion={router.back} />
-      <View className="flex-1 p-4 gap-8">
+      <View className="flex-1 gap-8">
         <View className="gap-2">
-          <Text className="text-h2 font-semibold ">Activate card</Text>
-          <Text className="text-sm font-normal">{`To activate your card, please enter the last 
-4-digits from your card.`}</Text>
+          <Typography type="heading-small" weight="semibold">
+            Activate card
+          </Typography>
+          <Typography weight="regular">
+            To activate your card, please enter the last 4-digits from your
+            card.
+          </Typography>
         </View>
         <View className="flex-1 items-center gap-2">
-          <View className="flex-row gap-2 items-start justify-center">
+          <View className="flex-row gap-4 items-start justify-center">
             {cardNumber.map((_, index) => (
               <TextInput
                 editable={!loading}
                 autoFocus={index == 0}
-                className="border w-14 h-14 rounded-lg items-center justify-center text-center text-h1"
+                className="border w-[56px] h-[56px] rounded-lg items-center justify-center text-center text-h1"
                 style={[
                   { borderColor: colors.border },
                   indexCursor === index && {
@@ -128,25 +141,25 @@ function ActiveCardScreen() {
                 value={cardNumber[index]}
                 onChangeText={(text) => handleChange(text, index)}
                 onKeyPress={(e) => handleKeyPress(e, index)}
+                onFocus={() => setIndexCursor(index)}
                 onSubmitEditing={handleSubmit}
               />
             ))}
           </View>
           {error && (
-            <View className="flex-row justify-center items-center gap-1">
+            <View className="flex-row justify-center items-center gap-1 mt-1">
               <MaterialIcons
                 name="error"
                 size={16}
                 color={colors.errormessage}
               />
-              <Text
-                className=""
-                style={{ color: colors.errormessage }}
-              >{t`Incorrect last 4-digits. Try again.`}</Text>
+              <Typography type="body-small" weight="medium" textColor="#D9323D">
+                {`Incorrect last 4-digits. Try again.`}
+              </Typography>
             </View>
           )}
         </View>
-        <Animated.View style={translateStyle} className="justify-end flex-1">
+        <Animated.View style={translateStyle} className="justify-end">
           <Button
             variant="default"
             disabled={loading}
@@ -155,13 +168,12 @@ function ActiveCardScreen() {
             loading={loading}
             onPress={null}
           >
-            <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
-              {loading ? t`Activating......` : t`Activate card`}
-            </Text>
+            <Typography type="body-default" weight="medium" textColor="white">
+              {loading ? `Activating......` : `Activate card`}
+            </Typography>
           </Button>
         </Animated.View>
       </View>
-      <SafeAreaView />
     </View>
   );
 }

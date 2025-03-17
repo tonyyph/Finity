@@ -40,7 +40,7 @@ export default function TabLayout() {
             fontSize: exactDesign(12)
           },
           headerTitleStyle: {
-            fontFamily: "Poppins-SemiBold",
+            fontFamily: "PP Neue Montreal",
             fontSize: exactDesign(16),
             color: getColor("--foreground")
           },
