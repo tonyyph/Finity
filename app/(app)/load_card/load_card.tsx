@@ -19,7 +19,7 @@ function LoadCardScreen() {
         <Header onBack={router.back} title="Load points to card" />
         <Progress
           value={80}
-          className="h-[4px] mt-4 bg-border2"
+          className="h-[4px]  bg-border2"
           indicatorClassName="bg-orange-primary"
         />
         <View className="flex-1 gap-6">
@@ -79,7 +79,11 @@ function LoadCardScreen() {
             size={"lg"}
             className="mt-8 rounded-full bg-primary h-[48px]"
             // loading
-            onPress={null}
+            onPress={() =>
+              router.push({
+                pathname: "/load_card/review_load_card_transaction",
+              })
+            }
           >
             <Text className="text-white text-base font-medium">
               {t`Continue`}

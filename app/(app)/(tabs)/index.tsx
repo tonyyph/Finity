@@ -47,7 +47,7 @@ function home() {
         <CardAndPointTab
           onLoadCard={() => {
             router.navigate({
-              pathname: "/(app)/load_card",
+              pathname: "/load_card/load_card",
             });
           }}
           onSendPoints={() => {}}

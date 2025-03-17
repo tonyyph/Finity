@@ -4,6 +4,7 @@ import { Button } from "./button";
 import { ArrowLeftIcon, XIcon } from "lucide-react-native";
 import { router } from "expo-router";
 import { Text } from "./text";
+import { cn } from "@/lib/utils";
 
 type Props = {
   title?: string;
@@ -14,6 +15,7 @@ type Props = {
   onRightFuntion?: (pramams?: any) => void;
   childrent?: ReactNode;
   renderRightView?: ReactNode;
+  className?: string;
 };
 
 function Header({
@@ -24,9 +26,10 @@ function Header({
   renderLeftView,
   renderCenterView,
   renderRightView,
+  className,
 }: Props) {
   return (
-    <View>
+    <View className={cn("pb-[16px] border-b-[1px] border-border", className)}>
       <SafeAreaView className="">
         <View className="flex-row justify-between">
           {renderLeftView ??

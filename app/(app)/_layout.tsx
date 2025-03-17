@@ -17,7 +17,7 @@ export default function AuthenticatedLayout() {
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
 
   if (!isLoggedIn) {
-    return <Redirect href={"/login"} />;
+    // return <Redirect href={"/login"} />;
   }
 
   useEffect(() => {
@@ -95,7 +95,13 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="load_card"
+          name="load_card/load_card"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="load_card/review_load_card_transaction"
           options={{
             headerShown: false,
           }}
