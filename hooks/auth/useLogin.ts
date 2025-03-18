@@ -1,13 +1,11 @@
-import { loginWithUsername } from "@/api";
-import { authenStore } from "@/stores/authenStore";
-import { actionWithLoading, validatePassword, validateUsername } from "@/utils";
-import { useNavigation } from "@react-navigation/native";
-import { AxiosError } from "axios";
-import { Alert, Keyboard } from "react-native";
-import { useMemoFunc, useValidateInput } from "../commons";
+import { validatePassword, validateUsername } from "@/utils";
+import { useSignIn } from "@clerk/clerk-expo";
+import { useRouter } from "expo-router";
+import { useValidateInput } from "../commons";
 
 export const useLogin = () => {
-  const navigation = useNavigation<NavigationProps<"LoginScreen">>();
+  const { signIn, setActive, isLoaded } = useSignIn();
+  const router = useRouter();
   const usernameState = useValidateInput({
     defaultValue: "",
     validate: validateUsername
@@ -19,45 +17,38 @@ export const useLogin = () => {
   const cookieAccessState = useValidateInput({ defaultValue: "" });
   const cookieRefreshState = useValidateInput({ defaultValue: "" });
 
-  const onLogin = useMemoFunc(
-    actionWithLoading(async () => {
-      const setError = (error: string = "Invalid password") => {
-        passwordState.setState((prev) => ({ ...prev, error }));
-      };
+  // Handle the submission of the sign-in form
+  const onLogin = async () => {
+    if (!isLoaded) return;
+    const setError = (error: string = "Invalid password") => {
+      passwordState.setState((prev) => ({ ...prev, error }));
+    };
+    // Start the sign-in process using the email and password provided
+    try {
+      const signInAttempt = await signIn.create({
+        identifier: usernameState.value,
+        password: passwordState.value
+      });
 
-      try {
-        console.log("usernameState.value", usernameState.value);
-        console.log("passwordState.value", passwordState.value);
-        const { data: session } = await loginWithUsername({
-          email: usernameState.value,
-          password: passwordState.value
-        });
-        console.log("session", session);
-        if (session && session.accessToken && session.refreshToken) {
-          authenStore.setState({
-            cookie: session
-          });
-        }
-      } catch (error) {
-        console.log("error:", error);
-
-        setError((error as AxiosError<RestfulApiError>).response?.data?.error);
-        Alert.alert(
-          "Login failed",
-          "Your username or password is incorrect. Please check and try again.",
-          [
-            {
-              text: "OK",
-              onPress: () => {
-                Keyboard.dismiss();
-              }
-            }
-          ]
-        );
-      } finally {
+      // If sign-in process is complete, set the created session as active
+      // and redirect the user
+      if (signInAttempt.status === "complete") {
+        await setActive({ session: signInAttempt.createdSessionId });
+        router.replace("/");
+      } else if (signInAttempt.status === "needs_second_factor") {
+        // If the status is "needs_second_factor", the user needs to complete
+        // a second factor authentication step before they can sign in
+        router.push("/(auth)/verify-2factor");
+      } else {
+        // If the status isn't complete, check why. User might need to
+        // complete further steps.
+        console.error(JSON.stringify(signInAttempt, null, 2));
       }
-    })
-  );
+    } catch (err: any) {
+      setError(err?.errors?.[0]?.longMessage ?? err.message ?? "Unknown error");
+      console.error(JSON.stringify(err, null, 2));
+    }
+  };
 
   return {
     usernameState,

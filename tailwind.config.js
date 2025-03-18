@@ -67,6 +67,7 @@ module.exports = {
         black: "#0A0A0A",
         border: "#A3A3A3",
         border2: "#E5E5E5",
+        "teal-200": "#B8E4E5",
         neutral: "#525252",
         "subtle": "#FAFAFA",
         "neutral-950": "#0A0A0A",

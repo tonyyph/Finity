@@ -7,7 +7,7 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
   useDerivedValue,
-  withSpring,
+  withSpring
 } from "react-native-reanimated";
 
 const Progress = React.forwardRef<
@@ -35,7 +35,7 @@ export { Progress };
 
 function Indicator({
   value,
-  className,
+  className
 }: {
   value: number | undefined | null;
   className?: string;
@@ -52,7 +52,7 @@ function Indicator({
           Extrapolation.CLAMP
         )}%`,
         { overshootClamping: true }
-      ),
+      )
     };
   });
 

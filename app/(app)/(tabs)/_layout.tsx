@@ -1,11 +1,8 @@
-import LoginWithPinScreen from "@/app/(auth)/login-with-pin";
-import { LoadingScreen } from "@/components/common/loading";
 import { colors } from "@/constants/Colors";
 import { useColorPalette } from "@/hooks/use-color-palette";
-import { useUserAuthenticateStore } from "@/stores";
 import { exactDesign } from "@/utils";
 import { useLingui } from "@lingui/react";
-import { Redirect, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import { Image, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -14,12 +11,6 @@ export default function TabLayout() {
   const { i18n } = useLingui();
   const { width } = useWindowDimensions();
   const { top, bottom } = useSafeAreaInsets();
-
-  const { isLoginWithPin } = useUserAuthenticateStore();
-
-  if (!isLoginWithPin) {
-    return <LoginWithPinScreen />;
-  }
 
   return (
     <View className="flex-1 bg-backgroundSubtle" style={{ paddingTop: top }}>

@@ -1,5 +1,5 @@
 import { formatNumber } from "@/utils";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import Typography from "../common/text-typography";
 import Tooltip from "../ui/tooltip";
 import Touch from "../ui/touch";
@@ -29,18 +29,12 @@ function PointsBalanceCom({
           {`${formatNumber({ value, decimalCount: 0 })}`}
         </Typography>
       </View>
-      <View className="items-start bottom-2">
+      <View className="items-start">
         <Tooltip content="1 point = £0.10">
-          <View className="rounded-full w-5 h-5 justify-center bg-neutral items-center">
-            <Typography
-              weight="medium"
-              textColor="white"
-              type="body-extraSmall"
-              className="text-center"
-            >
-              i
-            </Typography>
-          </View>
+          <Image
+            source={require("@/assets/images/info-filled.png")}
+            className="w-[16px] h-[16px]"
+          />
         </Tooltip>
       </View>
     </Touch>

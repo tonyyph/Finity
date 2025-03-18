@@ -8,6 +8,8 @@ interface UserSettingsStore {
   setPreferredCurrency: (preferredCurrency: string) => void;
   enabledPushNotifications: boolean;
   setEnabledPushNotifications: (enabledPushNotifications: boolean) => void;
+  activeCard: number;
+  setActiveCard: (activeCard: number) => void;
   enabledLocalAuth: boolean;
   setEnabledLocalAuth: (enabledLocalAuth: boolean) => void;
   preferredPalette: Palette;
@@ -24,6 +26,8 @@ export const useUserSettingsStore = create<UserSettingsStore>()(
       enabledPushNotifications: false,
       setEnabledPushNotifications: (enabledPushNotifications) =>
         set({ enabledPushNotifications }),
+      activeCard: 0,
+      setActiveCard: (activeCard) => set({ activeCard }),
       enabledLocalAuth: false,
       setEnabledLocalAuth: (enabledLocalAuth) => set({ enabledLocalAuth }),
       preferredPalette: Palette.Default,

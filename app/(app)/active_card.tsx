@@ -1,8 +1,8 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
-import { Text } from "@/components/ui/text";
 import { colors } from "@/constants/Colors";
+import { useUserSettingsStore } from "@/stores";
 import { exactDesign } from "@/utils";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -24,7 +24,7 @@ function ActiveCardScreen() {
     useRef<TextInput>(null)
   ];
   const { bottom } = useSafeAreaInsets();
-
+  const { setActiveCard } = useUserSettingsStore();
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
     return {
@@ -81,6 +81,7 @@ function ActiveCardScreen() {
         setLoading(false);
         if (enteredOtp == "1234") {
           setCardNumber(["", "", "", ""]);
+          setActiveCard(2);
           router.replace({
             pathname: "/active_card_success"
           });
@@ -102,10 +103,10 @@ function ActiveCardScreen() {
 
   return (
     <View
-      className="bg-background gap-4 p-6 flex-1"
+      className="bg-white gap-4 p-6 flex-1"
       style={{ paddingBottom: bottom }}
     >
-      <Header onRightFuntion={router.back} />
+      <Header onRightFunction={router.back} />
       <View className="flex-1 gap-8">
         <View className="gap-2">
           <Typography type="heading-small" weight="semibold">
@@ -122,7 +123,7 @@ function ActiveCardScreen() {
               <TextInput
                 editable={!loading}
                 autoFocus={index == 0}
-                className="border w-[56px] h-[56px] rounded-lg items-center justify-center text-center text-h1"
+                className="border w-[56px] h-[56px] rounded-lg items-center justify-center text-center text-[20px] font-semibold"
                 style={[
                   { borderColor: colors.border },
                   indexCursor === index && {
@@ -164,7 +165,7 @@ function ActiveCardScreen() {
             variant="default"
             disabled={loading}
             size={"lg"}
-            className="mt-8 rounded-full bg-primary h-[48px]"
+            className="rounded-full bg-primary h-[48px]"
             loading={loading}
             onPress={null}
           >

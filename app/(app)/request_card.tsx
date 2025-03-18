@@ -1,12 +1,11 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
-import { colors } from "@/constants/Colors";
+import { useUserSettingsStore } from "@/stores";
 import { exactDesign } from "@/utils";
-import { t } from "@lingui/macro";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
-import { Image, SafeAreaView, View } from "react-native";
+import { useState } from "react";
+import { Image, Linking, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const content = [
@@ -29,14 +28,16 @@ const content = [
 
 function RequestCard() {
   const [loading, setLoading] = useState<boolean>();
-  const { top, bottom } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
+  const { setActiveCard } = useUserSettingsStore();
 
   const handleConfirm = () => {
     setLoading(true);
     setTimeout(() => {
+      setActiveCard(1);
       setLoading(false);
       router.back();
-    }, 5000);
+    }, 2000);
   };
 
   return (
@@ -80,15 +81,17 @@ function RequestCard() {
         <Typography weight="regular" textColor="#404040">
           {`By proceeding, you agree to bank’s `}
           <Typography
+            onPress={() => {
+              Linking.openURL("https://www.finity.co.uk/terms-conditions/");
+            }}
             weight="medium"
             className="underline"
-          >{`Terms and Conditions`}</Typography>
+          >
+            {`Terms and Conditions`}
+          </Typography>
         </Typography>
       </View>
-      <View
-        className="bg-white p-4 border-t border-border"
-        style={{ paddingBottom: bottom }}
-      >
+      <View className="bg-white p-4" style={{ paddingBottom: bottom }}>
         <Button
           variant="default"
           disabled={loading}
@@ -97,9 +100,9 @@ function RequestCard() {
           loading={loading}
           onPress={handleConfirm}
         >
-          <Text className="text-center justify-center text-white text-base font-medium font-['PP_Neue_Montreal'] leading-snug tracking-wide">
-            {loading ? t`Confirming...` : t`Confirm and request card`}
-          </Text>
+          <Typography type="body-default" weight="medium" textColor="white">
+            {loading ? `Confirming...` : `Confirm and request card`}
+          </Typography>
         </Button>
       </View>
     </View>

@@ -1,20 +1,30 @@
+import { BottomSheet } from "@/components/common/bottom-sheet";
 import { CircleAlert } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { Progress } from "@/components/ui/progress";
 import Tooltip from "@/components/ui/tooltip";
+import Touch from "@/components/ui/touch";
 import { colors } from "@/constants/Colors";
 import { cn } from "@/lib/utils";
 import { formatNumber } from "@/utils";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { t } from "@lingui/macro";
 import { router } from "expo-router";
-import { useState } from "react";
-import { Image, SafeAreaView, TextInput, View } from "react-native";
+import { useRef, useState } from "react";
+import { Image, SafeAreaView, Text, TextInput, View } from "react-native";
 
-function LoadCardScreen() {
+const mockupCardHolders = [
+  { id: 1, shortName: "AG", name: "Amber Green", isChoose: true },
+  { id: 2, shortName: "BB", name: "Blaire Brown", isChoose: false },
+  { id: 3, shortName: "ZW", name: "Zack White", isChoose: false }
+];
+
+function SendCardScreen() {
   const [enterAmount, setEnterAmount] = useState("");
   const [error, setError] = useState(false);
+  const sheetRef = useRef<BottomSheetModal>(null);
 
   const handleContinue = () => {
     if (
@@ -28,16 +38,17 @@ function LoadCardScreen() {
   };
 
   return (
-    <View className="flex-1 " style={{ backgroundColor: colors.white }}>
+    <View className="flex-1 bg-white">
       <SafeAreaView className="flex-1">
-        <Header onBack={router.back} title="Load points to card" />
+        <Header onBack={router.back} title="Send points" />
         <Progress
           value={80}
           className="h-[4px] mt-4 bg-border"
           indicatorClassName="bg-orange-primary"
         />
         <View className="flex-1">
-          <View className="p-6 gap-2">
+          {/* point balance */}
+          <View className="p-4 gap-2">
             <Typography type="body-default" weight="medium" textColor="#404040">
               {t`Points balance`}
             </Typography>
@@ -46,23 +57,31 @@ function LoadCardScreen() {
               value={"123,890"}
               className="bg-neutral-100  rounded-lg h-[48px] border-[1px] border-subtitle px-3 text-[18px] font-semibold"
             />
-            {/* point balance */}
-            <View className="flex-row gap-1 items-center">
-              <View className="items-start">
-                <Tooltip content="1 point = £0.10">
-                  <Image
-                    source={require("@/assets/images/info-filled.png")}
-                    className="w-[16px] h-[16px]"
-                  />
-                </Tooltip>
-              </View>
-              <Typography type="body-small" weight="medium" textColor="#525252">
-                {t`Conversion rate: 1 point = £0.10`}
-              </Typography>
-            </View>
+          </View>
+          {/* card holder */}
+          <View className="p-4 gap-2">
+            <Typography type="body-default" weight="medium" textColor="#404040">
+              {t`Cardholder`}
+            </Typography>
+            <Touch
+              onPress={() => {
+                sheetRef?.current?.present();
+              }}
+              className="flex-row justify-between items-center rounded-lg z-10 border-[1px] border-subtitle px-3"
+            >
+              <TextInput
+                editable={false}
+                value={"Amber Green"}
+                className="flex-1 bg-white h-[48px] text-[16px] font-medium"
+              />
+              <Image
+                source={require("@/assets/images/caret-down.png")}
+                className="w-[24px] h-[24px]"
+              />
+            </Touch>
           </View>
           {/* Enter amount */}
-          <View className="p-6 gap-2 ">
+          <View className="p-4 gap-2 ">
             <Typography type="body-default" weight="medium" textColor="#404040">
               {t`Enter amount`}
             </Typography>
@@ -116,7 +135,7 @@ function LoadCardScreen() {
           </View>
         </View>
         {/* Bottom */}
-        <View className="px-6">
+        <View className="px-4">
           <Button
             disabled={!enterAmount}
             variant="default"
@@ -130,8 +149,43 @@ function LoadCardScreen() {
             </Typography>
           </Button>
         </View>
+        <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
+          <BottomSheetView className="min-h-[50%]">
+            <Header
+              title="Select a cardholder"
+              onRightFunction={() => {
+                sheetRef.current?.close();
+              }}
+            />
+            <View className="p-4 my-4">
+              {mockupCardHolders.map((item, index) => (
+                <View className="gap-4">
+                  <View
+                    key={item.id}
+                    className={cn(
+                      "flex-row gap-4 items-center rounded-lg  p-4 mb-2",
+                      item?.isChoose && "bg-[#E5E5E5]"
+                    )}
+                  >
+                    <View className="flex items-center justify-center w-10 h-10 rounded-full bg-[#A3A3A3]">
+                      <Typography textColor="white">
+                        {item?.shortName}
+                      </Typography>
+                    </View>
+                    <Typography type="body-default" weight="medium">
+                      {item.name}
+                    </Typography>
+                  </View>
+                  {index < 2 && (
+                    <View className="h-[1px] bottom-3 bg-[#E5E5E5]" />
+                  )}
+                </View>
+              ))}
+            </View>
+          </BottomSheetView>
+        </BottomSheet>
       </SafeAreaView>
     </View>
   );
 }
-export default LoadCardScreen;
+export default SendCardScreen;

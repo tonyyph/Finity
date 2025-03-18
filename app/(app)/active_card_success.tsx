@@ -1,11 +1,10 @@
+import { LoadingScreen } from "@/components/common/loading";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { Text } from "@/components/ui/text";
-import Touch from "@/components/ui/touch";
 import { t } from "@lingui/macro";
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useState, useEffect, useCallback } from "react";
-import { Image, SafeAreaView, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { Image, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface propsLocal {
@@ -34,6 +33,7 @@ function ActiveCardSuccessScreen() {
   const { success } = useLocalSearchParams();
   const { top, bottom } = useSafeAreaInsets();
   const [localType, setLocalType] = useState<propsLocal>();
+  const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     if (success != "false") {
       setLocalType(type[1]);
@@ -43,11 +43,24 @@ function ActiveCardSuccessScreen() {
   }, [success]);
 
   const handleReturnHome = useCallback(() => {
-    router.back();
+    if (success != "false") {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        router.back();
+      }, 3000);
+    } else {
+      router.back();
+    }
   }, []);
 
   return (
-    <View className="flex-1 bg-background px-4" style={{ paddingTop: top }}>
+    <View
+      className="flex-1 bg-background p-6"
+      style={{ paddingTop: top, paddingBottom: bottom }}
+    >
+      <LoadingScreen loading={loading} />
+
       <View className=" flex-1 bg-background items-center mt-28">
         <Image
           className="w-16 h-16"
@@ -61,7 +74,6 @@ function ActiveCardSuccessScreen() {
           {localType?.sub}
         </Typography>
       </View>
-
       <Button
         variant="default"
         size={"lg"}
@@ -72,7 +84,6 @@ function ActiveCardSuccessScreen() {
           {localType?.button}
         </Typography>
       </Button>
-      <View style={{ height: bottom }} />
     </View>
   );
 }

@@ -167,8 +167,7 @@ export default function LoginScreen() {
                       weight="medium"
                       textColor="#D9323D"
                     >
-                      {passwordState.error?.charAt(0).toUpperCase() +
-                        passwordState.error?.slice(1)}
+                      {passwordState.error}
                     </Typography>
                   </View>
                 )}
@@ -182,6 +181,7 @@ export default function LoginScreen() {
                 size={"lg"}
                 className="mt-8 rounded-full bg-primary h-[48px]"
                 loading={loading}
+                // onPress={onLogin}
                 onPress={handleSignedIn}
               >
                 <Typography
