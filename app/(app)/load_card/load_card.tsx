@@ -3,15 +3,21 @@ import Header from "@/components/ui/header";
 import { Progress } from "@/components/ui/progress";
 import { Text } from "@/components/ui/text";
 import { colors } from "@/constants/Colors";
+import { cn } from "@/lib/utils";
 import { formatNumber } from "@/utils";
 import { t } from "@lingui/macro";
 import { router } from "expo-router";
-import React, { useState, useEffect } from "react";
 import { SafeAreaView, TextInput, View } from "react-native";
+import { useForm, Controller } from "react-hook-form";
 
 function LoadCardScreen() {
-  useEffect(() => {}, []);
-  const [enterAmount, setEnterEmount] = useState("");
+  const {
+    control,
+    handleSubmit,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm({});
 
   return (
     <View className="flex-1 " style={{ backgroundColor: colors.white }}>
@@ -44,28 +50,41 @@ function LoadCardScreen() {
           {/* Enter amount */}
           <View className="p-4 gap-2 ">
             <Text>{t`Enter amount`}</Text>
-            <View className="flex-row justify-between items-center rounded-lg  border-[1px] border-subtitle pl-[12] pr-[12]">
-              <TextInput
-                value={enterAmount}
-                className="flex-1 bg-white h-[72px]  text-[28px] font-medium"
-                keyboardType="number-pad"
-                onChangeText={(text) => {
-                  let numericValue = text
-                    .toString()
-                    .replace(/,/g, "")
-                    .replace(/\D/g, "");
-                  let formattedValue = new Intl.NumberFormat("en-US").format(
-                    Number(numericValue)
-                  );
-                  setEnterEmount(formattedValue);
-                }}
+            <View
+              className={cn(
+                "flex-row justify-between items-center rounded-lg  border-[1px] border-subtitle pl-[12] pr-[12]"
+                // "border-red-500"
+              )}
+            >
+              <Controller
+                control={control}
+                name="amount"
+                rules={{ required: "Name is required" }}
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    value={value}
+                    className="flex-1 bg-white h-[72px]  text-[28px] font-medium"
+                    keyboardType="number-pad"
+                    onChangeText={(text) => {
+                      let numericValue = text
+                        .toString()
+                        .replace(/,/g, "")
+                        .replace(/\D/g, "");
+                      let formattedValue = new Intl.NumberFormat(
+                        "en-US"
+                      ).format(Number(numericValue));
+                      onChange(formattedValue);
+                    }}
+                  />
+                )}
               />
+
               <Text className="color-tertiary text-[18px]">{t`points`}</Text>
             </View>
-            {!!Number(enterAmount.replace(/,/g, "")) && (
+            {!!Number(watch("amount")?.replace(/,/g, "")) && (
               <Text className="text-[14px] color-neutral">
                 {`You’ll receive: £${formatNumber({
-                  value: Number(enterAmount.replace(/,/g, "")) * 0.1,
+                  value: Number(watch("amount").replace(/,/g, "")) * 0.1,
                 })}`}
               </Text>
             )}
@@ -74,7 +93,7 @@ function LoadCardScreen() {
         {/* Bottom */}
         <View className="pl-4 pr-4 pb-4">
           <Button
-            disabled={!enterAmount}
+            disabled={!watch("amount")}
             variant="default"
             size={"lg"}
             className="mt-8 rounded-full bg-primary h-[48px]"

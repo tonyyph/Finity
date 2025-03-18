@@ -48,6 +48,7 @@ module.exports = {
         backgroundSubtle: "#FAFAFA",
         white: "#FFFFFF",
         secondary: "#404040",
+        secondarys: "#404040",
         black: "#0A0A0A",
         border: "#A3A3A3",
         border2: "#E5E5E5",
