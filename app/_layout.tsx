@@ -1,6 +1,8 @@
 import { CustomPaletteWrapper } from "@/components/common/custom-palette-wrapper";
 import { ToastRoot } from "@/components/common/toast";
+import { tokenCache } from "@/lib/cache";
 import { LocaleProvider } from "@/locales/provider";
+import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
@@ -19,9 +21,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Svg from "react-native-svg";
 import "../global.css";
 import "../utils/ReactotronConfig";
-import { StatusBar } from "react-native";
-import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
-import { tokenCache } from "@/lib/cache";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
