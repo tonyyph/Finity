@@ -1,6 +1,8 @@
+import { AuthBiometrics } from "@/components/auth/auth-biometrics";
 import { AuthLocal } from "@/components/auth/auth-local";
 import { BackButton } from "@/components/common/back-button";
 import { useColorPalette } from "@/hooks/use-color-palette";
+import { useLocalAuth } from "@/hooks/use-local-auth";
 import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { Redirect, Stack } from "expo-router";
 import { useLayoutEffect } from "react";
@@ -10,6 +12,9 @@ export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
   const { isLoggedIn, setIsLoginWithPin, isLoginWithPin } =
     useUserAuthenticateStore();
+  const { shouldAuthLocal, setShouldAuthLocal } = useLocalAuth();
+
+  console.log(" AuthenticatedLayout 💯 shouldAuthLocal:", shouldAuthLocal);
 
   // useLayoutEffect(() => {
   //   setIsLoginWithPin(false);
@@ -21,7 +26,11 @@ export default function AuthenticatedLayout() {
 
   return (
     <View className="flex-1">
-      {!isLoginWithPin && <AuthLocal onAuthenticated={() => {}} />}
+      {shouldAuthLocal && (
+        <AuthBiometrics onAuthenticated={() => setShouldAuthLocal(false)} />
+      )}
+
+      {/* {!isLoginWithPin && <AuthLocal onAuthenticated={() => {}} />} */}
 
       <Stack
         screenOptions={{

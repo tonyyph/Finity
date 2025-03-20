@@ -154,10 +154,12 @@ export default function Verify2FactorScreen() {
         </View>
         <View className="flex flex-row justify-between items-center mt-8 gap-2">
           {otp.map((digit, index) => (
-            <View className=" flex flex-row items-center mt-3 gap-4">
+            <View
+              className=" flex flex-row items-center mt-3 gap-4"
+              key={index}
+            >
               {index === 3 && <View className="w-[8px] h-[1px] bg-[#A3A3A3]" />}
               <TextInput
-                key={index}
                 editable={!loading}
                 autoFocus={index == 0}
                 className={`text-[20px] text-black text-center w-14 h-14 rounded-lg bg-white border`}

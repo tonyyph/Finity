@@ -1,4 +1,3 @@
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { cn } from "@/lib/utils";
 import * as SwitchPrimitives from "@rn-primitives/switch";
 import * as React from "react";
@@ -50,14 +49,13 @@ const SwitchNative = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
 >(({ className, ...props }, ref) => {
-  const { colorScheme } = useColorScheme();
   const translateX = useDerivedValue(() => (props.checked ? 18 : 0));
   const animatedRootStyle = useAnimatedStyle(() => {
     return {
       backgroundColor: interpolateColor(
         translateX.value,
         [0, 18],
-        [RGB_COLORS["dark"].input, RGB_COLORS["dark"].primary]
+        [RGB_COLORS["light"].input, RGB_COLORS["light"].primary]
       )
     };
   });
@@ -75,7 +73,7 @@ const SwitchNative = React.forwardRef<
       <SwitchPrimitives.Root
         className={cn(
           "h-8 w-[46px] shrink-0 flex-row items-center rounded-full border-2 border-transparent",
-          props.checked ? "bg-primary" : "bg-white",
+          props.checked ? "bg-primary" : "bg-input",
           className
         )}
         {...props}

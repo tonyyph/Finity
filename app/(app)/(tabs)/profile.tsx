@@ -38,6 +38,7 @@ import {
   View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SetLocalAuth } from "@/components/profile/set-local-auth";
 
 export default function ProfileScreen() {
   const { i18n } = useLingui();
@@ -121,14 +122,15 @@ export default function ProfileScreen() {
                 }
               />
             </Link>
+            <SetLocalAuth />
             <MenuItem
               label={`Push notifications`}
               icon={BellIcon}
-              disabled
+              // disabled
               rightSection={
                 <Switch
                   checked={enabledPushNotifications}
-                  disabled
+                  // disabled
                   onCheckedChange={async (checked) => {
                     if (checked) {
                       const { status: existingStatus } =

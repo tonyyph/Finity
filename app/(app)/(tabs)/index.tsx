@@ -6,6 +6,7 @@ import RequestCardNotification from "@/components/home/request_card_noti";
 import { useUserSettingsStore } from "@/stores";
 import useHome from "@/stores/useHome";
 import { router } from "expo-router";
+import LottieView from "lottie-react-native";
 import { useEffect } from "react";
 import { ScrollView, View } from "react-native";
 
