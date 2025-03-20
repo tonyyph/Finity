@@ -41,7 +41,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: {
       buildNumber,
       supportsTablet: true,
-      bundleIdentifier: bundleIdentifier
+      bundleIdentifier: bundleIdentifier,
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false
+      }
     },
     android: {
       versionCode,
