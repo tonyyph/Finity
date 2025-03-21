@@ -7,6 +7,8 @@ interface UserAuthenticateStore {
   setIsLoggedIn: (isLoggedIn: boolean) => void;
   isLoginWithPin: boolean;
   setIsLoginWithPin: (isLoginWithPin: boolean) => void;
+  isFirst2FA: boolean;
+  setIsFirst2FA: (isFirst2FA: boolean) => void;
 }
 
 export const useUserAuthenticateStore = create<UserAuthenticateStore>()(
@@ -15,7 +17,9 @@ export const useUserAuthenticateStore = create<UserAuthenticateStore>()(
       isLoggedIn: false,
       setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
       isLoginWithPin: false,
-      setIsLoginWithPin: (isLoginWithPin) => set({ isLoginWithPin })
+      setIsLoginWithPin: (isLoginWithPin) => set({ isLoginWithPin }),
+      isFirst2FA: true,
+      setIsFirst2FA: (isFirst2FA) => set({ isFirst2FA })
     }),
     {
       name: "user-authenticate-storage",

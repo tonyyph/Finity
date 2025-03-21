@@ -1,26 +1,20 @@
 import { AuthBiometrics } from "@/components/auth/auth-biometrics";
-import { AuthLocal } from "@/components/auth/auth-local";
 import { BackButton } from "@/components/common/back-button";
 import { useColorPalette } from "@/hooks/use-color-palette";
 import { useLocalAuth } from "@/hooks/use-local-auth";
-import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
+import { useUser } from "@clerk/clerk-expo";
 import { Redirect, Stack } from "expo-router";
-import { useLayoutEffect } from "react";
 import { View } from "react-native";
 
 export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
-  const { isLoggedIn, setIsLoginWithPin, isLoginWithPin } =
-    useUserAuthenticateStore();
   const { shouldAuthLocal, setShouldAuthLocal } = useLocalAuth();
 
-  console.log(" AuthenticatedLayout 💯 shouldAuthLocal:", shouldAuthLocal);
+  const { isSignedIn, isLoaded } = useUser();
 
-  // useLayoutEffect(() => {
-  //   setIsLoginWithPin(false);
-  // }, []);
+  console.log(" AuthenticatedLayout 💯 isSignedIn useUser:", isSignedIn);
 
-  if (!isLoggedIn) {
+  if (!isSignedIn && isLoaded) {
     return <Redirect href={"/login"} />;
   }
 

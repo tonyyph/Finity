@@ -1,19 +1,22 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { router, useLocalSearchParams } from "expo-router";
+import { useUserAuthenticateStore } from "@/stores";
+import { useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
 import { Image, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function SetupPinSuccess() {
   const { isResetPin } = useLocalSearchParams();
+  const { top, bottom } = useSafeAreaInsets();
+  const { setIsLoggedIn, setIsLoginWithPin, setIsFirst2FA } =
+    useUserAuthenticateStore();
 
   const handleContinue = useCallback(() => {
-    router.replace({
-      pathname: "/(app)/(tabs)"
-    });
+    setIsLoggedIn(true);
+    setIsLoginWithPin(true);
+    setIsFirst2FA(false);
   }, []);
-  const { top, bottom } = useSafeAreaInsets();
 
   return (
     <View

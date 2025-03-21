@@ -1,18 +1,16 @@
 import { BackButton } from "@/components/common/back-button";
 import { useColorPalette } from "@/hooks/use-color-palette";
-import { useUserAuthenticateStore } from "@/stores/user-authenticate/store";
 import { useAuth } from "@clerk/clerk-expo";
 import { Redirect, Stack } from "expo-router";
 
 export default function UnAuthenticatedLayout() {
-  const { isLoggedIn } = useUserAuthenticateStore();
   const { getColor } = useColorPalette();
 
   const { isSignedIn } = useAuth();
 
   console.log(" UnAuthenticatedLayout 💯 isSignedIn:", isSignedIn);
 
-  if (isLoggedIn) {
+  if (isSignedIn) {
     return <Redirect href={"/"} />;
   }
 

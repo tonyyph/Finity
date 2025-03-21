@@ -1,5 +1,6 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import { useUserAuthenticateStore } from "@/stores";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
 import { Image, View } from "react-native";
@@ -7,12 +8,19 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function TwoFactorAuthenticationSuccess() {
   const { isResetPin } = useLocalSearchParams();
+  const { setIsLoginWithPin, isFirst2FA } = useUserAuthenticateStore();
+
+  console.log(" TwoFactorAuthenticationSuccess 💯 isFirst2FA:", isFirst2FA);
 
   const handleSetupPin = useCallback(() => {
     router.push({
       pathname: "/(auth)/pin-verify",
       params: { isResetPin }
     });
+  }, []);
+
+  const handleContinue = useCallback(() => {
+    setIsLoginWithPin(true);
   }, []);
   const { top, bottom } = useSafeAreaInsets();
 
@@ -42,10 +50,10 @@ function TwoFactorAuthenticationSuccess() {
             variant="default"
             size={"lg"}
             className="rounded-full bg-primary h-[48px]"
-            onPress={handleSetupPin}
+            onPress={!isFirst2FA ? handleContinue : handleSetupPin}
           >
             <Typography type="body-default" weight="medium" textColor="white">
-              {isResetPin === "1" ? `Continue` : `Set up PIN`}
+              {isResetPin === "1" || !isFirst2FA ? `Continue` : `Set up PIN`}
             </Typography>
           </Button>
         </View>

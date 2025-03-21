@@ -181,8 +181,8 @@ export default function LoginScreen() {
                 size={"lg"}
                 className="mt-8 rounded-full bg-primary h-[48px]"
                 loading={loading}
-                // onPress={onLogin}
-                onPress={handleSignedIn}
+                onPress={onLogin}
+                // onPress={handleSignedIn}
               >
                 <Typography
                   type="body-default"

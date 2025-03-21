@@ -2,17 +2,11 @@ import { CircleAlert } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { colors } from "@/constants/Colors";
-import { useUserAuthenticateStore } from "@/stores";
+import { useLogin } from "@/hooks/auth";
 import { exactDesign } from "@/utils";
-import { useUser } from "@clerk/clerk-expo";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Keyboard,
-  TextInput,
-  TouchableWithoutFeedback,
-  View
-} from "react-native";
+import { Keyboard, TextInput, View } from "react-native";
 import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle
@@ -20,12 +14,10 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Verify2FactorScreen() {
-  const { user } = useUser();
-
   const { isResetPin } = useLocalSearchParams();
   const { bottom } = useSafeAreaInsets();
+  const { handleVerifyTOTP, error, loading } = useLogin();
 
-  const [loading, setLoading] = useState<boolean>(false);
   const [wrongOTP, setWrongOTP] = useState<boolean>(false);
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const inputsRef = useRef<Array<TextInput | null>>([]);
@@ -37,7 +29,6 @@ export default function Verify2FactorScreen() {
     }
   }, []);
 
-  const { setIsLoggedIn, setIsLoginWithPin } = useUserAuthenticateStore();
   const keyboard = useAnimatedKeyboard();
 
   const translateStyle = useAnimatedStyle(() => ({
@@ -50,50 +41,6 @@ export default function Verify2FactorScreen() {
   }));
 
   const otpString = otp.join("");
-
-  const handleVerifyOTP = useCallback(() => {
-    setLoading(true);
-    Keyboard.dismiss();
-    setTimeout(() => {
-      setLoading(false);
-      if (otpString === "123456") {
-        router.push({
-          pathname: "/success-2factor",
-          params: { isResetPin: 0 }
-        });
-      } else if (otpString === "111111") {
-        setIsLoggedIn(true);
-        setIsLoginWithPin(true);
-      } else {
-        setWrongOTP(true);
-      }
-    }, 1500);
-  }, [otpString]);
-
-  // const handleVerifyOTP = useCallback(async () => {
-  //   await user
-  //     ?.verifyTOTP({ code: otpString })
-  //     .then(() => {
-  //       console.log("1", 1);
-  //       setLoading(true);
-  //       Keyboard.dismiss();
-  //       setTimeout(() => {
-  //         setLoading(false);
-  //         if (otpString === "123456") {
-  //           router.push({
-  //             pathname: "/success-2factor",
-  //             params: { isResetPin: 0 }
-  //           });
-  //         } else if (otpString === "111111") {
-  //           setIsLoggedIn(true);
-  //           setIsLoginWithPin(true);
-  //         } else {
-  //           setWrongOTP(true);
-  //         }
-  //       }, 1500);
-  //     })
-  //     .catch((err) => console.error(JSON.stringify(err, null, 2)));
-  // }, [otpString]);
 
   const handleChange = (text: string, index: number) => {
     if (/^\d?$/.test(text)) {
@@ -114,6 +61,10 @@ export default function Verify2FactorScreen() {
       inputsRef.current[index - 1]?.focus();
     }
   };
+
+  const handleVerifyOTP = useCallback(() => {
+    handleVerifyTOTP && handleVerifyTOTP({ otp: otpString });
+  }, [otpString]);
 
   useEffect(() => {
     if (otpString?.length === 6 && wrongOTP === false && !!isResetPin) {
@@ -186,11 +137,11 @@ export default function Verify2FactorScreen() {
             </View>
           ))}
         </View>
-        {wrongOTP && (
+        {!!error && (
           <View className="flex flex-row items-center mt-3">
             <CircleAlert className="top-1" />
             <Typography type="body-small" weight="medium" textColor="#D9323D">
-              Incorrect verification code. Try again.
+              {error}
             </Typography>
           </View>
         )}

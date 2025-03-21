@@ -4,6 +4,8 @@ import { tokenCache } from "@/lib/cache";
 import { LocaleProvider } from "@/locales/provider";
 import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 import { useFonts } from "expo-font";
@@ -21,9 +23,16 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Svg from "react-native-svg";
 import "../global.css";
 import "../utils/ReactotronConfig";
+import { StoreProvider } from "@/stores/core/store-provider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { queryClient } from "@/lib/client";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+const asyncStoragePersister = createAsyncStoragePersister({
+  storage: AsyncStorage
+});
 
 cssInterop(Svg, {
   className: {
@@ -78,31 +87,38 @@ export default function RootLayout() {
         tokenCache={tokenCache}
       >
         <ClerkLoaded>
-          <LocaleProvider>
-            <ThemeProvider value={DefaultTheme}>
-              <CustomPaletteWrapper>
-                <SafeAreaProvider>
-                  <GestureHandlerRootView>
-                    <KeyboardProvider>
-                      <BottomSheetModalProvider>
-                        <Stack screenOptions={{ headerShown: false }}>
-                          <Stack.Screen
-                            name="(aux)"
-                            options={{
-                              presentation: "modal"
-                            }}
-                          />
-                        </Stack>
-                        <ToastRoot />
-                        <PortalHost />
-                        {/* <StatusBar  barStyle={"dark-content"} backgroundColor={'transparent'}/> */}
-                      </BottomSheetModalProvider>
-                    </KeyboardProvider>
-                  </GestureHandlerRootView>
-                </SafeAreaProvider>
-              </CustomPaletteWrapper>
-            </ThemeProvider>
-          </LocaleProvider>
+          <PersistQueryClientProvider
+            client={queryClient}
+            persistOptions={{ persister: asyncStoragePersister }}
+          >
+            <StoreProvider>
+              <LocaleProvider>
+                <ThemeProvider value={DefaultTheme}>
+                  <CustomPaletteWrapper>
+                    <SafeAreaProvider>
+                      <GestureHandlerRootView>
+                        <KeyboardProvider>
+                          <BottomSheetModalProvider>
+                            <Stack screenOptions={{ headerShown: false }}>
+                              <Stack.Screen
+                                name="(aux)"
+                                options={{
+                                  presentation: "modal"
+                                }}
+                              />
+                            </Stack>
+                            <ToastRoot />
+                            <PortalHost />
+                            {/* <StatusBar  barStyle={"dark-content"} backgroundColor={'transparent'}/> */}
+                          </BottomSheetModalProvider>
+                        </KeyboardProvider>
+                      </GestureHandlerRootView>
+                    </SafeAreaProvider>
+                  </CustomPaletteWrapper>
+                </ThemeProvider>
+              </LocaleProvider>
+            </StoreProvider>
+          </PersistQueryClientProvider>
         </ClerkLoaded>
       </ClerkProvider>
     </PostHogProvider>

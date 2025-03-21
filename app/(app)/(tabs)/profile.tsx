@@ -1,10 +1,10 @@
 import * as Application from "expo-application";
 import * as Haptics from "expo-haptics";
-
 import { FooterGradient } from "@/components/common/footer-gradient";
 import { MenuItem } from "@/components/common/menu-item";
 import { toast } from "@/components/common/toast";
 import { ProfileCard } from "@/components/profile/profile-card";
+import { SetLocalAuth } from "@/components/profile/set-local-auth";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -12,8 +12,7 @@ import { Text } from "@/components/ui/text";
 import { useLocale } from "@/locales/provider";
 import { useUserAuthenticateStore } from "@/stores";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
+import { useAuth } from "@clerk/clerk-expo";
 import * as Notifications from "expo-notifications";
 import { Link } from "expo-router";
 import {
@@ -30,6 +29,7 @@ import {
   SwatchBookIcon
 } from "lucide-react-native";
 import {
+  Alert,
   Image,
   Linking,
   ScrollView,
@@ -38,10 +38,9 @@ import {
   View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { SetLocalAuth } from "@/components/profile/set-local-auth";
 
 export default function ProfileScreen() {
-  const { i18n } = useLingui();
+  const { signOut } = useAuth();
   const { bottom } = useSafeAreaInsets();
   const { language } = useLocale();
   const { setEnabledPushNotifications, enabledPushNotifications } =
@@ -55,9 +54,7 @@ export default function ProfileScreen() {
   async function handleShare() {
     try {
       await Share.share({
-        message: t(
-          i18n
-        )`Finity is a news aggregation app designed to provide users with diverse perspectives on current events, helping them see beyond their usual sources. By curating stories from various media outlets, Finity ensures balanced, unbiased news coverage. Whether you're interested in global affairs, technology, finance, or culture, the app delivers real-time updates and multiple viewpoints on each topic. Stay informed with Finity, where news meets perspective. Feel free to give it a try and let me know what you think. https://Finity.com`
+        message: `Finity is a news aggregation app designed to provide users with diverse perspectives on current events, helping them see beyond their usual sources. By curating stories from various media outlets, Finity ensures balanced, unbiased news coverage. Whether you're interested in global affairs, technology, finance, or culture, the app delivers real-time updates and multiple viewpoints on each topic. Stay informed with Finity, where news meets perspective. Feel free to give it a try and let me know what you think. https://Finity.com`
       });
     } catch (error: any) {
       toast.error(error.message);
@@ -201,7 +198,20 @@ export default function ProfileScreen() {
             <Button
               variant="ghost"
               onPress={() => {
-                setIsLoggedIn(false);
+                Alert.alert(`Are you sure you want to sign out?`, "", [
+                  {
+                    text: `Cancel`,
+                    style: "cancel"
+                  },
+                  {
+                    text: `Sign out`,
+                    style: "destructive",
+                    onPress: async () => {
+                      await signOut();
+                      setIsLoggedIn(false);
+                    }
+                  }
+                ]);
               }}
               className="!px-6 justify-start gap-6"
             >
