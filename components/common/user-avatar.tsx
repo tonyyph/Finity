@@ -3,37 +3,38 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Text } from "../ui/text";
 
 type UserAvatarProps = {
-  user?: {
-    id: string;
-    fullName?: string | null;
-    imageUrl?: string;
-  } | null;
+  fullName?: string;
   className?: string;
   fallbackClassName?: string;
   fallbackLabelClassName?: string;
 };
 
 export function UserAvatar({
-  user,
+  fullName,
   className,
   fallbackClassName,
   fallbackLabelClassName
 }: UserAvatarProps) {
-  const shortName = user?.fullName?.split(" ")[0].slice(0, 2);
+  const shortName =
+    fullName
+      ?.split(" ")
+      .map((name) => name[0].toUpperCase())
+      .join("") ?? "";
+
   return (
     <Avatar
-      alt={`${123}'s avatar`}
-      className={cn("h-12 w-12 border border-border bg-muted", className)}
+      alt={`${fullName}'s avatar`}
+      className={cn("h-[56px] w-[56px]", className)}
     >
-      <AvatarImage source={{ uri: user?.imageUrl }} />
+      <AvatarImage source={{ uri: undefined }} />
       <AvatarFallback className={fallbackClassName}>
         <Text
           className={cn(
-            "font-semiBold uppercase leading-tight",
+            "text-center justify-center text-white text-[20px] font-medium font-['PP_Neue_Montreal'] leading-[25px] tracking-wide",
             fallbackLabelClassName
           )}
         >
-          {shortName}
+          {shortName?.toUpperCase() ?? ""}
         </Text>
       </AvatarFallback>
     </Avatar>

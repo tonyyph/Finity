@@ -23,7 +23,7 @@ function ActiveCardScreen() {
     useRef<TextInput>(null),
     useRef<TextInput>(null)
   ];
-  const { bottom } = useSafeAreaInsets();
+  const { top, bottom } = useSafeAreaInsets();
   const { setActiveCard } = useUserSettingsStore();
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
@@ -104,7 +104,7 @@ function ActiveCardScreen() {
   return (
     <View
       className="bg-white gap-4 p-6 flex-1"
-      style={{ paddingBottom: bottom }}
+      style={{ paddingBottom: bottom, paddingTop: top }}
     >
       <Header onRightFunction={router.back} />
       <View className="flex-1 gap-8">

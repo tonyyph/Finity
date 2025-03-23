@@ -16,17 +16,23 @@ import { useAuth } from "@clerk/clerk-expo";
 import * as Notifications from "expo-notifications";
 import { Link } from "expo-router";
 import {
+  BadgePoundSterlingIcon,
   BellIcon,
   BookTypeIcon,
   ChevronRightIcon,
+  CircleHelpIcon,
   EarthIcon,
+  FileLock2Icon,
+  FileTextIcon,
   InboxIcon,
   LogOutIcon,
   MessageSquareQuoteIcon,
   ScrollTextIcon,
   ShapesIcon,
   Share2Icon,
-  SwatchBookIcon
+  ShieldCheckIcon,
+  SwatchBookIcon,
+  UserIcon
 } from "lucide-react-native";
 import {
   Alert,
@@ -38,23 +44,29 @@ import {
   View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Typography from "@/components/common/text-typography";
+import { version } from "react";
 
 export default function ProfileScreen() {
   const { signOut } = useAuth();
-  const { bottom } = useSafeAreaInsets();
+  const { top } = useSafeAreaInsets();
   const { language } = useLocale();
   const { setEnabledPushNotifications, enabledPushNotifications } =
     useUserSettingsStore();
-  const { isLoggedIn, setIsLoggedIn } = useUserAuthenticateStore();
+  const { setIsLoggedIn } = useUserAuthenticateStore();
 
   async function handleCopyVersion() {
-    toast.success(`Copied version to clipboard`);
+    toast.success(
+      `Copied version to clipboard ${Application.nativeApplicationVersion}`
+    );
   }
 
   async function handleShare() {
     try {
       await Share.share({
-        message: `Finity is a news aggregation app designed to provide users with diverse perspectives on current events, helping them see beyond their usual sources. By curating stories from various media outlets, Finity ensures balanced, unbiased news coverage. Whether you're interested in global affairs, technology, finance, or culture, the app delivers real-time updates and multiple viewpoints on each topic. Stay informed with Finity, where news meets perspective. Feel free to give it a try and let me know what you think. https://Finity.com`
+        title: "The simple and rewarding way to pay temp workers",
+        url: "https://www.finity.co.uk/",
+        message: `The simple and rewarding way to pay temp workers \nEverything you need to run the recruitment back office with speed, ease, and accuracy. Plus, earn rewards for every time sheet and payslip you process.`
       });
     } catch (error: any) {
       toast.error(error.message);
@@ -62,174 +74,149 @@ export default function ProfileScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1 bg-background" style={{ paddingTop: top }}>
+      <Typography type="heading-small" weight="semibold" className="p-4">
+        {"Profile"}
+      </Typography>
       <ScrollView
-        contentContainerClassName="py-4 gap-4"
-        // contentContainerStyle={{ paddingBottom: bottom + 80 }}
+        contentContainerClassName="pb-4 px-4 gap-4"
         className="bg-background"
       >
         <ProfileCard />
-        <View className="mt-4 gap-2">
-          <Text className="mx-6 text-muted-foreground">{`General`}</Text>
-          <View>
-            <Link href="/category" asChild>
-              <MenuItem
-                label={`Categories`}
-                icon={ShapesIcon}
-                rightSection={
-                  <ChevronRightIcon className="h-5 w-5 text-foreground" />
-                }
-              />
-            </Link>
+        <View className="gap-2">
+          <Link href="/profile-edit" asChild>
             <MenuItem
-              label={`Magic inbox`}
-              icon={InboxIcon}
+              label={`Personal information`}
+              icon={UserIcon}
               rightSection={
-                <Badge variant="outline">
-                  <Text className="text-xs">{`Coming soon`}</Text>
-                </Badge>
+                <ChevronRightIcon className="h-[24px] w-[24px] text-primary" />
               }
-              disabled
             />
-          </View>
+          </Link>
+          <View className="h-[1px] bg-[#E5E5E5] mt-2" />
         </View>
         <View className="gap-2">
-          <Text className="mx-6 text-muted-foreground">{`App settings`}</Text>
-          <View>
-            <Link href="/appearance" asChild>
-              <MenuItem
-                label={`Appearance`}
-                icon={SwatchBookIcon}
-                rightSection={
-                  <ChevronRightIcon className="h-5 w-5 text-foreground" />
-                }
-              />
-            </Link>
-            <Link href="/language" asChild>
-              <MenuItem
-                label={`Language`}
-                icon={EarthIcon}
-                rightSection={
-                  <View className="flex flex-row items-center gap-2">
-                    <Text className="text-muted-foreground uppercase">
-                      {`${language}`}
-                    </Text>
-                    <ChevronRightIcon className="h-5 w-5 text-foreground" />
-                  </View>
-                }
-              />
-            </Link>
-            <SetLocalAuth />
+          <Link href="/appearance" asChild>
             <MenuItem
-              label={`Push notifications`}
-              icon={BellIcon}
-              // disabled
+              label={`Statements`}
+              icon={FileTextIcon}
               rightSection={
-                <Switch
-                  checked={enabledPushNotifications}
-                  // disabled
-                  onCheckedChange={async (checked) => {
-                    if (checked) {
-                      const { status: existingStatus } =
-                        await Notifications.getPermissionsAsync();
-                      let finalStatus = existingStatus;
-                      if (existingStatus !== "granted") {
-                        const { status } =
-                          await Notifications.requestPermissionsAsync();
-                        finalStatus = status;
-                      }
-                      if (finalStatus !== "granted") {
-                        toast.error(`Push notifications are not enabled`);
-                        setEnabledPushNotifications(false);
-                        return;
-                      }
-                      toast.success(`Push notifications are enabled`);
-                    } else {
-                      toast.success(`Push notifications are disabled`);
+                <ChevronRightIcon className="h-[24px] w-[24px] text-primary" />
+              }
+            />
+          </Link>
+          <Link href="/language" asChild>
+            <MenuItem
+              label={`Change PIN`}
+              icon={ShieldCheckIcon}
+              rightSection={
+                <ChevronRightIcon className="h-[24px] w-[24px] text-primary" />
+              }
+            />
+          </Link>
+          {/* Biometrics enabled ?? */}
+          <SetLocalAuth />
+
+          <MenuItem
+            label={`Push notification`}
+            subLabel="Notification for points received"
+            icon={BellIcon}
+            rightSection={
+              <Switch
+                checked={enabledPushNotifications}
+                onCheckedChange={async (checked) => {
+                  if (checked) {
+                    const { status: existingStatus } =
+                      await Notifications.getPermissionsAsync();
+                    let finalStatus = existingStatus;
+                    if (existingStatus !== "granted") {
+                      const { status } =
+                        await Notifications.requestPermissionsAsync();
+                      finalStatus = status;
                     }
-                    setEnabledPushNotifications(checked);
-                  }}
-                />
-              }
-            />
-          </View>
-        </View>
-        <View className="gap-2">
-          <Text className="mx-6 text-muted-foreground">{`Others`}</Text>
-          <View>
-            <Link href="/privacy-policy" asChild>
-              <MenuItem
-                label={`Privacy policy`}
-                icon={ScrollTextIcon}
-                rightSection={
-                  <ChevronRightIcon className="h-5 w-5 text-foreground" />
-                }
-              />
-            </Link>
-            <MenuItem
-              label={`Terms of use`}
-              icon={BookTypeIcon}
-              rightSection={
-                <ChevronRightIcon className="h-5 w-5 text-foreground" />
-              }
-              onPress={() =>
-                Linking.openURL(
-                  "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-                )
-              }
-            />
-            <Link href="/feedback" asChild>
-              <MenuItem
-                label={`Send feedback`}
-                icon={MessageSquareQuoteIcon}
-                rightSection={
-                  <ChevronRightIcon className="h-5 w-5 text-foreground" />
-                }
-              />
-            </Link>
-            <MenuItem
-              label={`Share with friends`}
-              icon={Share2Icon}
-              rightSection={
-                <ChevronRightIcon className="h-5 w-5 text-foreground" />
-              }
-              onPress={handleShare}
-            />
-            <Button
-              variant="ghost"
-              onPress={() => {
-                Alert.alert(`Are you sure you want to sign out?`, "", [
-                  {
-                    text: `Cancel`,
-                    style: "cancel"
-                  },
-                  {
-                    text: `Sign out`,
-                    style: "destructive",
-                    onPress: async () => {
-                      await signOut();
-                      setIsLoggedIn(false);
+                    if (finalStatus !== "granted") {
+                      toast.error(`Push notifications are not enabled`);
+                      setEnabledPushNotifications(false);
+                      return;
                     }
+                    toast.success(`Push notifications are enabled`);
+                  } else {
+                    toast.success(`Push notifications are disabled`);
                   }
-                ]);
-              }}
-              className="!px-6 justify-start gap-6"
-            >
-              <LogOutIcon className="h-5 w-5 text-red-500" />
-              <Text className="font-regular text-red-500 group-active:text-red-500">
-                {`Sign out`}
-              </Text>
-            </Button>
-          </View>
+                  setEnabledPushNotifications(checked);
+                }}
+              />
+            }
+          />
+          <View className="h-[1px] bg-[#E5E5E5] mt-2" />
+        </View>
+        <View className="gap-2">
+          <Link href="/feedback" asChild>
+            <MenuItem
+              label={`Cash out points`}
+              icon={BadgePoundSterlingIcon}
+              rightSection={
+                <ChevronRightIcon className="h-[24px] w-[24px] text-primary" />
+              }
+            />
+          </Link>
+          <Link href="/privacy-policy" asChild>
+            <MenuItem
+              label={`Help centre`}
+              icon={CircleHelpIcon}
+              rightSection={
+                <ChevronRightIcon className="h-[24px] w-[24px] text-primary" />
+              }
+            />
+          </Link>
+          <MenuItem
+            label={`Our agreements`}
+            icon={FileLock2Icon}
+            rightSection={
+              <ChevronRightIcon className="h-[24px] w-[24px] text-primary" />
+            }
+            onPress={() =>
+              Linking.openURL(
+                "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+              )
+            }
+          />
+          <MenuItem
+            label={`Share with friends`}
+            icon={Share2Icon}
+            rightSection={
+              <ChevronRightIcon className="h-[24px] w-[24px] text-primary" />
+            }
+            onPress={handleShare}
+          />
+          <MenuItem
+            label={`Sign out`}
+            icon={LogOutIcon}
+            onPress={() => {
+              Alert.alert(`Are you sure you want to sign out?`, "", [
+                {
+                  text: `Cancel`,
+                  style: "cancel"
+                },
+                {
+                  text: `Sign out`,
+                  style: "destructive",
+                  onPress: async () => {
+                    await signOut();
+                    setIsLoggedIn(false);
+                  }
+                }
+              ]);
+            }}
+          />
         </View>
         <TouchableOpacity
           activeOpacity={0.8}
           className="items-center gap-3"
-          onPressIn={Haptics.selectionAsync}
           onLongPress={handleCopyVersion}
         >
           <Image
-            source={require("@/assets/images/appstore.png")}
+            source={require("@/assets/images/appstore-dev.png")}
             className="mx-auto h-16 w-16 rounded-full"
           />
           <Text className="text-muted-foreground text-sm">
@@ -238,7 +225,6 @@ export default function ProfileScreen() {
           </Text>
         </TouchableOpacity>
       </ScrollView>
-      <FooterGradient />
     </View>
   );
 }

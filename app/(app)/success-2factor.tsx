@@ -8,21 +8,22 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function TwoFactorAuthenticationSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { setIsLoginWithPin, isFirst2FA } = useUserAuthenticateStore();
-
-  console.log(" TwoFactorAuthenticationSuccess 💯 isFirst2FA:", isFirst2FA);
+  const { setIsLoginWithPin, isFirst2FA, setIsLoggedIn } =
+    useUserAuthenticateStore();
+  const { top, bottom } = useSafeAreaInsets();
 
   const handleSetupPin = useCallback(() => {
     router.push({
-      pathname: "/(auth)/pin-verify",
+      pathname: "/(app)/pin-verify",
       params: { isResetPin }
     });
   }, []);
 
   const handleContinue = useCallback(() => {
+    router.replace("/(app)/(tabs)");
     setIsLoginWithPin(true);
+    setIsLoggedIn(true);
   }, []);
-  const { top, bottom } = useSafeAreaInsets();
 
   return (
     <View

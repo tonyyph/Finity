@@ -1,3 +1,5 @@
+import { getUserProfile } from "@/api";
+import { userStore } from "@/stores/userStore";
 import { validatePassword, validateUsername } from "@/utils";
 import { useSignIn } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
@@ -5,7 +7,7 @@ import { useState } from "react";
 import { useValidateInput } from "../commons";
 
 export const useLogin = () => {
-  const { signIn, setActive, isLoaded } = useSignIn();
+  const { signIn, setActive: setActiveSignIn, isLoaded } = useSignIn();
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const usernameState = useValidateInput({
@@ -39,7 +41,7 @@ export const useLogin = () => {
       if (result.status === "needs_second_factor") {
         router.push("/(auth)/verify-2factor");
       } else {
-        await setActive({ session: result.createdSessionId });
+        await setActiveSignIn({ session: result.createdSessionId });
       }
     } catch (err: any) {
       setError(err?.errors?.[0]?.longMessage ?? err.message ?? "Unknown error");
@@ -47,7 +49,10 @@ export const useLogin = () => {
   };
 
   const handleVerifyTOTP = async ({ otp }: { otp: string }) => {
+    console.log("otp", otp);
+    if (!isLoaded) return;
     try {
+      setLoading(true);
       if (!signIn) {
         setError("Sign-in session not initialized. Please try again.");
         return;
@@ -59,20 +64,16 @@ export const useLogin = () => {
       });
 
       if (result.status === "complete") {
-        await setActive({ session: result.createdSessionId });
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          router.push({
-            pathname: "/success-2factor",
-            params: { isResetPin: 0 }
-          });
-        }, 1500);
+        await setActiveSignIn({ session: result.createdSessionId });
+        const { data: session } = await getUserProfile();
+        userStore.setState({ userProfile: session });
       } else {
         setError("Invalid code. Please try again.");
       }
     } catch (err: any) {
       setError(err?.errors?.[0]?.longMessage ?? err.message ?? "Unknown error");
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -39,7 +39,7 @@ export default function LoginScreen() {
       }
       if (passwordState.value === "bio") {
         router.push({
-          pathname: "/(auth)/biometrics",
+          pathname: "/(app)/biometrics",
           params: { typeAuthentication: 2 }
         });
       }

@@ -36,7 +36,7 @@ export default function VerifyPINScreen() {
   useEffect(() => {
     if (pin.length === 4) {
       router.push({
-        pathname: "/(auth)/pin-confirm",
+        pathname: "/(app)/pin-confirm",
         params: {
           pin: pin,
           isResetPin

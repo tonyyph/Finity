@@ -42,10 +42,8 @@ export function AuthButton({
   onSignedIn,
   onSignedUp
 }: AuthSocialProps) {
-  const { setIsLoggedIn } = useUserAuthenticateStore();
   const onPress = async () => {
     try {
-      setIsLoggedIn(true);
     } catch (err: any) {
       toast.error(
         err?.errors?.[0]?.longMessage ?? err.message ?? "Unknown error"

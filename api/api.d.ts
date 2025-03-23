@@ -62,3 +62,24 @@ type RefreshTokenResponse = {
 type RestfulApiError = {
   error?: string;
 };
+
+type UserResponse = {
+  title: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  emailConfirmed: boolean;
+  mobileNumber: string;
+  address: {
+    addressLine1: string;
+    addressLine2: string;
+    city: string;
+    postCode: string;
+    country: string | null;
+  };
+  dateOfBirth: string; // ISO 8601 format
+  dateCreated: string;
+  dateLastLoggedIn: string;
+  canRequestCard: boolean;
+};

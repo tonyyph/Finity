@@ -1,51 +1,21 @@
 import axios from "axios";
 
-export const signUpWithEmail = async (data: SignUpRequest) => {
-  return await axios.post<SignUpResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/users`,
-    {
-      email: data.email,
-      password: data.password,
-      confirm_password: data.confirm_password,
-      first_name: data.first_name,
-      last_name: data.last_name,
-      birthday: data.birthday,
-      gender: data.gender
-    }
-  );
-};
+import { clerk } from "@/lib/client";
 
-export const loginWithUsername = async (data: LoginRequest) => {
-  return await axios.post<LoginResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/auth/sign-in`,
-    {
-      email: data.email,
-      password: data.password
-    },
+export const getUserProfile = async () => {
+  const token = await clerk.session?.getToken();
+
+  return await axios.get<UserResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/user`,
     {
       headers: {
-        accept: "*/*",
-        "Content-Type": "application/json"
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Origin: "https://finity-rewards-web-app-dev.azurewebsites.net"
       }
-    }
-  );
-};
-
-export const forgotPassword = async (data: ForgotPasswordRequest) => {
-  return await axios.post<ForgotPasswordResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/auth/forgot-password`,
-    {
-      email: data.email
-    }
-  );
-};
-
-export const resetPassword = async (data: ResetPasswordRequest) => {
-  return await axios.post<ResetPasswordResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/auth/reset-password`,
-    {
-      token: data.token,
-      newPassword: data.newPassword
     }
   );
 };

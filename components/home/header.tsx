@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import { Image, View } from "react-native";
 import Typography from "../common/text-typography";
 import Touch from "../ui/touch";
+import { useUser } from "@clerk/clerk-expo";
 
 type HomeHeaderProps = {
   haveNotification?: boolean;
@@ -13,21 +14,25 @@ export function HomeHeader({
   haveNotification,
   onNotification
 }: HomeHeaderProps) {
-  //   const { user } = useUser()
+  const { user } = useUser();
+
   const router = useRouter();
-  const user = {
-    id: "123",
-    fullName: "Tony Phan",
-    imageUrl:
-      "https://media.licdn.com/dms/image/v2/C4E0BAQHRcd8MW8NoEQ/company-logo_200_200/company-logo_200_200/0/1631373100497?e=2147483647&v=beta&t=1pTjV_f6c_HEPpm-zTeobA6HYV_YNV4aLrGLGBB0K-w"
-  };
 
   return (
-    <View className="flex flex-row items-center justify-between gap-4 bg-backgroundSubtle px-6 pb-3">
+    <View className="flex flex-row items-center justify-between gap-4 bg-backgroundSubtle px-4 pb-3">
       <View className="flex flex-1 flex-row items-center gap-3">
         <View className="flex-1 gap-1">
-          <Typography weight="semibold" type="heading-small">
-            {`${`Hi`}, ${user.fullName}`}
+          <Typography
+            weight="semibold"
+            type="heading-small"
+            className="pt-4 pb-2"
+          >
+            {`${`Hi`}, ${
+              user?.fullName ??
+              user?.publicMetadata?.invitee_first_name ??
+              user?.primaryEmailAddress?.emailAddress ??
+              ""
+            }`}
           </Typography>
         </View>
       </View>

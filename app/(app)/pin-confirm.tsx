@@ -1,5 +1,6 @@
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
+import { useUserAuthenticateStore } from "@/stores";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
@@ -12,6 +13,7 @@ import { twMerge } from "tailwind-merge";
 
 export default function ConfirmPINScreen() {
   const { pin, isResetPin } = useLocalSearchParams();
+  const { setIsLoggedIn, setIsLoginWithPin } = useUserAuthenticateStore();
 
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
@@ -37,7 +39,7 @@ export default function ConfirmPINScreen() {
     if (confirmPin?.length === 4) {
       if (confirmPin === pin) {
         router.push({
-          pathname: "/(auth)/pin-success",
+          pathname: "/(app)/pin-success",
           params: { isResetPin }
         });
       } else {

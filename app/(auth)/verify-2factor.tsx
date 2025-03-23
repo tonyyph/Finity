@@ -18,7 +18,6 @@ export default function Verify2FactorScreen() {
   const { bottom } = useSafeAreaInsets();
   const { handleVerifyTOTP, error, loading } = useLogin();
 
-  const [wrongOTP, setWrongOTP] = useState<boolean>(false);
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const inputsRef = useRef<Array<TextInput | null>>([]);
   const [indexCursor, setIndexCursor] = useState<number>(0);
@@ -42,14 +41,30 @@ export default function Verify2FactorScreen() {
 
   const otpString = otp.join("");
 
+  useEffect(() => {
+    if (otpString.length === 6) {
+      handleVerifyOTP();
+    }
+  }, [otpString]);
+
+  const handleVerifyOTP = useCallback(() => {
+    Keyboard.dismiss();
+    handleVerifyTOTP && handleVerifyTOTP({ otp: otpString });
+  }, [otpString]);
+
   const handleChange = (text: string, index: number) => {
     if (/^\d?$/.test(text)) {
       setIndexCursor(index + 1);
+      inputsRef.current?.[index]?.setNativeProps({
+        selection: { start: text.length, end: text.length }
+      });
+
       const newOtp = [...otp];
       newOtp[index] = text;
       setOtp(newOtp);
-      if (text && index < 5) inputsRef.current[index + 1]?.focus();
-      if (!text && index > 0) inputsRef.current[index - 1]?.focus();
+      if (text && index < 5) {
+        inputsRef.current?.[index + 1]?.focus();
+      }
     }
   };
 
@@ -61,33 +76,6 @@ export default function Verify2FactorScreen() {
       inputsRef.current[index - 1]?.focus();
     }
   };
-
-  const handleVerifyOTP = useCallback(() => {
-    handleVerifyTOTP && handleVerifyTOTP({ otp: otpString });
-  }, [otpString]);
-
-  useEffect(() => {
-    if (otpString?.length === 6 && wrongOTP === false && !!isResetPin) {
-      if (otpString === "123456") {
-        router.push({
-          pathname: "/success-2factor",
-          params: { isResetPin: 1 }
-        });
-      } else {
-        setWrongOTP(true);
-        Keyboard.dismiss();
-      }
-    }
-    if (otpString.length === 6 && wrongOTP === false && !isResetPin) {
-      if (otpString === "123456" || otpString === "111111") {
-        handleVerifyOTP();
-      } else {
-        Keyboard.dismiss();
-      }
-    } else {
-      setWrongOTP(false);
-    }
-  }, [otpString]);
 
   return (
     <View
@@ -112,7 +100,7 @@ export default function Verify2FactorScreen() {
               {index === 3 && <View className="w-[8px] h-[1px] bg-[#A3A3A3]" />}
               <TextInput
                 editable={!loading}
-                autoFocus={index == 0}
+                autoFocus={index === 0}
                 className={`text-[20px] text-black text-center w-14 h-14 rounded-lg bg-white border`}
                 style={[
                   { borderColor: colors.border },
@@ -120,7 +108,7 @@ export default function Verify2FactorScreen() {
                     borderWidth: exactDesign(2),
                     borderColor: colors.black
                   },
-                  wrongOTP && {
+                  !!error && {
                     borderWidth: exactDesign(2),
                     borderColor: colors.errormessage
                   }
@@ -132,7 +120,6 @@ export default function Verify2FactorScreen() {
                 onChangeText={(text) => handleChange(text, index)}
                 onKeyPress={(e) => handleKeyPress(e, index)}
                 onFocus={() => setIndexCursor(index)}
-                onSubmitEditing={handleVerifyOTP}
               />
             </View>
           ))}

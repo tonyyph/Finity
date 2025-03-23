@@ -9,17 +9,19 @@ import { router } from "expo-router";
 import LottieView from "lottie-react-native";
 import { useEffect } from "react";
 import { ScrollView, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function HomeScreen() {
   const { data, doRequest } = useHome();
   const { activeCard } = useUserSettingsStore();
+  const { top, bottom } = useSafeAreaInsets();
 
   useEffect(() => {
     doRequest({});
   }, []);
 
   return (
-    <View className="flex-1 bg-backgroundSubtle pt-4 gap-4">
+    <View className="flex-1 bg-backgroundSubtle" style={{ paddingTop: top }}>
       <HomeHeader
         haveNotification
         onNotification={() => console.log("Click Notification")}
@@ -43,7 +45,7 @@ function HomeScreen() {
         )}
         <View className="gap-2 mb-1">
           <CardBalanceCom value={0} />
-          <PointsBalanceCom value={123890} />
+          <PointsBalanceCom value={0} />
         </View>
         <View className="mt-4" />
         <CardAndPointTab

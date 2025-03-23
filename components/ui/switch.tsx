@@ -34,28 +34,17 @@ const SwitchWeb = React.forwardRef<
 
 SwitchWeb.displayName = "SwitchWeb";
 
-const RGB_COLORS = {
-  light: {
-    primary: "rgb(24, 24, 27)",
-    input: "rgb(228, 228, 231)"
-  },
-  dark: {
-    primary: "rgb(250, 250, 250)",
-    input: "rgb(39, 39, 42)"
-  }
-} as const;
-
 const SwitchNative = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
 >(({ className, ...props }, ref) => {
-  const translateX = useDerivedValue(() => (props.checked ? 18 : 0));
+  const translateX = useDerivedValue(() => (props.checked ? 17 : 0));
   const animatedRootStyle = useAnimatedStyle(() => {
     return {
       backgroundColor: interpolateColor(
         translateX.value,
-        [0, 18],
-        [RGB_COLORS["light"].input, RGB_COLORS["light"].primary]
+        [0, 17],
+        ["#D7DEDE", "#FF885D"]
       )
     };
   });
@@ -66,14 +55,14 @@ const SwitchNative = React.forwardRef<
     <Animated.View
       style={animatedRootStyle}
       className={cn(
-        "h-8 w-[46px] rounded-full",
+        "h-[25px] w-[42px] rounded-full",
         props.disabled && "opacity-50"
       )}
     >
       <SwitchPrimitives.Root
         className={cn(
-          "h-8 w-[46px] shrink-0 flex-row items-center rounded-full border-2 border-transparent",
-          props.checked ? "bg-primary" : "bg-input",
+          "h-[25px] w-[42px] shrink-0 flex-row items-center rounded-full border-2 border-transparent",
+          props.checked ? "bg-[#FF885D]" : "bg-[#D7DEDE]",
           className
         )}
         {...props}
@@ -81,9 +70,7 @@ const SwitchNative = React.forwardRef<
       >
         <Animated.View style={animatedThumbStyle}>
           <SwitchPrimitives.Thumb
-            className={
-              "h-7 w-7 rounded-full bg-background shadow-foreground/25 shadow-md ring-0"
-            }
+            className={"h-[22px] w-[22px] rounded-full bg-background"}
           />
         </Animated.View>
       </SwitchPrimitives.Root>

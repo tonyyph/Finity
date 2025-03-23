@@ -6,14 +6,14 @@ import Touch from "../ui/touch";
 type Props = {
   title?: string;
   value?: number | string;
-  currence?: string;
+  currency?: string;
   onTouch?: (params?: any) => void;
 };
 
 function CardBalanceCom({
   title = "Card balance",
   value = 0,
-  currence = "£",
+  currency = "£",
   onTouch
 }: Props) {
   return (
@@ -26,7 +26,7 @@ function CardBalanceCom({
           {title}
         </Typography>
         <Typography weight="medium" type="heading-medium">
-          {`${currence}`}
+          {`${currency}`}
           <Typography weight="semibold" type="heading-medium">
             {`${formatNumber({ value })}`}
           </Typography>

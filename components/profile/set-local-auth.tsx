@@ -29,13 +29,14 @@ export function SetLocalAuth() {
     }
   }
 
-  if (!isBiometricSupported) {
-    return null;
-  }
+  //TODO: check support for device fallback
+  // if (!isBiometricSupported) {
+  //   return null;
+  // }
 
   return (
     <MenuItem
-      label={`Login using FaceID`}
+      label={`Biometrics`}
       icon={ScanFaceIcon}
       rightSection={
         <Switch
