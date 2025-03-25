@@ -22,15 +22,15 @@ const authentication: Array<AuthenticationProps> = [
     title: `Setup Face ID`,
     subTitle: `Use Face ID for fast, secure access to your account and approve transactions.`,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup Face ID"
+    submit: "Setup Face ID",
   },
   {
     authenticationType: LocalAuthentication.AuthenticationType.FINGERPRINT,
     title: `Setup Touch ID`,
     subTitle: `Use Touch ID for fast, secure access to your account and approve transactions. `,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup Touch ID"
-  }
+    submit: "Setup Touch ID",
+  },
 ];
 
 const authenticationAndroid: Array<AuthenticationProps> = [
@@ -40,22 +40,22 @@ const authenticationAndroid: Array<AuthenticationProps> = [
     title: `Setup biometric authentication`,
     subTitle: `Use your face recognition for secure access to your account and easy transaction approvals.`,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup biometrics"
+    submit: "Setup biometrics",
   },
   {
     authenticationType: LocalAuthentication.AuthenticationType.FINGERPRINT,
     title: `Setup biometric authentication`,
     subTitle: `Use your fingerprint for secure access to your account and easy transaction approvals.`,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup biometrics"
+    submit: "Setup biometrics",
   },
   {
     authenticationType: LocalAuthentication.AuthenticationType.IRIS,
     title: `Setup biometric authentication`,
     subTitle: `Use your fingerprint or face recognition for secure access to your account and easy transaction approvals..`,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup biometrics"
-  }
+    submit: "Setup biometrics",
+  },
 ];
 
 function Biometrics() {
@@ -82,10 +82,10 @@ function Biometrics() {
     setLoading(false);
     if (result.success) {
       router.replace({
-        pathname: "/(auth)/biometrics-success",
+        pathname: "/(app)/biometrics-success",
         params: {
-          typeAuthentication: authenticationType?.authenticationType
-        }
+          typeAuthentication: authenticationType?.authenticationType,
+        },
       });
     }
   }, [authenticationType]);
@@ -137,5 +137,5 @@ function Biometrics() {
 export default Biometrics;
 
 const styles = StyleSheet.create({
-  container: {}
+  container: {},
 });
