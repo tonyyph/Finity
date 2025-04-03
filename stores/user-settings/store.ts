@@ -16,6 +16,8 @@ interface UserSettingsStore {
   setPreferredPalette: (preferredPalette: Palette) => void;
   hideTabBarStatus: boolean;
   setHideTabBarStatus: (hideTabBarStatus: boolean) => void;
+  isFreezeCard: boolean;
+  setIsFreezeCard: (isFreezeCard: boolean) => void;
 }
 
 export const useUserSettingsStore = create<UserSettingsStore>()(
@@ -33,7 +35,9 @@ export const useUserSettingsStore = create<UserSettingsStore>()(
       preferredPalette: Palette.Default,
       setPreferredPalette: (preferredPalette) => set({ preferredPalette }),
       hideTabBarStatus: false,
-      setHideTabBarStatus: (hideTabBarStatus) => set({ hideTabBarStatus })
+      setHideTabBarStatus: (hideTabBarStatus) => set({ hideTabBarStatus }),
+      isFreezeCard: true,
+      setIsFreezeCard: (isFreezeCard) => set({ isFreezeCard })
     }),
     {
       name: "user-settings-storage",

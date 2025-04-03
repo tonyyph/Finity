@@ -1,64 +1,64 @@
-import { clearAsyncStorage } from '@/lib/utils'
-import { useAuth } from '@clerk/clerk-expo'
-import { useAsyncStorage } from '@react-native-async-storage/async-storage'
-import { useQueryClient } from '@tanstack/react-query'
+import { clearAsyncStorage } from "@/lib/utils";
+import { useAuth } from "@clerk/clerk-expo";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   type FC,
   type ReactNode,
   useCallback,
   useEffect,
-  useState,
-} from 'react'
-import { StoreIntervalUpdate } from './store-interval-update'
-import { useResetAllStores } from './use-reset-all-stores'
+  useState
+} from "react";
+import { StoreIntervalUpdate } from "./store-interval-update";
+import { useResetAllStores } from "./use-reset-all-stores";
 
 export type StoreProviderProps = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
-  const [isReady, setIsReady] = useState(false)
-  const { userId } = useAuth()
-  const queryClient = useQueryClient()
-  const { getItem, setItem, removeItem } = useAsyncStorage('user-id')
-  const resetAllStores = useResetAllStores()
+  const [isReady, setIsReady] = useState(false);
+  const { userId } = useAuth();
+  const queryClient = useQueryClient();
+  const { getItem, setItem, removeItem } = useAsyncStorage("user-id");
+  const resetAllStores = useResetAllStores();
 
   const handleUserChange = useCallback(async () => {
-    const storedUserId = await getItem()
+    const storedUserId = await getItem();
 
     if (storedUserId === userId) {
-      return
+      return;
     }
 
     // biome-ignore lint/suspicious/noConsoleLog: <explanation>
-    console.log('User changed, clearing storage', userId)
+    console.log("User changed, clearing storage", userId);
 
-    await clearAsyncStorage()
-    queryClient.clear()
-    queryClient.invalidateQueries()
-    resetAllStores()
+    await clearAsyncStorage();
+    queryClient.clear();
+    queryClient.invalidateQueries();
+    resetAllStores();
 
     // biome-ignore lint/suspicious/noConsoleLog: <explanation>
-    console.log('Storage cleared')
+    console.log("Storage cleared");
 
     if (userId) {
-      await setItem(userId)
+      await setItem(userId);
     } else {
-      await removeItem()
+      await removeItem();
     }
-  }, [getItem, queryClient, userId, removeItem, setItem, resetAllStores])
+  }, [getItem, queryClient, userId, removeItem, setItem, resetAllStores]);
 
   // Clear the async storage & queryClient when the user changes
   useEffect(() => {
     handleUserChange().catch((error) => {
-      console.error('Failed to clear storage', error)
-    })
+      console.error("Failed to clear storage", error);
+    });
 
-    setIsReady(true)
-  }, [handleUserChange])
+    setIsReady(true);
+  }, [handleUserChange]);
 
   if (!isReady) {
-    return null
+    return null;
   }
 
   return (
@@ -66,5 +66,5 @@ export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
       {userId && <StoreIntervalUpdate />}
       {children}
     </>
-  )
-}
+  );
+};

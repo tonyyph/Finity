@@ -43,7 +43,7 @@ export const MenuItem = forwardRef(function (
           {Icon && <Icon className="h-6 w-6 text-[#525252]" />}
         </View>
         <View>
-          <Typography>{label}</Typography>
+          <Typography type="body-default">{label}</Typography>
           {!!subLabel && (
             <Typography type="body-small" weight="regular" textColor="#737373">
               {subLabel}

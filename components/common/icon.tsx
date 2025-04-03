@@ -23,7 +23,7 @@ export const Icon = memoFC(
       <View style={wrapperStyle}>
         <IconComponent {...rest} />
         {!!showBadge && (
-          <Animated.View className="w-3 h-3 border-[2px] bg-red-500 border-[#E5ECEF] absolute -top-1 -right-1 rounded-full" />
+          <Animated.View className="w-[12px] h-[12px] border-[2px] bg-red-500 border-[#E5ECEF] absolute -top-1 -right-1 rounded-full" />
         )}
       </View>
     );

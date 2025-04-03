@@ -9,6 +9,8 @@ interface UserAuthenticateStore {
   setIsLoginWithPin: (isLoginWithPin: boolean) => void;
   isFirst2FA: boolean;
   setIsFirst2FA: (isFirst2FA: boolean) => void;
+  verificationPin: string;
+  setVerificationPin: (verificationPin: string) => void;
 }
 
 export const useUserAuthenticateStore = create<UserAuthenticateStore>()(
@@ -19,7 +21,9 @@ export const useUserAuthenticateStore = create<UserAuthenticateStore>()(
       isLoginWithPin: false,
       setIsLoginWithPin: (isLoginWithPin) => set({ isLoginWithPin }),
       isFirst2FA: true,
-      setIsFirst2FA: (isFirst2FA) => set({ isFirst2FA })
+      setIsFirst2FA: (isFirst2FA) => set({ isFirst2FA }),
+      verificationPin: "",
+      setVerificationPin: (verificationPin) => set({ verificationPin })
     }),
     {
       name: "user-authenticate-storage",

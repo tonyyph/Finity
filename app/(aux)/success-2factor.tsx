@@ -6,17 +6,23 @@ import { useCallback } from "react";
 import { Image, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-function SetupPinSuccess() {
+function TwoFactorAuthenticationSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { top, bottom } = useSafeAreaInsets();
-  const { setIsLoggedIn, setIsLoginWithPin, setIsFirst2FA } =
+  const { setIsLoginWithPin, isFirst2FA, setIsLoggedIn } =
     useUserAuthenticateStore();
+  const { top, bottom } = useSafeAreaInsets();
+
+  const handleSetupPin = useCallback(() => {
+    router.push({
+      pathname: "/pin-verify",
+      params: { isResetPin }
+    });
+  }, []);
 
   const handleContinue = useCallback(() => {
     router.replace("/(app)/(tabs)");
     setIsLoginWithPin(true);
     setIsLoggedIn(true);
-    setIsFirst2FA(false);
   }, []);
 
   return (
@@ -32,12 +38,12 @@ function SetupPinSuccess() {
             source={require("@/assets/images/success-filled.png")}
           />
           <Typography type="heading-small" weight="semibold">
-            {isResetPin === "1" ? `PIN changed` : `PIN successfully set`}
+            Verification success
           </Typography>
-          <Typography weight="regular" className="text-center px-6">
+          <Typography weight="regular" className="text-center">
             {isResetPin === "1"
-              ? `Remember to keep your new PIN private and update it regularly.`
-              : `Your PIN has been set. Tap 'Continue' to go to your Home page and get started.`}
+              ? `Two-factor authentication verified. Tap ‘Continue’ to set up your new PIN.`
+              : `Two-factor authentication verified. `}
           </Typography>
         </View>
         <View className="px-6 gap-6">
@@ -45,10 +51,10 @@ function SetupPinSuccess() {
             variant="default"
             size={"lg"}
             className="rounded-full bg-primary h-[48px]"
-            onPress={handleContinue}
+            onPress={!isFirst2FA ? handleContinue : handleSetupPin}
           >
             <Typography type="body-default" weight="medium" textColor="white">
-              {`Continue`}
+              {isResetPin === "1" || !isFirst2FA ? `Continue` : `Set up PIN`}
             </Typography>
           </Button>
         </View>
@@ -56,4 +62,4 @@ function SetupPinSuccess() {
     </View>
   );
 }
-export default SetupPinSuccess;
+export default TwoFactorAuthenticationSuccess;

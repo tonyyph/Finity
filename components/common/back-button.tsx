@@ -12,9 +12,9 @@ export function BackButton() {
       size="icon"
       variant="ghost"
       onPress={router.back}
-      // className="right-4"
+      className="right-3"
     >
-      <ArrowLeftIcon className="h-8 w-8 text-foreground" />
+      <ArrowLeftIcon className="h-[24px] w-[24px] text-foreground" />
     </Button>
   );
 }

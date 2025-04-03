@@ -1,8 +1,209 @@
-import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { FreezeIcon, UnFreezeIcon } from "@/assets";
+import { FrozenIcon } from "@/assets/icons/FrozenIcon";
+import { BottomSheet } from "@/components/common/bottom-sheet";
+import DowntimeMessage from "@/components/common/down-time-message";
+import { MenuItem } from "@/components/common/menu-item";
+import Typography from "@/components/common/text-typography";
+import { Button } from "@/components/ui/button";
+import { useLocalAuth } from "@/hooks/use-local-auth";
+import { useUserSettingsStore } from "@/stores";
+import { exactDesign } from "@/utils";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import { BlurView } from "expo-blur";
+import { Link, router } from "expo-router";
+import {
+  ChevronRightIcon,
+  EyeIcon,
+  SnowflakeIcon,
+  TriangleAlertIcon,
+  WindIcon,
+  XIcon
+} from "lucide-react-native";
+import { useRef } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-function card() {
-  useEffect(() => {}, []);
-  return <View className="flex-1 bg-white"></View>;
+export default function CardScreen() {
+  const { top, bottom } = useSafeAreaInsets();
+  const { activeCard, isFreezeCard, setIsFreezeCard } = useUserSettingsStore();
+
+  const { shouldAuthLocal, setShouldAuthLocal } = useLocalAuth();
+  const sheetRef = useRef<BottomSheetModal>(null);
+
+  const handleRequestCard = () => {
+    router.navigate({
+      pathname: "/request_card"
+    });
+  };
+
+  const handleActiveCard = () => {
+    router.navigate({
+      pathname: "/active_card"
+    });
+  };
+
+  const handleViewPIN = () => {
+    sheetRef.current?.present();
+    // router.navigate({
+    //   pathname: "/pin-verification"
+    // });
+  };
+
+  const handleFreezeCard = () => {
+    setIsFreezeCard(!isFreezeCard);
+  };
+
+  const verificationPIN = "1234";
+
+  if (activeCard === 2) {
+    return (
+      <>
+        <View className="flex-1 bg-background" style={{ paddingTop: top }}>
+          <Typography type="heading-small" weight="semibold" className="p-4">
+            {"Card"}
+          </Typography>
+          <View className="bg-neutral-100 border border-[#E5E5E5] px-3 py-1 rounded-2xl m-4 gap-4">
+            <Image
+              resizeMode="contain"
+              source={require("@/assets/images/horizontal_card.png")}
+              style={{ height: exactDesign(260), width: "100%" }}
+            />
+            {!isFreezeCard && (
+              <BlurView
+                intensity={25}
+                experimentalBlurMethod="dimezisBlurView"
+                tint="extraLight"
+                style={{
+                  ...StyleSheet.absoluteFillObject,
+                  backgroundColor: "transparent",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 16,
+                  overflow: "hidden",
+                  gap: 8
+                }}
+              >
+                <FrozenIcon />
+                <Typography type="body-large" weight="medium">
+                  Card frozen
+                </Typography>
+              </BlurView>
+            )}
+          </View>
+          <View className="gap-3 p-4">
+            <MenuItem
+              label={`View PIN`}
+              onPress={handleViewPIN}
+              icon={EyeIcon}
+            />
+            <MenuItem
+              label={isFreezeCard ? `Freeze card` : `Unfreeze card`}
+              onPress={handleFreezeCard}
+              icon={isFreezeCard ? FreezeIcon : UnFreezeIcon}
+            />
+            <Link href="/language" asChild>
+              <MenuItem
+                label={`Report lost or damaged`}
+                icon={TriangleAlertIcon}
+                rightSection={
+                  <ChevronRightIcon className="h-[24px] w-[24px] text-primary" />
+                }
+              />
+            </Link>
+          </View>
+        </View>
+        <BottomSheet ref={sheetRef} index={0} snapPoints={["40%", "87%"]}>
+          <BottomSheetView style={{ paddingBottom: bottom }}>
+            <View className="flex-row items-center justify-between px-4">
+              <View className="w-[24px] h-[24px]" />
+              <Typography type="body-large" weight="semibold" className="p-4">
+                {"View PIN"}
+              </Typography>
+              <XIcon
+                onPress={() => sheetRef.current?.dismiss()}
+                className="w-[24px] h-[24px] text-black"
+              />
+            </View>
+            <View className="flex-row items-center justify-center gap-4 mt-6 px-4">
+              {verificationPIN.split("").map((digit, index) => (
+                <View
+                  key={index}
+                  className="bg-neutral-100 rounded-lg items-center w-[56px] h-[56px] border border-subtle justify-center"
+                >
+                  <Typography type="body-small" weight="semibold">
+                    {digit}
+                  </Typography>
+                </View>
+              ))}
+            </View>
+            <View className="p-3 mx-4 my-6 rounded-2xl items-start bg-teal-200 flex-row">
+              <Image
+                source={require("@/assets/images/info-filled-b.png")}
+                className="w-[24px] h-[24px]"
+              />
+              <View className="px-3 gap-1 flex-1">
+                <Typography weight="regular">
+                  Your PIN is confidential. For your security, this will
+                  automatically close.
+                </Typography>
+              </View>
+            </View>
+            <DowntimeMessage ref={sheetRef} />
+          </BottomSheetView>
+        </BottomSheet>
+      </>
+    );
+  }
+
+  return (
+    <View className="flex-1 bg-background" style={{ paddingTop: top }}>
+      <Typography type="heading-small" weight="semibold" className="p-4">
+        {"Card"}
+      </Typography>
+      {activeCard !== 0 && (
+        <View className="p-3 mx-4 mt-4 rounded-2xl items-start bg-teal-200 flex-row">
+          <Image
+            source={require("@/assets/images/info-filled-b.png")}
+            className="w-[24px] h-[24px]"
+          />
+          <View className="px-3 gap-1 flex-1">
+            <Typography weight="semibold">Your card is on its way!</Typography>
+            <Typography weight="regular">
+              Expect your card to arrive within 5-7 business days.
+            </Typography>
+          </View>
+        </View>
+      )}
+      <View className="bg-neutral-100 border border-[#E5E5E5] rounded-2xl min-h-[400px] p-4 m-4 gap-4">
+        <View className="items-center gap-3">
+          <Image
+            resizeMode="contain"
+            source={require("@/assets/images/OnboardCard.png")}
+            style={{ width: exactDesign(192), height: exactDesign(300) }}
+          />
+          {activeCard === 0 && (
+            <Typography
+              weight="regular"
+              textColor="#404040"
+              className="text-center px-4"
+            >
+              Request a physical card, convert your points, and start spending.
+            </Typography>
+          )}
+        </View>
+        {activeCard !== 2 && (
+          <Button
+            variant="default"
+            size={"lg"}
+            className="rounded-full bg-primary h-[48px] mb-1"
+            onPress={activeCard === 0 ? handleRequestCard : handleActiveCard}
+          >
+            <Typography type="body-default" weight="medium" textColor="white">
+              {activeCard === 0 ? `Request card` : `Activate card`}
+            </Typography>
+          </Button>
+        )}
+      </View>
+    </View>
+  );
 }
-export default card;

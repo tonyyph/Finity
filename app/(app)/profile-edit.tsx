@@ -4,6 +4,7 @@ import { SubmitButton } from "@/components/form-fields/submit-button";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Text } from "@/components/ui/text";
+import { useUser } from "@clerk/clerk-expo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
@@ -25,15 +26,8 @@ type ProfileFormValues = z.infer<typeof zProfileForm>;
 export default function EditProfileScreen() {
   const { i18n } = useLingui();
   const router = useRouter();
-  const user = {
-    id: "123",
-    fullName: "Tony Phan",
-    primaryEmailAddress: {
-      emailAddress: "tonyphan@gmail.com"
-    },
-    imageUrl:
-      "https://media.licdn.com/dms/image/v2/C4E0BAQHRcd8MW8NoEQ/company-logo_200_200/company-logo_200_200/0/1631373100497?e=2147483647&v=beta&t=1pTjV_f6c_HEPpm-zTeobA6HYV_YNV4aLrGLGBB0K-w"
-  };
+
+  const { user } = useUser();
 
   const profileForm = useForm<ProfileFormValues>({
     resolver: zodResolver(zProfileForm),

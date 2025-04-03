@@ -1,7 +1,11 @@
 import { AuthBiometrics } from "@/components/auth/auth-biometrics";
+import { AuthLocal } from "@/components/auth/auth-local";
 import { BackButton } from "@/components/common/back-button";
 import { useColorPalette } from "@/hooks/use-color-palette";
 import { useLocalAuth } from "@/hooks/use-local-auth";
+import { useLocalPIN } from "@/hooks/use-local-pin";
+import { useUserAuthenticateStore } from "@/stores";
+import { exactDesign } from "@/utils";
 import { useUser } from "@clerk/clerk-expo";
 import { Redirect, Stack } from "expo-router";
 import { View } from "react-native";
@@ -9,13 +13,22 @@ import { View } from "react-native";
 export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
   const { shouldAuthLocal, setShouldAuthLocal } = useLocalAuth();
+  const { shouldPINLocal, setShouldPINLocal } = useLocalPIN();
 
   const { isSignedIn, isLoaded } = useUser();
 
-  console.log(" AuthenticatedLayout 💯 isSignedIn useUser:", isSignedIn);
+  console.log(" AuthenticatedLayout 💯 isLoaded:", isLoaded);
+
+  console.log(" AuthenticatedLayout 💯 isSignedIn:", isSignedIn);
+
+  const { isLoggedIn, isFirst2FA } = useUserAuthenticateStore();
 
   if (!isSignedIn && isLoaded) {
     return <Redirect href={"/login"} />;
+  }
+
+  if ((!isLoggedIn || isFirst2FA) && isLoaded) {
+    return <Redirect href={"/success-2factor"} />;
   }
 
   return (
@@ -24,7 +37,9 @@ export default function AuthenticatedLayout() {
         <AuthBiometrics onAuthenticated={() => setShouldAuthLocal(false)} />
       )}
 
-      {/* {!isLoginWithPin && <AuthLocal onAuthenticated={() => {}} />} */}
+      {shouldPINLocal && (
+        <AuthLocal onAuthenticated={() => setShouldPINLocal(false)} />
+      )}
 
       <Stack
         screenOptions={{
@@ -32,8 +47,7 @@ export default function AuthenticatedLayout() {
           headerTintColor: getColor("--foreground"),
           headerShadowVisible: false,
           headerTitleStyle: {
-            fontFamily: "Poppins-SemiBold",
-            fontSize: 16,
+            fontSize: exactDesign(18),
             color: getColor("--foreground")
           },
           headerStyle: {
@@ -82,10 +96,6 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="breaking-news"
-          options={{ headerTitle: `Breaking News` }}
-        />
-        <Stack.Screen
           name="appearance"
           options={{
             presentation: "modal",
@@ -105,14 +115,7 @@ export default function AuthenticatedLayout() {
             headerTitle: `Categories`
           }}
         />
-        <Stack.Screen
-          name="pin-forgot"
-          options={{
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
-          }}
-        />
+
         <Stack.Screen
           name="notifications"
           options={{ headerTitle: `Notifications` }}
@@ -135,35 +138,7 @@ export default function AuthenticatedLayout() {
             headerTitle: `Language`
           }}
         />
-        <Stack.Screen
-          name="success-2factor"
-          options={{
-            headerLeft: () => <BackButton />,
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="pin-success"
-          options={{
-            headerLeft: () => <BackButton />,
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="pin-change-success"
-          options={{
-            headerLeft: () => <BackButton />,
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="pin-confirm"
-          options={{
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
-          }}
-        />
+
         <Stack.Screen
           name="biometrics"
           options={{
@@ -185,9 +160,12 @@ export default function AuthenticatedLayout() {
             headerShown: false
           }}
         />
+
         <Stack.Screen
-          name="pin-verify"
+          name="pin-verification"
           options={{
+            headerShown: true,
+            headerTitle: `Verification`,
             headerStyle: {
               backgroundColor: getColor("--background")
             }

@@ -1,22 +1,13 @@
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
-import * as LocalAuthentication from "expo-local-authentication";
-import { LockKeyholeIcon, ScanFaceIcon } from "lucide-react-native";
-import { useCallback, useEffect, useState } from "react";
-import { Image, SafeAreaView, TouchableOpacity, View } from "react-native";
-import { Button } from "../ui/button";
-import { Text } from "../ui/text";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useLocalPIN } from "@/hooks/use-local-pin";
+import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
-import Animated, {
-  useAnimatedKeyboard,
-  useAnimatedStyle
-} from "react-native-reanimated";
 import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import { Image, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { CircleAlert, RemoveNumpad } from "../common/icons";
 import { LoadingScreen } from "../common/loading";
 import Typography from "../common/text-typography";
-import { cn } from "@/lib/utils";
-import { CircleAlert, RemoveNumpad } from "../common/icons";
 
 type AuthLocalProps = {
   onAuthenticated?: () => void;
@@ -53,22 +44,16 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
     setConfirmPin((prev) => prev.slice(0, -1));
   };
 
-  const keyboard = useAnimatedKeyboard();
-  const translateStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: -keyboard.height.value }]
-    };
-  });
-
   useEffect(() => {
     if (confirmPin?.length === 4) {
       if (confirmPin === "1234") {
-        router.push("/(auth)/pin-success");
+        router.push("/pin-success");
       } else {
         if (confirmPin === "0000") {
           setLoading(true);
           setTimeout(() => {
             setLoading(false);
+            onAuthenticated?.();
             setIsLoginWithPin(true);
           }, 1500);
         } else {
@@ -82,7 +67,6 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
 
   return (
     <View
-      // className="bg-background gap-4 p-8 flex-1"
       className="absolute top-0 right-0 bottom-0 left-0 z-50 flex-1 p-8 gap-4 bg-background"
       style={{ paddingTop: top * 2 }}
     >
@@ -108,7 +92,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
             <View
               key={i}
               className={cn(
-                "w-3 h-3 relative bg-neutral-300 rounded-full",
+                "w-[12px] h-[12px] relative bg-neutral-300 rounded-full",
                 confirmPin.length > i && "bg-black border border-black"
               )}
             />
@@ -116,7 +100,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
         </View>
         {wrongPin && (
           <View className="flex flex-row items-center justify-center mt-4">
-            <CircleAlert className="top-1 right-1" />
+            <CircleAlert className="top-1 " />
             <Typography type="body-small" weight="medium" textColor="#D9323D">
               {`Incorrect PIN. Try again.`}
             </Typography>
@@ -125,7 +109,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
       </View>
 
       {/* Button */}
-      <Animated.View style={translateStyle} className="justify-end flex-1 mx-5">
+      <View className="justify-end flex-1 mx-5">
         <View className="py-4 gap-3">
           <View className="flex-row justify-between">
             {["1", "2", "3"].map((num) => (
@@ -191,7 +175,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
             </TouchableOpacity>
           </View>
         </View>
-      </Animated.View>
+      </View>
       {/* Forgot PIN */}
       <View className="px-4 mt-2">
         <Typography
@@ -200,7 +184,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
           className="text-center mt-2"
           onPress={() =>
             router.navigate({
-              pathname: "/(app)/pin-forgot"
+              pathname: "/pin-forgot"
             })
           }
         >

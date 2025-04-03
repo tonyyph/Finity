@@ -6,29 +6,23 @@ import { useCallback } from "react";
 import { Image, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-function TwoFactorAuthenticationSuccess() {
+function SetupPinSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { setIsLoginWithPin, isFirst2FA, setIsLoggedIn } =
-    useUserAuthenticateStore();
   const { top, bottom } = useSafeAreaInsets();
-
-  const handleSetupPin = useCallback(() => {
-    router.push({
-      pathname: "/(app)/pin-verify",
-      params: { isResetPin }
-    });
-  }, []);
+  const { setIsLoggedIn, setIsLoginWithPin, setIsFirst2FA } =
+    useUserAuthenticateStore();
 
   const handleContinue = useCallback(() => {
     router.replace("/(app)/(tabs)");
     setIsLoginWithPin(true);
     setIsLoggedIn(true);
+    setIsFirst2FA(false);
   }, []);
 
   return (
     <View
       className="flex-1 bg-background"
-      style={{ paddingBottom: bottom, paddingTop: top }}
+      style={{ paddingBottom: bottom, paddingTop: top / 2 }}
     >
       <View className="flex-1">
         <View className="flex-1 px-4 gap-3 items-center mt-40">
@@ -38,12 +32,12 @@ function TwoFactorAuthenticationSuccess() {
             source={require("@/assets/images/success-filled.png")}
           />
           <Typography type="heading-small" weight="semibold">
-            Verification success
+            {isResetPin === "1" ? `PIN changed` : `PIN successfully set`}
           </Typography>
-          <Typography weight="regular" className="text-center">
+          <Typography weight="regular" className="text-center px-6">
             {isResetPin === "1"
-              ? `Two-factor authentication verified. Tap ‘Continue’ to set up your new PIN.`
-              : `Two-factor authentication verified. `}
+              ? `Remember to keep your new PIN private and update it regularly.`
+              : `Your PIN has been set. Tap 'Continue' to go to your Home page and get started.`}
           </Typography>
         </View>
         <View className="px-6 gap-6">
@@ -51,10 +45,10 @@ function TwoFactorAuthenticationSuccess() {
             variant="default"
             size={"lg"}
             className="rounded-full bg-primary h-[48px]"
-            onPress={!isFirst2FA ? handleContinue : handleSetupPin}
+            onPress={handleContinue}
           >
             <Typography type="body-default" weight="medium" textColor="white">
-              {isResetPin === "1" || !isFirst2FA ? `Continue` : `Set up PIN`}
+              {`Continue`}
             </Typography>
           </Button>
         </View>
@@ -62,4 +56,4 @@ function TwoFactorAuthenticationSuccess() {
     </View>
   );
 }
-export default TwoFactorAuthenticationSuccess;
+export default SetupPinSuccess;

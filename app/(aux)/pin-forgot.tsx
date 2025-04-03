@@ -13,10 +13,6 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
-import Animated, {
-  useAnimatedKeyboard,
-  useAnimatedStyle
-} from "react-native-reanimated";
 
 export default function ForgotPINScreen() {
   const [loading, setLoading] = useState(false);
@@ -28,13 +24,6 @@ export default function ForgotPINScreen() {
   const onPressSecurePassword = () => {
     setSecurePassword((prev) => !prev);
   };
-
-  const keyboard = useAnimatedKeyboard();
-  const translateStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: -keyboard.height.value }]
-    };
-  });
 
   const handleContinue = useCallback(() => {
     Keyboard.dismiss();
@@ -175,7 +164,7 @@ export default function ForgotPINScreen() {
             </View>
           </View>
         </View>
-        <Animated.View style={translateStyle} className="justify-end flex-1">
+        <View className="justify-end flex-1">
           <View className="justify-end">
             {/* Submit Button */}
             <Button
@@ -191,7 +180,7 @@ export default function ForgotPINScreen() {
               </Typography>
             </Button>
           </View>
-        </Animated.View>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );

@@ -3,10 +3,12 @@ import { UserAvatar } from "../common/user-avatar";
 import { userStore } from "@/stores/userStore";
 import { useRouter } from "expo-router";
 import Typography from "../common/text-typography";
+import { useUser } from "@clerk/clerk-expo";
 
 export function ProfileCard() {
   const router = useRouter();
   const userProfile = userStore.getState().userProfile;
+  const { user } = useUser();
 
   return (
     <View className="p-4 bg-neutral-100 flex-row items-center justify-center overflow-hidden rounded-xl">
@@ -17,9 +19,9 @@ export function ProfileCard() {
         className="flex flex-1 flex-row items-center justify-center gap-3"
       >
         <UserAvatar
-          fullName={userProfile?.firstName + " " + userProfile?.lastName}
-          fallbackClassName="bg-[#A3A3A3]"
-          className="h-[56px] w-[56px]"
+          user={user!}
+          fallbackClassName="bg-background"
+          className="h-16 w-16"
         />
         <View className="flex-1 justify-center gap-[2px]">
           <Typography type="body-large">

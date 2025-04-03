@@ -8,17 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TabLayout() {
   const { getColor } = useColorPalette();
-  const { top, bottom } = useSafeAreaInsets();
-
-  const { isLoggedIn, isFirst2FA } = useUserAuthenticateStore();
-
-  console.log(" TabLayout 💯 isFirst2FA:", isFirst2FA);
-
-  console.log(" TabLayout 💯 isLoggedIn:", isLoggedIn);
-
-  if (!isLoggedIn || isFirst2FA) {
-    return <Redirect href={"/(app)/success-2factor"} />;
-  }
+  const { bottom } = useSafeAreaInsets();
 
   return (
     <Tabs

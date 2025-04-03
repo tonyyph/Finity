@@ -3,20 +3,17 @@ import Typography from "@/components/common/text-typography";
 import { useUserAuthenticateStore } from "@/stores";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import Animated, {
-  useAnimatedKeyboard,
-  useAnimatedStyle
-} from "react-native-reanimated";
+import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { twMerge } from "tailwind-merge";
 
 export default function ConfirmPINScreen() {
   const { pin, isResetPin } = useLocalSearchParams();
-  const { setIsLoggedIn, setIsLoginWithPin } = useUserAuthenticateStore();
+  const { verificationPin, setVerificationPin } = useUserAuthenticateStore();
 
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
+  const { top, bottom } = useSafeAreaInsets();
 
   const handlePress = (num: string) => {
     if (confirmPin.length < 4) {
@@ -28,18 +25,12 @@ export default function ConfirmPINScreen() {
     setConfirmPin((prev) => prev.slice(0, -1));
   };
 
-  const keyboard = useAnimatedKeyboard();
-  const translateStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: -keyboard.height.value }]
-    };
-  });
-
   useEffect(() => {
     if (confirmPin?.length === 4) {
+      setVerificationPin(confirmPin);
       if (confirmPin === pin) {
         router.push({
-          pathname: "/(app)/pin-success",
+          pathname: "/pin-success",
           params: { isResetPin }
         });
       } else {
@@ -49,12 +40,11 @@ export default function ConfirmPINScreen() {
       setWrongPin(false);
     }
   }, [confirmPin]);
-  const { top, bottom } = useSafeAreaInsets();
 
   return (
     <View
       className="bg-background gap-4 p-8 flex-1"
-      style={{ paddingBottom: bottom * 2 }}
+      style={{ paddingBottom: bottom * 2.5 }}
     >
       <View className="flex-1">
         {/* Welcome */}
@@ -75,7 +65,7 @@ export default function ConfirmPINScreen() {
             <View
               key={i}
               className={twMerge(
-                "w-3 h-3 relative bg-neutral-300 rounded-full",
+                "w-[12px] h-[12px] relative bg-neutral-300 rounded-full",
                 confirmPin.length > i && "bg-black"
               )}
             />
@@ -83,7 +73,7 @@ export default function ConfirmPINScreen() {
         </View>
         {wrongPin && (
           <View className="flex flex-row items-center justify-center mt-4">
-            <CircleAlert className="top-1 right-1" />
+            <CircleAlert className="top-1 " />
             <Typography type="body-small" weight="medium" textColor="#D9323D">
               Incorrect PIN. Try again.
             </Typography>
@@ -92,7 +82,7 @@ export default function ConfirmPINScreen() {
       </View>
 
       {/* Button */}
-      <Animated.View style={translateStyle} className="justify-end flex-1 mx-5">
+      <View className="justify-end flex-1 mx-5">
         <View className="py-4 gap-3">
           <View className="flex-row justify-between">
             {["1", "2", "3"].map((num) => (
@@ -158,7 +148,7 @@ export default function ConfirmPINScreen() {
             </TouchableOpacity>
           </View>
         </View>
-      </Animated.View>
+      </View>
     </View>
   );
 }

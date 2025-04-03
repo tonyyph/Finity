@@ -3,10 +3,6 @@ import Typography from "@/components/common/text-typography";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import Animated, {
-  useAnimatedKeyboard,
-  useAnimatedStyle
-} from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { twMerge } from "tailwind-merge";
 
@@ -26,17 +22,10 @@ export default function VerifyPINScreen() {
     setPin((prev) => prev.slice(0, -1));
   };
 
-  const keyboard = useAnimatedKeyboard();
-  const translateStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: -keyboard.height.value }]
-    };
-  });
-
   useEffect(() => {
     if (pin.length === 4) {
       router.push({
-        pathname: "/(app)/pin-confirm",
+        pathname: "/pin-confirm",
         params: {
           pin: pin,
           isResetPin
@@ -48,7 +37,7 @@ export default function VerifyPINScreen() {
   return (
     <View
       className="bg-background gap-4 p-8 flex-1"
-      style={{ paddingBottom: bottom * 2 }}
+      style={{ paddingBottom: bottom * 2.5 }}
     >
       <View className="flex-1">
         {/* Welcome */}
@@ -69,7 +58,7 @@ export default function VerifyPINScreen() {
             <View
               key={i}
               className={twMerge(
-                "w-3 h-3 bg-neutral-300 rounded-full",
+                "w-[12px] h-[12px] bg-neutral-300 rounded-full",
                 pin.length > i && "bg-black"
               )}
             />
@@ -78,7 +67,7 @@ export default function VerifyPINScreen() {
       </View>
 
       {/* Button */}
-      <Animated.View style={translateStyle} className="justify-end flex-1 mx-5">
+      <View className="justify-end flex-1 mx-5">
         <View className="py-4 gap-3">
           <View className="flex-row justify-between">
             {["1", "2", "3"].map((num) => (
@@ -144,7 +133,7 @@ export default function VerifyPINScreen() {
             </TouchableOpacity>
           </View>
         </View>
-      </Animated.View>
+      </View>
     </View>
   );
 }

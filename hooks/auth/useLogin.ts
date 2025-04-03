@@ -49,7 +49,6 @@ export const useLogin = () => {
   };
 
   const handleVerifyTOTP = async ({ otp }: { otp: string }) => {
-    console.log("otp", otp);
     if (!isLoaded) return;
     try {
       setLoading(true);

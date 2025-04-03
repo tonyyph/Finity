@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { colors } from "@/constants/Colors";
 import { useLogin } from "@/hooks/auth";
 import { exactDesign } from "@/utils";
-import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Keyboard, TextInput, View } from "react-native";
 import Animated, {
@@ -14,7 +13,6 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Verify2FactorScreen() {
-  const { isResetPin } = useLocalSearchParams();
   const { bottom } = useSafeAreaInsets();
   const { handleVerifyTOTP, error, loading } = useLogin();
 

@@ -79,6 +79,8 @@ function LoadCardScreen() {
                   let formattedValue = new Intl.NumberFormat("en-US").format(
                     Number(numericValue)
                   );
+
+                  console.log("formattedValue", formattedValue);
                   setError(false);
                   setEnterAmount(formattedValue);
                 }}

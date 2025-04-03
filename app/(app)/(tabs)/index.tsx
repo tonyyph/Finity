@@ -1,24 +1,45 @@
+import { AlertIcon } from "@/assets";
+import Typography from "@/components/common/text-typography";
+import { toast } from "@/components/common/toast";
 import CardBalanceCom from "@/components/home/card_balance";
 import CardAndPointTab from "@/components/home/card_point_tab";
+import FrozenBanner from "@/components/home/frozen_banner";
 import { HomeHeader } from "@/components/home/header";
 import PointsBalanceCom from "@/components/home/points_balance";
 import RequestCardNotification from "@/components/home/request_card_noti";
 import { useUserSettingsStore } from "@/stores";
 import useHome from "@/stores/useHome";
 import { router } from "expo-router";
-import LottieView from "lottie-react-native";
+import { CircleAlertIcon, StarIcon, XIcon } from "lucide-react-native";
 import { useEffect } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function HomeScreen() {
   const { data, doRequest } = useHome();
-  const { activeCard } = useUserSettingsStore();
+  const { activeCard, isFreezeCard, setIsFreezeCard } = useUserSettingsStore();
   const { top, bottom } = useSafeAreaInsets();
 
   useEffect(() => {
     doRequest({});
   }, []);
+
+  async function handleShowToastError() {
+    toast.error(`You cannot load your card while it is frozen`, {
+      icon: <AlertIcon />
+      // customToast: () => (
+      //   <View className="flex-row items-center gap-4 rounded-lg py-4 bg-[#525252] justify-between">
+      //     <View className="px-4">
+      //       <AlertIcon />
+      //       <Typography textColor="white">
+      //         You cannot load your card while it is frozen
+      //       </Typography>
+      //     </View>
+      //     <XIcon className="h-[24px] w-[24px] right-2 color-white" />
+      //   </View>
+      // )
+    });
+  }
 
   return (
     <View className="flex-1 bg-backgroundSubtle" style={{ paddingTop: top }}>
@@ -26,7 +47,7 @@ function HomeScreen() {
         haveNotification
         onNotification={() => console.log("Click Notification")}
       />
-      <ScrollView className="flex-1">
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {activeCard !== 2 && (
           <RequestCardNotification
             onPress={() => {
@@ -43,6 +64,9 @@ function HomeScreen() {
             requested={activeCard === 0}
           />
         )}
+        {activeCard === 2 && !isFreezeCard && (
+          <FrozenBanner onPress={() => setIsFreezeCard(true)} />
+        )}
         <View className="gap-2 mb-1">
           <CardBalanceCom value={0} />
           <PointsBalanceCom value={0} />
@@ -50,14 +74,22 @@ function HomeScreen() {
         <View className="mt-4" />
         <CardAndPointTab
           onLoadCard={() => {
-            router.navigate({
-              pathname: "/(app)/load_card"
-            });
+            if (isFreezeCard) {
+              router.navigate({
+                pathname: "/(app)/load_card"
+              });
+            } else {
+              handleShowToastError();
+            }
           }}
           onSendPoints={() => {
-            router.navigate({
-              pathname: "/(app)/send-card"
-            });
+            if (isFreezeCard) {
+              router.navigate({
+                pathname: "/(app)/send-card"
+              });
+            } else {
+              handleShowToastError();
+            }
           }}
         />
       </ScrollView>

@@ -1,14 +1,10 @@
 import { BackButton } from "@/components/common/back-button";
 import { useColorPalette } from "@/hooks/use-color-palette";
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native";
-import { useUser } from "@clerk/clerk-expo";
 
 export default function AuxiliaryLayout() {
   const { getColor } = useColorPalette();
-  const { i18n } = useLingui();
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -17,6 +13,7 @@ export default function AuxiliaryLayout() {
           headerShown: true,
           headerTintColor: getColor("--foreground"),
           headerShadowVisible: false,
+          headerTitle: "",
           headerTitleStyle: {
             fontFamily: "Poppins-SemiBold",
             fontSize: 16,
@@ -68,6 +65,48 @@ export default function AuxiliaryLayout() {
           options={{
             presentation: "modal",
             headerTitle: `Terms & Conditions`
+          }}
+        />
+        <Stack.Screen
+          name="pin-confirm"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: true
+          }}
+        />
+        <Stack.Screen
+          name="success-2factor"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="pin-success"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="pin-change-success"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="pin-verify"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: true
+          }}
+        />
+        <Stack.Screen
+          name="pin-forgot"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
           }}
         />
       </Stack>

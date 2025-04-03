@@ -1,19 +1,17 @@
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
-import { LoadingScreen } from "@/components/common/loading";
 import Typography from "@/components/common/text-typography";
 import { useUserAuthenticateStore } from "@/stores";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { twMerge } from "tailwind-merge";
 
-export default function LoginWithPinScreen() {
-  const { top, bottom } = useSafeAreaInsets();
-  const [loading, setLoading] = useState(false);
+export default function PinVerification() {
+  const { verificationPin } = useUserAuthenticateStore();
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
-  const { setIsLoginWithPin } = useUserAuthenticateStore();
+  const { top, bottom } = useSafeAreaInsets();
 
   const handlePress = (num: string) => {
     if (confirmPin.length < 4) {
@@ -27,18 +25,10 @@ export default function LoginWithPinScreen() {
 
   useEffect(() => {
     if (confirmPin?.length === 4) {
-      if (confirmPin === "1234") {
-        router.push("/pin-success");
+      if (confirmPin === verificationPin) {
+        router.dismiss();
       } else {
-        if (confirmPin === "0000") {
-          setLoading(true);
-          setTimeout(() => {
-            setLoading(false);
-            setIsLoginWithPin(true);
-          }, 1500);
-        } else {
-          setWrongPin(true);
-        }
+        setWrongPin(true);
       }
     } else {
       setWrongPin(false);
@@ -48,32 +38,17 @@ export default function LoginWithPinScreen() {
   return (
     <View
       className="bg-background gap-4 p-8 flex-1"
-      style={{ paddingBottom: bottom * 2.5, paddingTop: top * 2 }}
+      style={{ paddingBottom: bottom * 2.5 }}
     >
-      <LoadingScreen loading={loading} />
       <View className="flex-1">
-        {/* Welcome */}
-        <View className="z-10">
-          <View className="gap-14 items-center">
-            <Image
-              source={require("@/assets/images/logo.png")}
-              className="w-[152px] h-[40px]"
-              resizeMode="contain"
-            />
-            <Typography weight="regular">
-              {`Welcome back, Tony Phan`}
-            </Typography>
-          </View>
-        </View>
-
         {/* PIN container */}
-        <View className="flex-row h-7 inline-flex justify-center items-center gap-14 mt-8">
+        <View className="flex-row h-7 inline-flex justify-center items-center gap-14 mt-32">
           {[...Array(4)].map((_, i) => (
             <View
               key={i}
               className={twMerge(
                 "w-[12px] h-[12px] relative bg-neutral-300 rounded-full",
-                confirmPin.length > i && "bg-black border border-black"
+                confirmPin.length > i && "bg-black"
               )}
             />
           ))}
@@ -82,7 +57,7 @@ export default function LoginWithPinScreen() {
           <View className="flex flex-row items-center justify-center mt-4">
             <CircleAlert className="top-1 " />
             <Typography type="body-small" weight="medium" textColor="#D9323D">
-              {`Incorrect PIN. Try again.`}
+              Incorrect PIN. Try again.
             </Typography>
           </View>
         )}
@@ -156,22 +131,6 @@ export default function LoginWithPinScreen() {
           </View>
         </View>
       </View>
-      {/* Forgot PIN */}
-      <View className="px-4 mt-2">
-        <Typography
-          type="body-default"
-          weight="medium"
-          className="text-center mt-2"
-          onPress={() =>
-            router.navigate({
-              pathname: "/pin-forgot"
-            })
-          }
-        >
-          {`Forgot PIN?`}
-        </Typography>
-      </View>
-      <View style={{ height: bottom }} />
     </View>
   );
 }
