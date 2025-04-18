@@ -33,6 +33,16 @@ export default function AuxiliaryLayout() {
           }}
         />
         <Stack.Screen
+          name="pin-verification"
+          options={{
+            headerShown: true,
+            headerTitle: `Verification`,
+            headerStyle: {
+              backgroundColor: getColor("--background")
+            }
+          }}
+        />
+        <Stack.Screen
           name="sign-up"
           options={{
             presentation: "modal",

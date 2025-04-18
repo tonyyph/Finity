@@ -1,30 +1,24 @@
-import { View } from "react-native";
-import Svg, { Path, SvgProps } from "react-native-svg";
 import { memoFC } from "@/utils";
-import { useColorPalette } from "@/hooks/use-color-palette";
+import { View } from "react-native";
+import Svg, { Mask, Path, SvgProps } from "react-native-svg";
 
 export const RadioNonSelectedIcon = memoFC(
-  ({ size = 24, style, ...props }: SvgProps & IconProps = {}) => {
-    const { getColor } = useColorPalette();
-
-    const iconFill = getColor("--primary");
+  ({ size = 20, style, ...props }: SvgProps & IconProps = {}) => {
     return (
-      <View style={[{ width: size, height: size }, style]}>
-        <Svg
-          width={size}
-          height={size}
-          fill="none"
-          {...props}
-          viewBox="0 0 24 24"
-        >
-          <Path
-            fill={"black"}
-            stroke={iconFill}
-            strokeWidth={1.5}
-            d="M4.75 12a7.25 7.25 0 1 1 14.5 0 7.25 7.25 0 0 1-14.5 0Z"
-          />
-        </Svg>
-      </View>
+      <Svg width={20} height={20} fill="none" {...props}>
+        <Mask id="a" fill="#fff">
+          <Path d="M0 10C0 4.477 4.477 0 10 0s10 4.477 10 10-4.477 10-10 10S0 15.523 0 10Z" />
+        </Mask>
+        <Path
+          fill="#fff"
+          d="M0 10C0 4.477 4.477 0 10 0s10 4.477 10 10-4.477 10-10 10S0 15.523 0 10Z"
+        />
+        <Path
+          fill="#A3A3A3"
+          d="M10 19a9 9 0 0 1-9-9h-2c0 6.075 4.925 11 11 11v-2Zm9-9a9 9 0 0 1-9 9v2c6.075 0 11-4.925 11-11h-2Zm-9-9a9 9 0 0 1 9 9h2c0-6.075-4.925-11-11-11v2Zm0-2C3.925-1-1 3.925-1 10h2a9 9 0 0 1 9-9v-2Z"
+          mask="url(#a)"
+        />
+      </Svg>
     );
   }
 );

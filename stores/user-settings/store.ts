@@ -18,6 +18,10 @@ interface UserSettingsStore {
   setHideTabBarStatus: (hideTabBarStatus: boolean) => void;
   isFreezeCard: boolean;
   setIsFreezeCard: (isFreezeCard: boolean) => void;
+  isDisableCard: boolean;
+  setIsDisableCard: (isDisableCard: boolean) => void;
+  isDamagedCard: boolean;
+  setIsDamagedCard: (isDamagedCard: boolean) => void;
 }
 
 export const useUserSettingsStore = create<UserSettingsStore>()(
@@ -37,7 +41,11 @@ export const useUserSettingsStore = create<UserSettingsStore>()(
       hideTabBarStatus: false,
       setHideTabBarStatus: (hideTabBarStatus) => set({ hideTabBarStatus }),
       isFreezeCard: true,
-      setIsFreezeCard: (isFreezeCard) => set({ isFreezeCard })
+      setIsFreezeCard: (isFreezeCard) => set({ isFreezeCard }),
+      isDisableCard: false,
+      setIsDisableCard: (isDisableCard) => set({ isDisableCard }),
+      isDamagedCard: false,
+      setIsDamagedCard: (isDamagedCard) => set({ isDamagedCard })
     }),
     {
       name: "user-settings-storage",

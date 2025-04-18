@@ -1,4 +1,4 @@
-import { FreezeIcon, UnFreezeIcon } from "@/assets";
+import { CardLost, FreezeIcon, OnboardCard, UnFreezeIcon } from "@/assets";
 import { FrozenIcon } from "@/assets/icons/FrozenIcon";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import DowntimeMessage from "@/components/common/down-time-message";
@@ -25,9 +25,14 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function CardScreen() {
   const { top, bottom } = useSafeAreaInsets();
-  const { activeCard, isFreezeCard, setIsFreezeCard } = useUserSettingsStore();
+  const {
+    activeCard,
+    isDamagedCard,
+    isDisableCard,
+    isFreezeCard,
+    setIsFreezeCard
+  } = useUserSettingsStore();
 
-  const { shouldAuthLocal, setShouldAuthLocal } = useLocalAuth();
   const sheetRef = useRef<BottomSheetModal>(null);
 
   const handleRequestCard = () => {
@@ -39,6 +44,12 @@ export default function CardScreen() {
   const handleActiveCard = () => {
     router.navigate({
       pathname: "/active_card"
+    });
+  };
+
+  const handleReport = () => {
+    router.navigate({
+      pathname: "/report_damaged"
     });
   };
 
@@ -62,6 +73,22 @@ export default function CardScreen() {
           <Typography type="heading-small" weight="semibold" className="p-4">
             {"Card"}
           </Typography>
+          {isDamagedCard && (
+            <View className="p-3 mx-4 mt-2 rounded-2xl items-start bg-teal-200 flex-row">
+              <Image
+                source={require("@/assets/images/info-filled-b.png")}
+                className="w-[24px] h-[24px]"
+              />
+              <View className="px-3 gap-1 flex-1">
+                <Typography weight="semibold">
+                  Your card is on its way!
+                </Typography>
+                <Typography weight="regular">
+                  Expect your card to arrive within 5-7 business days.
+                </Typography>
+              </View>
+            </View>
+          )}
           <View className="bg-neutral-100 border border-[#E5E5E5] px-3 py-1 rounded-2xl m-4 gap-4">
             <Image
               resizeMode="contain"
@@ -73,15 +100,7 @@ export default function CardScreen() {
                 intensity={25}
                 experimentalBlurMethod="dimezisBlurView"
                 tint="extraLight"
-                style={{
-                  ...StyleSheet.absoluteFillObject,
-                  backgroundColor: "transparent",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 16,
-                  overflow: "hidden",
-                  gap: 8
-                }}
+                style={styles.blurView}
               >
                 <FrozenIcon />
                 <Typography type="body-large" weight="medium">
@@ -101,15 +120,14 @@ export default function CardScreen() {
               onPress={handleFreezeCard}
               icon={isFreezeCard ? FreezeIcon : UnFreezeIcon}
             />
-            <Link href="/language" asChild>
-              <MenuItem
-                label={`Report lost or damaged`}
-                icon={TriangleAlertIcon}
-                rightSection={
-                  <ChevronRightIcon className="h-[24px] w-[24px] text-primary" />
-                }
-              />
-            </Link>
+            <MenuItem
+              label={`Report lost or damaged`}
+              icon={TriangleAlertIcon}
+              rightSection={
+                <ChevronRightIcon className="h-[24px] w-[24px] text-primary" />
+              }
+              onPress={handleReport}
+            />
           </View>
         </View>
         <BottomSheet ref={sheetRef} index={0} snapPoints={["40%", "87%"]}>
@@ -161,7 +179,7 @@ export default function CardScreen() {
         {"Card"}
       </Typography>
       {activeCard !== 0 && (
-        <View className="p-3 mx-4 mt-4 rounded-2xl items-start bg-teal-200 flex-row">
+        <View className="p-3 mx-4 mt-2 rounded-2xl items-start bg-teal-200 flex-row">
           <Image
             source={require("@/assets/images/info-filled-b.png")}
             className="w-[24px] h-[24px]"
@@ -174,13 +192,30 @@ export default function CardScreen() {
           </View>
         </View>
       )}
-      <View className="bg-neutral-100 border border-[#E5E5E5] rounded-2xl min-h-[400px] p-4 m-4 gap-4">
-        <View className="items-center gap-3">
-          <Image
-            resizeMode="contain"
-            source={require("@/assets/images/OnboardCard.png")}
-            style={{ width: exactDesign(192), height: exactDesign(300) }}
-          />
+      <View className="bg-neutral-100 border border-[#E5E5E5] rounded-2xl min-h-[200px] p-4 m-4 gap-4">
+        <View className="gap-3">
+          {isDisableCard ? (
+            <Image
+              resizeMode="cover"
+              source={CardLost}
+              style={{
+                width: "100%",
+                height: exactDesign(208),
+                borderRadius: exactDesign(12),
+                marginBottom: exactDesign(4)
+              }}
+            />
+          ) : (
+            <Image
+              resizeMode="contain"
+              source={OnboardCard}
+              style={{
+                width: exactDesign(192),
+                height: exactDesign(300),
+                alignSelf: "center"
+              }}
+            />
+          )}
           {activeCard === 0 && (
             <Typography
               weight="regular"
@@ -207,3 +242,15 @@ export default function CardScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  blurView: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 16,
+    overflow: "hidden",
+    gap: 8
+  }
+});

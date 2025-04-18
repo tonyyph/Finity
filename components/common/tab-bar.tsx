@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { useUserSettingsStore } from "@/stores/user-settings/store";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import * as Haptics from "expo-haptics";
 import {
@@ -9,19 +10,13 @@ import {
   UserCircle
 } from "lucide-react-native";
 import { rem } from "nativewind";
-import {
-  Pressable,
-  type PressableProps,
-  View,
-  TouchableWithoutFeedback
-} from "react-native";
+import { useEffect, useRef } from "react";
+import { Pressable, type PressableProps, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming
 } from "react-native-reanimated";
-import { useEffect, useRef } from "react";
-import { useUserSettingsStore } from "@/stores/user-settings/store";
 
 type TabBarItemProps = {
   focused: boolean;

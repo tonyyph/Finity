@@ -159,7 +159,7 @@ function SendCardScreen() {
             />
             <View className="p-4 my-4">
               {mockupCardHolders.map((item, index) => (
-                <View className="gap-4">
+                <View key={index} className="gap-4">
                   <View
                     key={item.id}
                     className={cn(

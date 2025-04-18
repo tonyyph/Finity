@@ -1,9 +1,13 @@
+import { CardIcon } from "@/assets/icons/CardIcon";
+import { FillCardIcon } from "@/assets/icons/FillCardIcon";
+import { FillHomeIcon } from "@/assets/icons/FillHomeIcon";
+import { FillProfileIcon } from "@/assets/icons/FillProfileIcon";
+import { HomeIcon } from "@/assets/icons/HomeIcon";
+import { ProfileIcon } from "@/assets/icons/ProfileIcon";
 import { colors } from "@/constants/Colors";
 import { useColorPalette } from "@/hooks/use-color-palette";
-import { useUserAuthenticateStore } from "@/stores";
 import { exactDesign } from "@/utils";
-import { Redirect, Tabs } from "expo-router";
-import { Image } from "react-native";
+import { Tabs } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TabLayout() {
@@ -40,14 +44,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          tabBarIcon: ({ color }) => (
-            <Image
-              source={require("@/assets/images/homeIcon.png")}
-              resizeMode="contain"
-              style={{ width: exactDesign(22), height: exactDesign(22) }}
-              tintColor={color}
-            />
-          ),
+          tabBarIcon: ({ focused }) =>
+            focused ? <FillHomeIcon /> : <HomeIcon />,
           tabBarLabel: "Home",
           headerShown: false,
           headerTitle: `Home`,
@@ -58,14 +56,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="card"
         options={{
-          tabBarIcon: ({ color }) => (
-            <Image
-              resizeMode="contain"
-              source={require("@/assets/images/cardIcon.png")}
-              style={{ width: exactDesign(22), height: exactDesign(22) }}
-              tintColor={color}
-            />
-          ),
+          tabBarIcon: ({ focused }) =>
+            focused ? <FillCardIcon /> : <CardIcon />,
           tabBarLabel: "Card",
           headerShown: false,
           headerTitle: `Card`,
@@ -76,14 +68,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          tabBarIcon: ({ color }) => (
-            <Image
-              resizeMode="contain"
-              source={require("@/assets/images/profileIcon.png")}
-              style={{ width: exactDesign(22), height: exactDesign(22) }}
-              tintColor={color}
-            />
-          ),
+          tabBarIcon: ({ focused }) =>
+            focused ? <FillProfileIcon /> : <ProfileIcon />,
           tabBarLabel: "Profile",
           headerShown: false,
           headerTitle: `Profile`,

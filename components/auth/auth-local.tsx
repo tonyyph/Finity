@@ -8,6 +8,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CircleAlert, RemoveNumpad } from "../common/icons";
 import { LoadingScreen } from "../common/loading";
 import Typography from "../common/text-typography";
+import { useUser } from "@clerk/clerk-expo";
+import { userStore } from "@/stores/userStore";
 
 type AuthLocalProps = {
   onAuthenticated?: () => void;
@@ -33,6 +35,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
   const { setIsLoginWithPin } = useUserAuthenticateStore();
+  const userProfile = userStore.getState().userProfile;
 
   const handlePress = (num: string) => {
     if (confirmPin.length < 4) {
@@ -46,19 +49,15 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
 
   useEffect(() => {
     if (confirmPin?.length === 4) {
-      if (confirmPin === "1234") {
-        router.push("/pin-success");
+      if (confirmPin === "0000") {
+        setLoading(true);
+        setTimeout(() => {
+          setLoading(false);
+          onAuthenticated?.();
+          setIsLoginWithPin(true);
+        }, 1500);
       } else {
-        if (confirmPin === "0000") {
-          setLoading(true);
-          setTimeout(() => {
-            setLoading(false);
-            onAuthenticated?.();
-            setIsLoginWithPin(true);
-          }, 1500);
-        } else {
-          setWrongPin(true);
-        }
+        setWrongPin(true);
       }
     } else {
       setWrongPin(false);
@@ -81,7 +80,9 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
               resizeMode="contain"
             />
             <Typography weight="regular">
-              {`Welcome back, Tony Phan`}
+              {`Welcome back, ${
+                userProfile?.firstName + " " + userProfile?.lastName
+              }`}
             </Typography>
           </View>
         </View>

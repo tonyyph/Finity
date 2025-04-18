@@ -27,17 +27,6 @@ function HomeScreen() {
   async function handleShowToastError() {
     toast.error(`You cannot load your card while it is frozen`, {
       icon: <AlertIcon />
-      // customToast: () => (
-      //   <View className="flex-row items-center gap-4 rounded-lg py-4 bg-[#525252] justify-between">
-      //     <View className="px-4">
-      //       <AlertIcon />
-      //       <Typography textColor="white">
-      //         You cannot load your card while it is frozen
-      //       </Typography>
-      //     </View>
-      //     <XIcon className="h-[24px] w-[24px] right-2 color-white" />
-      //   </View>
-      // )
     });
   }
 
@@ -74,7 +63,7 @@ function HomeScreen() {
         <View className="mt-4" />
         <CardAndPointTab
           onLoadCard={() => {
-            if (isFreezeCard) {
+            if (isFreezeCard && activeCard === 2) {
               router.navigate({
                 pathname: "/(app)/load_card"
               });
@@ -83,7 +72,7 @@ function HomeScreen() {
             }
           }}
           onSendPoints={() => {
-            if (isFreezeCard) {
+            if (isFreezeCard && activeCard === 2) {
               router.navigate({
                 pathname: "/(app)/send-card"
               });

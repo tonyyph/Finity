@@ -1,11 +1,10 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { useLingui } from "@lingui/react";
 import { AuthenticationType } from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
 import { find } from "lodash-es";
 import { useCallback, useEffect, useState } from "react";
-import { Image, Platform, StyleSheet, View } from "react-native";
+import { Image, Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface AuthenticationProps {
@@ -42,8 +41,6 @@ const authenticationAndroid: Array<AuthenticationProps> = [
 
 function BiometricsSuccess() {
   const { typeAuthentication, ...res } = useLocalSearchParams();
-  const [] = useState();
-  const { i18n } = useLingui();
 
   const [authenticationType, setAuthenticationType] =
     useState<AuthenticationProps>();
@@ -100,7 +97,3 @@ function BiometricsSuccess() {
   );
 }
 export default BiometricsSuccess;
-
-const styles = StyleSheet.create({
-  container: {}
-});

@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import { ArrowLeftIcon } from "lucide-react-native";
 import { Button } from "../ui/button";
+import { ArrowBackIcon } from "@/assets";
 
 export function BackButton() {
   const router = useRouter();
@@ -14,7 +15,7 @@ export function BackButton() {
       onPress={router.back}
       className="right-3"
     >
-      <ArrowLeftIcon className="h-[24px] w-[24px] text-foreground" />
+      <ArrowBackIcon />
     </Button>
   );
 }

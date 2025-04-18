@@ -4,13 +4,11 @@ import { useUserAuthenticateStore } from "@/stores";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
 import { Image, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function TwoFactorAuthenticationSuccess() {
   const { isResetPin } = useLocalSearchParams();
   const { setIsLoginWithPin, isFirst2FA, setIsLoggedIn } =
     useUserAuthenticateStore();
-  const { top, bottom } = useSafeAreaInsets();
 
   const handleSetupPin = useCallback(() => {
     router.push({
@@ -26,10 +24,7 @@ function TwoFactorAuthenticationSuccess() {
   }, []);
 
   return (
-    <View
-      className="flex-1 bg-background"
-      style={{ paddingBottom: bottom, paddingTop: top }}
-    >
+    <View className="flex-1 bg-background">
       <View className="flex-1">
         <View className="flex-1 px-4 gap-3 items-center mt-40">
           <Image

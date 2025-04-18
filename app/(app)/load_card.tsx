@@ -7,7 +7,6 @@ import Tooltip from "@/components/ui/tooltip";
 import { colors } from "@/constants/Colors";
 import { cn } from "@/lib/utils";
 import { formatNumber } from "@/utils";
-import { t } from "@lingui/macro";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Image, SafeAreaView, TextInput, View } from "react-native";
@@ -23,7 +22,14 @@ function LoadCardScreen() {
     ) {
       setError(true);
     } else {
-      router.back();
+      router.push({
+        pathname: "/pin-verification",
+        params: {
+          type: "load-card",
+          amount: Number(enterAmount.replace(/,/g, "")),
+          cardHolderName: "Amber Green"
+        }
+      });
     }
   };
 
@@ -39,7 +45,7 @@ function LoadCardScreen() {
         <View className="flex-1">
           <View className="p-6 gap-2">
             <Typography type="body-default" weight="medium" textColor="#404040">
-              {t`Points balance`}
+              {`Points balance`}
             </Typography>
             <TextInput
               editable={false}
@@ -57,14 +63,14 @@ function LoadCardScreen() {
                 </Tooltip>
               </View>
               <Typography type="body-small" weight="medium" textColor="#525252">
-                {t`Conversion rate: 1 point = £0.10`}
+                {`Conversion rate: 1 point = £0.10`}
               </Typography>
             </View>
           </View>
           {/* Enter amount */}
           <View className="p-6 gap-2 ">
             <Typography type="body-default" weight="medium" textColor="#404040">
-              {t`Enter amount`}
+              {`Enter amount`}
             </Typography>
             <View className="flex-row justify-between items-center rounded-lg border-[1px] border-subtitle px-4">
               <TextInput
@@ -80,13 +86,12 @@ function LoadCardScreen() {
                     Number(numericValue)
                   );
 
-                  console.log("formattedValue", formattedValue);
                   setError(false);
                   setEnterAmount(formattedValue);
                 }}
               />
               <Typography type="body-large" weight="medium" textColor="#737373">
-                {t`points`}
+                {`points`}
               </Typography>
             </View>
             {!!error ? (
@@ -124,11 +129,10 @@ function LoadCardScreen() {
             variant="default"
             size={"lg"}
             className="rounded-full bg-primary h-[48px]"
-            // loading
             onPress={handleContinue}
           >
             <Typography type="body-default" weight="medium" textColor="white">
-              {t`Continue`}
+              {`Continue`}
             </Typography>
           </Button>
         </View>

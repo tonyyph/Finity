@@ -1,15 +1,13 @@
-import { TouchableOpacity } from "react-native";
 import { memoFC } from "@/utils";
+import { View } from "react-native";
 import { RadioNonSelectedIcon, RadioSelectedIcon } from "../common/icons";
 
 type Props = {
   selected: boolean;
-  onPress: () => void;
 };
-export const Radio = memoFC(({ selected, onPress }: Props) => {
+
+export const Radio = memoFC(({ selected }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress}>
-      {selected ? <RadioSelectedIcon /> : <RadioNonSelectedIcon />}
-    </TouchableOpacity>
+    <View>{selected ? <RadioSelectedIcon /> : <RadioNonSelectedIcon />}</View>
   );
 });

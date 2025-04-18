@@ -24,7 +24,7 @@ function ActiveCardScreen() {
     useRef<TextInput>(null)
   ];
   const { top, bottom } = useSafeAreaInsets();
-  const { setActiveCard } = useUserSettingsStore();
+  const { setActiveCard, setIsDisableCard } = useUserSettingsStore();
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
     return {
@@ -82,17 +82,18 @@ function ActiveCardScreen() {
         if (enteredOtp == "1234") {
           setCardNumber(["", "", "", ""]);
           setActiveCard(2);
+          setIsDisableCard(false);
           router.replace({
             pathname: "/active_card_success"
           });
         } else {
           setCardNumber(["", "", "", ""]);
-          router.navigate({
-            pathname: "/active_card_success",
-            params: {
-              success: "false"
-            }
-          });
+          // router.navigate({
+          //   pathname: "/active_card_success",
+          //   params: {
+          //     success: "false"
+          //   }
+          // });
           setError(true);
         }
       }, 2000);

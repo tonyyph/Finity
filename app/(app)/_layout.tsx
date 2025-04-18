@@ -16,11 +16,6 @@ export default function AuthenticatedLayout() {
   const { shouldPINLocal, setShouldPINLocal } = useLocalPIN();
 
   const { isSignedIn, isLoaded } = useUser();
-
-  console.log(" AuthenticatedLayout 💯 isLoaded:", isLoaded);
-
-  console.log(" AuthenticatedLayout 💯 isSignedIn:", isSignedIn);
-
   const { isLoggedIn, isFirst2FA } = useUserAuthenticateStore();
 
   if (!isSignedIn && isLoaded) {
@@ -72,6 +67,12 @@ export default function AuthenticatedLayout() {
         />
         <Stack.Screen
           name="active_card_success"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="request_card_success"
           options={{
             headerShown: false
           }}
@@ -160,12 +161,32 @@ export default function AuthenticatedLayout() {
             headerShown: false
           }}
         />
-
         <Stack.Screen
-          name="pin-verification"
+          name="report_damaged"
           options={{
             headerShown: true,
-            headerTitle: `Verification`,
+            headerTitle: `Report lost or damaged`,
+            headerShadowVisible: true,
+            headerStyle: {
+              backgroundColor: getColor("--background")
+            }
+          }}
+        />
+        <Stack.Screen
+          name="lost"
+          options={{
+            headerShown: true,
+            headerTitle: ``,
+            headerStyle: {
+              backgroundColor: getColor("--background")
+            }
+          }}
+        />
+        <Stack.Screen
+          name="damaged"
+          options={{
+            headerShown: true,
+            headerTitle: ``,
             headerStyle: {
               backgroundColor: getColor("--background")
             }
