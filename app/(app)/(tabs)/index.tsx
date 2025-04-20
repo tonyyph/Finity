@@ -7,6 +7,8 @@ import FrozenBanner from "@/components/home/frozen_banner";
 import { HomeHeader } from "@/components/home/header";
 import PointsBalanceCom from "@/components/home/points_balance";
 import RequestCardNotification from "@/components/home/request_card_noti";
+import { useUserProfile } from "@/hooks/profile/useUserProfile";
+import { useUserQuery } from "@/queries/user";
 import { useUserSettingsStore } from "@/stores";
 import useHome from "@/stores/useHome";
 import { router } from "expo-router";
@@ -16,13 +18,8 @@ import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function HomeScreen() {
-  const { data, doRequest } = useHome();
   const { activeCard, isFreezeCard, setIsFreezeCard } = useUserSettingsStore();
   const { top, bottom } = useSafeAreaInsets();
-
-  useEffect(() => {
-    doRequest({});
-  }, []);
 
   async function handleShowToastError() {
     toast.error(`You cannot load your card while it is frozen`, {

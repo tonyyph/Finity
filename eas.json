@@ -14,7 +14,7 @@
       "node": "20.18.1",
       "env": {
         "APP_ENV": "development",
-        "EXPO_PUBLIC_API_URL": "https://finity-rewards-web-app-dev.azurewebsites.net",
+        "EXPO_PUBLIC_API_URL": "https://finity-rewards-api-app-dev.azurewebsites.net",
         "EXPO_PUBLIC_POSTHOG_API_KEY": "phx_PbtiT5ftRrNBsjG9QRDN8qJiM8gkQ1iKXuvovfIdg59p8uf",
         "EXPO_PUBLIC_POSTHOG_HOST": "https://us.i.posthog.com",
         "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_Zmx1ZW50LWphdmVsaW4tNTcuY2xlcmsuYWNjb3VudHMuZGV2JA"
@@ -26,7 +26,7 @@
       "node": "20.18.1",
       "env": {
         "APP_ENV": "development",
-        "EXPO_PUBLIC_API_URL": "https://finity-rewards-web-app-dev.azurewebsites.net",
+        "EXPO_PUBLIC_API_URL": "https://finity-rewards-api-app-dev.azurewebsites.net",
         "EXPO_PUBLIC_POSTHOG_API_KEY": "phx_PbtiT5ftRrNBsjG9QRDN8qJiM8gkQ1iKXuvovfIdg59p8uf",
         "EXPO_PUBLIC_POSTHOG_HOST": "https://us.i.posthog.com",
         "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_Zmx1ZW50LWphdmVsaW4tNTcuY2xlcmsuYWNjb3VudHMuZGV2JA"
@@ -38,7 +38,7 @@
       "node": "20.18.1",
       "env": {
         "APP_ENV": "development",
-        "EXPO_PUBLIC_API_URL": "https://finity-rewards-web-app-dev.azurewebsites.net",
+        "EXPO_PUBLIC_API_URL": "https://finity-rewards-api-app-dev.azurewebsites.net",
         "EXPO_PUBLIC_POSTHOG_API_KEY": "phx_PbtiT5ftRrNBsjG9QRDN8qJiM8gkQ1iKXuvovfIdg59p8uf",
         "EXPO_PUBLIC_POSTHOG_HOST": "https://us.i.posthog.com",
         "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_Zmx1ZW50LWphdmVsaW4tNTcuY2xlcmsuYWNjb3VudHMuZGV2JA"
@@ -56,7 +56,7 @@
       "node": "20.18.1",
       "env": {
         "APP_ENV": "development",
-        "EXPO_PUBLIC_API_URL": "https://finity-rewards-web-app-dev.azurewebsites.net",
+        "EXPO_PUBLIC_API_URL": "https://finity-rewards-api-app-dev.azurewebsites.net",
         "EXPO_PUBLIC_POSTHOG_API_KEY": "phx_PbtiT5ftRrNBsjG9QRDN8qJiM8gkQ1iKXuvovfIdg59p8uf",
         "EXPO_PUBLIC_POSTHOG_HOST": "https://us.i.posthog.com",
         "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_Zmx1ZW50LWphdmVsaW4tNTcuY2xlcmsuYWNjb3VudHMuZGV2JA"

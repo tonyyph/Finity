@@ -1,9 +1,9 @@
+import { useUserProfile } from "@/hooks/profile/useUserProfile";
 import { exactDesign } from "@/utils";
-import { useRouter } from "expo-router";
+import { useUser } from "@clerk/clerk-expo";
 import { Image, View } from "react-native";
 import Typography from "../common/text-typography";
 import Touch from "../ui/touch";
-import { useUser } from "@clerk/clerk-expo";
 
 type HomeHeaderProps = {
   haveNotification?: boolean;
@@ -15,8 +15,7 @@ export function HomeHeader({
   onNotification
 }: HomeHeaderProps) {
   const { user } = useUser();
-
-  const router = useRouter();
+  const { userProfile } = useUserProfile();
 
   return (
     <View className="flex flex-row items-center justify-between gap-4 bg-backgroundSubtle px-4 pb-3">
@@ -28,10 +27,12 @@ export function HomeHeader({
             className="pt-4 pb-2"
           >
             {`${`Hi`}, ${
-              user?.fullName ??
-              user?.publicMetadata?.invitee_first_name ??
-              user?.primaryEmailAddress?.emailAddress ??
-              ""
+              userProfile?.firstName && userProfile?.lastName
+                ? userProfile.firstName + " " + userProfile.lastName
+                : user?.fullName ??
+                  user?.publicMetadata?.invitee_first_name ??
+                  user?.primaryEmailAddress?.emailAddress ??
+                  ""
             }`}
           </Typography>
         </View>

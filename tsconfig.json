@@ -1,14 +1,30 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "jsx": "preserve",
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "composite": true,
     "paths": {
       "@/*": [
         "./*"
       ]
     },
-    "moduleResolution": "node"
   },
   "include": [
     "**/*.ts",
@@ -16,5 +32,5 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts"
-  ],
+  ]
 }

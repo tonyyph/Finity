@@ -4,11 +4,9 @@ import { useUserAuthenticateStore } from "@/stores";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
 import { Image, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function SetupPinSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { top, bottom } = useSafeAreaInsets();
   const { setIsLoggedIn, setIsLoginWithPin, setIsFirst2FA } =
     useUserAuthenticateStore();
 
@@ -20,10 +18,7 @@ function SetupPinSuccess() {
   }, []);
 
   return (
-    <View
-      className="flex-1 bg-background"
-      style={{ paddingBottom: bottom, paddingTop: top / 2 }}
-    >
+    <View className="flex-1 bg-background">
       <View className="flex-1">
         <View className="flex-1 px-4 gap-3 items-center mt-40">
           <Image

@@ -83,3 +83,24 @@ type UserResponse = {
   dateLastLoggedIn: string;
   canRequestCard: boolean;
 };
+
+interface UserProfile {
+  address: {
+    addressLine1: string;
+    addressLine2: string;
+    city: string;
+    country: string | null;
+    postCode: string;
+  };
+  canRequestCard: boolean;
+  dateCreated: string; // ISO date string
+  dateLastLoggedIn: string; // ISO date string
+  dateOfBirth: string; // ISO date string
+  email: string;
+  emailConfirmed: boolean;
+  firstName: string;
+  lastName: string;
+  mobileNumber: string;
+  title: string;
+  userName: string;
+}

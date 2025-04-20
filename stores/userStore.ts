@@ -4,7 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { createWithEqualityFn } from "zustand/traditional";
 
 interface UserStore {
-  userProfile?: UserResponse;
+  userProfile?: UserProfile;
 }
 
 const defaultValue: UserStore = {};

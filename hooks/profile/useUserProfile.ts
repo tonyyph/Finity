@@ -1,37 +1,22 @@
-import { getUserProfile } from "@/api";
-import { useUserProfileStore } from "@/stores/user-profile/store";
+import { useUserQuery } from "@/queries/user";
 import { userStore } from "@/stores/userStore";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useUserProfile = () => {
-  const [data, setData] = useState<UserResponse>();
+  const [data, setData] = useState<UserProfile>({} as UserProfile);
   const [loading, setLoading] = useState(true);
-  const { isUpdateProfile, setIsUpdateProfile } = useUserProfileStore();
-
-  useLayoutEffect(() => {
-    setIsUpdateProfile(true);
-  }, []);
+  const { data: userData } = useUserQuery();
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const { data: session } = await getUserProfile();
-        userStore.setState({ userProfile: session });
-
-        setData(session);
-      } catch (error) {
-        console.log(JSON.stringify(error, null, 2));
-      } finally {
-        setIsUpdateProfile(false);
-        setLoading(false);
-      }
-    };
-
-    !!isUpdateProfile && fetchUserProfile();
-  }, [isUpdateProfile]);
+    if (userData) {
+      setData(userData as UserProfile);
+      userStore.setState({ userProfile: userData as UserProfile });
+      setLoading(false);
+    }
+  }, [userData]);
 
   return {
-    userProfile: data,
+    userProfile: data ?? userStore?.getState().userProfile,
     loading: loading
   };
 };

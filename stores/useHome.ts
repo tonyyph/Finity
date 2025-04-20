@@ -1,5 +1,5 @@
-import { create } from "zustand";
 import { request } from "@/api/functions/request";
+import { create } from "zustand";
 
 interface DoRequestProps {
   url?: string | null;
@@ -37,7 +37,7 @@ const useHome = create<UseMachineStoreProps>()((set, get) => ({
     failure,
     ignoreResponse,
     callback,
-    usingRefresh = false,
+    usingRefresh = false
   }: DoRequestProps) => {
     const { data } = get();
     if (data) {
@@ -48,7 +48,7 @@ const useHome = create<UseMachineStoreProps>()((set, get) => ({
 
     request({
       method: "get",
-      url: url || "/home",
+      url: url || "/user",
       query,
       params,
       success: (result) => {
@@ -57,7 +57,7 @@ const useHome = create<UseMachineStoreProps>()((set, get) => ({
           ...prevState,
           data: result,
           isLoading: false,
-          isSuccess: true,
+          isSuccess: true
         }));
         if (typeof success === "function") {
           success(result);
@@ -72,12 +72,12 @@ const useHome = create<UseMachineStoreProps>()((set, get) => ({
           ...prevState,
           isLoading: false,
           isSuccess: false,
-          message: result,
+          message: result
         }));
         if (typeof failure === "function") {
           failure(result);
         }
-      },
+      }
     });
   },
 
@@ -87,9 +87,9 @@ const useHome = create<UseMachineStoreProps>()((set, get) => ({
       data: null,
       isLoading: false,
       isSuccess: false,
-      message: "",
+      message: ""
     }));
-  },
+  }
 }));
 
 export default useHome;

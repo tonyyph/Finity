@@ -14,7 +14,6 @@ export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
   const { shouldAuthLocal, setShouldAuthLocal } = useLocalAuth();
   const { shouldPINLocal, setShouldPINLocal } = useLocalPIN();
-
   const { isSignedIn, isLoaded } = useUser();
   const { isLoggedIn, isFirst2FA } = useUserAuthenticateStore();
 
