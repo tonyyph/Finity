@@ -9,11 +9,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface AuthenticationProps {
   authenticationType: AuthenticationType;
-  title: String;
-  subTitle: String;
+  title: string;
+  subTitle: string;
 }
 
-const authentication: Array<AuthenticationProps> = [
+const authentication: AuthenticationProps[] = [
   {
     authenticationType: AuthenticationType.FACIAL_RECOGNITION,
     title: `Face ID enabled`,
@@ -26,7 +26,7 @@ const authentication: Array<AuthenticationProps> = [
   }
 ];
 
-const authenticationAndroid: Array<AuthenticationProps> = [
+const authenticationAndroid: AuthenticationProps[] = [
   {
     authenticationType: AuthenticationType.FACIAL_RECOGNITION,
     title: `Biometrics enabled`,
@@ -50,7 +50,7 @@ function BiometricsSuccess() {
     setAuthenticationType(
       find(
         Platform.OS === "ios" ? authentication : authenticationAndroid,
-        (au) => String(au.authenticationType) == String(typeAuthentication)
+        (au) => String(au.authenticationType) === String(typeAuthentication)
       )
     );
   }, [typeAuthentication, res]);

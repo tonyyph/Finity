@@ -1,5 +1,4 @@
 import { memoFC } from "@/utils";
-import { View } from "react-native";
 import Svg, { Mask, Path, SvgProps } from "react-native-svg";
 
 export const RadioNonSelectedIcon = memoFC(

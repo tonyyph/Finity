@@ -1,5 +1,3 @@
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import * as Haptics from "expo-haptics";
 import { Link } from "expo-router";
 import { BellIcon, Search } from "lucide-react-native";
@@ -7,7 +5,6 @@ import { Text, View } from "react-native";
 import { Button } from "../ui/button";
 
 export function Toolbar() {
-  const { i18n } = useLingui();
   return (
     <View className="flex flex-row items-center justify-between gap-4 bg-background px-6 py-3">
       <Link href="/(app)/search" asChild onPress={Haptics.selectionAsync}>

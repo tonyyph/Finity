@@ -3,8 +3,6 @@ import { InputField } from "@/components/form-fields/input-field";
 import { SubmitButton } from "@/components/form-fields/submit-button";
 import { Text } from "@/components/ui/text";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import { useRouter } from "expo-router";
 import { FormProvider, useForm } from "react-hook-form";
 import { ScrollView } from "react-native";
@@ -15,7 +13,6 @@ const feedbackSchema = z.object({
 });
 
 export default function FeedbackScreen() {
-  const { i18n } = useLingui();
   const router = useRouter();
 
   const feedbackForm = useForm<z.infer<typeof feedbackSchema>>({

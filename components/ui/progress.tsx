@@ -7,6 +7,7 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
   useDerivedValue,
+  useSharedValue,
   withSpring
 } from "react-native-reanimated";
 
@@ -40,13 +41,21 @@ function Indicator({
   value: number | undefined | null;
   className?: string;
 }) {
-  const progress = useDerivedValue(() => value ?? 0);
+  const animatedValue = useSharedValue(0);
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      animatedValue.value = value ?? 0;
+    }, 3000); // Delay for 3 seconds
+
+    return () => clearTimeout(timeout);
+  }, [value]);
 
   const indicator = useAnimatedStyle(() => {
     return {
       width: withSpring(
         `${interpolate(
-          progress.value,
+          animatedValue.value,
           [0, 100],
           [1, 100],
           Extrapolation.CLAMP
@@ -66,7 +75,7 @@ function Indicator({
         style={{ transform: `translateX(-${100 - (value ?? 0)}%)` }}
       >
         <ProgressPrimitive.Indicator
-          className={cn("h-full w-full ", className)}
+          className={cn("h-full w-full", className)}
         />
       </View>
     );

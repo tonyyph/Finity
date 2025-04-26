@@ -10,9 +10,9 @@ import { useEffect, useRef, useState } from "react";
 
 type OTPInputProps = {
   length: number;
-  value?: Array<string>;
+  value?: string[];
   disabled?: boolean;
-  onChange?(value: Array<string>): void;
+  onChange?(value: string[]): void;
 };
 
 export const OTPInput: React.FunctionComponent<OTPInputProps> = ({
@@ -46,7 +46,7 @@ export const OTPInput: React.FunctionComponent<OTPInputProps> = ({
         };
       })
     );
-    const newValue = value.map((item, valueIndex) => {
+    const newValue = value?.map((item, valueIndex) => {
       if (valueIndex === index) {
         return text;
       }
@@ -54,7 +54,7 @@ export const OTPInput: React.FunctionComponent<OTPInputProps> = ({
       return item;
     });
 
-    onChange(newValue);
+    onChange?.(newValue ?? []);
   };
 
   const clearLocalState = () => {
@@ -91,7 +91,7 @@ export const OTPInput: React.FunctionComponent<OTPInputProps> = ({
       return;
     }
 
-    if (value[index].length === 1) {
+    if (value?.[index].length === 1) {
       return handleChange(nativeEvent.key, index);
     }
   };
@@ -100,9 +100,9 @@ export const OTPInput: React.FunctionComponent<OTPInputProps> = ({
     const longValue = localState.find((item) => item.value.length === length);
 
     if (longValue) {
-      onChange(longValue.value.split(""));
+      onChange?.(longValue.value.split(""));
     }
-  }, [localState]);
+  }, [localState, length, onChange]);
 
   return (
     <View style={styles.container}>
@@ -115,7 +115,7 @@ export const OTPInput: React.FunctionComponent<OTPInputProps> = ({
           }}
           key={index}
           maxLength={1}
-          value={value[index]}
+          value={value?.[index]}
           contextMenuHidden
           testID="OTPInput"
           editable={!disabled}

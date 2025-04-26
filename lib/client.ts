@@ -12,6 +12,9 @@ export const clerk = getClerkInstance({
 
 export const getHonoClient = async () => {
   const token = await clerk.session?.getToken();
+
+  // console.log(" getHonoClient 💯 token:", token);
+
   if (!token) {
     throw new Error("No token found");
   }

@@ -1,13 +1,8 @@
-import { View } from "react-native";
-import Svg, { Path, SvgProps } from "react-native-svg";
 import { memoFC } from "@/utils";
-import { useColorPalette } from "@/hooks/use-color-palette";
+import Svg, { Path, SvgProps } from "react-native-svg";
 
 export const CircleAlertX = memoFC(
   ({ size = 24, style, ...props }: SvgProps & IconProps = {}) => {
-    const { getColor } = useColorPalette();
-
-    const iconFill = getColor("--primary");
     return (
       <Svg width={80} height={80} fill="none" {...props}>
         <Path

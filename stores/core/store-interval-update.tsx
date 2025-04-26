@@ -1,7 +1,7 @@
-import { useAuth } from "@clerk/clerk-expo";
+// import { useAuth } from "@clerk/clerk-expo";
+// import type { StoreHookQueryOptions } from "./stores";
 import { useQueries } from "@tanstack/react-query";
 import type { FC } from "react";
-import type { StoreHookQueryOptions } from "./stores";
 import { STORE_SYNC_INTERVAL } from "./stores.const";
 
 export type StoreIntervalUpdateProps = {
@@ -11,13 +11,13 @@ export type StoreIntervalUpdateProps = {
 export const StoreIntervalUpdate: FC<StoreIntervalUpdateProps> = ({
   interval = STORE_SYNC_INTERVAL
 }) => {
-  const { isSignedIn } = useAuth();
+  // const { isSignedIn } = useAuth();
 
-  const queryOptions: StoreHookQueryOptions = {
-    refetchInterval: interval,
-    refetchIntervalInBackground: true,
-    enabled: isSignedIn
-  };
+  // const queryOptions: StoreHookQueryOptions = {
+  //   refetchInterval: interval,
+  //   refetchIntervalInBackground: true,
+  //   enabled: isSignedIn
+  // };
 
   useQueries({
     queries: []

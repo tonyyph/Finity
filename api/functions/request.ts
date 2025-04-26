@@ -1,19 +1,22 @@
-import queryString from 'query-string';
-import axios, { setDefaultHeaders } from './axios';
-import { DeviceEventEmitter } from 'react-native';
+import queryString from "query-string";
+import { DeviceEventEmitter } from "react-native";
+import axios from "./axios";
 // import refeshToken from './refeshToken';
 
-export const buildURL = (url: string, query?: Record<string, any> | string): string => {
+export const buildURL = (
+  url: string,
+  query?: Record<string, any> | string
+): string => {
   let _url = url;
   if (query) {
-    _url += /\?/.test(url) ? '&' : '?';
-    _url += typeof query === 'object' ? queryString.stringify(query) : query;
+    _url += /\?/.test(url) ? "&" : "?";
+    _url += typeof query === "object" ? queryString.stringify(query) : query;
   }
   return _url;
 };
 
 type RequestParams = {
-  method?: 'get' | 'post' | 'put' | 'delete';
+  method?: "get" | "post" | "put" | "delete";
   url: string;
   query?: Record<string, any> | string;
   params?: any;
@@ -23,13 +26,13 @@ type RequestParams = {
 };
 
 async function request({
-  method = 'get',
+  method = "get",
   url,
   query,
   params,
   success,
   failure,
-  headers,
+  headers
 }: RequestParams): Promise<void> {
   axios.interceptors.request.use(
     async (config) => {
@@ -45,21 +48,21 @@ async function request({
       return config;
     },
     async (error) => {
-      DeviceEventEmitter.emit('TokenExpire');
+      DeviceEventEmitter.emit("TokenExpire");
       return Promise.reject(error);
     }
   );
 
   const axiosMethod = axios[method];
 
-  if (typeof axiosMethod === 'function') {
+  if (typeof axiosMethod === "function") {
     try {
       const result =
-        method === 'get' || method === 'delete'
+        method === "get" || method === "delete"
           ? await axiosMethod(buildURL(url, query), { headers })
           : await axiosMethod(buildURL(url, query), params, { headers });
       if (result.status === 200 || result.status === 201) {
-        if (typeof success === 'function') {
+        if (typeof success === "function") {
           return success(result.data);
         }
       } else {
@@ -67,9 +70,9 @@ async function request({
       }
     } catch (err: any) {
       const result = err?.toJSON?.();
-      if (typeof failure === 'function') {
+      if (typeof failure === "function") {
         if (err?.response?.status === 401) {
-          DeviceEventEmitter.emit('TokenExpire');
+          DeviceEventEmitter.emit("TokenExpire");
         }
         if (err?.response?.data) {
           return failure(err?.response?.data);

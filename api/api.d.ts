@@ -85,6 +85,7 @@ type UserResponse = {
 };
 
 interface UserProfile {
+  business?: any;
   address: {
     addressLine1: string;
     addressLine2: string;

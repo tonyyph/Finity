@@ -5,62 +5,62 @@ import { router, useLocalSearchParams } from "expo-router";
 import { find } from "lodash-es";
 import { ArrowLeftIcon } from "lucide-react-native";
 import { useCallback, useEffect, useState } from "react";
-import { Platform, SafeAreaView, StyleSheet, View } from "react-native";
+import { Platform, SafeAreaView, View } from "react-native";
 
 interface AuthenticationProps {
   authenticationType: LocalAuthentication.AuthenticationType;
-  title: String;
-  subTitle: String;
-  subTitle2: String;
-  submit: String;
+  title: string;
+  subTitle: string;
+  subTitle2: string;
+  submit: string;
 }
 
-const authentication: Array<AuthenticationProps> = [
+const authentication: AuthenticationProps[] = [
   {
     authenticationType:
       LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
     title: `Setup Face ID`,
     subTitle: `Use Face ID for fast, secure access to your account and approve transactions.`,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup Face ID",
+    submit: "Setup Face ID"
   },
   {
     authenticationType: LocalAuthentication.AuthenticationType.FINGERPRINT,
     title: `Setup Touch ID`,
     subTitle: `Use Touch ID for fast, secure access to your account and approve transactions. `,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup Touch ID",
-  },
+    submit: "Setup Touch ID"
+  }
 ];
 
-const authenticationAndroid: Array<AuthenticationProps> = [
+const authenticationAndroid: AuthenticationProps[] = [
   {
     authenticationType:
       LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
     title: `Setup biometric authentication`,
     subTitle: `Use your face recognition for secure access to your account and easy transaction approvals.`,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup biometrics",
+    submit: "Setup biometrics"
   },
   {
     authenticationType: LocalAuthentication.AuthenticationType.FINGERPRINT,
     title: `Setup biometric authentication`,
     subTitle: `Use your fingerprint for secure access to your account and easy transaction approvals.`,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup biometrics",
+    submit: "Setup biometrics"
   },
   {
     authenticationType: LocalAuthentication.AuthenticationType.IRIS,
     title: `Setup biometric authentication`,
     subTitle: `Use your fingerprint or face recognition for secure access to your account and easy transaction approvals..`,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup biometrics",
-  },
+    submit: "Setup biometrics"
+  }
 ];
 
 function Biometrics() {
   const { typeAuthentication } = useLocalSearchParams();
-  const [loading, setLoading] = useState<Boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [authenticationType, setAuthenticationType] =
     useState<AuthenticationProps>();
 
@@ -68,7 +68,7 @@ function Biometrics() {
     setAuthenticationType(
       find(
         Platform.OS === "ios" ? authentication : authenticationAndroid,
-        (au) => String(au.authenticationType) == String(typeAuthentication)
+        (au) => String(au.authenticationType) === String(typeAuthentication)
       )
     );
   }, [typeAuthentication]);
@@ -84,8 +84,8 @@ function Biometrics() {
       router.replace({
         pathname: "/(app)/biometrics-success",
         params: {
-          typeAuthentication: authenticationType?.authenticationType,
-        },
+          typeAuthentication: authenticationType?.authenticationType
+        }
       });
     }
   }, [authenticationType]);
@@ -135,7 +135,3 @@ function Biometrics() {
   );
 }
 export default Biometrics;
-
-const styles = StyleSheet.create({
-  container: {},
-});

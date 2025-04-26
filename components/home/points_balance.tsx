@@ -33,7 +33,7 @@ function PointsBalanceCom({
         <Tooltip content="1 point = £0.10">
           <Image
             source={require("@/assets/images/info-filled.png")}
-            className="w-[16px] h-[16px]"
+            className="w-[24px] h-[24px]"
           />
         </Tooltip>
       </View>

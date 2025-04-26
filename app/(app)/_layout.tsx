@@ -105,24 +105,15 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="profile-edit"
           options={{
-            presentation: "modal",
-            headerTitle: `Fill Your Profile`
+            headerTitle: `Personal information`,
+            headerStyle: {
+              backgroundColor: "#FFFFFF"
+            }
           }}
         />
-        <Stack.Screen
-          name="category/index"
-          options={{
-            headerTitle: `Categories`
-          }}
-        />
-
         <Stack.Screen
           name="notifications"
           options={{ headerTitle: `Notifications` }}
-        />
-        <Stack.Screen
-          name="search"
-          options={{ headerTitle: `Search`, headerShown: false }}
         />
         <Stack.Screen
           name="feedback"
@@ -138,7 +129,6 @@ export default function AuthenticatedLayout() {
             headerTitle: `Language`
           }}
         />
-
         <Stack.Screen
           name="biometrics"
           options={{
@@ -150,6 +140,12 @@ export default function AuthenticatedLayout() {
           name="biometrics-success"
           options={{
             headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="success_phonenumber"
+          options={{
             headerShown: false
           }}
         />
@@ -183,6 +179,26 @@ export default function AuthenticatedLayout() {
         />
         <Stack.Screen
           name="damaged"
+          options={{
+            headerShown: true,
+            headerTitle: ``,
+            headerStyle: {
+              backgroundColor: getColor("--background")
+            }
+          }}
+        />
+        <Stack.Screen
+          name="edit_phonenumber"
+          options={{
+            headerShown: true,
+            headerTitle: ``,
+            headerStyle: {
+              backgroundColor: getColor("--background")
+            }
+          }}
+        />
+        <Stack.Screen
+          name="verify_phonenumber"
           options={{
             headerShown: true,
             headerTitle: ``,

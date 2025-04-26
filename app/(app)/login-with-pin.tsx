@@ -43,7 +43,7 @@ export default function LoginWithPinScreen() {
     } else {
       setWrongPin(false);
     }
-  }, [confirmPin]);
+  }, [confirmPin, setIsLoginWithPin]);
 
   return (
     <View

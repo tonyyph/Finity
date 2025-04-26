@@ -5,22 +5,19 @@ import DowntimeMessage from "@/components/common/down-time-message";
 import { MenuItem } from "@/components/common/menu-item";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { useLocalAuth } from "@/hooks/use-local-auth";
 import { useUserSettingsStore } from "@/stores";
 import { exactDesign } from "@/utils";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BlurView } from "expo-blur";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import {
   ChevronRightIcon,
   EyeIcon,
-  SnowflakeIcon,
   TriangleAlertIcon,
-  WindIcon,
   XIcon
 } from "lucide-react-native";
 import { useRef } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function CardScreen() {
@@ -65,6 +62,50 @@ export default function CardScreen() {
   };
 
   const verificationPIN = "1234";
+
+  const BottomSheetViewPin = () => {
+    return (
+      <BottomSheet ref={sheetRef} index={0} snapPoints={["40%", "87%"]}>
+        <BottomSheetView style={{ paddingBottom: bottom }}>
+          <View className="flex-row items-center justify-between px-4">
+            <View className="w-[24px] h-[24px]" />
+            <Typography type="body-large" weight="semibold" className="p-4">
+              {"View PIN"}
+            </Typography>
+            <XIcon
+              onPress={() => sheetRef.current?.dismiss()}
+              className="w-[24px] h-[24px] text-black"
+            />
+          </View>
+          <View className="flex-row items-center justify-center gap-4 mt-6 px-4">
+            {verificationPIN.split("").map((digit, index) => (
+              <View
+                key={index}
+                className="bg-neutral-100 rounded-lg items-center w-[56px] h-[56px] border border-subtle justify-center"
+              >
+                <Typography type="body-small" weight="semibold">
+                  {digit}
+                </Typography>
+              </View>
+            ))}
+          </View>
+          <View className="p-3 mx-4 my-6 rounded-2xl items-start bg-teal-200 flex-row">
+            <Image
+              source={require("@/assets/images/info-filled-b.png")}
+              className="w-[24px] h-[24px]"
+            />
+            <View className="px-3 gap-1 flex-1">
+              <Typography weight="regular">
+                Your PIN is confidential. For your security, this will
+                automatically close.
+              </Typography>
+            </View>
+          </View>
+          <DowntimeMessage ref={sheetRef} />
+        </BottomSheetView>
+      </BottomSheet>
+    );
+  };
 
   if (activeCard === 2) {
     return (
@@ -130,45 +171,7 @@ export default function CardScreen() {
             />
           </View>
         </View>
-        <BottomSheet ref={sheetRef} index={0} snapPoints={["40%", "87%"]}>
-          <BottomSheetView style={{ paddingBottom: bottom }}>
-            <View className="flex-row items-center justify-between px-4">
-              <View className="w-[24px] h-[24px]" />
-              <Typography type="body-large" weight="semibold" className="p-4">
-                {"View PIN"}
-              </Typography>
-              <XIcon
-                onPress={() => sheetRef.current?.dismiss()}
-                className="w-[24px] h-[24px] text-black"
-              />
-            </View>
-            <View className="flex-row items-center justify-center gap-4 mt-6 px-4">
-              {verificationPIN.split("").map((digit, index) => (
-                <View
-                  key={index}
-                  className="bg-neutral-100 rounded-lg items-center w-[56px] h-[56px] border border-subtle justify-center"
-                >
-                  <Typography type="body-small" weight="semibold">
-                    {digit}
-                  </Typography>
-                </View>
-              ))}
-            </View>
-            <View className="p-3 mx-4 my-6 rounded-2xl items-start bg-teal-200 flex-row">
-              <Image
-                source={require("@/assets/images/info-filled-b.png")}
-                className="w-[24px] h-[24px]"
-              />
-              <View className="px-3 gap-1 flex-1">
-                <Typography weight="regular">
-                  Your PIN is confidential. For your security, this will
-                  automatically close.
-                </Typography>
-              </View>
-            </View>
-            <DowntimeMessage ref={sheetRef} />
-          </BottomSheetView>
-        </BottomSheet>
+        <BottomSheetViewPin />
       </>
     );
   }

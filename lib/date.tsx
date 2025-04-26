@@ -44,6 +44,16 @@ export function formatDateShort(date?: Date) {
   return format(date, "yyyy-MM-dd");
 }
 
+export function formatDateString(date: string) {
+  const formatted = new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "2-digit"
+  });
+
+  return formatted;
+}
+
 export function formatDateTimeShort(date?: Date) {
   if (!date) {
     return "";

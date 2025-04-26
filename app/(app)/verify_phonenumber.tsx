@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { colors } from "@/constants/Colors";
 import { useLogin } from "@/hooks/auth";
 import { exactDesign } from "@/utils";
+import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Keyboard, TextInput, View } from "react-native";
 import Animated, {
@@ -12,13 +13,25 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function Verify2FactorScreen() {
+export default function VerifyPhoneNumberCodeScreen() {
   const { bottom } = useSafeAreaInsets();
+  const { phoneNumber } = useLocalSearchParams();
+
   const { handleVerifyTOTP, error, loading } = useLogin();
 
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
-  const inputsRef = useRef<Array<TextInput | null>>([]);
+  const inputsRef = useRef<(TextInput | null)[]>([]);
   const [indexCursor, setIndexCursor] = useState<number>(0);
+  const [timeLeft, setTimeLeft] = useState(150); // 2m30s
+
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+    const interval = setInterval(() => setTimeLeft((t) => t - 1), 1000);
+    return () => clearInterval(interval);
+  }, [timeLeft]);
+
+  const minutes = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+  const seconds = String(timeLeft % 60).padStart(2, "0");
 
   useEffect(() => {
     if (inputsRef.current[0]) {
@@ -39,16 +52,17 @@ export default function Verify2FactorScreen() {
 
   const otpString = otp.join("");
 
+  const handleVerifyOTP = useCallback(() => {
+    Keyboard.dismiss();
+    // handleVerifyTOTP && handleVerifyTOTP({ otp: otpString, type: "verify" });
+    router.push("/(app)/success_phonenumber");
+  }, []);
+
   useEffect(() => {
     if (otpString.length === 6) {
       handleVerifyOTP();
     }
-  }, [otpString]);
-
-  const handleVerifyOTP = useCallback(() => {
-    Keyboard.dismiss();
-    handleVerifyTOTP && handleVerifyTOTP({ otp: otpString });
-  }, [otpString]);
+  }, [otpString, handleVerifyOTP]);
 
   const handleChange = (text: string, index: number) => {
     if (/^\d?$/.test(text)) {
@@ -83,10 +97,12 @@ export default function Verify2FactorScreen() {
       <View className="flex-1">
         <View className="z-10 mb-2 gap-2">
           <Typography type="heading-small" weight="semibold">
-            Two-factor authentication
+            Verify mobile number
           </Typography>
           <Typography weight="regular">
-            Enter the 6-digit verification code generated from your app.
+            {`To continue, verify your number by entering the verification code sent to ${phoneNumber
+              .toString()
+              ?.replace(/^\+44(\d{4})(\d{3})(\d{3})$/, "+44 $1 $2 $3")}.`}
           </Typography>
         </View>
         <View className="flex flex-row justify-between items-center mt-8 gap-2">
@@ -122,6 +138,7 @@ export default function Verify2FactorScreen() {
             </View>
           ))}
         </View>
+
         {!!error && (
           <View className="flex flex-row items-center mt-3">
             <CircleAlert className="top-1" />
@@ -135,6 +152,16 @@ export default function Verify2FactorScreen() {
             </Typography>
           </View>
         )}
+        <Typography
+          type="body-small"
+          weight="medium"
+          textColor="#737373"
+          className="text-center mt-6"
+        >
+          {timeLeft > 0
+            ? `Resend code in ${minutes}:${seconds}`
+            : "Resend code."}
+        </Typography>
       </View>
       <Animated.View
         style={translateStyle}

@@ -8,7 +8,7 @@ import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const DamagedScreen = () => {
-  const { top, bottom } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
   const { setIsDamagedCard } = useUserSettingsStore();
   const [loading, setLoading] = useState<boolean>();
 

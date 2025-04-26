@@ -1,7 +1,6 @@
 import { formatDateShort } from "@/lib/date";
 import { cn, sleep } from "@/lib/utils";
 import { type BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { t } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Haptics from "expo-haptics";
@@ -26,7 +25,6 @@ function SpinnerDatePicker({
   minimumDate?: Date;
   title?: string;
 }) {
-  const { i18n } = useLingui();
   const [date, setDate] = useState<Date>(value ?? new Date());
 
   return (

@@ -4,7 +4,6 @@ import { clerk } from "@/lib/client";
 
 export const getUserProfile = async () => {
   const token = await clerk.session?.getToken();
-
   return await axios.get<UserResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/user`,
     {

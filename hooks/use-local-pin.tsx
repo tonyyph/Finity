@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { AppState, type AppStateStatus } from "react-native";
 
 // 30 minutes
-const BIO_AUTH_EXPIRATION_TIME = 1000 * 60 * 30;
+// const BIO_AUTH_EXPIRATION_TIME = 1000 * 60 * 30;
 
 const BIO_TEN_SECONDS = 1000 * 10; //TODO: remove this one
 

@@ -8,13 +8,7 @@ import {
   ChevronUp
 } from "lucide-react-native";
 import * as React from "react";
-import {
-  Platform,
-  type StyleProp,
-  StyleSheet,
-  View,
-  type ViewStyle
-} from "react-native";
+import { Platform, type StyleProp, View, type ViewStyle } from "react-native";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 

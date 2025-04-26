@@ -1,13 +1,11 @@
-import React, { ReactDOM } from "react";
+import React from "react";
 import {
   StyleSheet,
   TouchableOpacity,
-  TouchableOpacityProps,
+  TouchableOpacityProps
 } from "react-native";
 
-type Props = {};
-
-const Touch: React.FC<TouchableOpacityProps & Props> = (props) => {
+const Touch: React.FC<TouchableOpacityProps> = (props) => {
   return (
     <TouchableOpacity
       style={styles.container}
@@ -21,5 +19,5 @@ const Touch: React.FC<TouchableOpacityProps & Props> = (props) => {
 export default Touch;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {}
 });

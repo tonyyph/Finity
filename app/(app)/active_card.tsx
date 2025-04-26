@@ -40,14 +40,6 @@ function ActiveCardScreen() {
   const [cardNumber, setCardNumber] = useState(["", "", "", ""]);
   const [indexCursor, setIndexCursor] = useState<number>(0);
 
-  useEffect(() => {
-    const enteredOtp = cardNumber.join("");
-    if (enteredOtp.length === 4) {
-      Keyboard.dismiss();
-      handleSubmit();
-    }
-  }, [cardNumber]);
-
   const handleChange = (text: string, index: number) => {
     if (/^\d?$/.test(text)) {
       setIndexCursor(index + 1);
@@ -79,7 +71,7 @@ function ActiveCardScreen() {
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
-        if (enteredOtp == "1234") {
+        if (enteredOtp === "1234") {
           setCardNumber(["", "", "", ""]);
           setActiveCard(2);
           setIsDisableCard(false);
@@ -101,6 +93,14 @@ function ActiveCardScreen() {
       Alert.alert("Error", "Please enter all 4 numbers.");
     }
   }, [cardNumber]);
+
+  useEffect(() => {
+    const enteredOtp = cardNumber.join("");
+    if (enteredOtp.length === 4) {
+      Keyboard.dismiss();
+      handleSubmit();
+    }
+  }, [cardNumber, handleSubmit]);
 
   return (
     <View

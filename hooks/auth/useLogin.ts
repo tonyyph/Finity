@@ -24,6 +24,7 @@ export const useLogin = () => {
   const [error, setError] = useState("");
 
   const onLogin = async () => {
+    setLoading(true);
     if (!isLoaded) return;
     const setError = (error: string = "Invalid password") => {
       passwordState.setState((prev) => ({ ...prev, error }));
@@ -45,10 +46,18 @@ export const useLogin = () => {
       }
     } catch (err: any) {
       setError(err?.errors?.[0]?.longMessage ?? err.message ?? "Unknown error");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleVerifyTOTP = async ({ otp }: { otp: string }) => {
+  const handleVerifyTOTP = async ({
+    otp,
+    type = "default"
+  }: {
+    otp: string;
+    type?: string;
+  }) => {
     if (!isLoaded) return;
     try {
       setLoading(true);
@@ -63,9 +72,13 @@ export const useLogin = () => {
       });
 
       if (result.status === "complete") {
-        await setActiveSignIn({ session: result.createdSessionId });
-        const { data: session } = await getUserProfile();
-        userStore.setState({ userProfile: session });
+        if (type === "default") {
+          await setActiveSignIn({ session: result.createdSessionId });
+          const { data: session } = await getUserProfile();
+          userStore.setState({ userProfile: session });
+        } else {
+          router.push("/success_phonenumber");
+        }
       } else {
         setError("Invalid code. Please try again.");
       }
@@ -83,7 +96,7 @@ export const useLogin = () => {
     passwordState,
     handleVerifyTOTP,
     error,
-    loading,
+    isLoading: loading,
     onLogin
   };
 };

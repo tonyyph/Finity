@@ -36,8 +36,6 @@ module.exports = {
         semibold: "600",
       },
       colors: {
-        black: "#000000",
-        white: "#ffffff",
         gray: {
           100: "#fdfdfd",
           200: "#fcfcfc",
@@ -77,7 +75,6 @@ module.exports = {
         errormessage: "#D9323D",
         "orange-primary": "#FF885D",
         pin: "#f9f9f9",
-        border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -85,10 +82,6 @@ module.exports = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",

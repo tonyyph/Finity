@@ -4,7 +4,7 @@ import { Radio } from "@/components/ui/radio";
 import { cn } from "@/lib/utils";
 import { router } from "expo-router";
 import React, { useCallback } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ReportLostOrDamagedScreen = () => {
@@ -86,5 +86,3 @@ const ReportLostOrDamagedScreen = () => {
 };
 
 export default ReportLostOrDamagedScreen;
-
-const styles = StyleSheet.create({});

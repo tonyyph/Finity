@@ -1,10 +1,9 @@
 import { TextClassContext } from "@/components/ui/text";
+import { colors } from "@/constants/Colors";
 import { cn } from "@/lib/utils";
 import { type VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
 import { Pressable } from "react-native";
-import { AnimatedSpinner } from "./spinner";
-import { colors } from "@/constants/Colors";
 import AnimatedSpinnerV2 from "./spinnerIndicator";
 
 const buttonVariants = cva(

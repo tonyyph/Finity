@@ -4,16 +4,14 @@ import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { Progress } from "@/components/ui/progress";
-import Tooltip from "@/components/ui/tooltip";
 import Touch from "@/components/ui/touch";
-import { colors } from "@/constants/Colors";
 import { cn } from "@/lib/utils";
 import { formatNumber } from "@/utils";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { t } from "@lingui/macro";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
-import { Image, SafeAreaView, Text, TextInput, View } from "react-native";
+import { Image, SafeAreaView, TextInput, View } from "react-native";
 
 const mockupCardHolders = [
   { id: 1, shortName: "AG", name: "Amber Green", isChoose: true },

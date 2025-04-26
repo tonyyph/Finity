@@ -4,7 +4,7 @@ import Typography from "./text-typography";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
 const DowntimeMessage = forwardRef(
-  ({}, ref: React.ForwardedRef<BottomSheetModalMethods>) => {
+  (props, ref: React.ForwardedRef<BottomSheetModalMethods>) => {
     const [secondsLeft, setSecondsLeft] = useState(20); // initial downtime in seconds
 
     useEffect(() => {
@@ -35,5 +35,7 @@ const DowntimeMessage = forwardRef(
     );
   }
 );
+
+DowntimeMessage.displayName = "DowntimeMessage";
 
 export default DowntimeMessage;

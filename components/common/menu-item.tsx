@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
 import { Pressable, View } from "react-native";
 import type { SvgProps } from "react-native-svg";
-import { Text } from "../ui/text";
 import Typography from "./text-typography";
 
 type MenuItemProps = {
@@ -55,3 +54,5 @@ export const MenuItem = forwardRef(function (
     </Pressable>
   );
 });
+
+MenuItem.displayName = "MenuItem";

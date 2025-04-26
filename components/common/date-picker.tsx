@@ -2,8 +2,6 @@ import { useColorPalette } from "@/hooks/use-color-palette";
 import { formatDateTimeShort } from "@/lib/date";
 import { sleep } from "@/lib/utils";
 import { type BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { t } from "@lingui/macro";
-import { useLingui } from "@lingui/react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Haptics from "expo-haptics";
 import { CalendarRangeIcon } from "lucide-react-native";
@@ -24,7 +22,6 @@ function SpinnerDatePicker({
   maximumDate?: Date;
   minimumDate?: Date;
 }) {
-  const { i18n } = useLingui();
   const [date, setDate] = useState<Date | undefined>(value);
   const { getColor } = useColorPalette();
   return (

@@ -4,14 +4,16 @@ import { Hono } from "hono";
 const router = new Hono()
   .get("", async (c) => {
     const auth = getAuth(c);
+
     if (!auth?.userId) {
       return c.json({ message: "unauthorized" }, 401);
     }
 
     return c.json(auth?.userId);
   })
-  .get("/user-permissions", async (c) => {
+  .get("/current", async (c) => {
     const auth = getAuth(c);
+
     if (!auth?.userId) {
       return c.json({ message: "unauthorized" }, 401);
     }

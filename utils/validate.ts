@@ -3,7 +3,7 @@ export const validateUsername = (username?: string, required?: boolean) => {
     return { error: "Enter your email address", valid: false };
   }
   if (username?.includes("@")) {
-    const re = /\S+@\S+\.\S+/;
+    // const re = /\S+@\S+\.\S+/;
 
     // if (!re.test(username)) {
     //   return { error: "Invalid email address.", valid: false };

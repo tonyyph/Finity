@@ -1,20 +1,13 @@
-import React, {
-  ReactDOM,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { colors } from "@/constants/Colors";
+import { exactDesign } from "@/utils";
+import React, { ReactNode, useCallback, useEffect, useState } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
-  TouchableOpacityProps,
-  View,
+  TouchableOpacityProps
 } from "react-native";
 import Tooltips from "react-native-walkthrough-tooltip";
 import { Text } from "./text";
-import { colors } from "@/constants/Colors";
-import { exactDesign } from "@/utils";
 
 type Props = {
   tootTipContent?: ReactNode;
@@ -22,7 +15,7 @@ type Props = {
 };
 
 const Tooltip: React.FC<TouchableOpacityProps & Props> = (props) => {
-  const [showtoolTip, setShowTooltip] = useState<boolean>(false);
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
   let timeout: any = null;
 
   useEffect(() => {
@@ -31,19 +24,20 @@ const Tooltip: React.FC<TouchableOpacityProps & Props> = (props) => {
         clearTimeout(timeout);
       }
     };
-  }, []);
+  }, [timeout]);
 
   const handleToolTip = useCallback(() => {
-    setShowTooltip(!showtoolTip);
-    if (!showtoolTip) {
+    setShowTooltip(!showTooltip);
+    if (!showTooltip) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       timeout = setTimeout(() => {
         setShowTooltip(false);
       }, 5000);
     }
-  }, [showtoolTip]);
+  }, [showTooltip]);
   return (
     <Tooltips
-      isVisible={showtoolTip}
+      isVisible={showTooltip}
       content={
         props?.tootTipContent ? (
           <>{props.tootTipContent}</>
@@ -77,6 +71,6 @@ const styles = StyleSheet.create({
   container: {},
   tooltip: {
     backgroundColor: colors.neutral,
-    borderRadius: exactDesign(8),
-  },
+    borderRadius: exactDesign(8)
+  }
 });

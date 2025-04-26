@@ -4,15 +4,12 @@ import { useCallback, useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
 import Typography from "../common/text-typography";
 import { Button } from "../ui/button";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type AuthBiometricsProps = {
   onAuthenticated?: () => void;
 };
 
 export function AuthBiometrics({ onAuthenticated }: AuthBiometricsProps) {
-  const { top, bottom } = useSafeAreaInsets();
-
   const handleAuthenticate = useCallback(async () => {
     const result = await LocalAuthentication.authenticateAsync({
       // disableDeviceFallback: true,
@@ -25,7 +22,7 @@ export function AuthBiometrics({ onAuthenticated }: AuthBiometricsProps) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     handleAuthenticate();
-  }, []);
+  }, [handleAuthenticate]);
 
   return (
     <SafeAreaView className="absolute inset-0 z-50 flex-1 bg-background p-6">

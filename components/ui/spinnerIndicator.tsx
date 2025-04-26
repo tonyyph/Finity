@@ -15,7 +15,7 @@ const AnimatedSpinnerV2: React.FC<MaterialIndicatorProps> = ({
   color = "rgb(0, 0, 0)",
   size = 40,
   animationDuration = 4000,
-  style,
+  style
 }) => {
   const borderWidth = trackWidth ?? size / 10;
   const frames = Math.round((60 * animationDuration) / 1000);
@@ -23,6 +23,7 @@ const AnimatedSpinnerV2: React.FC<MaterialIndicatorProps> = ({
 
   const renderComponent = useMemo(
     () =>
+      // eslint-disable-next-line react/display-name
       ({ index, progress }: { index: number; progress: Animated.Value }) => {
         const sa = 7.5;
         const ea = 30;
@@ -60,10 +61,10 @@ const AnimatedSpinnerV2: React.FC<MaterialIndicatorProps> = ({
                   {
                     rotate: progress.interpolate({
                       inputRange: [0, 1],
-                      outputRange: ["0deg", `${360 * rotations}deg`],
-                    }),
-                  },
-                ],
+                      outputRange: ["0deg", `${360 * rotations}deg`]
+                    })
+                  }
+                ]
               }}
             >
               <Animated.View
@@ -71,7 +72,7 @@ const AnimatedSpinnerV2: React.FC<MaterialIndicatorProps> = ({
                   width: size,
                   height: size / 2,
                   overflow: "hidden",
-                  top: index ? size / 2 : 0,
+                  top: index ? size / 2 : 0
                 }}
                 collapsable={false}
               >
@@ -83,17 +84,17 @@ const AnimatedSpinnerV2: React.FC<MaterialIndicatorProps> = ({
                       {
                         rotate: progress.interpolate({
                           inputRange,
-                          outputRange,
-                        }),
-                      },
-                    ],
+                          outputRange
+                        })
+                      }
+                    ]
                   }}
                 >
                   <Animated.View
                     style={{
                       width: size,
                       height: size / 2,
-                      overflow: "hidden",
+                      overflow: "hidden"
                     }}
                     collapsable={false}
                   >
@@ -104,7 +105,7 @@ const AnimatedSpinnerV2: React.FC<MaterialIndicatorProps> = ({
                         borderColor: color,
                         borderRadius: size / 2,
                         borderWidth,
-                        borderStyle: "solid",
+                        borderStyle: "solid"
                       }}
                     />
                   </Animated.View>
@@ -131,14 +132,16 @@ const AnimatedSpinnerV2: React.FC<MaterialIndicatorProps> = ({
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
 
   layer: {
     position: "absolute",
     justifyContent: "center",
-    alignItems: "center",
-  },
+    alignItems: "center"
+  }
 });
+
+AnimatedSpinnerV2.displayName = "AnimatedSpinnerV2";
 
 export default AnimatedSpinnerV2;

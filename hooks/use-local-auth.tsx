@@ -1,14 +1,14 @@
-import { useUserSettingsStore } from "@/stores/user-settings/store";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useCallback, useEffect, useState } from "react";
-import { AppState, type AppStateStatus } from "react-native";
+// import { useUserSettingsStore } from "@/stores/user-settings/store";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState } from "react";
+// import { AppState, type AppStateStatus } from "react-native";
 
 // 30 seconds
-const BIO_AUTH_EXPIRATION_TIME = 1000 * 30;
+// const BIO_AUTH_EXPIRATION_TIME = 1000 * 30;
 
 export function useLocalAuth() {
   const [shouldAuthLocal, setShouldAuthLocal] = useState(false);
-  const { enabledLocalAuth } = useUserSettingsStore();
+  // const { enabledLocalAuth } = useUserSettingsStore();
 
   // const changeAppStateListener = useCallback(
   //   async (status: AppStateStatus) => {

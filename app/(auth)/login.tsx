@@ -3,9 +3,8 @@ import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { cn } from "@/lib/utils";
-import { router } from "expo-router";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import {
   Image,
   Keyboard,
@@ -17,42 +16,10 @@ import {
 } from "react-native";
 
 export default function LoginScreen() {
-  const [loading, setLoading] = useState(false);
   const [securePassword, setSecurePassword] = useState(true);
   const [focusUsername, setFocusUsername] = useState(false);
   const [focusPassword, setFocusPassword] = useState(false);
-  const { onLogin, usernameState, passwordState } = useLogin();
-  const handleSignedIn = useCallback(() => {
-    Keyboard.dismiss();
-    const setError = (error: string = "Invalid password") => {
-      passwordState.setState((prev) => ({ ...prev, error }));
-    };
-
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      if (passwordState.value === "access") {
-        router.push("/(auth)/access-denied");
-      }
-      if (passwordState.value === "wrong") {
-        router.push("/(auth)/st-went-wrong");
-      }
-      if (passwordState.value === "bio") {
-        router.push({
-          pathname: "/(app)/biometrics",
-          params: { typeAuthentication: 2 }
-        });
-      }
-      if (passwordState.value === "notfound") {
-        router.push("/(auth)/page-not-found");
-      }
-      if (passwordState.value === "123456") {
-        router.push("/(auth)/verify-2factor");
-      } else {
-        setError("Incorrect email address or password. Try again.");
-      }
-    }, 1500);
-  }, [passwordState.value]);
+  const { onLogin, usernameState, passwordState, isLoading } = useLogin();
 
   const onPressSecurePassword = () => {
     setSecurePassword((prev) => !prev);
@@ -176,11 +143,11 @@ export default function LoginScreen() {
               <Button
                 variant="default"
                 disabled={
-                  !usernameState.value || !passwordState.value || loading
+                  !usernameState.value || !passwordState.value || isLoading
                 }
                 size={"lg"}
                 className="mt-8 rounded-full bg-primary h-[48px]"
-                loading={loading}
+                loading={isLoading}
                 onPress={onLogin}
               >
                 <Typography
@@ -188,7 +155,7 @@ export default function LoginScreen() {
                   weight="medium"
                   textColor="white"
                 >
-                  {loading ? `Signing in...` : `Sign in`}
+                  {isLoading ? `Signing in...` : `Sign in`}
                 </Typography>
               </Button>
               {/* Forgot password */}

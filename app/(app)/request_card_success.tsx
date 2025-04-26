@@ -35,7 +35,7 @@ function RequestCardSuccessScreen() {
   const [localType, setLocalType] = useState<propsLocal>();
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
-    if (success != "false") {
+    if (success !== "false") {
       setLocalType(type[1]);
     } else {
       setLocalType(type[0]);
@@ -43,7 +43,7 @@ function RequestCardSuccessScreen() {
   }, [success]);
 
   const handleReturnHome = useCallback(() => {
-    if (success != "false") {
+    if (success !== "false") {
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
@@ -52,7 +52,7 @@ function RequestCardSuccessScreen() {
     } else {
       router.back();
     }
-  }, []);
+  }, [success]);
 
   return (
     <View

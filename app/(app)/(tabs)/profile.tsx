@@ -1,37 +1,26 @@
-import * as Application from "expo-application";
-import * as Haptics from "expo-haptics";
-import { FooterGradient } from "@/components/common/footer-gradient";
 import { MenuItem } from "@/components/common/menu-item";
+import Typography from "@/components/common/text-typography";
 import { toast } from "@/components/common/toast";
 import { ProfileCard } from "@/components/profile/profile-card";
 import { SetLocalAuth } from "@/components/profile/set-local-auth";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";
-import { useLocale } from "@/locales/provider";
 import { useUserAuthenticateStore } from "@/stores";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
 import { useAuth } from "@clerk/clerk-expo";
+import * as Application from "expo-application";
 import * as Notifications from "expo-notifications";
 import { Link } from "expo-router";
 import {
   BadgePoundSterlingIcon,
   BellIcon,
-  BookTypeIcon,
   ChevronRightIcon,
   CircleHelpIcon,
-  EarthIcon,
   FileLock2Icon,
   FileTextIcon,
-  InboxIcon,
   LogOutIcon,
-  MessageSquareQuoteIcon,
-  ScrollTextIcon,
-  ShapesIcon,
   Share2Icon,
   ShieldCheckIcon,
-  SwatchBookIcon,
   UserIcon
 } from "lucide-react-native";
 import {
@@ -44,13 +33,10 @@ import {
   View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Typography from "@/components/common/text-typography";
-import { version } from "react";
 
 export default function ProfileScreen() {
   const { signOut } = useAuth();
   const { top } = useSafeAreaInsets();
-  const { language } = useLocale();
   const { setEnabledPushNotifications, enabledPushNotifications } =
     useUserSettingsStore();
   const { setIsLoggedIn } = useUserAuthenticateStore();

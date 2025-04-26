@@ -2,22 +2,15 @@ import { exactDesign, SCREEN_HEIGHT, SCREEN_WIDTH } from "@/utils";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { TabBar, TabBarItem, TabView } from "react-native-tab-view";
-import Typography from "../common/text-typography";
-import Touch from "../ui/touch";
 import CardTab from "./cardTap";
 import PointsTap from "./pointsTap";
-
-type Props = {
-  onLoadCard?: (params?: any) => void;
-  onSendPoints?: (params?: any) => void;
-};
 
 const routes = [
   { key: "card", title: "Card" },
   { key: "points", title: "Points" }
 ];
 
-function CardAndPointTab({ onLoadCard, onSendPoints }: Props) {
+function CardAndPointTab() {
   const [index, setIndex] = useState<number>(0);
 
   const renderScene = ({ route }: any) => {
@@ -36,25 +29,7 @@ function CardAndPointTab({ onLoadCard, onSendPoints }: Props) {
   };
 
   return (
-    <View className="flex-1 ">
-      <View className="flex-row gap-2 pl-4 pr-4 mb-4">
-        <Touch
-          onPress={onLoadCard}
-          className="bg-black h-[48px] justify-center items-center flex-1 rounded-full"
-        >
-          <Typography weight="medium" textColor="white" type="body-default">
-            Load card
-          </Typography>
-        </Touch>
-        <Touch
-          onPress={onSendPoints}
-          className="bg-white h-[48px] justify-center items-center flex-1 rounded-full border border-[#D4D4D4]"
-        >
-          <Typography weight="medium" type="body-default">
-            Send points
-          </Typography>
-        </Touch>
-      </View>
+    <View className="flex-1 px-4 bg-white shadow-md shadow-slate-200">
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -63,17 +38,9 @@ function CardAndPointTab({ onLoadCard, onSendPoints }: Props) {
         renderTabBar={(props) => (
           <TabBar
             {...props}
-            indicatorStyle={{
-              backgroundColor: "black",
-              height: exactDesign(4),
-              borderRadius: exactDesign(100)
-            }}
-            contentContainerStyle={{
-              shadowColor: "white",
-              borderBottomWidth: 1,
-              borderBottomColor: "#E5E5E5"
-            }}
-            indicatorContainerStyle={{ backgroundColor: "white" }}
+            indicatorStyle={styles.indicatorStyle}
+            contentContainerStyle={styles.containerStyle}
+            indicatorContainerStyle={styles.indicatorContainerStyle}
             renderTabBarItem={(props) => (
               <TabBarItem
                 {...props}
@@ -95,6 +62,17 @@ function CardAndPointTab({ onLoadCard, onSendPoints }: Props) {
 export default CardAndPointTab;
 
 const styles = StyleSheet.create({
+  indicatorContainerStyle: { backgroundColor: "white" },
+  indicatorStyle: {
+    backgroundColor: "black",
+    height: exactDesign(4),
+    borderRadius: exactDesign(100)
+  },
+  containerStyle: {
+    shadowColor: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "#E5E5E5"
+  },
   tabVIewContainer: {
     minHeight: SCREEN_HEIGHT / 2
   },
