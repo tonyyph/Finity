@@ -21,19 +21,15 @@ export function HomeHeader({
     <View className="flex flex-row items-center justify-between gap-4 bg-backgroundSubtle px-4 pb-3">
       <View className="flex flex-1 flex-row items-center gap-3">
         <View className="flex-1 gap-1">
-          <Typography
-            weight="semibold"
-            type="heading-small"
-            className="pt-4 pb-2"
-          >
-            {`${`Hi`}, ${
+          <Typography weight="bold" type="heading-small" className="pt-4 pb-2">
+            {`${`Hi`} ${
               userProfile?.firstName && userProfile?.lastName
                 ? userProfile.firstName + " " + userProfile.lastName
                 : user?.fullName ??
                   user?.publicMetadata?.invitee_first_name ??
                   user?.primaryEmailAddress?.emailAddress ??
                   ""
-            }`}
+            }!`}
           </Typography>
         </View>
       </View>

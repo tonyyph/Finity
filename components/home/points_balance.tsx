@@ -21,11 +21,9 @@ function PointsBalanceCom({
       className="flex-row ml-4 bg-white mr-4 p-4 border-border border rounded-xl justify-between"
     >
       <View className="gap-4">
-        <Typography weight="medium" textColor="#404040" type="body-default">
-          {title}
-        </Typography>
+        <Typography textColor="#404040">{title}</Typography>
 
-        <Typography weight="semibold" type="heading-medium">
+        <Typography weight="bold" type="heading-medium">
           {`${formatNumber({ value, decimalCount: 0 })}`}
         </Typography>
       </View>

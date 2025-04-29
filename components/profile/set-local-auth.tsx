@@ -30,9 +30,9 @@ export function SetLocalAuth() {
   }
 
   //TODO: check support for device fallback
-  // if (!isBiometricSupported) {
-  //   return null;
-  // }
+  if (!isBiometricSupported) {
+    return null;
+  }
 
   return (
     <MenuItem

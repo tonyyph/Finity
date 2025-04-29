@@ -7,6 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";
 import { useUserAuthenticateStore } from "@/stores";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
+import { resetAllStorage } from "@/utils";
 import { useAuth } from "@clerk/clerk-expo";
 import * as Application from "expo-application";
 import * as Notifications from "expo-notifications";
@@ -39,7 +40,6 @@ export default function ProfileScreen() {
   const { top } = useSafeAreaInsets();
   const { setEnabledPushNotifications, enabledPushNotifications } =
     useUserSettingsStore();
-  const { setIsLoggedIn } = useUserAuthenticateStore();
 
   async function handleCopyVersion() {
     toast.success(
@@ -189,7 +189,7 @@ export default function ProfileScreen() {
                   style: "destructive",
                   onPress: async () => {
                     await signOut();
-                    setIsLoggedIn(false);
+                    resetAllStorage();
                   }
                 }
               ]);

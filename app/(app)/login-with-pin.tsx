@@ -13,7 +13,7 @@ export default function LoginWithPinScreen() {
   const [loading, setLoading] = useState(false);
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
-  const { setIsLoginWithPin } = useUserAuthenticateStore();
+  const { verificationPin } = useUserAuthenticateStore();
 
   const handlePress = (num: string) => {
     if (confirmPin.length < 4) {
@@ -27,23 +27,18 @@ export default function LoginWithPinScreen() {
 
   useEffect(() => {
     if (confirmPin?.length === 4) {
-      if (confirmPin === "1234") {
-        router.push("/pin-success");
+      if (confirmPin === verificationPin) {
+        setLoading(true);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
       } else {
-        if (confirmPin === "0000") {
-          setLoading(true);
-          setTimeout(() => {
-            setLoading(false);
-            setIsLoginWithPin(true);
-          }, 1500);
-        } else {
-          setWrongPin(true);
-        }
+        setWrongPin(true);
       }
     } else {
       setWrongPin(false);
     }
-  }, [confirmPin, setIsLoginWithPin]);
+  }, [confirmPin, verificationPin]);
 
   return (
     <View
@@ -151,7 +146,7 @@ export default function LoginWithPinScreen() {
               onPress={handleDelete}
               className="h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center"
             >
-              <RemoveNumpad className="bottom-2 right-3" />
+              <RemoveNumpad />
             </TouchableOpacity>
           </View>
         </View>

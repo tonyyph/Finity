@@ -4,6 +4,7 @@ import { Modal, View } from "react-native";
 
 export function SplashAnimationScreen() {
   const [loading, setLoading] = useState(true);
+
   const onCloseSplash = () => {
     setLoading(false);
   };

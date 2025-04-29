@@ -29,20 +29,20 @@ interface TextProps {
 }
 
 const TEXT_STYLES: Record<TextType, TextStyle> = {
-  "heading-large": { fontSize: 34, lineHeight: 40, letterSpacing: 1.8 },
-  "heading-medium": { fontSize: 28, lineHeight: 34, letterSpacing: 0.4 },
-  "heading-small": { fontSize: 24, lineHeight: 30, letterSpacing: 0.4 },
-  "heading-extraSmall": { fontSize: 20, lineHeight: 25, letterSpacing: 0.4 },
-  "body-large": { fontSize: 18, lineHeight: 24, letterSpacing: 0.32 },
-  "body-default": { fontSize: 16, lineHeight: 22, letterSpacing: 0.48 },
-  "body-small": { fontSize: 14, lineHeight: 20, letterSpacing: 0.29 },
-  "body-extraSmall": { fontSize: 12, lineHeight: 18, letterSpacing: 0.29 }
+  "heading-large": { fontSize: 34, lineHeight: 40, letterSpacing: 1 },
+  "heading-medium": { fontSize: 28, lineHeight: 34, letterSpacing: 1 },
+  "heading-small": { fontSize: 24, lineHeight: 30, letterSpacing: 1 },
+  "heading-extraSmall": { fontSize: 20, lineHeight: 26, letterSpacing: 1 },
+  "body-large": { fontSize: 18, lineHeight: 24, letterSpacing: 1 },
+  "body-default": { fontSize: 16, lineHeight: 22, letterSpacing: 1 },
+  "body-small": { fontSize: 14, lineHeight: 20, letterSpacing: 1 },
+  "body-extraSmall": { fontSize: 12, lineHeight: 18, letterSpacing: 1 }
 };
 
 const FONT_WEIGHTS: Record<FontWeight, TextStyle["fontWeight"]> = {
   regular: "400",
   medium: "500",
-  semibold: "600",
+  semibold: "700",
   bold: "700"
 };
 
@@ -58,10 +58,12 @@ const Typography: React.FC<TextProps> = ({
   const textStyle = TEXT_STYLES[type] || TEXT_STYLES["body-default"];
   return (
     <RNText
-      className={cn(className)}
+      className={cn("font-['PP_Neue_Montreal']", className)}
+      allowFontScaling
       style={[
         styles.text,
         {
+          fontFamily: "PP Neue Montreal",
           fontSize: textStyle.fontSize,
           lineHeight: textStyle.lineHeight,
           letterSpacing: textStyle.letterSpacing,
@@ -79,7 +81,7 @@ const Typography: React.FC<TextProps> = ({
 
 const styles = StyleSheet.create({
   text: {
-    color: "#000"
+    color: "#0A0A0A"
   }
 });
 

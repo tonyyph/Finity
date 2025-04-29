@@ -1,13 +1,15 @@
-import { getUserProfile } from "@/api";
+import { getPINInfo, getUserProfile } from "@/api";
 import { userStore } from "@/stores/userStore";
 import { validatePassword, validateUsername } from "@/utils";
 import { useSignIn } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useValidateInput } from "../commons";
+import { useLocalPIN } from "../use-local-pin";
 
 export const useLogin = () => {
   const { signIn, setActive: setActiveSignIn, isLoaded } = useSignIn();
+  const { setShouldPINLocal, setPinInfo } = useLocalPIN();
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const usernameState = useValidateInput({
@@ -33,7 +35,7 @@ export const useLogin = () => {
       const result = await signIn.create({
         identifier:
           usernameState.value === "1"
-            ? "tonyphvincent@gmail.com"
+            ? "tonyphvincent@gmail.com" //TODO: remove that mockup
             : usernameState.value,
         password:
           passwordState.value === "1" ? "Khaccuong@14" : passwordState.value
@@ -61,6 +63,7 @@ export const useLogin = () => {
     if (!isLoaded) return;
     try {
       setLoading(true);
+      setShouldPINLocal(false);
       if (!signIn) {
         setError("Sign-in session not initialized. Please try again.");
         return;
@@ -75,9 +78,12 @@ export const useLogin = () => {
         if (type === "default") {
           await setActiveSignIn({ session: result.createdSessionId });
           const { data: session } = await getUserProfile();
+          const { data: res } = await getPINInfo(otp);
+
+          setPinInfo(res?.pin);
           userStore.setState({ userProfile: session });
         } else {
-          router.push("/success_phonenumber");
+          router.push("/success_phonenumber"); //TODO: review it
         }
       } else {
         setError("Invalid code. Please try again.");

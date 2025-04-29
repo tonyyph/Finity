@@ -19,12 +19,10 @@ function CardBalanceCom({
   return (
     <Touch
       onPress={onTouch}
-      className="flex-row bg-white ml-4 mr-4 p-4 border rounded-xl border-border justify-between"
+      className="flex-row bg-white mx-4 p-4 border rounded-xl border-border justify-between"
     >
       <View className="gap-4">
-        <Typography weight="medium" textColor="#404040" type="body-default">
-          {title}
-        </Typography>
+        <Typography textColor="#404040">{title}</Typography>
         <Typography weight="medium" type="heading-medium">
           {`${currency}`}
           <Typography weight="semibold" type="heading-medium">

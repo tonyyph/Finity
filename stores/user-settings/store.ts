@@ -4,8 +4,6 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 interface UserSettingsStore {
-  preferredCurrency?: string;
-  setPreferredCurrency: (preferredCurrency: string) => void;
   enabledPushNotifications: boolean;
   setEnabledPushNotifications: (enabledPushNotifications: boolean) => void;
   activeCard: number;
@@ -14,8 +12,6 @@ interface UserSettingsStore {
   setEnabledLocalAuth: (enabledLocalAuth: boolean) => void;
   preferredPalette: Palette;
   setPreferredPalette: (preferredPalette: Palette) => void;
-  hideTabBarStatus: boolean;
-  setHideTabBarStatus: (hideTabBarStatus: boolean) => void;
   isFreezeCard: boolean;
   setIsFreezeCard: (isFreezeCard: boolean) => void;
   isDisableCard: boolean;
@@ -27,8 +23,6 @@ interface UserSettingsStore {
 export const useUserSettingsStore = create<UserSettingsStore>()(
   persist(
     (set) => ({
-      preferredCurrency: undefined,
-      setPreferredCurrency: (preferredCurrency) => set({ preferredCurrency }),
       enabledPushNotifications: false,
       setEnabledPushNotifications: (enabledPushNotifications) =>
         set({ enabledPushNotifications }),
@@ -38,8 +32,6 @@ export const useUserSettingsStore = create<UserSettingsStore>()(
       setEnabledLocalAuth: (enabledLocalAuth) => set({ enabledLocalAuth }),
       preferredPalette: Palette.Default,
       setPreferredPalette: (preferredPalette) => set({ preferredPalette }),
-      hideTabBarStatus: false,
-      setHideTabBarStatus: (hideTabBarStatus) => set({ hideTabBarStatus }),
       isFreezeCard: true,
       setIsFreezeCard: (isFreezeCard) => set({ isFreezeCard }),
       isDisableCard: false,

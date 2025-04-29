@@ -17,10 +17,10 @@ function FrozenBanner({
   return (
     <Touch
       onPress={onPress}
-      className="mx-4 mb-4 rounded-xl p-4 flex-row bg-teal-200"
+      className="mx-4 mb-4 rounded-xl p-3 flex-row bg-teal-200"
     >
       <Image source={FrozenCard} className="w-[64px] h-[100px]" />
-      <View className="pl-4 flex-auto">
+      <View className="pl-4 gap-1 flex-auto">
         <View className="mr-4">
           <Typography weight="semibold" type="body-default">
             {title}

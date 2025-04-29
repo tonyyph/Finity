@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { useColorPalette } from "@/hooks/use-color-palette";
 import {
   BottomSheetBackdrop,

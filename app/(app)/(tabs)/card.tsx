@@ -5,11 +5,12 @@ import DowntimeMessage from "@/components/common/down-time-message";
 import { MenuItem } from "@/components/common/menu-item";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { useUserSettingsStore } from "@/stores";
+import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
+import { useUserAuthenticateStore, useUserSettingsStore } from "@/stores";
 import { exactDesign } from "@/utils";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BlurView } from "expo-blur";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import {
   ChevronRightIcon,
   EyeIcon,
@@ -22,50 +23,43 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function CardScreen() {
   const { top, bottom } = useSafeAreaInsets();
-  const {
-    activeCard,
-    isDamagedCard,
-    isDisableCard,
-    isFreezeCard,
-    setIsFreezeCard
-  } = useUserSettingsStore();
+  const { isDamagedCard, isDisableCard, isFreezeCard, setIsFreezeCard } =
+    useUserSettingsStore();
+  const { pinInfo, showBottomSheetPin, setShowBottomSheetPin } =
+    useUserAuthenticateStore();
+
+  const { userData, handleRequestCard, handleActiveCard, handleReport } =
+    useCardHolder();
+
+  const { cardholderId, cardStatus } = userData || {};
 
   const sheetRef = useRef<BottomSheetModal>(null);
 
-  const handleRequestCard = () => {
-    router.navigate({
-      pathname: "/request_card"
-    });
-  };
+  useFocusEffect(() => {
+    !!showBottomSheetPin && sheetRef.current?.present();
+  });
 
-  const handleActiveCard = () => {
+  const handleViewPIN = async () => {
     router.navigate({
-      pathname: "/active_card"
+      pathname: "/pin-verification",
+      params: {
+        type: "view-pin"
+      }
     });
-  };
-
-  const handleReport = () => {
-    router.navigate({
-      pathname: "/report_damaged"
-    });
-  };
-
-  const handleViewPIN = () => {
-    sheetRef.current?.present();
-    // router.navigate({
-    //   pathname: "/pin-verification"
-    // });
   };
 
   const handleFreezeCard = () => {
     setIsFreezeCard(!isFreezeCard);
   };
 
-  const verificationPIN = "1234";
-
   const BottomSheetViewPin = () => {
     return (
-      <BottomSheet ref={sheetRef} index={0} snapPoints={["40%", "87%"]}>
+      <BottomSheet
+        ref={sheetRef}
+        onDismiss={() => setShowBottomSheetPin(false)}
+        index={0}
+        snapPoints={["40%"]}
+      >
         <BottomSheetView style={{ paddingBottom: bottom }}>
           <View className="flex-row items-center justify-between px-4">
             <View className="w-[24px] h-[24px]" />
@@ -73,17 +67,19 @@ export default function CardScreen() {
               {"View PIN"}
             </Typography>
             <XIcon
-              onPress={() => sheetRef.current?.dismiss()}
+              onPress={() => {
+                sheetRef.current?.dismiss();
+              }}
               className="w-[24px] h-[24px] text-black"
             />
           </View>
-          <View className="flex-row items-center justify-center gap-4 mt-6 px-4">
-            {verificationPIN.split("").map((digit, index) => (
+          <View className="flex-row items-center justify-center gap-3 mt-6 px-4">
+            {pinInfo?.split("").map((digit, index) => (
               <View
                 key={index}
-                className="bg-neutral-100 rounded-lg items-center w-[56px] h-[56px] border border-subtle justify-center"
+                className="bg-neutral-100 rounded-lg items-center w-[56px] h-[56px] border border-[##D4D4D4] justify-center"
               >
-                <Typography type="body-small" weight="semibold">
+                <Typography type="heading-extraSmall" weight="medium">
                   {digit}
                 </Typography>
               </View>
@@ -107,7 +103,7 @@ export default function CardScreen() {
     );
   };
 
-  if (activeCard === 2) {
+  if (cardStatus === 1 || cardStatus === 4) {
     return (
       <>
         <View className="flex-1 bg-background" style={{ paddingTop: top }}>
@@ -181,7 +177,7 @@ export default function CardScreen() {
       <Typography type="heading-small" weight="semibold" className="p-4">
         {"Card"}
       </Typography>
-      {activeCard !== 0 && (
+      {cardStatus === 0 && (
         <View className="p-3 mx-4 mt-2 rounded-2xl items-start bg-teal-200 flex-row">
           <Image
             source={require("@/assets/images/info-filled-b.png")}
@@ -219,7 +215,7 @@ export default function CardScreen() {
               }}
             />
           )}
-          {activeCard === 0 && (
+          {!cardholderId && (
             <Typography
               weight="regular"
               textColor="#404040"
@@ -229,15 +225,15 @@ export default function CardScreen() {
             </Typography>
           )}
         </View>
-        {activeCard !== 2 && (
+        {(!cardholderId || cardStatus === 0) && (
           <Button
             variant="default"
             size={"lg"}
             className="rounded-full bg-primary h-[48px] mb-1"
-            onPress={activeCard === 0 ? handleRequestCard : handleActiveCard}
+            onPress={!cardholderId ? handleRequestCard : handleActiveCard}
           >
             <Typography type="body-default" weight="medium" textColor="white">
-              {activeCard === 0 ? `Request card` : `Activate card`}
+              {!cardholderId ? `Request card` : `Activate card`}
             </Typography>
           </Button>
         )}

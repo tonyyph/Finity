@@ -76,7 +76,16 @@ export default function RootLayout() {
   }, [fontsLoaded]);
 
   if (!fontsLoaded || loading) {
-    return <SplashAnimationScreen />;
+    return (
+      <ClerkProvider
+        publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
+        tokenCache={tokenCache}
+      >
+        <ClerkLoaded>
+          <SplashAnimationScreen />
+        </ClerkLoaded>
+      </ClerkProvider>
+    );
   }
 
   return (

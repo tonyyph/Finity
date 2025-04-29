@@ -7,21 +7,19 @@ import { Image, View } from "react-native";
 
 function TwoFactorAuthenticationSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { setIsLoginWithPin, isFirst2FA, setIsLoggedIn } =
-    useUserAuthenticateStore();
+  const { isFirst2FA, setIsLoggedIn } = useUserAuthenticateStore();
 
   const handleSetupPin = useCallback(() => {
     router.push({
       pathname: "/pin-verify",
       params: { isResetPin }
     });
-  }, []);
+  }, [isResetPin]);
 
   const handleContinue = useCallback(() => {
     router.replace("/(app)/(tabs)");
-    setIsLoginWithPin(true);
     setIsLoggedIn(true);
-  }, []);
+  }, [setIsLoggedIn]);
 
   return (
     <View className="flex-1 bg-background">
@@ -41,7 +39,7 @@ function TwoFactorAuthenticationSuccess() {
               : `Two-factor authentication verified. `}
           </Typography>
         </View>
-        <View className="px-6 gap-6">
+        <View className="px-4 gap-6">
           <Button
             variant="default"
             size={"lg"}

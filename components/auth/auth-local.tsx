@@ -1,41 +1,42 @@
-import { useLocalPIN } from "@/hooks/use-local-pin";
+import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
+import { userStore } from "@/stores/userStore";
+import * as LocalAuthentication from "expo-local-authentication";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CircleAlert, RemoveNumpad } from "../common/icons";
+import { Biometrics } from "../common/icons/Biometrics";
 import { LoadingScreen } from "../common/loading";
 import Typography from "../common/text-typography";
-import { useUser } from "@clerk/clerk-expo";
-import { userStore } from "@/stores/userStore";
 
 type AuthLocalProps = {
   onAuthenticated?: () => void;
 };
 
 export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
-  // const handleAuthenticate = useCallback(async () => {
-  //   const result = await LocalAuthentication.authenticateAsync({
-  //     // disableDeviceFallback: true,
-  //   });
-  //   if (result.success) {
-  //     onAuthenticated?.();
-  //   }
-  // }, [onAuthenticated]);
-
-  // // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  // useEffect(() => {
-  //   handleAuthenticate();
-  // }, []);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const { top, bottom } = useSafeAreaInsets();
   const [loading, setLoading] = useState(false);
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
-  const { setIsLoginWithPin } = useUserAuthenticateStore();
+  const { verificationPin } = useUserAuthenticateStore();
+  const { bioStatus } = useBiometrics();
   const userProfile = userStore.getState().userProfile;
+
+  const handleAuthenticate = useCallback(async () => {
+    const result = await LocalAuthentication.authenticateAsync({});
+    if (result.success) {
+      setLoading(true);
+      timeoutRef.current = setTimeout(() => {
+        setLoading(false);
+        onAuthenticated?.();
+      }, 3000);
+    }
+  }, [onAuthenticated]);
 
   const handlePress = (num: string) => {
     if (confirmPin.length < 4) {
@@ -49,20 +50,32 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
 
   useEffect(() => {
     if (confirmPin?.length === 4) {
-      if (confirmPin === "0000") {
+      if (confirmPin === verificationPin) {
         setLoading(true);
-        setTimeout(() => {
+        timeoutRef.current = setTimeout(() => {
           setLoading(false);
           onAuthenticated?.();
-          setIsLoginWithPin(true);
-        }, 1500);
+        }, 2000);
       } else {
         setWrongPin(true);
       }
     } else {
       setWrongPin(false);
     }
-  }, [confirmPin]);
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [confirmPin, onAuthenticated, verificationPin]);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <View
@@ -153,12 +166,14 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
           </View>
           <View className="flex-row justify-between">
             <TouchableOpacity
-              disabled
-              className="h-[72px] opacity-0 w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
+              onPress={handleAuthenticate}
+              disabled={!bioStatus}
+              className={cn(
+                "h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center",
+                !bioStatus && "opacity-0"
+              )}
             >
-              <Typography type="heading-medium" weight="medium">
-                0
-              </Typography>
+              <Biometrics />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => handlePress("0")}
@@ -172,7 +187,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
               onPress={handleDelete}
               className="h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center"
             >
-              <RemoveNumpad className="bottom-2 right-3" />
+              <RemoveNumpad />
             </TouchableOpacity>
           </View>
         </View>

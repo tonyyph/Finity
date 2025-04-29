@@ -14,8 +14,9 @@ export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
   const { shouldAuthLocal, setShouldAuthLocal } = useLocalAuth();
   const { shouldPINLocal, setShouldPINLocal } = useLocalPIN();
-  const { isSignedIn, isLoaded } = useUser();
   const { isLoggedIn, isFirst2FA } = useUserAuthenticateStore();
+
+  const { isSignedIn, isLoaded } = useUser();
 
   if (!isSignedIn && isLoaded) {
     return <Redirect href={"/login"} />;
@@ -30,184 +31,202 @@ export default function AuthenticatedLayout() {
       {shouldAuthLocal && (
         <AuthBiometrics onAuthenticated={() => setShouldAuthLocal(false)} />
       )}
-
       {shouldPINLocal && (
         <AuthLocal onAuthenticated={() => setShouldPINLocal(false)} />
       )}
-
-      <Stack
-        screenOptions={{
-          headerShown: true,
-          headerTintColor: getColor("--foreground"),
-          headerShadowVisible: false,
-          headerTitleStyle: {
-            fontSize: exactDesign(18),
-            color: getColor("--foreground")
-          },
-          headerStyle: {
-            backgroundColor: "#FAFAFA"
-          },
-          headerTitle: "",
-          headerLeft: () => <BackButton />
-        }}
-      >
-        <Stack.Screen
-          name="(tabs)"
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="active_card"
-          options={{
-            headerLeft: () => <BackButton />,
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="active_card_success"
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="request_card_success"
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="request_card"
-          options={{
-            headerLeft: () => <BackButton />,
-            headerShown: true
-          }}
-        />
-        <Stack.Screen
-          name="load_card"
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="send-card"
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="appearance"
-          options={{
-            presentation: "modal",
-            headerTitle: `Appearance`
-          }}
-        />
-        <Stack.Screen
-          name="profile-edit"
-          options={{
-            headerTitle: `Personal information`,
-            headerStyle: {
-              backgroundColor: "#FFFFFF"
-            }
-          }}
-        />
-        <Stack.Screen
-          name="notifications"
-          options={{ headerTitle: `Notifications` }}
-        />
-        <Stack.Screen
-          name="feedback"
-          options={{
-            presentation: "modal",
-            headerTitle: `Feedback`
-          }}
-        />
-        <Stack.Screen
-          name="language"
-          options={{
-            presentation: "modal",
-            headerTitle: `Language`
-          }}
-        />
-        <Stack.Screen
-          name="biometrics"
-          options={{
-            headerLeft: () => <BackButton />,
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="biometrics-success"
-          options={{
-            headerLeft: () => <BackButton />,
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="success_phonenumber"
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="login-with-pin"
-          options={{
-            headerLeft: () => null,
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="report_damaged"
-          options={{
+      {!shouldPINLocal && (
+        <Stack
+          screenOptions={{
             headerShown: true,
-            headerTitle: `Report lost or damaged`,
-            headerShadowVisible: true,
+            headerTintColor: getColor("--foreground"),
+            headerShadowVisible: false,
+            headerTitleStyle: {
+              fontSize: exactDesign(18),
+              color: getColor("--foreground")
+            },
             headerStyle: {
-              backgroundColor: getColor("--background")
-            }
+              backgroundColor: "#FAFAFA"
+            },
+            headerTitle: "",
+            headerLeft: () => <BackButton />
           }}
-        />
-        <Stack.Screen
-          name="lost"
-          options={{
-            headerShown: true,
-            headerTitle: ``,
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
-          }}
-        />
-        <Stack.Screen
-          name="damaged"
-          options={{
-            headerShown: true,
-            headerTitle: ``,
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
-          }}
-        />
-        <Stack.Screen
-          name="edit_phonenumber"
-          options={{
-            headerShown: true,
-            headerTitle: ``,
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
-          }}
-        />
-        <Stack.Screen
-          name="verify_phonenumber"
-          options={{
-            headerShown: true,
-            headerTitle: ``,
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
-          }}
-        />
-      </Stack>
+        >
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="active_card"
+            options={{
+              headerLeft: () => <BackButton />,
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="active_card_success"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="request_card_success"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="request_card"
+            options={{
+              headerLeft: () => <BackButton />,
+              headerShown: true
+            }}
+          />
+          <Stack.Screen
+            name="load_card"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="review_transaction"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="transaction_result"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="send-card"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="pin-verification"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="appearance"
+            options={{
+              presentation: "modal",
+              headerTitle: `Appearance`
+            }}
+          />
+          <Stack.Screen
+            name="profile-edit"
+            options={{
+              headerTitle: `Personal information`,
+              headerStyle: {
+                backgroundColor: "#FFFFFF"
+              }
+            }}
+          />
+          <Stack.Screen
+            name="notifications"
+            options={{ headerTitle: `Notifications` }}
+          />
+          <Stack.Screen
+            name="feedback"
+            options={{
+              presentation: "modal",
+              headerTitle: `Feedback`
+            }}
+          />
+          <Stack.Screen
+            name="language"
+            options={{
+              presentation: "modal",
+              headerTitle: `Language`
+            }}
+          />
+          <Stack.Screen
+            name="biometrics"
+            options={{
+              headerLeft: () => <BackButton />,
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="biometrics-success"
+            options={{
+              headerLeft: () => <BackButton />,
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="success_phonenumber"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="login-with-pin"
+            options={{
+              headerLeft: () => null,
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="report_damaged"
+            options={{
+              headerShown: true,
+              headerTitle: `Report lost or damaged`,
+              headerShadowVisible: true,
+              headerStyle: {
+                backgroundColor: getColor("--background")
+              }
+            }}
+          />
+          <Stack.Screen
+            name="lost"
+            options={{
+              headerShown: true,
+              headerTitle: ``,
+              headerStyle: {
+                backgroundColor: getColor("--background")
+              }
+            }}
+          />
+          <Stack.Screen
+            name="damaged"
+            options={{
+              headerShown: true,
+              headerTitle: ``,
+              headerStyle: {
+                backgroundColor: getColor("--background")
+              }
+            }}
+          />
+          <Stack.Screen
+            name="edit_phonenumber"
+            options={{
+              headerShown: true,
+              headerTitle: ``,
+              headerStyle: {
+                backgroundColor: getColor("--background")
+              }
+            }}
+          />
+          <Stack.Screen
+            name="verify_phonenumber"
+            options={{
+              headerShown: true,
+              headerTitle: ``,
+              headerStyle: {
+                backgroundColor: getColor("--background")
+              }
+            }}
+          />
+        </Stack>
+      )}
     </View>
   );
 }

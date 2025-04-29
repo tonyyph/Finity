@@ -7,16 +7,19 @@ import FrozenBanner from "@/components/home/frozen_banner";
 import { HomeHeader } from "@/components/home/header";
 import PointsBalanceCom from "@/components/home/points_balance";
 import RequestCardNotification from "@/components/home/request_card_noti";
-import { useCardHolderQuery } from "@/queries/cardholder";
+import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useUserSettingsStore } from "@/stores";
 import { router } from "expo-router";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function HomeScreen() {
-  const { activeCard, isFreezeCard, setIsFreezeCard } = useUserSettingsStore();
+  const { isFreezeCard, setIsFreezeCard } = useUserSettingsStore();
   const { top } = useSafeAreaInsets();
-  const { data: userData } = useCardHolderQuery();
+
+  const { userData } = useCardHolder();
+
+  const { cardholderId, cardStatus } = userData || {};
 
   async function handleShowToastError() {
     toast.error(`You cannot load your card while it is frozen`, {
@@ -25,7 +28,7 @@ function HomeScreen() {
   }
 
   const onLoadCard = () => {
-    if (isFreezeCard && activeCard === 2) {
+    if (isFreezeCard && (cardStatus === 4 || cardStatus === 1)) {
       router.navigate({
         pathname: "/(app)/load_card"
       });
@@ -35,12 +38,26 @@ function HomeScreen() {
   };
 
   const onSendPoints = () => {
-    if (isFreezeCard && activeCard === 2) {
+    if (isFreezeCard && (cardStatus === 4 || cardStatus === 1)) {
       router.navigate({
         pathname: "/(app)/send-card"
       });
     } else {
       handleShowToastError();
+    }
+  };
+
+  const onPressCard = () => {
+    if (!cardholderId) {
+      router.navigate({
+        pathname: "/request_card"
+      });
+    } else {
+      if (cardStatus === 0) {
+        router.navigate({
+          pathname: "/active_card"
+        });
+      }
     }
   };
 
@@ -51,23 +68,13 @@ function HomeScreen() {
         onNotification={() => console.log("Click Notification")}
       />
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        {activeCard !== 2 && (
+        {(!cardholderId || cardStatus === 0) && (
           <RequestCardNotification
-            onPress={() => {
-              if (activeCard === 0) {
-                router.navigate({
-                  pathname: "/request_card"
-                });
-              } else {
-                router.navigate({
-                  pathname: "/active_card"
-                });
-              }
-            }}
-            requested={activeCard === 0}
+            onPress={onPressCard}
+            requested={!cardholderId}
           />
         )}
-        {activeCard === 2 && !isFreezeCard && (
+        {(cardStatus === 3 || !isFreezeCard) && (
           <FrozenBanner onPress={() => setIsFreezeCard(true)} />
         )}
         <View className="gap-2 mb-1">

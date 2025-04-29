@@ -8,9 +8,8 @@ import { twMerge } from "tailwind-merge";
 
 export default function VerifyPINScreen() {
   const { isResetPin } = useLocalSearchParams();
-
   const [pin, setPin] = useState<string>("");
-  const { top, bottom } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
 
   const handlePress = (num: string) => {
     if (pin.length < 4) {
@@ -32,7 +31,7 @@ export default function VerifyPINScreen() {
         }
       });
     }
-  }, [pin]);
+  }, [pin, isResetPin]);
 
   return (
     <View
@@ -129,7 +128,7 @@ export default function VerifyPINScreen() {
               onPress={handleDelete}
               className="h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center"
             >
-              <RemoveNumpad className="bottom-2 right-3" />
+              <RemoveNumpad />
             </TouchableOpacity>
           </View>
         </View>

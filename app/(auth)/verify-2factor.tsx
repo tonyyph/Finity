@@ -14,10 +14,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Verify2FactorScreen() {
   const { bottom } = useSafeAreaInsets();
-  const { handleVerifyTOTP, error, loading } = useLogin();
+  const { handleVerifyTOTP, error, isLoading } = useLogin();
 
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
-  const inputsRef = useRef<Array<TextInput | null>>([]);
+  const inputsRef = useRef<(TextInput | null)[]>([]);
   const [indexCursor, setIndexCursor] = useState<number>(0);
 
   useEffect(() => {
@@ -27,28 +27,25 @@ export default function Verify2FactorScreen() {
   }, []);
 
   const keyboard = useAnimatedKeyboard();
+  const transY =
+    -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0);
 
   const translateStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY:
-          -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0)
-      }
-    ]
+    transform: [{ translateY: transY }]
   }));
 
   const otpString = otp.join("");
+
+  const handleVerifyOTP = useCallback(() => {
+    Keyboard.dismiss();
+    handleVerifyTOTP && handleVerifyTOTP({ otp: otpString });
+  }, [otpString, handleVerifyTOTP]);
 
   useEffect(() => {
     if (otpString.length === 6) {
       handleVerifyOTP();
     }
-  }, [otpString]);
-
-  const handleVerifyOTP = useCallback(() => {
-    Keyboard.dismiss();
-    handleVerifyTOTP && handleVerifyTOTP({ otp: otpString });
-  }, [otpString]);
+  }, [otpString, handleVerifyOTP]);
 
   const handleChange = (text: string, index: number) => {
     if (/^\d?$/.test(text)) {
@@ -81,7 +78,7 @@ export default function Verify2FactorScreen() {
       style={{ paddingBottom: bottom }}
     >
       <View className="flex-1">
-        <View className="z-10 mb-2 gap-2">
+        <View className="z-10 mb-2 pr-4 gap-2">
           <Typography type="heading-small" weight="semibold">
             Two-factor authentication
           </Typography>
@@ -97,7 +94,7 @@ export default function Verify2FactorScreen() {
             >
               {index === 3 && <View className="w-[8px] h-[1px] bg-[#A3A3A3]" />}
               <TextInput
-                editable={!loading}
+                editable={!isLoading}
                 autoFocus={index === 0}
                 className={`text-[20px] text-black text-center w-14 h-14 rounded-lg bg-white border`}
                 style={[
@@ -145,13 +142,13 @@ export default function Verify2FactorScreen() {
           <Button
             variant="default"
             size="lg"
-            disabled={otpString.length !== 6 || loading}
+            disabled={otpString.length !== 6 || isLoading}
             className="rounded-full bg-primary h-12"
-            loading={loading}
+            loading={isLoading}
             onPress={handleVerifyOTP}
           >
             <Typography type="body-default" weight="medium" textColor="white">
-              {loading ? "Verifying..." : "Verify"}
+              {isLoading ? "Verifying..." : "Verify"}
             </Typography>
           </Button>
         </View>

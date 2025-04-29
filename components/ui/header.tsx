@@ -46,7 +46,7 @@ function Header({
             </View>
           ))}
         {renderCenterView ?? (
-          <Typography weight="semibold" type="body-large">
+          <Typography weight="bold" type="body-large">
             {title}
           </Typography>
         )}

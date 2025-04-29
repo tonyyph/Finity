@@ -9,11 +9,11 @@ import { twMerge } from "tailwind-merge";
 
 export default function ConfirmPINScreen() {
   const { pin, isResetPin } = useLocalSearchParams();
-  const { verificationPin, setVerificationPin } = useUserAuthenticateStore();
+  const { setVerificationPin } = useUserAuthenticateStore();
 
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
-  const { top, bottom } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
 
   const handlePress = (num: string) => {
     if (confirmPin.length < 4) {
@@ -27,8 +27,8 @@ export default function ConfirmPINScreen() {
 
   useEffect(() => {
     if (confirmPin?.length === 4) {
-      setVerificationPin(confirmPin);
       if (confirmPin === pin) {
+        setVerificationPin(confirmPin);
         router.push({
           pathname: "/pin-success",
           params: { isResetPin }
@@ -39,7 +39,7 @@ export default function ConfirmPINScreen() {
     } else {
       setWrongPin(false);
     }
-  }, [confirmPin]);
+  }, [confirmPin, pin, isResetPin, setVerificationPin]);
 
   return (
     <View
@@ -144,7 +144,7 @@ export default function ConfirmPINScreen() {
               onPress={handleDelete}
               className="h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center"
             >
-              <RemoveNumpad className="bottom-2 right-3" />
+              <RemoveNumpad />
             </TouchableOpacity>
           </View>
         </View>

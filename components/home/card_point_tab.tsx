@@ -4,6 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { TabBar, TabBarItem, TabView } from "react-native-tab-view";
 import CardTab from "./cardTap";
 import PointsTap from "./pointsTap";
+import Typography from "../common/text-typography";
 
 const routes = [
   { key: "card", title: "Card" },
@@ -45,10 +46,18 @@ function CardAndPointTab() {
               <TabBarItem
                 {...props}
                 key={`${props.key}`}
-                labelStyle={[styles.labelStyle]}
                 inactiveColor={"#404040"}
                 labelAllowFontScaling
-                activeColor="black"
+                label={({ route, focused, color }) => (
+                  <Typography
+                    weight={focused ? "bold" : "medium"}
+                    textColor={color}
+                    className="px-3"
+                  >
+                    {route.title}
+                  </Typography>
+                )}
+                activeColor={"#0A0A0A"}
               />
             )}
           />
@@ -77,10 +86,10 @@ const styles = StyleSheet.create({
     minHeight: SCREEN_HEIGHT / 2
   },
   labelStyle: {
-    color: "black",
+    color: "#0A0A0A",
     fontSize: 16,
     fontFamily: "PP Neue Montreal",
-    fontWeight: "600",
+    fontWeight: "700",
     lineHeight: 22,
     letterSpacing: 0.48
   }

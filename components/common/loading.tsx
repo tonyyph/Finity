@@ -6,10 +6,10 @@ export function LoadingScreen({ loading = false }: { loading: boolean }) {
     <Modal visible={loading} animationType="fade" transparent>
       <View className="flex-1 justify-center bg-background items-center">
         <LottieView
-          style={{ width: 280, height: 280 }}
+          style={{ width: 300, height: 300 }}
           source={require("@/assets/json/loader.json")}
           resizeMode="contain"
-          speed={0.75}
+          speed={1}
           autoPlay
           loop
         />

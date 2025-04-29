@@ -61,6 +61,8 @@ type RefreshTokenResponse = {
 };
 type RestfulApiError = {
   error?: string;
+  message?: string;
+  statusCode?: number;
 };
 
 type UserResponse = {
@@ -105,3 +107,7 @@ interface UserProfile {
   title: string;
   userName: string;
 }
+
+type PinResponse = {
+  pin: string;
+};

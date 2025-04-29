@@ -1,16 +1,16 @@
 import { useUserAuthenticateStore } from "@/stores";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { AppState, type AppStateStatus } from "react-native";
 
 // 30 minutes
-// const BIO_AUTH_EXPIRATION_TIME = 1000 * 60 * 30;
+const BIO_AUTH_EXPIRATION_TIME = 1000 * 60 * 30;
 
-const BIO_TEN_SECONDS = 1000 * 10; //TODO: remove this one
+// const BIO_TEN_SECONDS = 1000 * 10;
 
 export function useLocalPIN() {
-  const [shouldPINLocal, setShouldPINLocal] = useState(false);
-  const { isFirst2FA } = useUserAuthenticateStore();
+  const { isFirst2FA, shouldPINLocal, setShouldPINLocal, setPinInfo } =
+    useUserAuthenticateStore();
 
   const changeAppStateListener = useCallback(
     async (status: AppStateStatus) => {
@@ -19,22 +19,21 @@ export function useLocalPIN() {
         return;
       }
 
-      console.log("status", status);
-
       if (status === "background") {
         const date = Date.now();
         await AsyncStorage.setItem("movedToBackgroundAt", date.toString());
+        setShouldPINLocal(true);
       }
 
       if (status === "active") {
         const date = await AsyncStorage.getItem("movedToBackgroundAt");
-        if (date && Date.now() - Number(date) >= BIO_TEN_SECONDS) {
+        if (date && Date.now() - Number(date) >= BIO_AUTH_EXPIRATION_TIME) {
           await AsyncStorage.removeItem("movedToBackgroundAt");
           setShouldPINLocal(true);
         }
       }
     },
-    [isFirst2FA]
+    [isFirst2FA, setShouldPINLocal]
   );
 
   useEffect(() => {
@@ -47,6 +46,7 @@ export function useLocalPIN() {
 
   return {
     shouldPINLocal,
-    setShouldPINLocal
+    setShouldPINLocal,
+    setPinInfo
   };
 }

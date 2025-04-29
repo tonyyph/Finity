@@ -28,6 +28,30 @@ const DATA = [
     title: "Second Item",
     points: 300,
     timestamp: "Oct 4, 2024"
+  },
+  {
+    id: 4,
+    title: "Card load",
+    points: 100,
+    timestamp: "Oct 4, 2024"
+  },
+  {
+    id: 5,
+    title: "Second Item",
+    points: 200,
+    timestamp: "Oct 4, 2024"
+  },
+  {
+    id: 6,
+    title: "Card load",
+    points: 400,
+    timestamp: "Oct 4, 2024"
+  },
+  {
+    id: 7,
+    title: "Second Item",
+    points: 300,
+    timestamp: "Oct 4, 2024"
   }
 ];
 

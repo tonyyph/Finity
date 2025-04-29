@@ -6,7 +6,6 @@ import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
   withSpring
 } from "react-native-reanimated";
@@ -17,19 +16,25 @@ const Progress = React.forwardRef<
     indicatorClassName?: string;
   }
 >(({ className, value, indicatorClassName, ...props }, ref) => {
+  const isCompleted = value === 100;
+
   return (
     <ProgressPrimitive.Root
       ref={ref}
       className={cn(
         "relative h-4 w-full overflow-hidden rounded-full bg-secondary",
-        className
+        className,
+        !isCompleted && "bg-neutral-100 h-[1px]"
       )}
       {...props}
     >
-      <Indicator value={value} className={indicatorClassName} />
+      {!isCompleted && (
+        <Indicator value={value} className={indicatorClassName} />
+      )}
     </ProgressPrimitive.Root>
   );
 });
+
 Progress.displayName = ProgressPrimitive.Root.displayName;
 
 export { Progress };
@@ -49,7 +54,7 @@ function Indicator({
     }, 3000); // Delay for 3 seconds
 
     return () => clearTimeout(timeout);
-  }, [value]);
+  }, [value, animatedValue]);
 
   const indicator = useAnimatedStyle(() => {
     return {

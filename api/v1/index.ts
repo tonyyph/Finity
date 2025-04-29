@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import authApp from "./routes/auth";
 import cardHolderApp from "./routes/cardholders";
+import cardsApp from "./routes/cards";
 import settingsApp from "./routes/settings";
 import usersApp from "./routes/user";
 
@@ -9,5 +10,6 @@ export const hono = new Hono()
 
   .route("/auth", authApp)
   .route("/user", usersApp)
+  .route("/cards", cardsApp)
   .route("/cardholders", cardHolderApp)
   .route("/settings", settingsApp);

@@ -1,7 +1,7 @@
 import { getHonoClient } from "@/lib/client";
 import { useQuery } from "@tanstack/react-query";
 
-interface UserCardInfo {
+export interface UserCardInfo {
   cardBalance: number;
   cardStatus: number;
   cardholderId: number;

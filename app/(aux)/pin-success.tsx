@@ -7,20 +7,18 @@ import { Image, View } from "react-native";
 
 function SetupPinSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { setIsLoggedIn, setIsLoginWithPin, setIsFirst2FA } =
-    useUserAuthenticateStore();
+  const { setIsLoggedIn, setIsFirst2FA } = useUserAuthenticateStore();
 
   const handleContinue = useCallback(() => {
     router.replace("/(app)/(tabs)");
-    setIsLoginWithPin(true);
     setIsLoggedIn(true);
     setIsFirst2FA(false);
-  }, []);
+  }, [setIsFirst2FA, setIsLoggedIn]);
 
   return (
     <View className="flex-1 bg-background">
       <View className="flex-1">
-        <View className="flex-1 px-4 gap-3 items-center mt-40">
+        <View className="flex-1 px-4 gap-4 items-center mt-40">
           <Image
             className="w-16 h-16"
             resizeMode="contain"
@@ -29,13 +27,13 @@ function SetupPinSuccess() {
           <Typography type="heading-small" weight="semibold">
             {isResetPin === "1" ? `PIN changed` : `PIN successfully set`}
           </Typography>
-          <Typography weight="regular" className="text-center px-6">
+          <Typography weight="regular" className="text-center px-4">
             {isResetPin === "1"
               ? `Remember to keep your new PIN private and update it regularly.`
               : `Your PIN has been set. Tap 'Continue' to go to your Home page and get started.`}
           </Typography>
         </View>
-        <View className="px-6 gap-6">
+        <View className="px-4 gap-4">
           <Button
             variant="default"
             size={"lg"}

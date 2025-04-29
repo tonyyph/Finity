@@ -38,7 +38,7 @@ function LoadCardScreen() {
       <SafeAreaView className="flex-1">
         <Header onBack={router.back} title="Load points to card" />
         <Progress
-          value={80}
+          value={100}
           className="h-[4px] mt-4 bg-border"
           indicatorClassName="bg-orange-primary"
         />
@@ -50,7 +50,7 @@ function LoadCardScreen() {
             <TextInput
               editable={false}
               value={"123,890"}
-              className="bg-neutral-100  rounded-lg h-[48px] border-[1px] border-subtitle px-3 text-[18px] font-semibold"
+              className="bg-neutral-100  rounded-lg h-[48px] border-[1px] border-subtitle px-3 text-[18px] font-bold color-[#404040]"
             />
             {/* point balance */}
             <View className="flex-row gap-1 items-center">
@@ -104,7 +104,7 @@ function LoadCardScreen() {
                 >
                   {Number(enterAmount.replace(/,/g, "")) < 100
                     ? "The minimum amount to load is 100 points"
-                    : "The maximum amount to load is 123,890 points"}
+                    : "Amount exceeds your balance"}
                 </Typography>
               </View>
             ) : (
