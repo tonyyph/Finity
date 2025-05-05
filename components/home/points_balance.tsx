@@ -20,7 +20,7 @@ function PointsBalanceCom({
       onPress={onTouch}
       className="flex-row ml-4 bg-white mr-4 p-4 border-border border rounded-xl justify-between"
     >
-      <View className="gap-4">
+      <View className="gap-3">
         <Typography textColor="#404040">{title}</Typography>
 
         <Typography weight="bold" type="heading-medium">

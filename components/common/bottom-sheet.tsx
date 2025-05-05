@@ -1,5 +1,4 @@
 /* eslint-disable react/display-name */
-import { useColorPalette } from "@/hooks/use-color-palette";
 import {
   BottomSheetBackdrop,
   type BottomSheetBackdropProps,
@@ -16,8 +15,6 @@ export const BottomSheet = forwardRef<
   BottomSheetModalMethods,
   BottomSheetModalProps
 >((props, ref) => {
-  const { getColor } = useColorPalette();
-
   const backdropComponent = useCallback(
     (props: BottomSheetBackdropProps) => (
       <BottomSheetBackdrop
@@ -39,15 +36,23 @@ export const BottomSheet = forwardRef<
 
   const backgroundComponent = useCallback(
     (props: BottomSheetBackgroundProps) => (
-      <View className="overflow-hidden rounded-xl bg-background" {...props} />
+      <View
+        className="overflow-hidden rounded-[16px] bg-background"
+        {...props}
+      />
     ),
     []
   );
 
+  // 👇 This will remove the indicator completely
+  const handleComponent = () => {
+    return <View className="bg-white-200 overflow-hidden h-2 rounded-[16px]" />;
+  };
+
   return (
     <BottomSheetModal
       ref={ref}
-      handleIndicatorStyle={{ backgroundColor: getColor("--foreground") }}
+      handleComponent={handleComponent}
       backdropComponent={backdropComponent}
       containerComponent={containerComponent}
       backgroundComponent={backgroundComponent}

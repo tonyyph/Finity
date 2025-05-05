@@ -1,6 +1,7 @@
 import { LoadingScreen } from "@/components/common/loading";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import { formatDateNow } from "@/lib/date";
 import { formatNumber } from "@/utils";
 import { t } from "@lingui/macro";
 import { router, useLocalSearchParams } from "expo-router";
@@ -38,18 +39,14 @@ function TransactionResultScreen() {
     }
   ];
 
-  const { bottom } = useSafeAreaInsets();
+  const { bottom, top } = useSafeAreaInsets();
   const [localType, setLocalType] = useState<propsLocal>();
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
-    if (success !== "false") {
-      setLocalType(type[1]);
-    } else {
-      setLocalType(type[0]);
-    }
-  }, [success]);
+    setLocalType(success !== "false" ? type[1] : type[0]);
+  }, []);
 
-  const handleReturnHome = useCallback(() => {
+  const handleLoadCardAgain = useCallback(() => {
     if (success !== "false") {
       setLoading(true);
       setTimeout(() => {
@@ -61,14 +58,22 @@ function TransactionResultScreen() {
     }
   }, [success]);
 
-  return (
-    <View
-      className="flex-1 bg-background p-4"
-      style={{ paddingBottom: bottom * 1.5 }}
-    >
-      <LoadingScreen loading={loading} />
+  const handleReturnHome = useCallback(() => {
+    router.dismissAll();
+  }, []);
 
-      <View className=" flex-1 bg-background items-center mt-28">
+  const TransRowItem = ({ title, value }: { title: string; value: string }) => {
+    return (
+      <View key={`${title}-${value}`} className="flex-row justify-between">
+        <Typography weight="regular">{title}</Typography>
+        <Typography>{value}</Typography>
+      </View>
+    );
+  };
+
+  const TransactionDetail = () => {
+    return (
+      <View className=" flex-1 bg-subtle justify-start items-center">
         <Image
           className="w-16 h-16"
           resizeMode="contain"
@@ -77,20 +82,66 @@ function TransactionResultScreen() {
         <Typography type="heading-small" weight="semibold" className="mt-4">
           {localType?.title}
         </Typography>
-        <Typography weight="regular" className="text-center mt-4">
+        <Typography weight="regular" className="text-center mt-2">
           {localType?.sub}
         </Typography>
-      </View>
-      <Button
-        variant="default"
-        size={"lg"}
-        className="rounded-full bg-primary h-[48px]"
-        onPress={handleReturnHome}
-      >
-        <Typography type="body-default" weight="medium" textColor="white">
-          {localType?.button}
+        <Typography weight="regular" className="text-center mt-6">
+          {formatDateNow()}
         </Typography>
-      </Button>
+
+        <View className="mt-8 w-full border border-border rounded-2xl px-4 py-6 gap-2 bg-white">
+          <TransRowItem title="Reference number" value="987654321" />
+          <TransRowItem title="You loaded" value="1,500 points" />
+          <TransRowItem title="Conversion rate" value="1 point = £0.1" />
+
+          <View className="h-[1px] bg-border my-2" />
+
+          <Typography type="body-default" weight="semibold">
+            Account balances
+          </Typography>
+          <TransRowItem title="Points" value="122,390" />
+          <TransRowItem title="Card" value="£150.00" />
+        </View>
+      </View>
+    );
+  };
+
+  const ButtonSection = () => {
+    return (
+      <View className="gap-4">
+        <Button
+          variant="default"
+          size={"lg"}
+          className="rounded-full bg-primary h-[48px]"
+          onPress={handleLoadCardAgain}
+        >
+          <Typography type="body-default" weight="medium" textColor="white">
+            {localType?.button}
+          </Typography>
+        </Button>
+        <Button
+          variant="outline"
+          size={"lg"}
+          className="rounded-full h-[48px]"
+          onPress={handleReturnHome}
+        >
+          <Typography type="body-default" weight="medium" textColor="black">
+            {localType?.secondaryButton}
+          </Typography>
+        </Button>
+      </View>
+    );
+  };
+
+  return (
+    <View
+      className="flex-1 bg-subtle p-4"
+      style={{ paddingBottom: bottom, paddingTop: top * 1.5 }}
+    >
+      <LoadingScreen loading={loading} />
+
+      <TransactionDetail />
+      <ButtonSection />
     </View>
   );
 }

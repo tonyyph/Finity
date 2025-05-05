@@ -2,6 +2,14 @@ import axios from "axios";
 
 import { clerk } from "@/lib/client";
 
+export const refreshToken = async (data: RefreshTokenRequest) => {
+  return await axios.post<RefreshTokenResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/auth/refresh-token`,
+    {
+      refreshToken: data.refreshToken
+    }
+  );
+};
 export const getUserProfile = async () => {
   const token = await clerk.session?.getToken();
   return await axios.get<UserResponse>(
@@ -13,7 +21,7 @@ export const getUserProfile = async () => {
         "Accept-Language": "en-US,en;q=0.9",
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
-        Origin: "https://finity-rewards-web-app-dev.azurewebsites.net"
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
       }
     }
   );
@@ -23,8 +31,26 @@ export const getPINInfo = async (verificationCode: string) => {
   const token = await clerk.session?.getToken();
   return await axios.post<PinResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/cards/pin`,
+    { otp: verificationCode },
     {
-      otp: verificationCode
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+      }
+    }
+  );
+};
+
+export const handleFreeze = async (cardHolderId: number) => {
+  const token = await clerk.session?.getToken();
+  return await axios.post<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/cardholders/freeze-card`,
+    {
+      cardholderId: cardHolderId
     },
     {
       headers: {
@@ -33,17 +59,94 @@ export const getPINInfo = async (verificationCode: string) => {
         "Accept-Language": "en-US,en;q=0.9",
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
-        Origin: "https://finity-rewards-web-app-dev.azurewebsites.net"
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+      }
+    }
+  );
+};
+export const handleUnFreeze = async (cardHolderId: number) => {
+  const token = await clerk.session?.getToken();
+  return await axios.post<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/cardholders/unfreeze-card`,
+    {
+      cardholderId: cardHolderId
+    },
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
       }
     }
   );
 };
 
-export const refreshToken = async (data: RefreshTokenRequest) => {
-  return await axios.post<RefreshTokenResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/auth/refresh-token`,
+export const getCardDetail = async (verificationCode: string) => {
+  const token = await clerk.session?.getToken();
+  return await axios.post<CardDetailInfo>(
+    `${process.env.EXPO_PUBLIC_API_URL}/cards/details`,
+    { otp: verificationCode },
     {
-      refreshToken: data.refreshToken
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+      }
     }
   );
+};
+
+export const getCardTransaction = async (data: ListTransactionRequest) => {
+  const token = await clerk.session?.getToken();
+
+  if (!token) {
+    throw new Error("No auth token found");
+  }
+
+  return axios.get<ListTransactionResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/account/paginated-card-transactions`,
+    {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      params: {
+        cursor: data?.cursor ?? 0,
+        take: data?.take ?? 20,
+        search: data?.search ?? ""
+      }
+    }
+  );
+};
+
+export const getPointTransaction = async (data: ListTransactionRequest) => {
+  const token = await clerk.session?.getToken(); // Make sure this is awaited
+
+  if (!token) {
+    throw new Error("No auth token found");
+  }
+
+  const url = `${process.env.EXPO_PUBLIC_API_URL}/account/paginated-point-transactions`;
+
+  const params = {
+    cursor: data?.cursor ?? 0,
+    take: data?.take ?? 20,
+    search: data?.search ?? ""
+  };
+
+  return axios.get<ListTransactionResponse>(url, {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    params
+  });
 };

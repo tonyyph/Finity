@@ -1,92 +1,94 @@
+import { CardLoadIcon } from "@/assets/icons/CardLoadIcon";
+import { FinityIcon } from "@/assets/icons/FinityIcon";
+import { useListTransaction } from "@/hooks/cardholders/useListTransaction";
+import { formatDateTransaction } from "@/lib/date";
 import { FlashList } from "@shopify/flash-list";
-import { EuroIcon } from "lucide-react-native";
+import { useEffect } from "react";
 import { View } from "react-native";
 import Typography from "../common/text-typography";
-type Props = object;
+import DATA from "./mockup.json";
+import { Button } from "../ui/button";
+import { router } from "expo-router";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 
-const DATA = [
-  {
-    id: 0,
-    title: "Card load",
-    points: 100,
-    timestamp: "Oct 4, 2024"
-  },
-  {
-    id: 1,
-    title: "Second Item",
-    points: 200,
-    timestamp: "Oct 4, 2024"
-  },
-  {
-    id: 2,
-    title: "Card load",
-    points: 400,
-    timestamp: "Oct 4, 2024"
-  },
-  {
-    id: 3,
-    title: "Second Item",
-    points: 300,
-    timestamp: "Oct 4, 2024"
-  },
-  {
-    id: 4,
-    title: "Card load",
-    points: 100,
-    timestamp: "Oct 4, 2024"
-  },
-  {
-    id: 5,
-    title: "Second Item",
-    points: 200,
-    timestamp: "Oct 4, 2024"
-  },
-  {
-    id: 6,
-    title: "Card load",
-    points: 400,
-    timestamp: "Oct 4, 2024"
-  },
-  {
-    id: 7,
-    title: "Second Item",
-    points: 300,
-    timestamp: "Oct 4, 2024"
-  }
-];
+function PointsTap({ showAll = false }: { showAll?: boolean }) {
+  const { pointList, fetchPaginatedPointTransactions } = useListTransaction();
 
-function PointsTap(props: Props) {
+  useEffect(() => {
+    fetchPaginatedPointTransactions();
+  }, [fetchPaginatedPointTransactions]);
+
+  const handleSeeMore = () => {
+    router.push("/transactions");
+  };
+
+  const EmptyList = () => {
+    return (
+      <View className="pt-4 justify-center items-center">
+        <Typography weight="regular" type="body-default" textColor="#737373">
+          No transactions yet.
+        </Typography>
+      </View>
+    );
+  };
+
+  const Footer = () => {
+    if (showAll) return <BottomIndicatorAvoidingView />;
+    return (
+      <Button
+        variant="outline"
+        size={"lg"}
+        className="rounded-full h-[48px] mt-4"
+        onPress={handleSeeMore}
+      >
+        <Typography type="body-default" weight="medium" textColor="black">
+          {`See more`}
+        </Typography>
+      </Button>
+    );
+  };
   return (
-    <View className="flex-1 bg-white">
-      <FlashList
-        data={DATA}
-        contentContainerClassName="pt-3"
-        renderItem={({ item, index }) => {
-          return (
-            <View className="flex-row justify-between items-start my-2">
-              <View className="flex flex-row items-start gap-4">
-                <View className="w-[40px] h-[40px] bg-[#F4F4F4] rounded-full justify-center items-center">
-                  <EuroIcon className="size-5" />
-                </View>
-                <View>
-                  <Typography>{item.title}</Typography>
-                  <Typography textColor="#404040" weight="regular">
-                    {item.points}
-                  </Typography>
-                  <Typography textColor="#737373" weight="regular">
-                    {item.timestamp}
-                  </Typography>
-                </View>
+    <FlashList
+      data={showAll ? DATA : DATA.slice(0, 10)}
+      // data={pointList}
+      contentContainerClassName="pt-3"
+      showsVerticalScrollIndicator={false}
+      renderItem={({ item, index }) => {
+        return (
+          <View className="flex-row justify-between items-start my-2">
+            <View className="flex flex-row items-start gap-4 min-h-[64px]">
+              <View className="w-[40px] h-[40px] bg-[#F4F4F4] rounded-full justify-center items-center">
+                {item?.type === "Card Load" ? <CardLoadIcon /> : <FinityIcon />}
               </View>
-              <Typography textColor="#D9323D" className="text-right">
-                {`-2,000`}
-              </Typography>
+              <View>
+                <Typography>{item.type}</Typography>
+                <Typography textColor="#404040" weight="regular">
+                  {!!item?.source
+                    ? item?.source
+                    : `£ ${Math.abs(item?.amount).toFixed(2)}`}
+                </Typography>
+                <Typography textColor="#737373" weight="regular">
+                  {formatDateTransaction(item?.date)}
+                </Typography>
+              </View>
             </View>
-          );
-        }}
-        estimatedItemSize={50}
-      />
-    </View>
+            <Typography
+              textColor={item.amount > 0 ? "#00A464" : "#D9323D"}
+              className="text-right"
+            >
+              {`${item?.amount > 0 ? "+" : "-"}${Math.abs(
+                item?.amount
+              ).toLocaleString()}`}
+            </Typography>
+          </View>
+        );
+      }}
+      nestedScrollEnabled={true}
+      scrollEnabled={showAll}
+      ListFooterComponent={Footer}
+      estimatedItemSize={64}
+      ListEmptyComponent={EmptyList}
+    />
   );
 }
 export default PointsTap;

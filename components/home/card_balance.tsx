@@ -21,7 +21,7 @@ function CardBalanceCom({
       onPress={onTouch}
       className="flex-row bg-white mx-4 p-4 border rounded-xl border-border justify-between"
     >
-      <View className="gap-4">
+      <View className="gap-3">
         <Typography textColor="#404040">{title}</Typography>
         <Typography weight="medium" type="heading-medium">
           {`${currency}`}

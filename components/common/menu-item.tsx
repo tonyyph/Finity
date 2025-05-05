@@ -39,7 +39,9 @@ export const MenuItem = forwardRef(function (
     >
       <View className="flex flex-row items-center gap-3">
         <View className="flex items-center justify-center bg-neutral-100 w-[40px] h-[40px] rounded-full">
-          {Icon && <Icon className="h-6 w-6 text-[#525252]" />}
+          {Icon && (
+            <Icon className="w-[24px] h-[24px] self-center text-[#525252]" />
+          )}
         </View>
         <View>
           <Typography type="body-default">{label}</Typography>

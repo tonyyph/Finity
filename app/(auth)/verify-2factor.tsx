@@ -27,11 +27,14 @@ export default function Verify2FactorScreen() {
   }, []);
 
   const keyboard = useAnimatedKeyboard();
-  const transY =
-    -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0);
 
   const translateStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: transY }]
+    transform: [
+      {
+        translateY:
+          -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0)
+      }
+    ]
   }));
 
   const otpString = otp.join("");
@@ -39,13 +42,13 @@ export default function Verify2FactorScreen() {
   const handleVerifyOTP = useCallback(() => {
     Keyboard.dismiss();
     handleVerifyTOTP && handleVerifyTOTP({ otp: otpString });
-  }, [otpString, handleVerifyTOTP]);
+  }, [otpString]);
 
   useEffect(() => {
     if (otpString.length === 6) {
       handleVerifyOTP();
     }
-  }, [otpString, handleVerifyOTP]);
+  }, [otpString]);
 
   const handleChange = (text: string, index: number) => {
     if (/^\d?$/.test(text)) {

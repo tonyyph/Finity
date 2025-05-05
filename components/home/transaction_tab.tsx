@@ -3,15 +3,15 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { TabBar, TabBarItem, TabView } from "react-native-tab-view";
 import Typography from "../common/text-typography";
-import CardTab from "./cardTap";
-import PointsTap from "./pointsTap";
+import TransactionCardTap from "./transactionCardTap";
+import TransactionPointTap from "./transactionPointTap";
 
 const routes = [
   { key: "card", title: "Card" },
   { key: "points", title: "Points" }
 ];
 
-function CardAndPointTab() {
+function TransactionTab() {
   const [index, setIndex] = useState<number>(0);
 
   const renderScene = ({ route }: any) => {
@@ -20,9 +20,9 @@ function CardAndPointTab() {
     } else {
       switch (route.key) {
         case "card":
-          return <CardTab />;
+          return <TransactionCardTap showAll />;
         case "points":
-          return <PointsTap />;
+          return <TransactionPointTap showAll />;
         default:
           break;
       }
@@ -30,7 +30,7 @@ function CardAndPointTab() {
   };
 
   return (
-    <View className="flex-1 px-4 bg-white shadow-md shadow-slate-200">
+    <View className="flex-1">
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -69,7 +69,7 @@ function CardAndPointTab() {
   );
 }
 
-export default CardAndPointTab;
+export default TransactionTab;
 
 const styles = StyleSheet.create({
   indicatorContainerStyle: { backgroundColor: "white" },

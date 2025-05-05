@@ -32,7 +32,7 @@ export const useUserSettingsStore = create<UserSettingsStore>()(
       setEnabledLocalAuth: (enabledLocalAuth) => set({ enabledLocalAuth }),
       preferredPalette: Palette.Default,
       setPreferredPalette: (preferredPalette) => set({ preferredPalette }),
-      isFreezeCard: true,
+      isFreezeCard: false,
       setIsFreezeCard: (isFreezeCard) => set({ isFreezeCard }),
       isDisableCard: false,
       setIsDisableCard: (isDisableCard) => set({ isDisableCard }),

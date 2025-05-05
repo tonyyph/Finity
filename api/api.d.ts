@@ -111,3 +111,29 @@ interface UserProfile {
 type PinResponse = {
   pin: string;
 };
+
+type CardDetailInfo = {
+  cardholderName: string;
+  cardNumber: string;
+  expiryDate: string; // ISO 8601 format, e.g., "2028-02-29T00:00:00"
+};
+
+type ListTransactionRequest = {
+  cursor: string;
+  take: string;
+  search: string;
+};
+
+type Transaction = {
+  id: number;
+  date: string; // ISO 8601 timestamp
+  type: string; // extend if more types are possible
+  source: string;
+  amount: number;
+};
+
+type ListTransactionResponse = {
+  data: Transaction[];
+  currentPage: number;
+  hasNextPage: boolean;
+};

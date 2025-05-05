@@ -90,6 +90,12 @@ export default function AuthenticatedLayout() {
             }}
           />
           <Stack.Screen
+            name="transactions"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
             name="review_transaction"
             options={{
               headerShown: false

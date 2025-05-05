@@ -4,21 +4,43 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { Progress } from "@/components/ui/progress";
 import Tooltip from "@/components/ui/tooltip";
-import { colors } from "@/constants/Colors";
+import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { cn } from "@/lib/utils";
 import { formatNumber } from "@/utils";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Image, SafeAreaView, TextInput, View } from "react-native";
+import Animated, {
+  useAnimatedKeyboard,
+  useAnimatedStyle
+} from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function LoadCardScreen() {
+  const { bottom } = useSafeAreaInsets();
+
   const [enterAmount, setEnterAmount] = useState("");
   const [error, setError] = useState(false);
+  const { userData } = useCardHolder();
 
+  const keyboard = useAnimatedKeyboard();
+
+  const translateStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY:
+          -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0)
+      }
+    ]
+  }));
+
+  const formatPointValue = new Intl.NumberFormat("en-US").format(
+    Number(userData?.pointsBalance)
+  );
   const handleContinue = () => {
     if (
       Number(enterAmount.replace(/,/g, "")) < 100 ||
-      Number(enterAmount.replace(/,/g, "")) > 123890
+      Number(enterAmount.replace(/,/g, "")) > userData?.pointsBalance
     ) {
       setError(true);
     } else {
@@ -34,12 +56,12 @@ function LoadCardScreen() {
   };
 
   return (
-    <View className="flex-1 " style={{ backgroundColor: colors.white }}>
+    <View className="flex-1 bg-white">
       <SafeAreaView className="flex-1">
         <Header onBack={router.back} title="Load points to card" />
         <Progress
           value={100}
-          className="h-[4px] mt-4 bg-border"
+          className="h-[1px] mt-4 bg-border"
           indicatorClassName="bg-orange-primary"
         />
         <View className="flex-1">
@@ -49,7 +71,7 @@ function LoadCardScreen() {
             </Typography>
             <TextInput
               editable={false}
-              value={"123,890"}
+              value={formatPointValue}
               className="bg-neutral-100  rounded-lg h-[48px] border-[1px] border-subtitle px-3 text-[18px] font-bold color-[#404040]"
             />
             {/* point balance */}
@@ -123,19 +145,21 @@ function LoadCardScreen() {
           </View>
         </View>
         {/* Bottom */}
-        <View className="px-6">
-          <Button
-            disabled={!enterAmount}
-            variant="default"
-            size={"lg"}
-            className="rounded-full bg-primary h-[48px]"
-            onPress={handleContinue}
-          >
-            <Typography type="body-default" weight="medium" textColor="white">
-              {`Continue`}
-            </Typography>
-          </Button>
-        </View>
+        <Animated.View style={translateStyle} className="justify-end">
+          <View className="px-6">
+            <Button
+              disabled={!enterAmount}
+              variant="default"
+              size={"lg"}
+              className="rounded-full bg-primary h-[48px]"
+              onPress={handleContinue}
+            >
+              <Typography type="body-default" weight="medium" textColor="white">
+                {`Continue`}
+              </Typography>
+            </Button>
+          </View>
+        </Animated.View>
       </SafeAreaView>
     </View>
   );

@@ -1,13 +1,23 @@
-import { CardLost, FreezeIcon, OnboardCard, UnFreezeIcon } from "@/assets";
+import {
+  CardLost,
+  FinityLogo,
+  FreezeIcon,
+  MasterCard,
+  OnboardCard,
+  SmartChip,
+  UnFreezeIcon
+} from "@/assets";
 import { FrozenIcon } from "@/assets/icons/FrozenIcon";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import DowntimeMessage from "@/components/common/down-time-message";
 import { MenuItem } from "@/components/common/menu-item";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import AnimatedSpinnerV2 from "@/components/ui/spinnerIndicator";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
+import { formatExpDate } from "@/lib/date";
 import { useUserAuthenticateStore, useUserSettingsStore } from "@/stores";
-import { exactDesign } from "@/utils";
+import { userStore } from "@/stores/userStore";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BlurView } from "expo-blur";
 import { router, useFocusEffect } from "expo-router";
@@ -23,15 +33,23 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function CardScreen() {
   const { top, bottom } = useSafeAreaInsets();
-  const { isDamagedCard, isDisableCard, isFreezeCard, setIsFreezeCard } =
-    useUserSettingsStore();
-  const { pinInfo, showBottomSheetPin, setShowBottomSheetPin } =
+  const { isDamagedCard, isDisableCard } = useUserSettingsStore();
+  const data = userStore.getState();
+  const { pinInfo, cardDetailInfo } = data || {};
+  const { showBottomSheetPin, setShowBottomSheetPin } =
     useUserAuthenticateStore();
 
-  const { userData, handleRequestCard, handleActiveCard, handleReport } =
-    useCardHolder();
+  const {
+    userData,
+    handleRequestCard,
+    handleActiveCard,
+    handleReport,
+    handleFreezeCard,
+    isFreezeCard,
+    loading
+  } = useCardHolder();
 
-  const { cardholderId, cardStatus } = userData || {};
+  const { cardholderId, cardStatus, last4Digits } = userData || {};
 
   const sheetRef = useRef<BottomSheetModal>(null);
 
@@ -40,7 +58,7 @@ export default function CardScreen() {
   });
 
   const handleViewPIN = async () => {
-    router.navigate({
+    router.push({
       pathname: "/pin-verification",
       params: {
         type: "view-pin"
@@ -48,8 +66,60 @@ export default function CardScreen() {
     });
   };
 
-  const handleFreezeCard = () => {
-    setIsFreezeCard(!isFreezeCard);
+  const CardInfoSection = () => {
+    return (
+      <View className="bg-neutral-100 border border-[#E5E5E5] px-4 py-2 rounded-2xl m-4 gap-4">
+        <View
+          style={styles.shadow}
+          className="bg-white w-full h-[240px] my-2 border border-border rounded-xl flex-row"
+        >
+          <View className="justify-between flex-1 items-start p-6">
+            <View className="h-12" />
+            <Image
+              resizeMode="contain"
+              source={SmartChip}
+              className="w-[44px] h-[32px] mx-4"
+            />
+            <View className="h-12" />
+            <View className="flex-row items-center gap-3">
+              <Typography>{`**** ${last4Digits ?? "0000"}`}</Typography>
+              <Typography>
+                {`${
+                  !!cardDetailInfo?.expiryDate
+                    ? formatExpDate?.(cardDetailInfo?.expiryDate)
+                    : "MM/YY"
+                }`}
+              </Typography>
+            </View>
+          </View>
+          <View className="justify-between flex-1 items-end p-6">
+            <Image
+              resizeMode="contain"
+              source={FinityLogo}
+              className="w-[100px] h-[27px]"
+            />
+            <Image
+              resizeMode="contain"
+              source={MasterCard}
+              className="w-[65px] h-[40px]"
+            />
+          </View>
+          {isFreezeCard && (
+            <BlurView
+              intensity={25}
+              experimentalBlurMethod="dimezisBlurView"
+              tint="extraLight"
+              style={styles.blurView}
+            >
+              <FrozenIcon />
+              <Typography type="body-large" weight="medium">
+                Card frozen
+              </Typography>
+            </BlurView>
+          )}
+        </View>
+      </View>
+    );
   };
 
   const BottomSheetViewPin = () => {
@@ -103,7 +173,8 @@ export default function CardScreen() {
     );
   };
 
-  if (cardStatus === 1 || cardStatus === 4) {
+  //ACTIVE, FROZEN, DAMAGED
+  if (cardStatus === 1 || cardStatus === 4 || cardStatus === 3) {
     return (
       <>
         <View className="flex-1 bg-background" style={{ paddingTop: top }}>
@@ -126,26 +197,7 @@ export default function CardScreen() {
               </View>
             </View>
           )}
-          <View className="bg-neutral-100 border border-[#E5E5E5] px-3 py-1 rounded-2xl m-4 gap-4">
-            <Image
-              resizeMode="contain"
-              source={require("@/assets/images/horizontal_card.png")}
-              style={{ height: exactDesign(260), width: "100%" }}
-            />
-            {!isFreezeCard && (
-              <BlurView
-                intensity={25}
-                experimentalBlurMethod="dimezisBlurView"
-                tint="extraLight"
-                style={styles.blurView}
-              >
-                <FrozenIcon />
-                <Typography type="body-large" weight="medium">
-                  Card frozen
-                </Typography>
-              </BlurView>
-            )}
-          </View>
+          <CardInfoSection />
           <View className="gap-3 p-4">
             <MenuItem
               label={`View PIN`}
@@ -153,9 +205,12 @@ export default function CardScreen() {
               icon={EyeIcon}
             />
             <MenuItem
-              label={isFreezeCard ? `Freeze card` : `Unfreeze card`}
+              label={!isFreezeCard ? `Freeze card` : `Unfreeze card`}
               onPress={handleFreezeCard}
-              icon={isFreezeCard ? FreezeIcon : UnFreezeIcon}
+              icon={!isFreezeCard ? FreezeIcon : UnFreezeIcon}
+              rightSection={
+                loading && <AnimatedSpinnerV2 size={24} color={"#fb923c"} />
+              }
             />
             <MenuItem
               label={`Report lost or damaged`}
@@ -172,6 +227,7 @@ export default function CardScreen() {
     );
   }
 
+  //REQUIRING ACTIVATION
   return (
     <View className="flex-1 bg-background" style={{ paddingTop: top }}>
       <Typography type="heading-small" weight="semibold" className="p-4">
@@ -197,22 +253,13 @@ export default function CardScreen() {
             <Image
               resizeMode="cover"
               source={CardLost}
-              style={{
-                width: "100%",
-                height: exactDesign(208),
-                borderRadius: exactDesign(12),
-                marginBottom: exactDesign(4)
-              }}
+              className="w-full h-[208px] rounded-lg mb-1"
             />
           ) : (
             <Image
               resizeMode="contain"
               source={OnboardCard}
-              style={{
-                width: exactDesign(192),
-                height: exactDesign(300),
-                alignSelf: "center"
-              }}
+              className="w-[192px] h-[300px] mx-auto self-center"
             />
           )}
           {!cardholderId && (
@@ -248,8 +295,15 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 16,
+    borderRadius: 12,
     overflow: "hidden",
     gap: 8
+  },
+  shadow: {
+    shadowColor: "rgba(0, 0, 0, 0.06)",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 2,
+    elevation: 2
   }
 });

@@ -105,6 +105,54 @@ export interface DateRangeFormatOptions {
   separator?: string;
 }
 
+export const formatExpDate = (dateString: string) => {
+  if (!dateString) {
+    return "";
+  }
+  const expiryDate = new Date(dateString);
+
+  expiryDate.setDate(expiryDate.getDate() - 1); // subtract 1 day
+  const formatted = expiryDate.toLocaleDateString("en-US", {
+    month: "2-digit",
+    day: "2-digit"
+  });
+  return formatted;
+};
+
+export const formatDateTransaction = (dateString: string) => {
+  if (!dateString) {
+    return "";
+  }
+  const date = new Date(dateString);
+
+  const formatted = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  }).format(date);
+
+  return formatted;
+};
+
+export const formatDateNow = () => {
+  const now = new Date();
+
+  const day = now.getDate().toString().padStart(2, "0");
+  const month = now.toLocaleString("en-US", { month: "long" });
+  const year = now.getFullYear();
+
+  let hours = now.getHours();
+  const minutes = now.getMinutes().toString().padStart(2, "0");
+  const ampm = hours >= 12 ? "pm" : "am";
+
+  hours = hours % 12;
+  hours = hours === 0 ? 12 : hours;
+
+  const hourStr = hours.toString().padStart(2, "0");
+
+  return `${day} ${month} ${year}, ${hourStr}:${minutes}${ampm}`;
+};
+
 export const formatDateRange = (
   from: Date,
   to: Date,

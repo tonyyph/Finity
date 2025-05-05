@@ -1,0 +1,142 @@
+[
+    {
+        "id": 4001,
+        "amount": 200,
+        "type": "Accrual",
+        "source": "Referral Bonus",
+        "date": "2025-04-30T10:15:30Z"
+    },
+    {
+        "id": 4002,
+        "amount": -150,
+        "type": "Redemption",
+        "source": "Gift Voucher",
+        "date": "2025-04-29T14:12:10Z"
+    },
+    {
+        "id": 4003,
+        "amount": 100,
+        "type": "Adjustment",
+        "source": "",
+        "date": "2025-04-28T09:45:00Z"
+    },
+    {
+        "id": 4004,
+        "amount": 500,
+        "type": "Card Load",
+        "source": "",
+        "date": "2025-04-27T16:22:45Z"
+    },
+    {
+        "id": 4005,
+        "amount": -200,
+        "type": "Redemption",
+        "source": "Promo Spend",
+        "date": "2025-04-26T11:05:23Z"
+    },
+    {
+        "id": 4006,
+        "amount": 250,
+        "type": "Accrual",
+        "source": "In-App Survey",
+        "date": "2025-04-25T13:17:30Z"
+    },
+    {
+        "id": 4007,
+        "amount": 100,
+        "type": "Adjustment",
+        "source": "",
+        "date": "2025-04-24T08:32:19Z"
+    },
+    {
+        "id": 4008,
+        "amount": -50,
+        "type": "Redemption",
+        "source": "Snack Reward",
+        "date": "2025-04-23T10:48:55Z"
+    },
+    {
+        "id": 4009,
+        "amount": 300,
+        "type": "Card Load",
+        "source": "Top-up",
+        "date": "2025-04-22T15:00:00Z"
+    },
+    {
+        "id": 4010,
+        "amount": -100,
+        "type": "Redemption",
+        "source": "Coupon",
+        "date": "2025-04-21T18:09:42Z"
+    },
+    {
+        "id": 4011,
+        "amount": 400,
+        "type": "Accrual",
+        "source": "Welcome Bonus",
+        "date": "2025-04-20T12:14:38Z"
+    },
+    {
+        "id": 4012,
+        "amount": 50,
+        "type": "Adjustment",
+        "source": "",
+        "date": "2025-04-19T07:27:00Z"
+    },
+    {
+        "id": 4013,
+        "amount": -75,
+        "type": "Redemption",
+        "source": "Gift Exchange",
+        "date": "2025-04-18T19:33:45Z"
+    },
+    {
+        "id": 4014,
+        "amount": 600,
+        "type": "Card Load",
+        "source": "Promo Load",
+        "date": "2025-04-17T11:11:11Z"
+    },
+    {
+        "id": 4015,
+        "amount": 200,
+        "type": "Accrual",
+        "source": "Feedback Reward",
+        "date": "2025-04-16T17:44:21Z"
+    },
+    {
+        "id": 4016,
+        "amount": -300,
+        "type": "Redemption",
+        "source": "Subscription",
+        "date": "2025-04-15T08:08:08Z"
+    },
+    {
+        "id": 4017,
+        "amount": 150,
+        "type": "Adjustment",
+        "source": "",
+        "date": "2025-04-14T20:22:10Z"
+    },
+    {
+        "id": 4018,
+        "amount": -120,
+        "type": "Redemption",
+        "source": "Flash Sale",
+        "date": "2025-04-13T09:09:09Z"
+    },
+    {
+        "id": 4019,
+        "amount": 350,
+        "type": "Card Load",
+        "source": "",
+        "date": "2025-04-12T14:14:14Z"
+    },
+    {
+        "id": 4020,
+        "amount": 180,
+        "type": "Accrual",
+        "source": "Event Bonus",
+        "date": "2025-04-11T21:21:21Z"
+    }
+]

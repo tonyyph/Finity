@@ -11,7 +11,12 @@ import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { t } from "@lingui/macro";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
-import { Image, SafeAreaView, TextInput, View } from "react-native";
+import { Image, Keyboard, SafeAreaView, TextInput, View } from "react-native";
+import Animated, {
+  useAnimatedKeyboard,
+  useAnimatedStyle
+} from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const mockupCardHolders = [
   { id: 1, shortName: "AG", name: "Amber Green", isChoose: true },
@@ -20,9 +25,21 @@ const mockupCardHolders = [
 ];
 
 function SendCardScreen() {
+  const { bottom } = useSafeAreaInsets();
+
   const [enterAmount, setEnterAmount] = useState("");
   const [error, setError] = useState(false);
   const sheetRef = useRef<BottomSheetModal>(null);
+  const keyboard = useAnimatedKeyboard();
+
+  const translateStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY:
+          -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0)
+      }
+    ]
+  }));
 
   const handleContinue = () => {
     if (
@@ -64,6 +81,7 @@ function SendCardScreen() {
             <Touch
               onPress={() => {
                 sheetRef?.current?.present();
+                Keyboard.dismiss();
               }}
               className="flex-row justify-between items-center rounded-lg z-10 border-[1px] border-subtitle px-3"
             >
@@ -104,7 +122,7 @@ function SendCardScreen() {
                 {t`points`}
               </Typography>
             </View>
-            {!!error ? (
+            {!!error && (
               <View className={cn("flex flex-row items-center")}>
                 <CircleAlert className="top-1" />
                 <Typography
@@ -114,48 +132,38 @@ function SendCardScreen() {
                 >
                   {Number(enterAmount.replace(/,/g, "")) < 100
                     ? "The minimum amount to load is 100 points"
-                    : "The maximum amount to load is 123,890 points"}
+                    : "Amount exceeds your balance"}
                 </Typography>
               </View>
-            ) : (
-              !!Number(enterAmount.replace(/,/g, "")) && (
-                <Typography
-                  type="body-small"
-                  weight="medium"
-                  textColor="#525252"
-                >
-                  {`You’ll receive: £${formatNumber({
-                    value: Number(enterAmount.replace(/,/g, "")) * 0.1
-                  })}`}
-                </Typography>
-              )
             )}
           </View>
         </View>
         {/* Bottom */}
-        <View className="px-4">
-          <Button
-            disabled={!enterAmount}
-            variant="default"
-            size={"lg"}
-            className="rounded-full bg-primary h-[48px]"
-            // loading
-            onPress={handleContinue}
-          >
-            <Typography type="body-default" weight="medium" textColor="white">
-              {t`Continue`}
-            </Typography>
-          </Button>
-        </View>
+        <Animated.View style={translateStyle} className="justify-end">
+          <View className="px-4">
+            <Button
+              disabled={!enterAmount}
+              variant="default"
+              size={"lg"}
+              className="rounded-full bg-primary h-[48px]"
+              // loading
+              onPress={handleContinue}
+            >
+              <Typography type="body-default" weight="medium" textColor="white">
+                {t`Continue`}
+              </Typography>
+            </Button>
+          </View>
+        </Animated.View>
         <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
-          <BottomSheetView className="min-h-[50%]">
+          <BottomSheetView className="min-h-[50%] mt-1">
             <Header
               title="Select a cardholder"
               onRightFunction={() => {
                 sheetRef.current?.close();
               }}
             />
-            <View className="p-4 my-4">
+            <View className="p-4 my-3 mb-4">
               {mockupCardHolders.map((item, index) => (
                 <View key={index} className="gap-4">
                   <View

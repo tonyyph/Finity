@@ -9,26 +9,29 @@ import PointsBalanceCom from "@/components/home/points_balance";
 import RequestCardNotification from "@/components/home/request_card_noti";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useUserSettingsStore } from "@/stores";
+import { SCREEN_WIDTH } from "@/utils";
 import { router } from "expo-router";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function HomeScreen() {
-  const { isFreezeCard, setIsFreezeCard } = useUserSettingsStore();
+  const { isFreezeCard } = useUserSettingsStore();
   const { top } = useSafeAreaInsets();
 
-  const { userData } = useCardHolder();
+  const { userData, handleFreezeCard } = useCardHolder();
 
   const { cardholderId, cardStatus } = userData || {};
 
   async function handleShowToastError() {
     toast.error(`You cannot load your card while it is frozen`, {
-      icon: <AlertIcon />
+      icon: <AlertIcon />,
+      duration: 3000,
+      width: SCREEN_WIDTH - 28
     });
   }
 
   const onLoadCard = () => {
-    if (isFreezeCard && (cardStatus === 4 || cardStatus === 1)) {
+    if (!isFreezeCard && (cardStatus === 4 || cardStatus === 1)) {
       router.navigate({
         pathname: "/(app)/load_card"
       });
@@ -38,7 +41,7 @@ function HomeScreen() {
   };
 
   const onSendPoints = () => {
-    if (isFreezeCard && (cardStatus === 4 || cardStatus === 1)) {
+    if (!isFreezeCard && (cardStatus === 4 || cardStatus === 1)) {
       router.navigate({
         pathname: "/(app)/send-card"
       });
@@ -62,20 +65,25 @@ function HomeScreen() {
   };
 
   return (
-    <View className="flex-1 bg-backgroundSubtle" style={{ paddingTop: top }}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      className="bg-backgroundSubtle"
+      nestedScrollEnabled={true}
+      style={{ paddingTop: top }}
+    >
       <HomeHeader
         haveNotification
         onNotification={() => console.log("Click Notification")}
       />
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+      <View>
         {(!cardholderId || cardStatus === 0) && (
           <RequestCardNotification
             onPress={onPressCard}
             requested={!cardholderId}
           />
         )}
-        {(cardStatus === 3 || !isFreezeCard) && (
-          <FrozenBanner onPress={() => setIsFreezeCard(true)} />
+        {cardStatus === 3 && isFreezeCard && (
+          <FrozenBanner onPress={handleFreezeCard} />
         )}
         <View className="gap-2 mb-1">
           <CardBalanceCom value={userData?.cardBalance ?? 0} />
@@ -84,9 +92,11 @@ function HomeScreen() {
         <View className="h-4" />
         <CardButtonGroup onLoadCard={onLoadCard} onSendPoints={onSendPoints} />
         <View className="h-2" key={"Transaction Bar"} />
+      </View>
+      <View style={{ flex: 1, opacity: 1 }}>
         <CardAndPointTab />
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 export default HomeScreen;
