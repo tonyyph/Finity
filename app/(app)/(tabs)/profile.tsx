@@ -5,7 +5,6 @@ import { ProfileCard } from "@/components/profile/profile-card";
 import { SetLocalAuth } from "@/components/profile/set-local-auth";
 import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";
-import { useUserAuthenticateStore } from "@/stores";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
 import { resetAllStorage } from "@/utils";
 import { useAuth } from "@clerk/clerk-expo";

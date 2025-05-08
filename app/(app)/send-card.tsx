@@ -3,10 +3,9 @@ import { CircleAlert } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
-import { Progress } from "@/components/ui/progress";
+import { ProgressBar } from "@/components/ui/progress";
 import Touch from "@/components/ui/touch";
 import { cn } from "@/lib/utils";
-import { formatNumber } from "@/utils";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { t } from "@lingui/macro";
 import { router } from "expo-router";
@@ -56,11 +55,8 @@ function SendCardScreen() {
     <View className="flex-1 bg-white">
       <SafeAreaView className="flex-1">
         <Header onBack={router.back} title="Send points" />
-        <Progress
-          value={80}
-          className="h-[4px] mt-4 bg-border"
-          indicatorClassName="bg-orange-primary"
-        />
+        <ProgressBar />
+
         <View className="flex-1">
           {/* point balance */}
           <View className="p-4 gap-2">

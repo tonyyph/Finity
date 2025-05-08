@@ -80,12 +80,6 @@ function ActiveCardScreen() {
           });
         } else {
           setCardNumber(["", "", "", ""]);
-          // router.navigate({
-          //   pathname: "/active_card_success",
-          //   params: {
-          //     success: "false"
-          //   }
-          // });
           setError(true);
         }
       }, 2000);
@@ -123,7 +117,7 @@ function ActiveCardScreen() {
             {cardNumber.map((_, index) => (
               <TextInput
                 editable={!loading}
-                autoFocus={index == 0}
+                autoFocus={index === 0}
                 className="border w-[56px] h-[56px] rounded-lg items-center justify-center text-center text-[20px] font-semibold"
                 style={[
                   { borderColor: colors.border },

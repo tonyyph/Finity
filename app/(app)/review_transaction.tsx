@@ -1,7 +1,7 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
-import { Progress } from "@/components/ui/progress";
+import { ProgressBar } from "@/components/ui/progress";
 import { formatNumber } from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
 import { ArrowDownIcon } from "lucide-react-native";
@@ -41,11 +41,8 @@ function ReviewTransactionScreen() {
     <View className="flex-1 bg-white">
       <SafeAreaView className="flex-1">
         <Header onBack={router.back} title="Review transactions" />
-        <Progress
-          value={100}
-          className="h-[1px] mt-4 bg-neutral-100"
-          indicatorClassName="bg-neutral-100"
-        />
+        <ProgressBar completeAnimation={true} />
+
         <View className="flex-1 pt-4">
           <View className="px-4 gap-2">
             <View className="bg-neutral-100 px-5 py-4 items-start justify-center gap-1 rounded-xl">

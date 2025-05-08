@@ -2,7 +2,7 @@ import { CircleAlert } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
-import { Progress } from "@/components/ui/progress";
+import { ProgressBar } from "@/components/ui/progress";
 import Tooltip from "@/components/ui/tooltip";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { cn } from "@/lib/utils";
@@ -59,11 +59,8 @@ function LoadCardScreen() {
     <View className="flex-1 bg-white">
       <SafeAreaView className="flex-1">
         <Header onBack={router.back} title="Load points to card" />
-        <Progress
-          value={100}
-          className="h-[1px] mt-4 bg-border"
-          indicatorClassName="bg-orange-primary"
-        />
+        <ProgressBar />
+
         <View className="flex-1">
           <View className="p-6 gap-2">
             <Typography type="body-default" weight="medium" textColor="#404040">

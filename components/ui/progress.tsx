@@ -1,7 +1,12 @@
 import { cn } from "@/lib/utils";
 import * as ProgressPrimitive from "@rn-primitives/progress";
 import * as React from "react";
-import { Platform, View } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  View,
+  Animated as RNAnimated
+} from "react-native";
 import Animated, {
   Extrapolation,
   interpolate,
@@ -95,3 +100,64 @@ function Indicator({
     </ProgressPrimitive.Indicator>
   );
 }
+
+export const ProgressBar = ({
+  completeAnimation = false
+}: {
+  completeAnimation?: boolean;
+}) => {
+  const progress = React.useRef(new RNAnimated.Value(0)).current;
+  const [completed, setCompleted] = React.useState(completeAnimation);
+  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  React.useEffect(() => {
+    RNAnimated.timing(progress, {
+      toValue: 1,
+      duration: 3000, // 3 seconds
+      useNativeDriver: false
+    }).start(() => {
+      timeoutRef.current = setTimeout(() => {
+        setCompleted(true); // Set state when animation is done
+      }, 1000);
+    });
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const widthInterpolated = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0%", "100%"]
+  });
+
+  return (
+    <View style={[styles.progressBarContainer, { height: completed ? 1 : 4 }]}>
+      <RNAnimated.View
+        style={[
+          styles.progressBar,
+          {
+            width: widthInterpolated,
+            height: completed ? 1 : 4,
+            backgroundColor: completed ? "#F5F5F5" : "#FF885D" // Gray after complete
+          }
+        ]}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  progressBarContainer: {
+    marginTop: 12,
+    height: 4,
+    backgroundColor: "#F5F5F5",
+    width: "100%"
+  },
+  progressBar: {
+    height: 4, // This is overridden dynamically
+    backgroundColor: "#FF885D"
+  }
+});

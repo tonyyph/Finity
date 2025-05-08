@@ -3,8 +3,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect } from "react";
 import { AppState, type AppStateStatus } from "react-native";
 
-// 30 minutes
-const BIO_AUTH_EXPIRATION_TIME = 1000 * 60 * 30;
+// 1 minutes
+const BIO_AUTH_EXPIRATION_TIME = 1000 * 60 * 1;
 
 // const BIO_TEN_SECONDS = 1000 * 10;
 
@@ -22,7 +22,10 @@ export function useLocalPIN() {
       if (status === "background") {
         const date = Date.now();
         await AsyncStorage.setItem("movedToBackgroundAt", date.toString());
-        setShouldPINLocal(true);
+        if (date && Date.now() - Number(date) >= BIO_AUTH_EXPIRATION_TIME) {
+          await AsyncStorage.removeItem("movedToBackgroundAt");
+          setShouldPINLocal(true);
+        }
       }
 
       if (status === "active") {

@@ -1,9 +1,8 @@
-import { CircleAlert } from "@/components/common/icons";
-import { RemoveNumpad } from "@/components/common/icons";
+import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import { LoadingScreen } from "@/components/common/loading";
 import Typography from "@/components/common/text-typography";
 import Header from "@/components/ui/header";
-import { Progress } from "@/components/ui/progress";
+import { ProgressBar } from "@/components/ui/progress";
 import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
@@ -97,11 +96,8 @@ function PinVerificationScreen() {
         <Header onBack={router.back} title="Verification" />
         <LoadingScreen loading={loading} />
 
-        <Progress
-          value={100}
-          className="h-[1px] mt-4 bg-border"
-          indicatorClassName="bg-orange-primary"
-        />
+        <ProgressBar completeAnimation={true} />
+
         <View
           className="flex-1 flex-col justify-between bg-white mx-5"
           style={{ paddingTop: top * 2, paddingBottom: bottom }}

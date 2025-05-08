@@ -61,7 +61,7 @@ function TransactionPointTap({ showAll = false }: { showAll?: boolean }) {
       <Animated.FlatList
         data={showAll ? DATA : DATA.slice(0, 10)}
         renderItem={({ item }) => (
-          <View className="flex-row justify-between items-start my-2">
+          <View className="flex-row justify-between items-start my-2 mx-4">
             <View className="flex flex-row items-start gap-4 min-h-[64px]">
               <View className="w-[40px] h-[40px] bg-[#F4F4F4] rounded-full justify-center items-center">
                 {item?.type === "Card Load" ? <CardLoadIcon /> : <FinityIcon />}
@@ -114,11 +114,11 @@ function TransactionPointTap({ showAll = false }: { showAll?: boolean }) {
           style={{
             position: "absolute",
             zIndex: 10,
-            right: -4,
-            top: 0,
+            right: 4,
+            top: 4,
             width: 8,
             borderRadius: 8,
-            backgroundColor: "black",
+            backgroundColor: "#D4D4D4",
             height: indicatorHeight,
             transform: [{ translateY: indicatorTranslateY }]
           }}

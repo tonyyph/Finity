@@ -11,6 +11,7 @@ import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useUserSettingsStore } from "@/stores";
 import { SCREEN_WIDTH } from "@/utils";
 import { router } from "expo-router";
+import { isEmpty } from "lodash-es";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -64,6 +65,12 @@ function HomeScreen() {
     }
   };
 
+  const handleToNotificationCenter = () => {
+    router.navigate({
+      pathname: "/notification_center"
+    });
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -73,16 +80,16 @@ function HomeScreen() {
     >
       <HomeHeader
         haveNotification
-        onNotification={() => console.log("Click Notification")}
+        onNotification={handleToNotificationCenter}
       />
       <View>
-        {(!cardholderId || cardStatus === 0) && (
+        {(!cardholderId || cardStatus === 0) && !isEmpty(userData) && (
           <RequestCardNotification
             onPress={onPressCard}
             requested={!cardholderId}
           />
         )}
-        {cardStatus === 3 && isFreezeCard && (
+        {cardStatus === 3 && isFreezeCard && !isEmpty(userData) && (
           <FrozenBanner onPress={handleFreezeCard} />
         )}
         <View className="gap-2 mb-1">

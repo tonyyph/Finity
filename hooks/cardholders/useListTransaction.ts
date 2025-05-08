@@ -1,11 +1,16 @@
 import { getCardTransaction, getPointTransaction } from "@/api";
+import { validateLetter } from "@/utils";
 import { useCallback, useState } from "react";
+import { useValidateInput } from "../commons";
 
 export const useListTransaction = () => {
   const [loading, setLoading] = useState(true);
-  const [cardList, setCardList] = useState<Transaction[]>([]); //   try {
-  const [pointList, setPointList] = useState<Transaction[]>([]); //   try {
-
+  const [cardList, setCardList] = useState<Transaction[]>([]);
+  const [pointList, setPointList] = useState<Transaction[]>([]);
+  const searchState = useValidateInput({
+    defaultValue: "",
+    validate: validateLetter
+  });
   const fetchPaginatedCardTransactions = useCallback(async () => {
     setLoading(true);
     try {
@@ -44,6 +49,7 @@ export const useListTransaction = () => {
     loading,
     cardList,
     pointList,
+    searchState,
     fetchPaginatedCardTransactions,
     fetchPaginatedPointTransactions
   };

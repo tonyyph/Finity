@@ -1,4 +1,3 @@
-import { forgotPassword } from "@/api";
 import { actionWithLoading, validatePassword, validateUsername } from "@/utils";
 import { AxiosError } from "axios";
 import { Alert, Keyboard } from "react-native";
@@ -22,11 +21,9 @@ export const useForgotPassword = () => {
       };
 
       try {
-        console.log("emailState.value", emailState.value);
-        const { data: messages } = await forgotPassword({
-          email: emailState.value
-        });
-        console.log("messages", messages);
+        // const { data: messages } = await forgotPassword({
+        //   email: emailState.value
+        // });
       } catch (error) {
         console.log("error:", error);
 

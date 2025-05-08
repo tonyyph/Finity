@@ -10,6 +10,26 @@ export const refreshToken = async (data: RefreshTokenRequest) => {
     }
   );
 };
+
+export const getLoginTime = async () => {
+  const token = await clerk.session?.getToken();
+
+  return await axios.post<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/users/login-time`,
+    {},
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+      }
+    }
+  );
+};
+
 export const getUserProfile = async () => {
   const token = await clerk.session?.getToken();
   return await axios.get<UserResponse>(

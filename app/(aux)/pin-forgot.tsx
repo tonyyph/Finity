@@ -19,7 +19,7 @@ export default function ForgotPINScreen() {
   const [securePassword, setSecurePassword] = useState(true);
   const [focusUsername, setFocusUsername] = useState(false);
   const [focusPassword, setFocusPassword] = useState(false);
-  const { onForgotPassword, emailState, passwordState } = useForgotPassword();
+  const { emailState, passwordState } = useForgotPassword();
 
   const onPressSecurePassword = () => {
     setSecurePassword((prev) => !prev);

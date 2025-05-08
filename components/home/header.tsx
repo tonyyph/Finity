@@ -36,11 +36,11 @@ export function HomeHeader({
       <Touch onPress={onNotification} className="relative right-2">
         <Image
           source={require("@/assets/images/bellIcon.png")}
-          style={{ width: exactDesign(32), height: exactDesign(32) }}
+          style={{ width: exactDesign(28), height: exactDesign(28) }}
           resizeMode="contain"
         />
         {haveNotification && (
-          <View className="rounded-full w-[9px] h-[9px] bg-orange-400 absolute right-1 top-1" />
+          <View className="rounded-full w-[10px] h-[10px] bg-[#FF885D] absolute right-0 top-[2px]" />
         )}
       </Touch>
     </View>

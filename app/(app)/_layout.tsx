@@ -90,6 +90,18 @@ export default function AuthenticatedLayout() {
             }}
           />
           <Stack.Screen
+            name="notification_center"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="point_received"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
             name="transactions"
             options={{
               headerShown: false
