@@ -18,6 +18,8 @@ interface UserSettingsStore {
   setIsDisableCard: (isDisableCard: boolean) => void;
   isDamagedCard: boolean;
   setIsDamagedCard: (isDamagedCard: boolean) => void;
+  cardStatus: number;
+  setCardStatus: (cardStatus: number) => void;
 }
 
 export const useUserSettingsStore = create<UserSettingsStore>()(
@@ -37,7 +39,9 @@ export const useUserSettingsStore = create<UserSettingsStore>()(
       isDisableCard: false,
       setIsDisableCard: (isDisableCard) => set({ isDisableCard }),
       isDamagedCard: false,
-      setIsDamagedCard: (isDamagedCard) => set({ isDamagedCard })
+      setIsDamagedCard: (isDamagedCard) => set({ isDamagedCard }),
+      cardStatus: 0,
+      setCardStatus: (cardStatus) => set({ cardStatus })
     }),
     {
       name: "user-settings-storage",

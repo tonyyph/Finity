@@ -1,33 +1,34 @@
+import { getCardHolderCurrent, handleFreeze, handleUnFreeze } from "@/api";
 import { useUserSettingsStore } from "@/stores";
 import { AxiosError } from "axios";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import {
-  getCardHolderCurrent,
-  handleFreeze,
-  handleUnFreeze
-} from "./../../api/restful";
 
 export const useCardHolder = () => {
   const [data, setData] = useState<UserCardInfo>({} as UserCardInfo);
-  const { isFreezeCard, setIsFreezeCard } = useUserSettingsStore();
-  const [loading, setLoading] = useState(false);
+  const { setIsFreezeCard, setCardStatus, cardStatus } = useUserSettingsStore();
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const fetchCardHolderCurrent = async () => {
-      try {
-        const { data: session } = await getCardHolderCurrent();
-        setData(session);
-      } catch (error) {
-        setError((error as AxiosError).message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchCardHolderCurrent = async () => {
+    try {
+      const { data: session } = await getCardHolderCurrent();
 
-    fetchCardHolderCurrent();
-  }, []);
+      if (session) {
+        setData(session);
+        setIsFreezeCard(session?.cardStatus === 3);
+        setCardStatus(session?.cardStatus);
+      }
+    } catch (error) {
+      setError((error as AxiosError).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loading && fetchCardHolderCurrent();
+  }, [loading]);
 
   const handleRequestCard = () => {
     router.navigate({
@@ -50,12 +51,12 @@ export const useCardHolder = () => {
   const handleFreezeCard = async () => {
     setLoading(true);
     try {
-      if (isFreezeCard) {
+      if (data?.cardStatus === 3) {
         await handleUnFreeze(data?.cardholderId || 0);
       } else {
         await handleFreeze(data?.cardholderId || 0);
       }
-      setIsFreezeCard(!isFreezeCard);
+      fetchCardHolderCurrent();
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -70,7 +71,7 @@ export const useCardHolder = () => {
     handleActiveCard,
     handleReport,
     handleFreezeCard,
-    isFreezeCard,
-    error
+    error,
+    cardStatus
   };
 };

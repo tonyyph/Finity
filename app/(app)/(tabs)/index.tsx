@@ -8,7 +8,6 @@ import { HomeHeader } from "@/components/home/header";
 import PointsBalanceCom from "@/components/home/points_balance";
 import RequestCardNotification from "@/components/home/request_card_noti";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
-import { useUserSettingsStore } from "@/stores";
 import { SCREEN_WIDTH } from "@/utils";
 import { router } from "expo-router";
 import { isEmpty } from "lodash-es";
@@ -17,9 +16,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function HomeScreen() {
   const { top } = useSafeAreaInsets();
-  const { isFreezeCard } = useUserSettingsStore();
-  const { userData, handleFreezeCard } = useCardHolder();
-  const { cardholderId, cardStatus } = userData || {};
+
+  const { userData, handleFreezeCard, cardStatus } = useCardHolder();
+  const { cardholderId } = userData || {};
 
   async function handleShowToastError() {
     toast.error(`You cannot load your card while it is frozen`, {
@@ -30,7 +29,7 @@ function HomeScreen() {
   }
 
   const onLoadCard = () => {
-    if (!isFreezeCard && (cardStatus === 4 || cardStatus === 1)) {
+    if (cardStatus === 4 || cardStatus === 1) {
       router.navigate({
         pathname: "/(app)/load_card"
       });
@@ -40,7 +39,7 @@ function HomeScreen() {
   };
 
   const onSendPoints = () => {
-    if (!isFreezeCard && (cardStatus === 4 || cardStatus === 1)) {
+    if (cardStatus === 4 || cardStatus === 1) {
       router.navigate({
         pathname: "/(app)/send-card"
       });
@@ -87,7 +86,7 @@ function HomeScreen() {
             requested={!cardholderId}
           />
         )}
-        {cardStatus === 3 && isFreezeCard && !isEmpty(userData) && (
+        {cardStatus === 3 && !isEmpty(userData) && (
           <FrozenBanner onPress={handleFreezeCard} />
         )}
         <View className="gap-2 mb-1">
@@ -98,7 +97,7 @@ function HomeScreen() {
         <CardButtonGroup onLoadCard={onLoadCard} onSendPoints={onSendPoints} />
         <View className="h-2" key={"Transaction Bar"} />
       </View>
-      <View style={{ flex: 1, opacity: 1 }}>
+      <View className="flex-1 opacity-100">
         <CardAndPointTab />
       </View>
     </ScrollView>

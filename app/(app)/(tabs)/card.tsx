@@ -12,6 +12,7 @@ import { BottomSheet } from "@/components/common/bottom-sheet";
 import DowntimeMessage from "@/components/common/down-time-message";
 import { MenuItem } from "@/components/common/menu-item";
 import Typography from "@/components/common/text-typography";
+import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { Button } from "@/components/ui/button";
 import AnimatedSpinnerV2 from "@/components/ui/spinnerIndicator";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
@@ -45,7 +46,6 @@ export default function CardScreen() {
     handleActiveCard,
     handleReport,
     handleFreezeCard,
-    isFreezeCard,
     loading
   } = useCardHolder();
 
@@ -104,7 +104,7 @@ export default function CardScreen() {
               className="w-[65px] h-[40px]"
             />
           </View>
-          {isFreezeCard && (
+          {cardStatus === 3 && (
             <BlurView
               intensity={25}
               experimentalBlurMethod="dimezisBlurView"
@@ -205,9 +205,9 @@ export default function CardScreen() {
               icon={EyeIcon}
             />
             <MenuItem
-              label={!isFreezeCard ? `Freeze card` : `Unfreeze card`}
+              label={cardStatus === 4 ? `Freeze card` : `Unfreeze card`}
               onPress={handleFreezeCard}
-              icon={!isFreezeCard ? FreezeIcon : UnFreezeIcon}
+              icon={cardStatus === 4 ? FreezeIcon : UnFreezeIcon}
               rightSection={
                 loading && <AnimatedSpinnerV2 size={24} color={"#fb923c"} />
               }
@@ -224,6 +224,14 @@ export default function CardScreen() {
         </View>
         <BottomSheetViewPin />
       </>
+    );
+  }
+
+  if (loading) {
+    return (
+      <View className="flex-1 bg-background">
+        <HomeSkeleton />
+      </View>
     );
   }
 
