@@ -137,3 +137,69 @@ type ListTransactionResponse = {
   currentPage: number;
   hasNextPage: boolean;
 };
+
+type VerificationCodeResponse = {
+  devVerificationCode: string;
+};
+
+type Metadata = {
+  [key: string]: {
+    nullable: boolean;
+  };
+};
+
+interface IReason {
+  message: string;
+  metadata: Metadata;
+}
+
+interface IError {
+  message: string;
+  metadata: Metadata;
+  reasons: {
+    value: IError; // Circular reference
+  }[];
+}
+
+interface UserValue {
+  email: string;
+  mobileNumber: string;
+  dateOfBirth: string; // ISO 8601 datetime string
+  business: {
+    name: string;
+  };
+  firstName: string;
+  lastName: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  country: string;
+  postcode: string;
+}
+
+interface SettingProfileResponse {
+  isFailed: boolean;
+  isSuccess: boolean;
+  reasons: IReason[];
+  errors: IError[];
+  successes: IReason[];
+  valueOrDefault: UserValue;
+  value: UserValue;
+}
+interface UserCardInfo {
+  cardBalance: number;
+  cardStatus: number;
+  cardholderId: number;
+  dateCreated: string; // ISO datetime string
+  dateLastLoggedIn: string; // ISO datetime string
+  deliveryType: string; // e.g., "PC"
+  email: string;
+  firstName: string;
+  hasIssuedCard: boolean;
+  last4Digits: string;
+  lastName: string;
+  pointsBalance: number;
+  publicToken: string;
+  userId: number;
+  userStatus: number;
+}

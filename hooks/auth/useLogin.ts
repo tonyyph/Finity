@@ -78,8 +78,6 @@ export const useLogin = () => {
           const { data: session } = await getUserProfile();
           const { data: res } = await getPINInfo(otp);
           const { data: cardDetail } = await getCardDetail(otp);
-          // const { data: loginTime } = await getLoginTime();
-          // console.log(" useLogin 💯 loginTime:", loginTime);
 
           userStore.setState({
             userProfile: session,

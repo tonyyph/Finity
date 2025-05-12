@@ -47,6 +47,40 @@ export const getUserProfile = async () => {
   );
 };
 
+export const getSettingProfile = async () => {
+  const token = await clerk.session?.getToken();
+  return await axios.get<SettingProfileResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/settings/profile`,
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+      }
+    }
+  );
+};
+
+export const getCardHolderCurrent = async () => {
+  const token = await clerk.session?.getToken();
+  return await axios.get<UserCardInfo>(
+    `${process.env.EXPO_PUBLIC_API_URL}/cardholders/current`,
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+      }
+    }
+  );
+};
+
 export const getPINInfo = async (verificationCode: string) => {
   const token = await clerk.session?.getToken();
   return await axios.post<PinResponse>(
@@ -169,4 +203,22 @@ export const getPointTransaction = async (data: ListTransactionRequest) => {
     },
     params
   });
+};
+
+export const sendMobileVerificationCode = async (mobileNumber: string) => {
+  const token = await clerk.session?.getToken();
+  return await axios.post<VerificationCodeResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/users/send-mobile-verification-code`,
+    { mobileNumber: mobileNumber },
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+      }
+    }
+  );
 };

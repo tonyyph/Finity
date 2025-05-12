@@ -1,20 +1,33 @@
-import { useCardHolderQuery, UserCardInfo } from "@/queries/cardholder";
 import { useUserSettingsStore } from "@/stores";
+import { AxiosError } from "axios";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { handleFreeze, handleUnFreeze } from "./../../api/restful";
+import {
+  getCardHolderCurrent,
+  handleFreeze,
+  handleUnFreeze
+} from "./../../api/restful";
 
 export const useCardHolder = () => {
   const [data, setData] = useState<UserCardInfo>({} as UserCardInfo);
   const { isFreezeCard, setIsFreezeCard } = useUserSettingsStore();
-  const { data: userData } = useCardHolderQuery();
-  const { cardholderId } = userData || {};
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!userData) return;
-    setData(userData as UserCardInfo);
-  }, [userData]);
+    const fetchCardHolderCurrent = async () => {
+      try {
+        const { data: session } = await getCardHolderCurrent();
+        setData(session);
+      } catch (error) {
+        setError((error as AxiosError).message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCardHolderCurrent();
+  }, []);
 
   const handleRequestCard = () => {
     router.navigate({
@@ -38,9 +51,9 @@ export const useCardHolder = () => {
     setLoading(true);
     try {
       if (isFreezeCard) {
-        await handleUnFreeze(cardholderId || 0);
+        await handleUnFreeze(data?.cardholderId || 0);
       } else {
-        await handleFreeze(cardholderId || 0);
+        await handleFreeze(data?.cardholderId || 0);
       }
       setIsFreezeCard(!isFreezeCard);
     } catch (error) {
@@ -57,6 +70,7 @@ export const useCardHolder = () => {
     handleActiveCard,
     handleReport,
     handleFreezeCard,
-    isFreezeCard
+    isFreezeCard,
+    error
   };
 };

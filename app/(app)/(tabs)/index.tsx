@@ -16,11 +16,9 @@ import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function HomeScreen() {
-  const { isFreezeCard } = useUserSettingsStore();
   const { top } = useSafeAreaInsets();
-
+  const { isFreezeCard } = useUserSettingsStore();
   const { userData, handleFreezeCard } = useCardHolder();
-
   const { cardholderId, cardStatus } = userData || {};
 
   async function handleShowToastError() {

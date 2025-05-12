@@ -1,8 +1,11 @@
 import { CircleAlert } from "@/components/common/icons";
+import { ResendVerificationDowntime } from "@/components/common/resend_verification_downtime";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { colors } from "@/constants/Colors";
 import { useLogin } from "@/hooks/auth";
+import { useVerification } from "@/hooks/profile/useVerification";
+import { cn } from "@/lib/utils";
 import { exactDesign } from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -15,23 +18,21 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function VerifyPhoneNumberCodeScreen() {
   const { bottom } = useSafeAreaInsets();
-  const { phoneNumber } = useLocalSearchParams();
+  const { phoneNumber, rawPhoneNumber } = useLocalSearchParams();
 
-  const { handleVerifyTOTP, error, loading } = useLogin();
+  console.log(" VerifyPhoneNumberCodeScreen 💯 phoneNumber:", rawPhoneNumber);
+  const { verificationCode, loading, error } = useVerification(
+    rawPhoneNumber as string
+  );
+
+  console.log(
+    " VerifyPhoneNumberCodeScreen 💯 verificationCode:",
+    verificationCode
+  );
 
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const inputsRef = useRef<(TextInput | null)[]>([]);
   const [indexCursor, setIndexCursor] = useState<number>(0);
-  const [timeLeft, setTimeLeft] = useState(150); // 2m30s
-
-  useEffect(() => {
-    if (timeLeft <= 0) return;
-    const interval = setInterval(() => setTimeLeft((t) => t - 1), 1000);
-    return () => clearInterval(interval);
-  }, [timeLeft]);
-
-  const minutes = String(Math.floor(timeLeft / 60)).padStart(2, "0");
-  const seconds = String(timeLeft % 60).padStart(2, "0");
 
   useEffect(() => {
     if (inputsRef.current[0]) {
@@ -152,16 +153,16 @@ export default function VerifyPhoneNumberCodeScreen() {
             </Typography>
           </View>
         )}
-        <Typography
-          type="body-small"
-          weight="medium"
-          textColor="#737373"
-          className="text-center mt-6"
-        >
-          {timeLeft > 0
-            ? `Resend code in ${minutes}:${seconds}`
-            : "Resend code."}
-        </Typography>
+        <ResendVerificationDowntime />
+        {verificationCode !== "000000" && (
+          <Typography
+            type="body-small"
+            textColor="#737373"
+            className="self-center mt-6"
+          >
+            {`(Testing Verification code: ${verificationCode})`}
+          </Typography>
+        )}
       </View>
       <Animated.View
         style={translateStyle}
