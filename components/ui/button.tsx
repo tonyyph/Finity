@@ -83,11 +83,11 @@ const Button = React.forwardRef<
       )}
     >
       <Pressable
+        style={[props.disabled && { backgroundColor: colors.neutral }]}
         className={cn(
           props.disabled && "web:pointer-events-none ",
           buttonVariants({ variant, size, className })
         )}
-        style={[props.disabled && { backgroundColor: colors.neutral }]}
         ref={ref}
         role="button"
         {...props}

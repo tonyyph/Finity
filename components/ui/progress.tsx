@@ -126,7 +126,7 @@ export const ProgressBar = ({
         clearTimeout(timeoutRef.current);
       }
     };
-  }, []);
+  }, [completeAnimation, progress]);
 
   const widthInterpolated = progress.interpolate({
     inputRange: [0, 1],

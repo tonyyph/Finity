@@ -14,6 +14,8 @@ export function useLocalPIN() {
 
   const changeAppStateListener = useCallback(
     async (status: AppStateStatus) => {
+      console.log(" status:", status);
+
       if (isFirst2FA) {
         AsyncStorage.removeItem("movedToBackgroundAt");
         return;

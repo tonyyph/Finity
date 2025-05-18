@@ -126,6 +126,18 @@ export default function AuthenticatedLayout() {
             }}
           />
           <Stack.Screen
+            name="statements"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="preview_statements"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
             name="pin-verification"
             options={{
               headerShown: false
@@ -148,9 +160,12 @@ export default function AuthenticatedLayout() {
             }}
           />
           <Stack.Screen
-            name="notifications"
-            options={{ headerTitle: `Notifications` }}
+            name="cash_out_point"
+            options={{ headerShown: false }}
           />
+          <Stack.Screen name="web_view" options={{ headerShown: false }} />
+          <Stack.Screen name="our_agreement" options={{ headerShown: false }} />
+          <Stack.Screen name="notifications" options={{ headerShown: false }} />
           <Stack.Screen
             name="feedback"
             options={{
@@ -181,6 +196,12 @@ export default function AuthenticatedLayout() {
           />
           <Stack.Screen
             name="success_phonenumber"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="success_homeaddress"
             options={{
               headerShown: false
             }}
@@ -235,6 +256,16 @@ export default function AuthenticatedLayout() {
           />
           <Stack.Screen
             name="verify_phonenumber"
+            options={{
+              headerShown: true,
+              headerTitle: ``,
+              headerStyle: {
+                backgroundColor: getColor("--background")
+              }
+            }}
+          />
+          <Stack.Screen
+            name="edit_homeaddress"
             options={{
               headerShown: true,
               headerTitle: ``,

@@ -20,6 +20,7 @@ export const useCardHolder = () => {
         setCardStatus(session?.cardStatus);
       }
     } catch (error) {
+      setLoading(false);
       setError((error as AxiosError).message);
     } finally {
       setLoading(false);

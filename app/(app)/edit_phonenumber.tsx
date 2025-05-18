@@ -1,7 +1,6 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { raw } from "@prisma/client/runtime/library";
 import { router } from "expo-router";
 import { useCallback, useState } from "react";
 import { TextInput, View } from "react-native";

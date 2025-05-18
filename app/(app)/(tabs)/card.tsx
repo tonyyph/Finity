@@ -7,6 +7,7 @@ import {
   SmartChip,
   UnFreezeIcon
 } from "@/assets";
+import { ArrowRightIcon } from "@/assets/icons/ArrowRightIcon";
 import { FrozenIcon } from "@/assets/icons/FrozenIcon";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import DowntimeMessage from "@/components/common/down-time-message";
@@ -22,12 +23,7 @@ import { userStore } from "@/stores/userStore";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BlurView } from "expo-blur";
 import { router, useFocusEffect } from "expo-router";
-import {
-  ChevronRightIcon,
-  EyeIcon,
-  TriangleAlertIcon,
-  XIcon
-} from "lucide-react-native";
+import { EyeIcon, TriangleAlertIcon, XIcon } from "lucide-react-native";
 import { useRef } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -215,9 +211,7 @@ export default function CardScreen() {
             <MenuItem
               label={`Report lost or damaged`}
               icon={TriangleAlertIcon}
-              rightSection={
-                <ChevronRightIcon className="h-[24px] w-[24px] text-primary" />
-              }
+              rightSection={<ArrowRightIcon />}
               onPress={handleReport}
             />
           </View>

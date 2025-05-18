@@ -34,9 +34,15 @@ export const useLogin = () => {
         identifier:
           usernameState.value === "1"
             ? "tonyphvincent@gmail.com" //TODO: remove that mockup
+            : usernameState.value === "2"
+            ? "anhtuyetk36acntt@gmail.com"
             : usernameState.value,
         password:
-          passwordState.value === "1" ? "Khaccuong@14" : passwordState.value
+          passwordState.value === "1"
+            ? "Khaccuong@14"
+            : passwordState.value === "2"
+            ? "Tuyetvo123@@"
+            : passwordState.value
       });
 
       if (result.status === "needs_second_factor") {

@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { MenuItem } from "../common/menu-item";
 import { toast } from "../common/toast";
 import { Switch } from "../ui/switch";
+import { Biometrics } from "../common/icons/Biometrics";
+import { FaceIDIcon } from "@/assets/icons/FaceIDIcon";
 
 export function SetLocalAuth() {
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);
@@ -29,7 +31,7 @@ export function SetLocalAuth() {
     }
   }
 
-  //TODO: check support for device fallback
+  // //TODO: check support for device fallback
   if (!isBiometricSupported) {
     return null;
   }
@@ -37,7 +39,7 @@ export function SetLocalAuth() {
   return (
     <MenuItem
       label={`Biometrics`}
-      icon={ScanFaceIcon}
+      icon={FaceIDIcon}
       rightSection={
         <Switch
           checked={enabledLocalAuth}

@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { twMerge } from "tailwind-merge";
 
 export default function VerifyPINScreen() {
-  const { isResetPin } = useLocalSearchParams();
+  const { isResetPin, type } = useLocalSearchParams();
   const [pin, setPin] = useState<string>("");
   const { bottom } = useSafeAreaInsets();
 
@@ -27,11 +27,12 @@ export default function VerifyPINScreen() {
         pathname: "/pin-confirm",
         params: {
           pin: pin,
-          isResetPin
+          isResetPin,
+          type
         }
       });
     }
-  }, [pin, isResetPin]);
+  }, [pin, isResetPin, type]);
 
   return (
     <View

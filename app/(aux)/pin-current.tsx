@@ -2,14 +2,13 @@ import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function ConfirmPINScreen() {
-  const { pin, isResetPin, type } = useLocalSearchParams();
-  const { setVerificationPin } = useUserAuthenticateStore();
+export default function PINCurrentScreen() {
+  const { verificationPin } = useUserAuthenticateStore();
 
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
@@ -27,11 +26,10 @@ export default function ConfirmPINScreen() {
 
   useEffect(() => {
     if (confirmPin?.length === 4) {
-      if (confirmPin === pin) {
-        setVerificationPin(confirmPin);
+      if (confirmPin === verificationPin) {
         router.push({
-          pathname: "/pin-success",
-          params: { isResetPin, type }
+          pathname: "/pin-verify",
+          params: { type: "change" }
         });
       } else {
         setWrongPin(true);
@@ -39,7 +37,7 @@ export default function ConfirmPINScreen() {
     } else {
       setWrongPin(false);
     }
-  }, [confirmPin, pin, isResetPin, setVerificationPin, type]);
+  }, [confirmPin, verificationPin]);
 
   return (
     <View
@@ -51,11 +49,9 @@ export default function ConfirmPINScreen() {
         <View className="z-10 mb-2">
           <View className="gap-2">
             <Typography type="heading-small" weight="semibold">
-              Confirm your PIN code
+              Current PIN code
             </Typography>
-            <Typography weight="regular">
-              Re-enter your PIN for confirmation.
-            </Typography>
+            <Typography weight="regular">Enter your 4-digit PIN.</Typography>
           </View>
         </View>
 

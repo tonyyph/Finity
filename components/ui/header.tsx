@@ -1,6 +1,8 @@
-import { ArrowLeftIcon, XIcon } from "lucide-react-native";
+import { ArrowBackIcon } from "@/assets";
+import { XIcon } from "lucide-react-native";
 import { ReactNode } from "react";
 import { SafeAreaView, View } from "react-native";
+import type { SvgProps } from "react-native-svg";
 import Typography from "../common/text-typography";
 import { Button } from "./button";
 
@@ -12,6 +14,7 @@ type Props = {
   onBack?: (params?: any) => void;
   onRightFunction?: (params?: any) => void;
   children?: ReactNode;
+  icon?: React.ComponentType<SvgProps>;
   renderRightView?: ReactNode;
 };
 
@@ -20,6 +23,7 @@ function Header({
   onBack,
   onLeftFunction,
   onRightFunction,
+  icon: Icon,
   renderLeftView,
   renderCenterView,
   renderRightView
@@ -30,7 +34,7 @@ function Header({
         {renderLeftView ??
           (!!onBack || !!onLeftFunction ? (
             <Button
-              className="flex-shrink"
+              className="flex-shrink left-2"
               onPress={(value) => {
                 onBack?.(value);
                 onLeftFunction?.(value);
@@ -38,11 +42,11 @@ function Header({
               size="icon"
               variant="ghost"
             >
-              <ArrowLeftIcon className="h-8 w-8 left-2 text-foreground" />
+              <ArrowBackIcon />
             </Button>
           ) : (
-            <View className="flex-shrink">
-              <ArrowLeftIcon className="h-8 w-8 left-2  color-transparent" />
+            <View className="flex-shrink left-2">
+              <View className="w-8 h-8" />
             </View>
           ))}
         {renderCenterView ?? (
@@ -58,11 +62,19 @@ function Header({
               variant="ghost"
               onPress={onRightFunction}
             >
-              <XIcon className="h-8 w-8 right-2 text-foreground" />
+              {Icon ? (
+                <Icon className="h-8 w-8 right-2 text-foreground" />
+              ) : (
+                <XIcon className="h-8 w-8 right-2 text-foreground" />
+              )}
             </Button>
           ) : (
             <View className="flex-shrink ">
-              <XIcon className="h-8 w-8 right-2  color-transparent" />
+              {Icon ? (
+                <Icon className="h-8 w-8 right-2 color-transparent" />
+              ) : (
+                <XIcon className="h-8 w-8 right-2 color-transparent" />
+              )}
             </View>
           ))}
       </View>

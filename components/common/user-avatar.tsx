@@ -1,6 +1,5 @@
-import { cn } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Text } from "../ui/text";
+import { View } from "react-native";
+import Typography from "./text-typography";
 
 type UserAvatarProps = {
   user?: {
@@ -10,36 +9,22 @@ type UserAvatarProps = {
   } | null;
   className?: string;
   fallbackClassName?: string;
+  fullName?: string;
   fallbackLabelClassName?: string;
 };
 
-export function UserAvatar({
-  user,
-  className,
-  fallbackClassName,
-  fallbackLabelClassName
-}: UserAvatarProps) {
-  const shortName = user?.fullName?.split(" ")[0].slice(0, 2);
+export function UserAvatar({ user, fullName }: UserAvatarProps) {
+  const getInitials = (name: string) => {
+    const parts = name.trim().split(/\s+/);
+    return parts.map((part) => part[0].toUpperCase()).join("");
+  };
+  const shortName = getInitials(fullName || user?.fullName || "N/A");
+
   return (
-    <Avatar
-      alt={`${user?.fullName}'s avatar`}
-      className={cn("h-12 w-12 border border-border bg-muted", className)}
-    >
-      <AvatarImage
-        source={{
-          uri: user?.imageUrl
-        }}
-      />
-      <AvatarFallback className={fallbackClassName}>
-        <Text
-          className={cn(
-            "font-semiBold uppercase leading-tight",
-            fallbackLabelClassName
-          )}
-        >
-          {shortName}
-        </Text>
-      </AvatarFallback>
-    </Avatar>
+    <View className="h-[56px] w-[56px] bg-[#A3A3A3] rounded-full items-center justify-center">
+      <Typography type="heading-extraSmall" textColor="white">
+        {shortName}
+      </Typography>
+    </View>
   );
 }

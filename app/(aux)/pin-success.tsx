@@ -2,12 +2,38 @@ import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useUserAuthenticateStore } from "@/stores";
 import { router, useLocalSearchParams } from "expo-router";
-import { useCallback } from "react";
+import { find } from "lodash-es";
+import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";
 
+interface PinProps {
+  pinType: string;
+  title: string;
+  subTitle: string;
+}
+
+const PinSuccessType: PinProps[] = [
+  {
+    pinType: "setup",
+    title: `PIN successfully set`,
+    subTitle: `Your PIN has been set. Tap 'Continue' to go to your Home page and get started.`
+  },
+  {
+    pinType: "change",
+    title: `PIN created successfully!`,
+    subTitle: `Your account is now even more secure. \nRemember to keep your new PIN private and update it regularly.`
+  }
+];
 function SetupPinSuccess() {
-  const { isResetPin } = useLocalSearchParams();
+  const { isResetPin, type } = useLocalSearchParams();
   const { setIsLoggedIn, setIsFirst2FA } = useUserAuthenticateStore();
+  const [pinType, setPinType] = useState<PinProps>();
+
+  useEffect(() => {
+    setPinType(
+      find(PinSuccessType, (pi) => String(pi.pinType) === String(type))
+    );
+  }, [type]);
 
   const handleContinue = useCallback(() => {
     router.replace("/(app)/(tabs)");
@@ -25,12 +51,12 @@ function SetupPinSuccess() {
             source={require("@/assets/images/success-filled.png")}
           />
           <Typography type="heading-small" weight="semibold">
-            {isResetPin === "1" ? `PIN changed` : `PIN successfully set`}
+            {isResetPin === "1" ? `PIN changed` : pinType?.title}
           </Typography>
           <Typography weight="regular" className="text-center px-4">
             {isResetPin === "1"
               ? `Remember to keep your new PIN private and update it regularly.`
-              : `Your PIN has been set. Tap 'Continue' to go to your Home page and get started.`}
+              : pinType?.subTitle}
           </Typography>
         </View>
         <View className="px-4 gap-4">

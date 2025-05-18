@@ -12,7 +12,7 @@ function TwoFactorAuthenticationSuccess() {
   const handleSetupPin = useCallback(() => {
     router.push({
       pathname: "/pin-verify",
-      params: { isResetPin }
+      params: { isResetPin, type: "setup" }
     });
   }, [isResetPin]);
 

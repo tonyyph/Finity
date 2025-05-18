@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-function SuccessPhoneNumberScreen() {
+function SuccessHomeAddressScreen() {
   const { top, bottom } = useSafeAreaInsets();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -41,10 +41,10 @@ function SuccessPhoneNumberScreen() {
             source={require("@/assets/images/success-filled.png")}
           />
           <Typography type="heading-small" weight="semibold">
-            Mobile number changed
+            Home address changed
           </Typography>
           <Typography weight="regular" className="text-center mx-4">
-            Your mobile number has been updated successfully.
+            Your home address has been updated successfully.
           </Typography>
         </View>
         <View className="px-6 gap-6">
@@ -64,4 +64,4 @@ function SuccessPhoneNumberScreen() {
     </View>
   );
 }
-export default SuccessPhoneNumberScreen;
+export default SuccessHomeAddressScreen;

@@ -32,18 +32,18 @@ export const MenuItem = forwardRef(function (
       ref={ref}
       disabled={disabled}
       className={cn(
-        "flex min-h-[48px] flex-row items-center justify-between rounded-lg px-3 py-1 active:bg-subtitle",
+        "flex min-h-[48px] flex-row items-center justify-between rounded-lg px-3 py-[10px] active:bg-subtitle",
         disabled && "opacity-50",
         className
       )}
     >
       <View className="flex flex-row items-center gap-3">
-        <View className="flex items-center justify-center bg-neutral-100 w-[40px] h-[40px] rounded-full">
-          {Icon && (
+        {Icon && (
+          <View className="flex items-center justify-center bg-neutral-100 w-[40px] h-[40px] rounded-full">
             <Icon className="w-[24px] h-[24px] self-center text-[#525252]" />
-          )}
-        </View>
-        <View>
+          </View>
+        )}
+        <View className="gap-1">
           <Typography type="body-default">{label}</Typography>
           {!!subLabel && (
             <Typography type="body-small" weight="regular" textColor="#737373">

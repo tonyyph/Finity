@@ -20,14 +20,8 @@ export default function VerifyPhoneNumberCodeScreen() {
   const { bottom } = useSafeAreaInsets();
   const { phoneNumber, rawPhoneNumber } = useLocalSearchParams();
 
-  console.log(" VerifyPhoneNumberCodeScreen 💯 phoneNumber:", rawPhoneNumber);
-  const { verificationCode, loading, error } = useVerification(
+  const { verificationCode, loading, error, handleVerifyOTP } = useVerification(
     rawPhoneNumber as string
-  );
-
-  console.log(
-    " VerifyPhoneNumberCodeScreen 💯 verificationCode:",
-    verificationCode
   );
 
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
@@ -53,17 +47,20 @@ export default function VerifyPhoneNumberCodeScreen() {
 
   const otpString = otp.join("");
 
-  const handleVerifyOTP = useCallback(() => {
+  const handleVerifyChangePNOTP = useCallback(() => {
     Keyboard.dismiss();
-    // handleVerifyTOTP && handleVerifyTOTP({ otp: otpString, type: "verify" });
-    router.push("/(app)/success_phonenumber");
-  }, []);
+    if (loading) return;
+    handleVerifyOTP &&
+      handleVerifyOTP({
+        verificationCode: otpString
+      });
+  }, [otpString]);
 
   useEffect(() => {
     if (otpString.length === 6) {
-      handleVerifyOTP();
+      handleVerifyChangePNOTP();
     }
-  }, [otpString, handleVerifyOTP]);
+  }, [otpString, handleVerifyChangePNOTP]);
 
   const handleChange = (text: string, index: number) => {
     if (/^\d?$/.test(text)) {
@@ -176,7 +173,7 @@ export default function VerifyPhoneNumberCodeScreen() {
             disabled={otpString.length !== 6 || loading}
             className="rounded-full bg-primary h-12"
             loading={loading}
-            onPress={handleVerifyOTP}
+            onPress={handleVerifyChangePNOTP}
           >
             <Typography type="body-default" weight="medium" textColor="white">
               {loading ? "Verifying..." : "Verify"}

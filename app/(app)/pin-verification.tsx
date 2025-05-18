@@ -1,3 +1,4 @@
+import { changeHomeAddress } from "@/api";
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import { LoadingScreen } from "@/components/common/loading";
 import Typography from "@/components/common/text-typography";
@@ -6,6 +7,7 @@ import { ProgressBar } from "@/components/ui/progress";
 import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
+import { userStore } from "@/stores/userStore";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -14,7 +16,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Biometrics from "./biometrics";
 
 function PinVerificationScreen() {
-  const { type, amount } = useLocalSearchParams();
+  const { type, amount, addressLine1, addressLine2, city, postCode } =
+    useLocalSearchParams();
+  const userProfileJson = userStore?.getState().userProfile;
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const { top, bottom } = useSafeAreaInsets();
@@ -39,6 +43,29 @@ function PinVerificationScreen() {
     }, 3000);
   }, [amount, type]);
 
+  const onVerifyEditHomeAddress = useCallback(() => {
+    setLoading(true);
+    timeoutRef.current = setTimeout(async () => {
+      setLoading(false);
+      await changeHomeAddress({
+        addressLine1: addressLine1 as string,
+        addressLine2: addressLine2 as string,
+        city: city as string,
+        postcode: postCode as string,
+        country: userProfileJson?.address?.country,
+        dateOfBirth: userProfileJson?.dateOfBirth,
+        firstName: userProfileJson?.firstName,
+        lastName: userProfileJson?.lastName,
+        business: {
+          name: userProfileJson?.business?.name
+        },
+        mobileNumber: userProfileJson?.mobileNumber,
+        email: userProfileJson?.email
+      });
+      router.push("./success_homeaddress");
+    }, 1000);
+  }, [addressLine1, addressLine2, city, postCode, userProfileJson]);
+
   const onVerifyViewPIN = useCallback(() => {
     setShowBottomSheetPin(true);
     timeoutRef.current = setTimeout(() => {
@@ -49,10 +76,11 @@ function PinVerificationScreen() {
   const handleAuthenticate = useCallback(async () => {
     const result = await LocalAuthentication.authenticateAsync({});
     if (result.success) {
+      type === "edit-home-address" && onVerifyEditHomeAddress();
       type === "view-pin" && onVerifyViewPIN();
       type === "load-card" && onAuthenticated?.();
     }
-  }, [onAuthenticated, onVerifyViewPIN, type]);
+  }, [onAuthenticated, onVerifyViewPIN, onVerifyEditHomeAddress, type]);
 
   const handlePress = (num: string) => {
     if (confirmPin.length < 4) {
@@ -67,6 +95,7 @@ function PinVerificationScreen() {
   useEffect(() => {
     if (confirmPin?.length === 4) {
       if (confirmPin === verificationPin) {
+        type === "edit-home-address" && onVerifyEditHomeAddress();
         type === "view-pin" && onVerifyViewPIN();
         type === "load-card" && onAuthenticated?.();
       } else {
@@ -80,7 +109,14 @@ function PinVerificationScreen() {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [confirmPin, verificationPin, onAuthenticated, type, onVerifyViewPIN]);
+  }, [
+    confirmPin,
+    verificationPin,
+    onAuthenticated,
+    type,
+    onVerifyViewPIN,
+    onVerifyEditHomeAddress
+  ]);
 
   useEffect(() => {
     return () => {

@@ -203,3 +203,50 @@ interface UserCardInfo {
   userId: number;
   userStatus: number;
 }
+
+type ChangePhoneNumberRequest = {
+  email: string;
+  mobileNumber: string;
+  dateOfBirth: string; // ISO 8601 datetime string
+  business: {
+    name: string;
+  };
+  firstName: string;
+  lastName: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  country: string | null;
+  postcode: string;
+  verificationCode: string;
+};
+
+type ChangeHomeAddressRequest = {
+  addressLine1?: string;
+  addressLine2?: string;
+  business?: {
+    name: string;
+  };
+  city?: string;
+  country?: string | null;
+  dateOfBirth?: string; // ISO 8601 datetime string
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  mobileNumber?: string;
+  postcode?: string;
+};
+
+type GenerateFileResponse = {
+  fileContents: string; // base64-encoded file content
+  contentType: string; // MIME type, e.g., "application/pdf"
+  fileDownloadName: string;
+  lastModified: string | null;
+  entityTag: string | null;
+  enableRangeProcessing: boolean;
+};
+
+type StatementProps = {
+  month: string;
+  year: string;
+};
