@@ -1,15 +1,14 @@
+import { CardLoadIcon } from "@/assets/icons/CardLoadIcon";
+import { FinityIcon } from "@/assets/icons/FinityIcon";
+import { useListTransaction } from "@/hooks/cardholders/useListTransaction";
+import { formatDateTransaction } from "@/lib/date";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { FlashList } from "@shopify/flash-list";
+import { router } from "expo-router";
 import { useEffect } from "react";
 import { View } from "react-native";
 import Typography from "../common/text-typography";
-import { useListTransaction } from "@/hooks/cardholders/useListTransaction";
-import { router } from "expo-router";
-import DATA from "./mockup.json";
 import { Button } from "../ui/button";
-import { CardLoadIcon } from "@/assets/icons/CardLoadIcon";
-import { FinityIcon } from "@/assets/icons/FinityIcon";
-import { formatDateTransaction } from "@/lib/date";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 function CardTab({ showAll = false }: { showAll?: boolean }) {
   const { cardList, fetchPaginatedCardTransactions } = useListTransaction();
 
@@ -33,6 +32,7 @@ function CardTab({ showAll = false }: { showAll?: boolean }) {
 
   const Footer = () => {
     if (showAll) return <BottomIndicatorAvoidingView />;
+    if (cardList.length < 10) return null;
     return (
       <Button
         variant="outline"
@@ -49,8 +49,7 @@ function CardTab({ showAll = false }: { showAll?: boolean }) {
   return (
     <View className="flex-1">
       <FlashList
-        data={showAll ? DATA : DATA.slice(0, 10)}
-        // data={pointList}
+        data={cardList}
         contentContainerClassName="pt-3"
         showsVerticalScrollIndicator={showAll}
         renderItem={({ item, index }) => {

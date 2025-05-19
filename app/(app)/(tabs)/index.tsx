@@ -17,7 +17,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 function HomeScreen() {
   const { top } = useSafeAreaInsets();
 
-  const { userData, handleFreezeCard, cardStatus } = useCardHolder();
+  const { userData, handleFreezeCard, isFreezeCard, cardStatus } =
+    useCardHolder();
   const { cardholderId } = userData || {};
 
   async function handleShowToastError() {
@@ -86,7 +87,7 @@ function HomeScreen() {
             requested={!cardholderId}
           />
         )}
-        {cardStatus === 3 && !isEmpty(userData) && (
+        {isFreezeCard && !isEmpty(userData) && (
           <FrozenBanner onPress={handleFreezeCard} />
         )}
         <View className="gap-2 mb-1">

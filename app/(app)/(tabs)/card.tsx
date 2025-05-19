@@ -42,7 +42,8 @@ export default function CardScreen() {
     handleActiveCard,
     handleReport,
     handleFreezeCard,
-    loading
+    loading,
+    isFreezeCard
   } = useCardHolder();
 
   const { cardholderId, cardStatus, last4Digits } = userData || {};
@@ -100,7 +101,7 @@ export default function CardScreen() {
               className="w-[65px] h-[40px]"
             />
           </View>
-          {cardStatus === 3 && (
+          {isFreezeCard && (
             <BlurView
               intensity={25}
               experimentalBlurMethod="dimezisBlurView"
@@ -201,9 +202,9 @@ export default function CardScreen() {
               icon={EyeIcon}
             />
             <MenuItem
-              label={cardStatus === 4 ? `Freeze card` : `Unfreeze card`}
+              label={!isFreezeCard ? `Freeze card` : `Unfreeze card`}
               onPress={handleFreezeCard}
-              icon={cardStatus === 4 ? FreezeIcon : UnFreezeIcon}
+              icon={!isFreezeCard ? FreezeIcon : UnFreezeIcon}
               rightSection={
                 loading && <AnimatedSpinnerV2 size={24} color={"#fb923c"} />
               }

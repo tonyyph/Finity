@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 
 export const useCardHolder = () => {
   const [data, setData] = useState<UserCardInfo>({} as UserCardInfo);
-  const { setIsFreezeCard, setCardStatus, cardStatus } = useUserSettingsStore();
+  const { setIsFreezeCard, isFreezeCard, setCardStatus, cardStatus } =
+    useUserSettingsStore();
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -52,7 +54,7 @@ export const useCardHolder = () => {
   const handleFreezeCard = async () => {
     setLoading(true);
     try {
-      if (data?.cardStatus === 3) {
+      if (isFreezeCard) {
         await handleUnFreeze(data?.cardholderId || 0);
       } else {
         await handleFreeze(data?.cardholderId || 0);
@@ -73,6 +75,7 @@ export const useCardHolder = () => {
     handleReport,
     handleFreezeCard,
     error,
-    cardStatus
+    cardStatus,
+    isFreezeCard
   };
 };
