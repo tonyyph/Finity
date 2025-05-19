@@ -25,16 +25,9 @@ import * as Application from "expo-application";
 import * as Notifications from "expo-notifications";
 import { Link, router } from "expo-router";
 import LottieView from "lottie-react-native";
-import { CreditCardIcon, EuroIcon, UserIcon } from "lucide-react-native";
+import { UserIcon } from "lucide-react-native";
 import { useRef } from "react";
-import {
-  Alert,
-  Image,
-  ScrollView,
-  Share,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { Image, ScrollView, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ProfileScreen() {

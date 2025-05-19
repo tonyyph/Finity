@@ -1,5 +1,3 @@
-// import { StoreProvider } from "@/stores/core/store-provider";
-import { CustomPaletteWrapper } from "@/components/common/custom-palette-wrapper";
 import { ToastRoot } from "@/components/common/toast";
 import { SplashAnimationScreen } from "@/components/ui/splash";
 import { tokenCache } from "@/lib/cache";
@@ -9,7 +7,6 @@ import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
-import { PortalHost } from "@rn-primitives/portal";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { useFonts } from "expo-font";
@@ -108,19 +105,16 @@ export default function RootLayout() {
             {/* <StoreProvider> */}
             <LocaleProvider>
               <ThemeProvider value={DefaultTheme}>
-                <CustomPaletteWrapper>
-                  <SafeAreaProvider>
-                    <GestureHandlerRootView>
-                      <KeyboardProvider>
-                        <BottomSheetModalProvider>
-                          <Stack screenOptions={{ headerShown: false }} />
-                          <ToastRoot />
-                          <PortalHost />
-                        </BottomSheetModalProvider>
-                      </KeyboardProvider>
-                    </GestureHandlerRootView>
-                  </SafeAreaProvider>
-                </CustomPaletteWrapper>
+                <SafeAreaProvider>
+                  <GestureHandlerRootView>
+                    <KeyboardProvider>
+                      <BottomSheetModalProvider>
+                        <Stack screenOptions={{ headerShown: false }} />
+                        <ToastRoot />
+                      </BottomSheetModalProvider>
+                    </KeyboardProvider>
+                  </GestureHandlerRootView>
+                </SafeAreaProvider>
               </ThemeProvider>
             </LocaleProvider>
             {/* </StoreProvider> */}

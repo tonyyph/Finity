@@ -19,8 +19,12 @@ export default function OurAgreementScreen() {
           icon={TermIcon}
           onPress={() => {
             router.push({
-              pathname: "/statements",
-              params: { title: "Card statements", type: "card" }
+              pathname: "/web_view",
+              params: {
+                title: "Terms and conditions",
+                webLink:
+                  "https://www.finity.co.uk/wp-content/uploads/2025/05/20250506-Finity-Terms-Conditions_Corporate-Rewards.pdf"
+              }
             });
           }}
           rightSection={<ArrowRightIcon />}
@@ -31,8 +35,11 @@ export default function OurAgreementScreen() {
           icon={ProtectIcon}
           onPress={() => {
             router.push({
-              pathname: "/statements",
-              params: { title: "Point statements", type: "points" }
+              pathname: "/web_view",
+              params: {
+                title: "Privacy policy",
+                webLink: "https://www.finity.co.uk/privacy-policy/"
+              }
             });
           }}
           rightSection={<ArrowRightIcon />}

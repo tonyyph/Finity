@@ -1,10 +1,10 @@
+import { CircleAlert } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { colors } from "@/constants/Colors";
 import { useUserSettingsStore } from "@/stores";
 import { exactDesign } from "@/utils";
-import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Keyboard, TextInput, View } from "react-native";
@@ -143,14 +143,10 @@ function ActiveCardScreen() {
             ))}
           </View>
           {error && (
-            <View className="flex-row justify-center items-center gap-1 mt-1">
-              <MaterialIcons
-                name="error"
-                size={16}
-                color={colors.errormessage}
-              />
+            <View className="flex flex-row items-center justify-center mt-4">
+              <CircleAlert className="top-1 " />
               <Typography type="body-small" weight="medium" textColor="#D9323D">
-                {`Incorrect last 4-digits. Try again.`}
+                Incorrect last 4-digits. Try again.
               </Typography>
             </View>
           )}
