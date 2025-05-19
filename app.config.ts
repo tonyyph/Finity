@@ -43,6 +43,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       supportsTablet: true,
       bundleIdentifier: bundleIdentifier,
       infoPlist: {
+        NSFaceIDUsageDescription:
+          "This app uses Face ID for secure authentication.",
         ITSAppUsesNonExemptEncryption: false
       }
     },
@@ -70,7 +72,19 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       output: "static",
       favicon: "./assets/images/favicon.png"
     },
-    plugins: ["expo-router", "expo-localization"],
+    plugins: [
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
+        }
+      ],
+      "expo-router",
+      "expo-localization",
+      "expo-asset",
+      "expo-secure-store",
+      "expo-font"
+    ],
     experiments: {
       typedRoutes: true
     },

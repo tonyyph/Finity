@@ -3,8 +3,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect } from "react";
 import { AppState, type AppStateStatus } from "react-native";
 
-// 1 minutes
-const BIO_AUTH_EXPIRATION_TIME = 1000 * 60 * 1;
+// 1 minutes / 20s
+const BIO_AUTH_EXPIRATION_TIME = 1000 * 20 * 1;
 
 // const BIO_TEN_SECONDS = 1000 * 10;
 
