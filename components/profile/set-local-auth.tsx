@@ -1,12 +1,10 @@
+import { FaceIDIcon } from "@/assets/icons/FaceIDIcon";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
 import * as LocalAuthentication from "expo-local-authentication";
-import { ScanFaceIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { MenuItem } from "../common/menu-item";
 import { toast } from "../common/toast";
 import { Switch } from "../ui/switch";
-import { Biometrics } from "../common/icons/Biometrics";
-import { FaceIDIcon } from "@/assets/icons/FaceIDIcon";
 
 export function SetLocalAuth() {
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);

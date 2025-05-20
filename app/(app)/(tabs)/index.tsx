@@ -8,6 +8,7 @@ import { HomeHeader } from "@/components/home/header";
 import PointsBalanceCom from "@/components/home/points_balance";
 import RequestCardNotification from "@/components/home/request_card_noti";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
+import { useNotification } from "@/hooks/notifications/useNotification";
 import { SCREEN_WIDTH } from "@/utils";
 import { router } from "expo-router";
 import { isEmpty } from "lodash-es";
@@ -19,6 +20,7 @@ function HomeScreen() {
 
   const { userData, handleFreezeCard, isFreezeCard, cardStatus } =
     useCardHolder();
+  const { notifications } = useNotification();
   const { cardholderId } = userData || {};
 
   async function handleShowToastError() {
@@ -77,7 +79,7 @@ function HomeScreen() {
       style={{ paddingTop: top }}
     >
       <HomeHeader
-        haveNotification
+        haveNotification={notifications?.length > 0}
         onNotification={handleToNotificationCenter}
       />
       <View>

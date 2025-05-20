@@ -3,13 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Radio } from "@/components/ui/radio";
 import { cn } from "@/lib/utils";
 import { router } from "expo-router";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ReportLostOrDamagedScreen = () => {
   const { bottom } = useSafeAreaInsets();
-  const [reportType, setReportType] = React.useState<string>("");
+  const [reportType, setReportType] = useState<string>("");
 
   const handleContinue = useCallback(() => {
     if (reportType === "lost") {

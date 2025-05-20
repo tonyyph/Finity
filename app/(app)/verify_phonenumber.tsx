@@ -3,11 +3,9 @@ import { ResendVerificationDowntime } from "@/components/common/resend_verificat
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { colors } from "@/constants/Colors";
-import { useLogin } from "@/hooks/auth";
 import { useVerification } from "@/hooks/profile/useVerification";
-import { cn } from "@/lib/utils";
 import { exactDesign } from "@/utils";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Keyboard, TextInput, View } from "react-native";
 import Animated, {

@@ -109,9 +109,7 @@ export default function CardScreen() {
               style={styles.blurView}
             >
               <FrozenIcon />
-              <Typography type="body-large" weight="medium">
-                Card frozen
-              </Typography>
+              <Typography type="body-large">Card frozen</Typography>
             </BlurView>
           )}
         </View>

@@ -296,3 +296,43 @@ export const generateCardStatements = async (data: StatementProps) => {
     }
   );
 };
+
+export const getListFAQ = async () => {
+  const token = await clerk.session?.getToken(); // Make sure this is awaited
+
+  if (!token) {
+    throw new Error("No auth token found");
+  }
+
+  const params = {};
+
+  return axios.get<ListTransactionResponse>(
+    `${process.env.EXPO_PUBLIC_API_URL}/faq`,
+    {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      params
+    }
+  );
+};
+
+export const reportCard = async (isDamaged: boolean) => {
+  const token = await clerk.session?.getToken();
+  return await axios.post<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/cards/report-card`,
+    { isDamaged: isDamaged },
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+      }
+    }
+  );
+};

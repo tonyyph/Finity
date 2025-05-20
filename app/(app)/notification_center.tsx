@@ -1,70 +1,19 @@
+import { LogoMark } from "@/assets";
 import Typography from "@/components/common/text-typography";
 import Header from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
+import {
+  NotificationItem,
+  useNotification
+} from "@/hooks/notifications/useNotification";
 import { cn } from "@/lib/utils";
 import { FlashList } from "@shopify/flash-list";
 import { router } from "expo-router";
-import { TouchableOpacity, View } from "react-native";
-
-type NotificationItem = {
-  id: string;
-  date: string;
-  points: number;
-  sender: string;
-  read: boolean;
-  emailAddress: string;
-  phoneNumber: string;
-};
-
-const mockData: NotificationItem[] = [
-  {
-    id: "1",
-    date: "Jan 30, 2025",
-    points: 120,
-    sender: "Katelyn Jocson",
-    emailAddress: "katelyn.jocson@business.co.uk",
-    phoneNumber: "0123456789",
-    read: false
-  },
-  {
-    id: "2",
-    date: "Jan 15, 2025",
-    points: 150,
-    sender: "Katelyn Jocson",
-    emailAddress: "katelyn.jocson@business.co.uk",
-    phoneNumber: "0123456788",
-    read: false
-  },
-  {
-    id: "3",
-    date: "Dec 23, 2025",
-    points: 110,
-    sender: "Katelyn Jocson",
-    emailAddress: "katelyn.jocson@business.co.uk",
-    phoneNumber: "0123456787",
-    read: false
-  },
-  {
-    id: "4",
-    date: "Nov 01, 2024",
-    points: 1000,
-    sender: "Katelyn Jocson",
-    emailAddress: "katelyn.jocson@business.co.uk",
-    phoneNumber: "0123456786",
-    read: true
-  },
-  {
-    id: "5",
-    date: "Oct 16, 2024",
-    points: 50,
-    sender: "Lauren Uy",
-    emailAddress: "lauren.uy@business.co.uk",
-    phoneNumber: "0123456785",
-    read: true
-  }
-];
+import { Image, TouchableOpacity, View } from "react-native";
 
 function NotificationScreen() {
+  const { notifications } = useNotification();
+
   const onPressNotification = (item: NotificationItem) => {
     router.push({
       pathname: "/point_received",
@@ -73,6 +22,7 @@ function NotificationScreen() {
       }
     });
   };
+
   const renderItem = ({ item }: { item: NotificationItem }) => (
     <TouchableOpacity
       onPress={() => {
@@ -117,14 +67,26 @@ function NotificationScreen() {
     </TouchableOpacity>
   );
 
+  const EmptyList = () => {
+    return (
+      <View className="pt-[50%] justify-center items-center">
+        <Image source={LogoMark} className="w-[100px] h-[100px]" />
+        <Typography weight="regular" type="body-default" textColor="#737373">
+          No notifications yet.
+        </Typography>
+      </View>
+    );
+  };
+
   return (
     <View className="flex-1 bg-white">
       <Header onBack={router.back} title="Notifications" />
       <ProgressBar />
       <FlashList
-        data={mockData}
-        className="bg-white mx-4"
+        data={notifications}
+        className="mx-4"
         renderItem={renderItem}
+        ListEmptyComponent={EmptyList}
         keyExtractor={(item) => item.id}
         estimatedItemSize={80}
       />

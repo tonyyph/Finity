@@ -43,7 +43,7 @@ export default function ForgotPINScreen() {
         setError("Incorrect email address or password. Try again.");
       }
     }, 1500);
-  }, [passwordState.value]);
+  }, [passwordState]);
 
   return (
     <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>

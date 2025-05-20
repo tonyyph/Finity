@@ -15,7 +15,7 @@ type ProfileItemProps = {
   canEdit?: boolean;
   onPress?: () => void;
 };
-const ProfileItem = ({
+export const ProfileItem = ({
   title,
   value,
   value0,
@@ -35,7 +35,7 @@ const ProfileItem = ({
             <Typography weight="regular" textColor="#404040">
               {title}
             </Typography>
-            <Skeleton className="h-6 w-[60%] rounded-full" />
+            <Skeleton className="h-6 w-[60%] rounded-full my-1" />
           </View>
         </View>
         {showDivider && <Separator className="mt-3 mb-4" />}
@@ -51,10 +51,10 @@ const ProfileItem = ({
             <Typography weight="regular" textColor="#404040">
               {title}
             </Typography>
-            <Skeleton className="h-6 w-[60%] rounded-full" />
-            <Skeleton className="h-6 w-[70%] rounded-full" />
-            <Skeleton className="h-6 w-[80%] rounded-full" />
-            <Skeleton className="h-6 w-[90%] rounded-full" />
+            <Skeleton className="h-6 w-[60%] rounded-full my-1" />
+            <Skeleton className="h-6 w-[70%] rounded-full my-1" />
+            <Skeleton className="h-6 w-[80%] rounded-full my-1" />
+            <Skeleton className="h-6 w-[90%] rounded-full my-1" />
           </View>
         </View>
         {showDivider && <Separator className="mt-3 mb-4" />}

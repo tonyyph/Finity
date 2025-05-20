@@ -46,7 +46,7 @@ const FONT_WEIGHTS: Record<FontWeight, TextStyle["fontWeight"]> = {
   bold: "700"
 };
 
-const Typography: React.FC<TextProps> = ({
+export const Typography: React.FC<TextProps> = ({
   type = "body-default",
   weight = "medium",
   children,

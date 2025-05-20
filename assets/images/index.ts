@@ -6,6 +6,7 @@ const OnboardCard = require("./OnboardCard.png");
 const SmartChip = require("./smart_chip.png");
 const FinityLogo = require("./master-logo.png");
 const MasterCard = require("./mastercard-icon.png");
+const LogoMark = require("./logo_mark.png");
 
 export {
   CardLost,
@@ -13,6 +14,7 @@ export {
   FinityLogo,
   FinityLogoWithDesc,
   FrozenCard,
+  LogoMark,
   MasterCard,
   OnboardCard,
   SmartChip

@@ -8,13 +8,14 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function AccessDenied() {
   const navigation = useNavigation();
-  const { top, bottom } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
 
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => <View />
     });
-  }, []);
+  }, [navigation]);
+
   return (
     <View className="flex-1 bg-background px-4">
       <View className=" flex-1 bg-background items-center">

@@ -1,15 +1,16 @@
-import { ArrowRightIcon } from "@/assets/icons/ArrowRightIcon";
-import { BellIcon } from "@/assets/icons/BellIcon";
-import { CashOutIcon } from "@/assets/icons/CashOutIcon";
-import { HelpIcon } from "@/assets/icons/HelpIcon";
-import { LogOutIcon } from "@/assets/icons/LogOutIcon";
-import { OurAgreementIcon } from "@/assets/icons/OurAgreementIcon";
-import { ProtectIcon } from "@/assets/icons/ProtectIcon";
-import { TermIcon } from "@/assets/icons/TermIcon";
-import { BottomSheet } from "@/components/common/bottom-sheet";
-import { MenuItem } from "@/components/common/menu-item";
-import Typography from "@/components/common/text-typography";
-import { toast } from "@/components/common/toast";
+import {
+  ArrowRightIcon,
+  BellIcon,
+  CashOutIcon,
+  HelpIcon,
+  LogoMark,
+  LogOutIcon,
+  OneUserIcon,
+  OurAgreementIcon,
+  ProtectIcon,
+  TermIcon
+} from "@/assets";
+import { BottomSheet, MenuItem, toast, Typography } from "@/components/common";
 import { ProfileCard } from "@/components/profile/profile-card";
 import { SetLocalAuth } from "@/components/profile/set-local-auth";
 import { Button } from "@/components/ui/button";
@@ -25,7 +26,6 @@ import * as Application from "expo-application";
 import * as Notifications from "expo-notifications";
 import { Link, router } from "expo-router";
 import LottieView from "lottie-react-native";
-import { UserIcon } from "lucide-react-native";
 import { useRef } from "react";
 import { Image, ScrollView, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -75,7 +75,7 @@ export default function ProfileScreen() {
           <Link href="/profile-edit" asChild>
             <MenuItem
               label={`Personal information`}
-              icon={UserIcon}
+              icon={OneUserIcon}
               rightSection={<ArrowRightIcon />}
             />
           </Link>
@@ -170,13 +170,11 @@ export default function ProfileScreen() {
           className="items-center gap-3"
           onLongPress={handleCopyVersion}
         >
-          <Image
-            source={require("@/assets/images/appstore-dev.png")}
-            className="mx-auto h-16 w-16 rounded-full"
-          />
+          <Image source={LogoMark} className="mx-auto h-16 w-16 rounded-full" />
           <Text className="text-muted-foreground text-sm">
-            {`ver.`}
+            {`App version - `}
             {Application.nativeApplicationVersion}
+            {` - will be remove soon`}
           </Text>
         </TouchableOpacity>
       </ScrollView>

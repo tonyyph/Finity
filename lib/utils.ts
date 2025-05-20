@@ -47,7 +47,10 @@ export const copyFileToDownloadFolder = async (filePath: string) => {
 
       await RNFS.copyFile(filePath, desPath);
     }
-  } catch (_) {
+  } catch (error) {
+    // Handle error if needed
+    console.error("Error copying file:", error);
+    // You can also throw the error or handle it in a way that suits your application
     /* empty */
   }
 };
