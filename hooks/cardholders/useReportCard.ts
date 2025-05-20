@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export const useReportCard = () => {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error] = useState("");
 
   const handleReportCard = async () => {
     setLoading(true);
