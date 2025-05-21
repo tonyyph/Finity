@@ -4,7 +4,7 @@ import Header from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { router } from "expo-router";
-import { TextInput, View } from "react-native";
+import { Linking, TextInput, View } from "react-native";
 
 export default function CashOutPointScreen() {
   const { userData, loading } = useCardHolder();
@@ -14,16 +14,23 @@ export default function CashOutPointScreen() {
     maximumFractionDigits: 2
   }).format(Number(userData?.pointsBalance ?? 0));
 
-  const handleContinue = () => {
-    // Handle the continue action here
-    // Linking.openURL("https://www.finity.co.uk/rewards/");
-    router.push({
-      pathname: "/web_view",
-      params: {
-        title: "",
-        webLink: "https://www.finity.co.uk/rewards/"
-      }
-    });
+  const handleSendEmail = async () => {
+    const email = "support@finity.co.uk";
+    const subject = "Request cash out";
+    const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+
+    const canOpen = await Linking.canOpenURL(mailtoUrl);
+    if (canOpen) {
+      Linking.openURL(mailtoUrl);
+    } else {
+      router.push({
+        pathname: "/web_view",
+        params: {
+          title: "",
+          webLink: "https://support.finity.co.uk/en/"
+        }
+      });
+    }
   };
 
   return (
@@ -47,11 +54,11 @@ export default function CashOutPointScreen() {
           />
         </View>
         <Button
-          // disabled={loading}
+          disabled={loading}
           variant="default"
           size={"lg"}
           className="rounded-full bg-primary h-[48px] mt-4"
-          onPress={handleContinue}
+          onPress={handleSendEmail}
         >
           <Typography type="body-default" weight="medium" textColor="white">
             {`Request cash out`}

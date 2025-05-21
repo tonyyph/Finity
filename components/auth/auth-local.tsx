@@ -1,3 +1,4 @@
+import { FaceIDIcon } from "@/assets";
 import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
@@ -8,7 +9,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CircleAlert, RemoveNumpad } from "../common/icons";
-import { Biometrics } from "../common/icons/Biometrics";
 import { LoadingScreen } from "../common/loading";
 import Typography from "../common/text-typography";
 
@@ -37,6 +37,10 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
       }, 3000);
     }
   }, [onAuthenticated]);
+
+  useEffect(() => {
+    bioStatus && handleAuthenticate();
+  }, [handleAuthenticate, bioStatus]);
 
   const handlePress = (num: string) => {
     if (confirmPin.length < 4) {
@@ -173,7 +177,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
                 !bioStatus && "opacity-0"
               )}
             >
-              <Biometrics />
+              <FaceIDIcon />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => handlePress("0")}

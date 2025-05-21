@@ -1,6 +1,5 @@
 import { useUserProfile } from "@/hooks/profile/useUserProfile";
 import { exactDesign } from "@/utils";
-import { useUser } from "@clerk/clerk-expo";
 import { Image, View } from "react-native";
 import Typography from "../common/text-typography";
 import Touch from "../ui/touch";
@@ -14,7 +13,6 @@ export function HomeHeader({
   haveNotification,
   onNotification
 }: HomeHeaderProps) {
-  const { user } = useUser();
   const { userProfile } = useUserProfile();
 
   return (
@@ -24,11 +22,8 @@ export function HomeHeader({
           <Typography weight="bold" type="heading-small" className="pt-4 pb-2">
             {`${`Hi`} ${
               userProfile?.firstName && userProfile?.lastName
-                ? userProfile.firstName + " " + userProfile.lastName
-                : user?.fullName ??
-                  user?.publicMetadata?.invitee_first_name ??
-                  user?.primaryEmailAddress?.emailAddress ??
-                  ""
+                ? userProfile?.firstName + " " + userProfile?.lastName
+                : ""
             }!`}
           </Typography>
         </View>

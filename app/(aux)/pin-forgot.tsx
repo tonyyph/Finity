@@ -47,7 +47,7 @@ export default function ForgotPINScreen() {
 
   return (
     <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
-      <View className="bg-background gap-4 p-8 flex-1">
+      <View className="bg-background gap-4 px-6 pt-8 flex-1">
         <View className="flex-1">
           {/* Welcome */}
           <View className="z-10 mb-2">
@@ -175,7 +175,15 @@ export default function ForgotPINScreen() {
               loading={loading}
               onPress={handleContinue}
             >
-              <Typography type="body-default" weight="medium" textColor="white">
+              <Typography
+                type="body-default"
+                weight="medium"
+                textColor={
+                  !emailState.value || !passwordState.value
+                    ? "#A3A3A3"
+                    : "white"
+                }
+              >
                 {loading ? `Continuing...` : `Continue`}
               </Typography>
             </Button>

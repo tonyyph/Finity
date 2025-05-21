@@ -99,6 +99,24 @@ export const getPINInfo = async (verificationCode: string) => {
   );
 };
 
+export const activeCard = async (last4Digits: string) => {
+  const token = await clerk.session?.getToken();
+  return await axios.post<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/cards/activate`,
+    { last4Digits: last4Digits },
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+      }
+    }
+  );
+};
+
 export const handleFreeze = async (cardHolderId: number) => {
   const token = await clerk.session?.getToken();
   return await axios.post<any>(
@@ -319,7 +337,7 @@ export const getListFAQ = async () => {
   );
 };
 
-export const reportCard = async (isDamaged: boolean) => {
+export const reportOrDamageCard = async (isDamaged: boolean) => {
   const token = await clerk.session?.getToken();
   return await axios.post<any>(
     `${process.env.EXPO_PUBLIC_API_URL}/cards/report-card`,

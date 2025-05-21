@@ -1,8 +1,6 @@
-import { AuthBiometrics } from "@/components/auth/auth-biometrics";
 import { AuthLocal } from "@/components/auth/auth-local";
 import { BackButton } from "@/components/common/back-button";
 import { useColorPalette } from "@/hooks/use-color-palette";
-import { useLocalAuth } from "@/hooks/use-local-auth";
 import { useLocalPIN } from "@/hooks/use-local-pin";
 import { useUserAuthenticateStore } from "@/stores";
 import { exactDesign } from "@/utils";
@@ -12,7 +10,6 @@ import { View } from "react-native";
 
 export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
-  const { shouldAuthLocal, setShouldAuthLocal } = useLocalAuth();
   const { shouldPINLocal, setShouldPINLocal } = useLocalPIN();
 
   const { isLoggedIn, isFirst2FA } = useUserAuthenticateStore();
@@ -29,9 +26,9 @@ export default function AuthenticatedLayout() {
 
   return (
     <View className="flex-1">
-      {shouldAuthLocal && (
+      {/* {shouldAuthLocal && (
         <AuthBiometrics onAuthenticated={() => setShouldAuthLocal(false)} />
-      )}
+      )} */}
       {shouldPINLocal && (
         <AuthLocal onAuthenticated={() => setShouldPINLocal(false)} />
       )}

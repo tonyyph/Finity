@@ -142,10 +142,13 @@ function SendCardScreen() {
               variant="default"
               size={"lg"}
               className="rounded-full bg-primary h-[48px]"
-              // loading
               onPress={handleContinue}
             >
-              <Typography type="body-default" weight="medium" textColor="white">
+              <Typography
+                type="body-default"
+                weight="medium"
+                textColor={!enterAmount ? "#A3A3A3" : "white"}
+              >
                 {t`Continue`}
               </Typography>
             </Button>

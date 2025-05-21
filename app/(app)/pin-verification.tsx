@@ -1,4 +1,5 @@
 import { changeHomeAddress } from "@/api";
+import { FaceIDIcon } from "@/assets";
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import { LoadingScreen } from "@/components/common/loading";
 import Typography from "@/components/common/text-typography";
@@ -13,7 +14,6 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SafeAreaView, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Biometrics from "./biometrics";
 
 function PinVerificationScreen() {
   const { type, amount, addressLine1, addressLine2, city, postCode } =
@@ -81,6 +81,10 @@ function PinVerificationScreen() {
       type === "load-card" && onAuthenticated?.();
     }
   }, [onAuthenticated, onVerifyViewPIN, onVerifyEditHomeAddress, type]);
+
+  useEffect(() => {
+    bioStatus && handleAuthenticate();
+  }, [handleAuthenticate, bioStatus]);
 
   const handlePress = (num: string) => {
     if (confirmPin.length < 4) {
@@ -216,7 +220,7 @@ function PinVerificationScreen() {
                     !bioStatus && "opacity-0"
                   )}
                 >
-                  <Biometrics />
+                  <FaceIDIcon />
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => handlePress("0")}

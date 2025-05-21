@@ -1,15 +1,17 @@
 import { ClockIcon, HouseIcon } from "@/assets";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { useUserSettingsStore } from "@/stores";
+import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
+import { useUserProfile } from "@/hooks/profile/useUserProfile";
 import { router } from "expo-router";
 import { useState } from "react";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const LostScreen = () => {
   const [loading, setLoading] = useState<boolean>();
-  const { setActiveCard, setIsDisableCard } = useUserSettingsStore();
+  const { handleReportOrDamaged } = useCardHolder();
+  const { userProfile } = useUserProfile();
 
   const { bottom } = useSafeAreaInsets();
 
@@ -17,12 +19,12 @@ const LostScreen = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setIsDisableCard(true);
-      setActiveCard(1);
-      router.push({
-        pathname: "/(app)/request_card_success"
-      });
+      handleReportOrDamaged(false);
     }, 2000);
+  };
+
+  const onEditHomeAddress = () => {
+    router.push("/(app)/edit_homeaddress");
   };
 
   return (
@@ -38,12 +40,31 @@ const LostScreen = () => {
               <Typography type="body-default" weight="semibold">
                 Will be delivered to
               </Typography>
-              <Typography weight="regular">
-                {`95 Townshend Terrace\nManchester\nTW9 1XL`}
-              </Typography>
-              <Typography weight="regular" className="mt-2 underline">
-                Change address?
-              </Typography>
+              {userProfile?.address?.addressLine1 && (
+                <Typography weight="regular">
+                  {userProfile?.address?.addressLine1}
+                </Typography>
+              )}
+              {userProfile?.address?.addressLine2 && (
+                <Typography weight="regular">
+                  {userProfile?.address?.addressLine2}
+                </Typography>
+              )}
+              {userProfile?.address?.city && (
+                <Typography weight="regular">
+                  {userProfile?.address?.city}
+                </Typography>
+              )}
+              {userProfile?.address?.postCode && (
+                <Typography weight="regular">
+                  {userProfile?.address?.postCode}
+                </Typography>
+              )}
+              <TouchableOpacity onPress={onEditHomeAddress}>
+                <Typography weight="regular" className="mt-2 underline">
+                  Change address?
+                </Typography>
+              </TouchableOpacity>
             </View>
           </View>
           {/* /////////// */}

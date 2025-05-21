@@ -3,6 +3,7 @@ import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { colors } from "@/constants/Colors";
+import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useUserSettingsStore } from "@/stores";
 import { exactDesign } from "@/utils";
 import { router } from "expo-router";
@@ -16,7 +17,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function ActiveCardScreen() {
   const [loading, setLoading] = useState<boolean>();
-  const [error, setError] = useState<boolean>();
+  const { handleActivateCard, error } = useCardHolder();
   const inputRefs = [
     useRef<TextInput>(null),
     useRef<TextInput>(null),
@@ -24,7 +25,6 @@ function ActiveCardScreen() {
     useRef<TextInput>(null)
   ];
   const { top, bottom } = useSafeAreaInsets();
-  const { setActiveCard, setIsDisableCard } = useUserSettingsStore();
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
     return {
@@ -71,17 +71,18 @@ function ActiveCardScreen() {
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
-        if (enteredOtp === "1234") {
-          setCardNumber(["", "", "", ""]);
-          setActiveCard(2);
-          setIsDisableCard(false);
-          router.replace({
-            pathname: "/active_card_success"
-          });
-        } else {
-          setCardNumber(["", "", "", ""]);
-          setError(true);
-        }
+        handleActivateCard(enteredOtp);
+        // if (enteredOtp === "1234") {
+        //   setCardNumber(["", "", "", ""]);
+        //   setActiveCard(2);
+        //   setIsDisableCard(false);
+        //   router.replace({
+        //     pathname: "/active_card_success"
+        //   });
+        // } else {
+        //   setCardNumber(["", "", "", ""]);
+        //   setError(true);
+        // }
       }, 2000);
     } else {
       Alert.alert("Error", "Please enter all 4 numbers.");

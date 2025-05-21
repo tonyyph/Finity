@@ -55,8 +55,7 @@ export default function ProfileScreen() {
       pathname: "/web_view",
       params: {
         title: "Help centre",
-        webLink:
-          "https://support.finity.co.uk/en/collections/9443886-general-faq"
+        webLink: "https://support.finity.co.uk/en/"
       }
     });
   };

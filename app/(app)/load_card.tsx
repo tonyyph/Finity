@@ -151,7 +151,11 @@ function LoadCardScreen() {
               className="rounded-full bg-primary h-[48px]"
               onPress={handleContinue}
             >
-              <Typography type="body-default" weight="medium" textColor="white">
+              <Typography
+                type="body-default"
+                weight="medium"
+                textColor={!enterAmount ? "#A3A3A3" : "white"}
+              >
                 {`Continue`}
               </Typography>
             </Button>

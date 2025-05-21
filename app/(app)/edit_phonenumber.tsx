@@ -99,7 +99,11 @@ const EditPhoneNumberScreen = () => {
               loading={loading}
               onPress={handleConfirm}
             >
-              <Typography type="body-default" weight="medium" textColor="white">
+              <Typography
+                type="body-default"
+                weight="medium"
+                textColor={phoneNumber?.length < 10 ? "#A3A3A3" : "white"}
+              >
                 {loading ? `Sending...` : `Send code`}
               </Typography>
             </Button>

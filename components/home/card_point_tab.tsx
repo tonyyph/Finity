@@ -1,6 +1,6 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "@/utils";
 import { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { SceneMap, TabBar, TabBarItem, TabView } from "react-native-tab-view";
 import Typography from "../common/text-typography";
 import CardTab from "./cardTap";
@@ -19,39 +19,41 @@ function CardAndPointTab() {
   });
 
   return (
-    <TabView
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{ width: SCREEN_WIDTH }}
-      renderTabBar={(props) => (
-        <TabBar
-          {...props}
-          indicatorStyle={styles.indicatorStyle}
-          contentContainerStyle={styles.containerStyle}
-          indicatorContainerStyle={styles.indicatorContainerStyle}
-          renderTabBarItem={(props) => (
-            <TabBarItem
-              {...props}
-              key={`${props.key}`}
-              inactiveColor={"#404040"}
-              labelAllowFontScaling
-              label={({ route, focused, color }) => (
-                <Typography
-                  weight={focused ? "bold" : "medium"}
-                  textColor={color}
-                  className="px-3"
-                >
-                  {route.title}
-                </Typography>
-              )}
-              activeColor={"#0A0A0A"}
-            />
-          )}
-        />
-      )}
-      style={styles.tabViewContainer}
-    />
+    <View className="flex-1 px-4 bg-white shadow-md shadow-slate-200">
+      <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{ width: SCREEN_WIDTH }}
+        renderTabBar={(props) => (
+          <TabBar
+            {...props}
+            indicatorStyle={styles.indicatorStyle}
+            contentContainerStyle={styles.containerStyle}
+            indicatorContainerStyle={styles.indicatorContainerStyle}
+            renderTabBarItem={(props) => (
+              <TabBarItem
+                {...props}
+                key={`${props.key}`}
+                inactiveColor={"#404040"}
+                labelAllowFontScaling
+                label={({ route, focused, color }) => (
+                  <Typography
+                    weight={focused ? "bold" : "medium"}
+                    textColor={color}
+                    className="px-3"
+                  >
+                    {route.title}
+                  </Typography>
+                )}
+                activeColor={"#0A0A0A"}
+              />
+            )}
+          />
+        )}
+        style={styles.tabViewContainer}
+      />
+    </View>
   );
 }
 

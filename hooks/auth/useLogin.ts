@@ -29,6 +29,17 @@ export const useLogin = () => {
     const setError = (error: string = "Invalid password") => {
       passwordState.setState((prev) => ({ ...prev, error }));
     };
+
+    const setErrorUsername = (error: string = "Invalid username") => {
+      usernameState.setState((prev) => ({ ...prev, error }));
+    };
+
+    if (!usernameState.value || !passwordState.value) {
+      !usernameState.value && setErrorUsername("Enter your email address");
+      !passwordState.value && setError("Enter your password");
+      setLoading(false);
+      return;
+    }
     try {
       const result = await signIn.create({
         identifier:

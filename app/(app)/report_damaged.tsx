@@ -3,12 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Radio } from "@/components/ui/radio";
 import { cn } from "@/lib/utils";
 import { router } from "expo-router";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const ReportLostOrDamagedScreen = () => {
-  const { bottom } = useSafeAreaInsets();
+export const ReportLostOrDamagedScreen = () => {
   const [reportType, setReportType] = useState<string>("");
 
   const handleContinue = useCallback(() => {
@@ -28,7 +26,7 @@ const ReportLostOrDamagedScreen = () => {
   };
 
   return (
-    <View className="flex-1 bg-background" style={{ paddingBottom: bottom }}>
+    <View className="flex-1 bg-background">
       <View className="flex-1 pt-4">
         <View className="flex-1 px-6 gap-3">
           <TouchableOpacity
@@ -71,11 +69,15 @@ const ReportLostOrDamagedScreen = () => {
           <Button
             variant="default"
             size={"lg"}
-            disabled={reportType === ""}
-            className="rounded-full bg-primary h-[48px]"
+            disabled={!reportType}
+            className="rounded-full bg-primary h-[48px] mb-10"
             onPress={handleContinue}
           >
-            <Typography type="body-default" weight="medium" textColor="white">
+            <Typography
+              type="body-default"
+              weight="medium"
+              textColor={!reportType ? "#A3A3A3" : "white"}
+            >
               {`Continue`}
             </Typography>
           </Button>

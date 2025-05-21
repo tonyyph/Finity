@@ -83,7 +83,10 @@ const Button = React.forwardRef<
       )}
     >
       <Pressable
-        style={[props.disabled && { backgroundColor: colors.neutral }]}
+        style={[
+          props.disabled && { backgroundColor: colors.border2 },
+          loading && { backgroundColor: colors.neutral }
+        ]}
         className={cn(
           props.disabled && "web:pointer-events-none ",
           buttonVariants({ variant, size, className })

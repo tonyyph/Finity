@@ -150,7 +150,11 @@ export default function Verify2FactorScreen() {
             loading={isLoading}
             onPress={handleVerifyOTP}
           >
-            <Typography type="body-default" weight="medium" textColor="white">
+            <Typography
+              type="body-default"
+              weight="medium"
+              textColor={otpString.length !== 6 ? "#A3A3A3" : "white"}
+            >
               {isLoading ? "Verifying..." : "Verify"}
             </Typography>
           </Button>
