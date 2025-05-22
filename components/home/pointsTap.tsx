@@ -48,7 +48,7 @@ function PointsTap({ showAll = false }: { showAll?: boolean }) {
     );
   };
   return (
-    <View className="flex-1">
+    <View className="flex-1 mx-4">
       <FlashList
         data={showAll ? pointList : pointList.slice(0, 10)}
         contentContainerClassName="pt-3"

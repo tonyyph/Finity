@@ -76,7 +76,10 @@ function Biometrics() {
   const handleAuthenticate = useCallback(async () => {
     setLoading(true);
     const result = await LocalAuthentication.authenticateAsync({
-      // disableDeviceFallback: true,
+      promptMessage: "Authenticate with biometrics",
+      disableDeviceFallback: true, // This only works on Android
+      cancelLabel: "Cancel",
+      fallbackLabel: "" // iOS only – setting empty label hides the fallback button
     });
 
     setLoading(false);

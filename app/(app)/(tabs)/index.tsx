@@ -21,7 +21,7 @@ function HomeScreen() {
   const { userData, handleFreezeCard, isFreezeCard, cardStatus } =
     useCardHolder();
   const { notifications } = useNotification();
-  const { cardholderId } = userData || {};
+  const { cardholderId, hasIssuedCard } = userData || {};
 
   async function handleShowToastError() {
     toast.error(`You cannot load your card while it is frozen`, {
@@ -97,7 +97,11 @@ function HomeScreen() {
           <PointsBalanceCom value={userData?.pointsBalance ?? 0} />
         </View>
         <View className="h-4" />
-        <CardButtonGroup onLoadCard={onLoadCard} onSendPoints={onSendPoints} />
+        <CardButtonGroup
+          hasIssuedCard={hasIssuedCard}
+          onLoadCard={onLoadCard}
+          onSendPoints={onSendPoints}
+        />
         <View className="h-2" key={"Transaction Bar"} />
       </View>
       <View className="flex-1 opacity-100">

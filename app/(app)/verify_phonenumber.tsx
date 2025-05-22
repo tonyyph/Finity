@@ -144,7 +144,7 @@ export default function VerifyPhoneNumberCodeScreen() {
               textColor="#D9323D"
               className="flex-1"
             >
-              {error}
+              {`Incorrect verification code. Try again.`}
             </Typography>
           </View>
         )}

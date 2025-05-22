@@ -20,12 +20,20 @@ export function SetLocalAuth() {
 
   async function handleToggleLocalAuth(enabled: boolean) {
     const result = await LocalAuthentication.authenticateAsync({
-      // disableDeviceFallback: true,
+      promptMessage: "Authenticate with biometrics",
+      disableDeviceFallback: true, // This only works on Android
+      cancelLabel: "Cancel",
+      fallbackLabel: "" // iOS only – setting empty label hides the fallback button
     });
     if (result.success) {
       setEnabledLocalAuth(enabled);
     } else {
-      toast.error(result.warning ?? `Unknown error`);
+      toast.error(
+        result.warning ??
+          `Can not ${
+            enabledLocalAuth ? "disabled" : "enabled"
+          } biometrics at the moment`
+      );
     }
   }
 

@@ -119,7 +119,7 @@ function StatementScreen() {
         </View>
 
         {/* Bottom Sheet for Year Filter */}
-        <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
+        <BottomSheet ref={sheetRef} index={0} snapPoints={["30%"]}>
           <BottomSheetView className="min-h-[50%] mt-1">
             <Header
               title="Filter by year"

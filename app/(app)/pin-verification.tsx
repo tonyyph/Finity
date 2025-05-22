@@ -74,7 +74,12 @@ function PinVerificationScreen() {
   }, [setShowBottomSheetPin]);
 
   const handleAuthenticate = useCallback(async () => {
-    const result = await LocalAuthentication.authenticateAsync({});
+    const result = await LocalAuthentication.authenticateAsync({
+      promptMessage: "Authenticate with biometrics",
+      disableDeviceFallback: true, // This only works on Android
+      cancelLabel: "Cancel",
+      fallbackLabel: "" // iOS only – setting empty label hides the fallback button
+    });
     if (result.success) {
       type === "edit-home-address" && onVerifyEditHomeAddress();
       type === "view-pin" && onVerifyViewPIN();

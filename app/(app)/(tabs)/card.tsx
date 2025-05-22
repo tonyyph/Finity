@@ -46,7 +46,8 @@ export default function CardScreen() {
     isFreezeCard
   } = useCardHolder();
 
-  const { cardholderId, cardStatus, last4Digits } = userData || {};
+  const { cardholderId, cardStatus, last4Digits, hasIssuedCard } =
+    userData || {};
 
   const sheetRef = useRef<BottomSheetModal>(null);
 
@@ -250,11 +251,11 @@ export default function CardScreen() {
       )}
       <View className="bg-neutral-100 border border-[#E5E5E5] rounded-2xl min-h-[200px] p-4 m-4 gap-4">
         <View className="gap-3">
-          {isDisableCard ? (
+          {isDisableCard || hasIssuedCard ? (
             <Image
               resizeMode="cover"
               source={CardLost}
-              className="w-full h-[208px] rounded-lg mb-1"
+              className="w-full h-[240px] rounded-xl mb-1"
             />
           ) : (
             <Image

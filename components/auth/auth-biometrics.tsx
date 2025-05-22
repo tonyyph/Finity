@@ -12,7 +12,10 @@ type AuthBiometricsProps = {
 export function AuthBiometrics({ onAuthenticated }: AuthBiometricsProps) {
   const handleAuthenticate = useCallback(async () => {
     const result = await LocalAuthentication.authenticateAsync({
-      // disableDeviceFallback: true,
+      promptMessage: "Authenticate with biometrics",
+      disableDeviceFallback: true, // This only works on Android
+      cancelLabel: "Cancel",
+      fallbackLabel: "" // iOS only – setting empty label hides the fallback button
     });
     if (result.success) {
       onAuthenticated?.();
