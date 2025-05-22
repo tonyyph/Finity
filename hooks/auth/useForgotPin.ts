@@ -7,10 +7,12 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useValidateInput } from "../commons";
 
-export const useLogin = () => {
+export const useForgotPin = () => {
   const { signIn, setActive: setActiveSignIn, isLoaded } = useSignIn();
   const [loading, setLoading] = useState<boolean>(false);
+  const { tempPassword, tempUserName } = certificationStore.getState();
   const router = useRouter();
+
   const usernameState = useValidateInput({
     defaultValue: "",
     validate: validateUsername
@@ -24,7 +26,7 @@ export const useLogin = () => {
 
   const [error, setError] = useState("");
 
-  const onLogin = async () => {
+  const onSubmitForgotPIN = async () => {
     setLoading(true);
     if (!isLoaded) return;
     const setError = (error: string = "Invalid password") => {
@@ -41,40 +43,40 @@ export const useLogin = () => {
       setLoading(false);
       return;
     }
-    try {
-      const result = await signIn.create({
-        identifier:
-          usernameState.value === "1"
-            ? "tonyphvincent@gmail.com" //TODO: remove that mockup
-            : usernameState.value === "2"
-            ? "anhtuyetk36acntt@gmail.com"
-            : usernameState.value,
-        password:
-          passwordState.value === "1"
-            ? "Khaccuong@14"
-            : passwordState.value === "2"
-            ? "Tuyetvo123@@"
-            : passwordState.value
-      });
 
-      if (result.status === "needs_second_factor") {
-        certificationStore.setState({
-          tempUserName:
-            usernameState.value === "1"
-              ? "tonyphvincent@gmail.com" //TODO: remove that mockup
-              : usernameState.value === "2"
-              ? "anhtuyetk36acntt@gmail.com"
-              : usernameState.value,
-          tempPassword:
-            passwordState.value === "1"
-              ? "Khaccuong@14"
-              : passwordState.value === "2"
-              ? "Tuyetvo123@@"
-              : passwordState.value
-        });
+    try {
+      const result =
+        (usernameState.value === "1"
+          ? "tonyphvincent@gmail.com" //TODO: remove that mockup
+          : usernameState.value === "2"
+          ? "anhtuyetk36acntt@gmail.com"
+          : usernameState.value) === tempUserName &&
+        (passwordState.value === "1"
+          ? "Khaccuong@14"
+          : passwordState.value === "2"
+          ? "Tuyetvo123@@"
+          : passwordState.value) === tempPassword;
+      //   const result = await signIn.create({
+      //     identifier:
+      //       usernameState.value === "1"
+      //         ? "tonyphvincent@gmail.com" //TODO: remove that mockup
+      //         : usernameState.value === "2"
+      //         ? "anhtuyetk36acntt@gmail.com"
+      //         : usernameState.value,
+      //     password:
+      //   passwordState.value === "1"
+      //     ? "Khaccuong@14"
+      //     : passwordState.value === "2"
+      //     ? "Tuyetvo123@@"
+      //     : passwordState.value;
+      //   });
+
+      console.log("result", result);
+
+      if (result) {
         router.push("/(auth)/verify-2factor");
       } else {
-        await setActiveSignIn({ session: result.createdSessionId });
+        setError("Invalid username or password");
       }
     } catch (err: any) {
       setError(err?.errors?.[0]?.longMessage ?? err.message ?? "Unknown error");
@@ -137,6 +139,6 @@ export const useLogin = () => {
     handleVerifyTOTP,
     error,
     isLoading: loading,
-    onLogin
+    onSubmitForgotPIN
   };
 };

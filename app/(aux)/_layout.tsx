@@ -92,7 +92,8 @@ export default function AuxiliaryLayout() {
           name="pin-forgot"
           options={{
             headerLeft: () => <BackButton />,
-            headerShown: false
+            headerTitle: ``,
+            headerShown: true
           }}
         />
       </Stack>

@@ -9,10 +9,17 @@ import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
 import { userStore } from "@/stores/userStore";
+import { BlurView } from "expo-blur";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { SafeAreaView, TouchableOpacity, View } from "react-native";
+import {
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  View
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function PinVerificationScreen() {
@@ -28,6 +35,7 @@ function PinVerificationScreen() {
 
   const { verificationPin, setShowBottomSheetPin } = useUserAuthenticateStore();
   const { bioStatus } = useBiometrics();
+  const [authInProgress, setAuthInProgress] = useState(bioStatus);
 
   const onAuthenticated = useCallback(() => {
     setLoading(true);
@@ -74,6 +82,7 @@ function PinVerificationScreen() {
   }, [setShowBottomSheetPin]);
 
   const handleAuthenticate = useCallback(async () => {
+    setAuthInProgress(true);
     const result = await LocalAuthentication.authenticateAsync({
       promptMessage: "Authenticate with biometrics",
       disableDeviceFallback: true, // This only works on Android
@@ -81,9 +90,14 @@ function PinVerificationScreen() {
       fallbackLabel: "" // iOS only – setting empty label hides the fallback button
     });
     if (result.success) {
+      setAuthInProgress(false);
       type === "edit-home-address" && onVerifyEditHomeAddress();
       type === "view-pin" && onVerifyViewPIN();
       type === "load-card" && onAuthenticated?.();
+    } else {
+      if (!!result?.error && result?.error === "user_cancel") {
+        setAuthInProgress(false);
+      }
     }
   }, [onAuthenticated, onVerifyViewPIN, onVerifyEditHomeAddress, type]);
 
@@ -134,6 +148,16 @@ function PinVerificationScreen() {
       }
     };
   }, []);
+
+  if (authInProgress) {
+    return (
+      <BlurView
+        intensity={Platform.OS === "ios" ? 60 : 100}
+        tint="dark"
+        style={StyleSheet.absoluteFill}
+      />
+    );
+  }
 
   return (
     <View className="flex-1 bg-white">

@@ -28,6 +28,8 @@ export function SetLocalAuth() {
     if (result.success) {
       setEnabledLocalAuth(enabled);
     } else {
+      if (!!result?.error && result?.error === "user_cancel") {
+      }
       toast.error(
         result.warning ??
           `Can not ${

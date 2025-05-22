@@ -1,11 +1,12 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import { BlurView } from "expo-blur";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
 import { find } from "lodash-es";
 import { ArrowLeftIcon } from "lucide-react-native";
 import { useCallback, useEffect, useState } from "react";
-import { Platform, SafeAreaView, View } from "react-native";
+import { Platform, SafeAreaView, StyleSheet, View } from "react-native";
 
 interface AuthenticationProps {
   authenticationType: LocalAuthentication.AuthenticationType;
@@ -60,9 +61,9 @@ const authenticationAndroid: AuthenticationProps[] = [
 
 function Biometrics() {
   const { typeAuthentication } = useLocalSearchParams();
-  const [loading, setLoading] = useState<boolean>(false);
   const [authenticationType, setAuthenticationType] =
     useState<AuthenticationProps>();
+  const [authInProgress, setAuthInProgress] = useState(false);
 
   useEffect(() => {
     setAuthenticationType(
@@ -74,7 +75,7 @@ function Biometrics() {
   }, [typeAuthentication]);
 
   const handleAuthenticate = useCallback(async () => {
-    setLoading(true);
+    setAuthInProgress(true);
     const result = await LocalAuthentication.authenticateAsync({
       promptMessage: "Authenticate with biometrics",
       disableDeviceFallback: true, // This only works on Android
@@ -82,18 +83,30 @@ function Biometrics() {
       fallbackLabel: "" // iOS only – setting empty label hides the fallback button
     });
 
-    setLoading(false);
     if (result.success) {
+      setAuthInProgress(false);
       router.replace({
         pathname: "/(app)/biometrics-success",
         params: {
           typeAuthentication: authenticationType?.authenticationType
         }
       });
+    } else {
+      if (!!result?.error && result?.error === "user_cancel") {
+        setAuthInProgress(false);
+      }
     }
   }, [authenticationType]);
 
-  if (loading) return <View className="flex-1 bg-white" />;
+  if (authInProgress) {
+    return (
+      <BlurView
+        intensity={Platform.OS === "ios" ? 60 : 100}
+        tint="dark"
+        style={StyleSheet.absoluteFill}
+      />
+    );
+  }
 
   return (
     <View className="flex-1 bg-white">

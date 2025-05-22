@@ -49,4 +49,6 @@ export const resetAllStorage = async () => {
   await resetUserSettings();
   await resetUserProfile();
   await resetUserAuthentication();
+  expoSecurePersistStorage.removeItem("certification-storage");
+  expoSecurePersistStorage.removeItem("user-storage");
 };

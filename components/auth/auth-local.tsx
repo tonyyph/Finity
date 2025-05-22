@@ -3,10 +3,17 @@ import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
 import { userStore } from "@/stores/userStore";
+import { BlurView } from "expo-blur";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Image, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CircleAlert, RemoveNumpad } from "../common/icons";
 import { LoadingScreen } from "../common/loading";
@@ -18,28 +25,39 @@ type AuthLocalProps = {
 
 export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { bioStatus } = useBiometrics();
+  const [authInProgress, setAuthInProgress] = useState(bioStatus);
 
   const { top, bottom } = useSafeAreaInsets();
   const [loading, setLoading] = useState(false);
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
   const { verificationPin } = useUserAuthenticateStore();
-  const { bioStatus } = useBiometrics();
   const userProfile = userStore.getState().userProfile;
-
   const handleAuthenticate = useCallback(async () => {
-    const result = await LocalAuthentication.authenticateAsync({
-      promptMessage: "Authenticate with biometrics",
-      disableDeviceFallback: true, // This only works on Android
-      cancelLabel: "Cancel",
-      fallbackLabel: "" // iOS only – setting empty label hides the fallback button
-    });
-    if (result.success) {
-      setLoading(true);
-      timeoutRef.current = setTimeout(() => {
-        setLoading(false);
-        onAuthenticated?.();
-      }, 3000);
+    setAuthInProgress(true);
+    try {
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: "Authenticate with biometrics",
+        disableDeviceFallback: true,
+        cancelLabel: "Cancel",
+        fallbackLabel: ""
+      });
+
+      if (result.success) {
+        setLoading(true);
+        setAuthInProgress(false);
+        timeoutRef.current = setTimeout(() => {
+          setLoading(false);
+          onAuthenticated?.();
+        }, 3000);
+      } else {
+        if (!!result?.error && result?.error === "user_cancel") {
+          setAuthInProgress(false);
+        }
+      }
+    } catch (_) {
+      setAuthInProgress(false);
     }
   }, [onAuthenticated]);
 
@@ -85,6 +103,16 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
       }
     };
   }, []);
+
+  if (authInProgress) {
+    return (
+      <BlurView
+        intensity={Platform.OS === "ios" ? 60 : 100}
+        tint="dark"
+        style={StyleSheet.absoluteFill}
+      />
+    );
+  }
 
   return (
     <View

@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import Typography from "../common/text-typography";
-import Touch from "../ui/touch";
 import { Button } from "../ui/button";
 
 type Props = {

@@ -1,11 +1,10 @@
 import { CircleAlert } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { useForgotPassword } from "@/hooks/auth/useForgotPassword";
+import { useForgotPin } from "@/hooks/auth/useForgotPin";
 import { cn } from "@/lib/utils";
-import { router } from "expo-router";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import {
   Keyboard,
   TextInput,
@@ -15,35 +14,19 @@ import {
 } from "react-native";
 
 export default function ForgotPINScreen() {
-  const [loading, setLoading] = useState(false);
   const [securePassword, setSecurePassword] = useState(true);
   const [focusUsername, setFocusUsername] = useState(false);
   const [focusPassword, setFocusPassword] = useState(false);
-  const { emailState, passwordState } = useForgotPassword();
+  const {
+    onSubmitForgotPIN,
+    usernameState,
+    passwordState,
+    isLoading: loading
+  } = useForgotPin();
 
   const onPressSecurePassword = () => {
     setSecurePassword((prev) => !prev);
   };
-
-  const handleContinue = useCallback(() => {
-    Keyboard.dismiss();
-    const setError = (error: string = "Invalid password") => {
-      passwordState.setState((prev) => ({ ...prev, error }));
-    };
-
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      if (passwordState.value === "123456") {
-        router.push({
-          pathname: "/(auth)/verify-2factor",
-          params: { isResetPin: 1 }
-        });
-      } else {
-        setError("Incorrect email address or password. Try again.");
-      }
-    }, 1500);
-  }, [passwordState]);
 
   return (
     <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
@@ -86,11 +69,11 @@ export default function ForgotPINScreen() {
                   placeholder={`Enter your email address`}
                   placeholderTextColor={"gray"}
                   autoCapitalize="none"
-                  value={emailState.value}
-                  onChangeText={emailState.onChangeText}
+                  value={usernameState.value}
+                  onChangeText={usernameState.onChangeText}
                 />
               </View>
-              {!!emailState.error && (
+              {!!usernameState.error && (
                 <View className=" flex flex-row items-center mt-2">
                   <CircleAlert className="top-1" />
                   <Typography
@@ -98,8 +81,8 @@ export default function ForgotPINScreen() {
                     weight="medium"
                     textColor="#D9323D"
                   >
-                    {emailState.error?.charAt(0).toUpperCase() +
-                      emailState.error?.slice(1)}{" "}
+                    {usernameState.error?.charAt(0).toUpperCase() +
+                      usernameState.error?.slice(1)}{" "}
                   </Typography>
                 </View>
               )}
@@ -147,7 +130,7 @@ export default function ForgotPINScreen() {
                 <View
                   className={cn(
                     "flex flex-row items-center mt-4",
-                    !!emailState.error && "mt-2"
+                    !!usernameState.error && "mt-2"
                   )}
                 >
                   <CircleAlert className="top-1" />
@@ -170,16 +153,16 @@ export default function ForgotPINScreen() {
             <Button
               variant="default"
               size={"lg"}
-              disabled={!emailState.value || !passwordState.value || loading}
+              disabled={!usernameState.value || !passwordState.value || loading}
               className="mt-8 rounded-full bg-primary h-[48px]"
               loading={loading}
-              onPress={handleContinue}
+              onPress={onSubmitForgotPIN}
             >
               <Typography
                 type="body-default"
                 weight="medium"
                 textColor={
-                  !emailState.value || !passwordState.value
+                  !usernameState.value || !passwordState.value
                     ? "#A3A3A3"
                     : "white"
                 }
