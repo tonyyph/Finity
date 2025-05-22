@@ -3,6 +3,7 @@ import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { colors } from "@/constants/Colors";
 import { useLogin } from "@/hooks/auth";
+import { cn } from "@/lib/utils";
 import { exactDesign } from "@/utils";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Keyboard, TextInput, View } from "react-native";
@@ -15,7 +16,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function Verify2FactorScreen() {
   const { bottom } = useSafeAreaInsets();
   const { handleVerifyTOTP, error, isLoading } = useLogin();
-
+  const [isFirstTry, setIsFirstTry] = useState<boolean>(true);
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const inputsRef = useRef<(TextInput | null)[]>([]);
   const [indexCursor, setIndexCursor] = useState<number>(0);
@@ -45,10 +46,11 @@ export default function Verify2FactorScreen() {
   }, [otpString]);
 
   useEffect(() => {
-    if (otpString.length === 6) {
+    if (otpString.length === 6 && isFirstTry) {
+      setIsFirstTry(false);
       handleVerifyOTP();
     }
-  }, [otpString]);
+  }, [otpString, isFirstTry]);
 
   const handleChange = (text: string, index: number) => {
     if (/^\d?$/.test(text)) {
@@ -139,7 +141,7 @@ export default function Verify2FactorScreen() {
       <Animated.View
         style={translateStyle}
         key={1}
-        className="justify-end flex-1"
+        className={cn("justify-start")}
       >
         <View className="justify-end">
           <Button

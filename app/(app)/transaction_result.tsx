@@ -3,7 +3,6 @@ import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { formatDateNow } from "@/lib/date";
 import { formatNumber } from "@/utils";
-import { t } from "@lingui/macro";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";
@@ -22,20 +21,20 @@ function TransactionResultScreen() {
 
   const type = [
     {
-      title: t`Something went wrong`,
-      sub: t`An unexpected error occurred while processing your request. Please try again.`,
+      title: `Something went wrong`,
+      sub: `An unexpected error occurred while processing your request. Please try again.`,
       icon: require("@/assets/images/error-filled.png"),
-      button: t`Load card again`,
-      secondaryButton: t`Return to home`
+      button: `Load card again`,
+      secondaryButton: `Return to home`
     },
     {
       title: `+£${formatNumber({
         value: Number(amount?.toString().replace(/,/g, "")) * 0.1
       })}`,
-      sub: t`successfully loaded to your card.`,
+      sub: `successfully loaded to your card.`,
       icon: require("@/assets/images/success-filled.png"),
-      button: t`Load card again`,
-      secondaryButton: t`Return to home`
+      button: `Load card again`,
+      secondaryButton: `Return to home`
     }
   ];
 

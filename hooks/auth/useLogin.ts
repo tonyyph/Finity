@@ -1,4 +1,5 @@
 import { getCardDetail, getPINInfo, getUserProfile } from "@/api";
+import { useUserAuthenticateStore } from "@/stores";
 import { certificationStore } from "@/stores/certificationStore";
 import { userStore } from "@/stores/userStore";
 import { validatePassword, validateUsername } from "@/utils";
@@ -9,6 +10,8 @@ import { useValidateInput } from "../commons";
 
 export const useLogin = () => {
   const { signIn, setActive: setActiveSignIn, isLoaded } = useSignIn();
+  const { verificationPin } = useUserAuthenticateStore();
+
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const usernameState = useValidateInput({
@@ -47,7 +50,7 @@ export const useLogin = () => {
           usernameState.value === "1"
             ? "tonyphvincent@gmail.com" //TODO: remove that mockup
             : usernameState.value === "2"
-            ? "anhtuyetk36acntt@gmail.com"
+            ? "tuyetvo001vat@gmail.com"
             : usernameState.value,
         password:
           passwordState.value === "1"
@@ -63,7 +66,7 @@ export const useLogin = () => {
             usernameState.value === "1"
               ? "tonyphvincent@gmail.com" //TODO: remove that mockup
               : usernameState.value === "2"
-              ? "anhtuyetk36acntt@gmail.com"
+              ? "tuyetvo001vat@gmail.com"
               : usernameState.value,
           tempPassword:
             passwordState.value === "1"
@@ -74,10 +77,16 @@ export const useLogin = () => {
         });
         router.push("/(auth)/verify-2factor");
       } else {
+        if (!verificationPin) {
+          router.push({
+            pathname: "/pin-verify",
+            params: { isResetPin: "false", type: "setup" }
+          });
+        }
         await setActiveSignIn({ session: result.createdSessionId });
       }
-    } catch (err: any) {
-      setError(err?.errors?.[0]?.longMessage ?? err.message ?? "Unknown error");
+    } catch (error) {
+      setError("Incorrect email address or password. Try again.");
     } finally {
       setLoading(false);
     }
@@ -93,7 +102,6 @@ export const useLogin = () => {
     if (!isLoaded) return;
     try {
       setLoading(true);
-      // setShouldPINLocal(false);
       if (!signIn) {
         setError("Sign-in session not initialized. Please try again.");
         return;
@@ -122,8 +130,8 @@ export const useLogin = () => {
       } else {
         setError("Invalid code. Please try again.");
       }
-    } catch (err: any) {
-      setError(err?.errors?.[0]?.longMessage ?? err.message ?? "Unknown error");
+    } catch (error) {
+      setError("Incorrect verification code. Try again.");
     } finally {
       setLoading(false);
     }

@@ -1,7 +1,6 @@
 import { LoadingScreen } from "@/components/common/loading";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { t } from "@lingui/macro";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";
@@ -16,16 +15,16 @@ interface propsLocal {
 
 const type = [
   {
-    title: t`Something went wrong`,
-    sub: t`An unexpected error occurred while processing your request. Please try again.`,
+    title: `Something went wrong`,
+    sub: `An unexpected error occurred while processing your request. Please try again.`,
     icon: require("@/assets/images/error-filled.png"),
-    button: t`Try again`
+    button: `Try again`
   },
   {
-    title: t`Card activated successfully!`,
-    sub: t`Your card has been activated and is ready for use. Enjoy your transactions!`,
+    title: `Card activated successfully!`,
+    sub: `Your card has been activated and is ready for use. Enjoy your transactions!`,
     icon: require("@/assets/images/success-filled.png"),
-    button: t`Return to home`
+    button: `Return to home`
   }
 ];
 

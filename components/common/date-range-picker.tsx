@@ -1,7 +1,6 @@
 import { formatDateShort } from "@/lib/date";
 import { cn, sleep } from "@/lib/utils";
 import { type BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { useLingui } from "@lingui/react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Haptics from "expo-haptics";
 import { ArrowRightIcon } from "lucide-react-native";
@@ -66,7 +65,6 @@ export function DateRangePicker({
   maximumDate?: Date;
   minimumDate?: Date;
 }) {
-  const { i18n } = useLingui();
   const { bottom } = useSafeAreaInsets();
   const sheetFromRef = useRef<BottomSheetModal>(null);
   const sheetToRef = useRef<BottomSheetModal>(null);

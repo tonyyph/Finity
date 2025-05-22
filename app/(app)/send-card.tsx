@@ -7,7 +7,6 @@ import { ProgressBar } from "@/components/ui/progress";
 import Touch from "@/components/ui/touch";
 import { cn } from "@/lib/utils";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { t } from "@lingui/macro";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
 import { Image, Keyboard, SafeAreaView, TextInput, View } from "react-native";
@@ -61,7 +60,7 @@ function SendCardScreen() {
           {/* point balance */}
           <View className="p-4 gap-2">
             <Typography type="body-default" weight="medium" textColor="#404040">
-              {t`Points balance`}
+              {`Points balance`}
             </Typography>
             <TextInput
               editable={false}
@@ -72,7 +71,7 @@ function SendCardScreen() {
           {/* card holder */}
           <View className="p-4 gap-2">
             <Typography type="body-default" weight="medium" textColor="#404040">
-              {t`Cardholder`}
+              {`Cardholder`}
             </Typography>
             <Touch
               onPress={() => {
@@ -95,7 +94,7 @@ function SendCardScreen() {
           {/* Enter amount */}
           <View className="p-4 gap-2 ">
             <Typography type="body-default" weight="medium" textColor="#404040">
-              {t`Enter amount`}
+              {`Enter amount`}
             </Typography>
             <View className="flex-row justify-between items-center rounded-lg border-[1px] border-subtitle px-4">
               <TextInput
@@ -115,7 +114,7 @@ function SendCardScreen() {
                 }}
               />
               <Typography type="body-large" weight="medium" textColor="#737373">
-                {t`points`}
+                {`points`}
               </Typography>
             </View>
             {!!error && (
@@ -149,7 +148,7 @@ function SendCardScreen() {
                 weight="medium"
                 textColor={!enterAmount ? "#A3A3A3" : "white"}
               >
-                {t`Continue`}
+                {`Continue`}
               </Typography>
             </Button>
           </View>

@@ -10,6 +10,9 @@
       "ios": {
         "simulator": true
       },
+      "android": {
+        "buildType": "apk"
+      },
       "channel": "development-simulator",
       "node": "20.18.1",
       "env": {
@@ -24,6 +27,9 @@
       "developmentClient": true,
       "channel": "development",
       "node": "20.18.1",
+      "android": {
+        "buildType": "apk"
+      },
       "env": {
         "APP_ENV": "development",
         "EXPO_PUBLIC_API_URL": "https://as-rwd-uks-rewards-api-dev.azurewebsites.net",
@@ -36,6 +42,9 @@
       "distribution": "internal",
       "channel": "preview",
       "node": "20.18.1",
+      "android": {
+        "buildType": "apk"
+      },
       "env": {
         "APP_ENV": "development",
         "EXPO_PUBLIC_API_URL": "https://as-rwd-uks-rewards-api-dev.azurewebsites.net",
@@ -47,6 +56,7 @@
     "production": {
       "autoIncrement": true,
       "android": {
+        "buildType": "apk",
         "image": "latest"
       },
       "ios": {

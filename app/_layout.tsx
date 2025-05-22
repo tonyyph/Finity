@@ -2,7 +2,6 @@ import { ToastRoot } from "@/components/common/toast";
 import { SplashAnimationScreen } from "@/components/ui/splash";
 import { tokenCache } from "@/lib/cache";
 import { queryClient } from "@/lib/client";
-import { LocaleProvider } from "@/locales/provider";
 import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -15,7 +14,6 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import LottieView from "lottie-react-native";
 import { cssInterop } from "nativewind";
-import { PostHogProvider } from "posthog-react-native";
 import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
@@ -87,43 +85,33 @@ export default function RootLayout() {
   }
 
   return (
-    <PostHogProvider
-      apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
-      options={{
-        host: process.env.EXPO_PUBLIC_POSTHOG_HOST!,
-        disabled: false
-      }}
+    <ClerkProvider
+      publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
+      tokenCache={tokenCache}
     >
-      <ClerkProvider
-        publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
-        tokenCache={tokenCache}
-      >
-        <ClerkLoaded>
-          <PersistQueryClientProvider
-            client={queryClient}
-            persistOptions={{ persister: asyncStoragePersister }}
-          >
-            {/* <StoreProvider> */}
-            <LocaleProvider>
-              <ThemeProvider value={DefaultTheme}>
-                <CustomPaletteWrapper>
-                  <SafeAreaProvider>
-                    <GestureHandlerRootView>
-                      <KeyboardProvider>
-                        <BottomSheetModalProvider>
-                          <Stack screenOptions={{ headerShown: false }} />
-                          <ToastRoot />
-                        </BottomSheetModalProvider>
-                      </KeyboardProvider>
-                    </GestureHandlerRootView>
-                  </SafeAreaProvider>
-                </CustomPaletteWrapper>
-              </ThemeProvider>
-            </LocaleProvider>
-            {/* </StoreProvider> */}
-          </PersistQueryClientProvider>
-        </ClerkLoaded>
-      </ClerkProvider>
-    </PostHogProvider>
+      <ClerkLoaded>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{ persister: asyncStoragePersister }}
+        >
+          {/* <StoreProvider> */}
+          <ThemeProvider value={DefaultTheme}>
+            <CustomPaletteWrapper>
+              <SafeAreaProvider>
+                <GestureHandlerRootView>
+                  <KeyboardProvider>
+                    <BottomSheetModalProvider>
+                      <Stack screenOptions={{ headerShown: false }} />
+                      <ToastRoot />
+                    </BottomSheetModalProvider>
+                  </KeyboardProvider>
+                </GestureHandlerRootView>
+              </SafeAreaProvider>
+            </CustomPaletteWrapper>
+          </ThemeProvider>
+          {/* </StoreProvider> */}
+        </PersistQueryClientProvider>
+      </ClerkLoaded>
+    </ClerkProvider>
   );
 }

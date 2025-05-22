@@ -142,13 +142,6 @@ export default function AuthenticatedLayout() {
             }}
           />
           <Stack.Screen
-            name="appearance"
-            options={{
-              presentation: "modal",
-              headerTitle: `Appearance`
-            }}
-          />
-          <Stack.Screen
             name="profile-edit"
             options={{
               headerTitle: `Personal information`,
@@ -164,20 +157,6 @@ export default function AuthenticatedLayout() {
           <Stack.Screen name="web_view" options={{ headerShown: false }} />
           <Stack.Screen name="our_agreement" options={{ headerShown: false }} />
           <Stack.Screen name="notifications" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="feedback"
-            options={{
-              presentation: "modal",
-              headerTitle: `Feedback`
-            }}
-          />
-          <Stack.Screen
-            name="language"
-            options={{
-              presentation: "modal",
-              headerTitle: `Language`
-            }}
-          />
           <Stack.Screen
             name="biometrics"
             options={{
