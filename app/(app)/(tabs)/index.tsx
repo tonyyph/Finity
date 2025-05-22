@@ -44,7 +44,7 @@ function HomeScreen() {
   const onSendPoints = () => {
     if (cardStatus === 4 || cardStatus === 1) {
       router.navigate({
-        pathname: "/(app)/send-card"
+        pathname: "/(app)/send_card"
       });
     } else {
       handleShowToastError();

@@ -20,7 +20,8 @@ function LoadCardScreen() {
   const { bottom } = useSafeAreaInsets();
 
   const [enterAmount, setEnterAmount] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
+  const [focusAmount, setFocusAmount] = useState(false);
   const { userData } = useCardHolder();
 
   const keyboard = useAnimatedKeyboard();
@@ -35,20 +36,29 @@ function LoadCardScreen() {
   }));
 
   const formatPointValue = new Intl.NumberFormat("en-US").format(
-    Number(userData?.pointsBalance)
+    Number(userData?.pointsBalance ?? 0)
   );
+
   const handleContinue = () => {
+    if (enterAmount?.includes(",")) {
+      setError("Invalid amount");
+      return;
+    }
     if (
-      Number(enterAmount.replace(/,/g, "")) < 100 ||
-      Number(enterAmount.replace(/,/g, "")) > userData?.pointsBalance
+      Number(enterAmount) < 100 ||
+      Number(enterAmount) > userData?.pointsBalance
     ) {
-      setError(true);
+      setError(
+        Number(enterAmount) < 100
+          ? "The minimum amount to load is 100 points"
+          : "Amount exceeds your balance"
+      );
     } else {
       router.push({
         pathname: "/pin-verification",
         params: {
           type: "load-card",
-          amount: Number(enterAmount.replace(/,/g, "")),
+          amount: Number(enterAmount),
           cardHolderName: "Amber Green"
         }
       });
@@ -95,18 +105,12 @@ function LoadCardScreen() {
               <TextInput
                 value={enterAmount}
                 className="flex-1 bg-white h-[72px] text-[28px] font-medium"
-                keyboardType="number-pad"
+                keyboardType="numeric"
+                onFocus={() => setFocusAmount(true)}
+                onEndEditing={() => setFocusAmount(false)}
                 onChangeText={(text) => {
-                  let numericValue = text
-                    .toString()
-                    .replace(/,/g, "")
-                    .replace(/\D/g, "");
-                  let formattedValue = new Intl.NumberFormat("en-US").format(
-                    Number(numericValue)
-                  );
-
-                  setError(false);
-                  setEnterAmount(formattedValue);
+                  setError("");
+                  setEnterAmount(text);
                 }}
               />
               <Typography type="body-large" weight="medium" textColor="#737373">
@@ -121,20 +125,20 @@ function LoadCardScreen() {
                   weight="medium"
                   textColor="#D9323D"
                 >
-                  {Number(enterAmount.replace(/,/g, "")) < 100
-                    ? "The minimum amount to load is 100 points"
-                    : "Amount exceeds your balance"}
+                  {error}
                 </Typography>
               </View>
             ) : (
-              !!Number(enterAmount.replace(/,/g, "")) && (
+              (!!Number(enterAmount.replace(/,/g, "")) || focusAmount) && (
                 <Typography
                   type="body-small"
                   weight="medium"
                   textColor="#525252"
                 >
                   {`You’ll receive: £${formatNumber({
-                    value: Number(enterAmount.replace(/,/g, "")) * 0.1
+                    value: (
+                      parseFloat(enterAmount.replace(",", ".")) / 10
+                    ).toFixed(2)
                   })}`}
                 </Typography>
               )

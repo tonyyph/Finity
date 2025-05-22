@@ -3,9 +3,7 @@ import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 
 export const useSettingProfile = () => {
-  const [data, setData] = useState<SettingProfileResponse>(
-    {} as SettingProfileResponse
-  );
+  const [data, setData] = useState<UserValue>({} as UserValue);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -13,6 +11,7 @@ export const useSettingProfile = () => {
     const fetchSettingProfile = async () => {
       try {
         const { data: session } = await getSettingProfile();
+
         setData(session);
       } catch (error) {
         setError((error as AxiosError).message);
@@ -25,7 +24,7 @@ export const useSettingProfile = () => {
   }, []);
 
   return {
-    settingProfile: data ?? ({} as SettingProfileResponse),
+    settingProfile: data,
     loading: loading,
     error
   };

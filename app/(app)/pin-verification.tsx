@@ -41,7 +41,7 @@ function PinVerificationScreen() {
     setLoading(true);
     timeoutRef.current = setTimeout(() => {
       setLoading(false);
-      router.push({
+      router.replace({
         pathname: "/review_transaction",
         params: {
           type: type,
@@ -70,7 +70,7 @@ function PinVerificationScreen() {
         mobileNumber: userProfileJson?.mobileNumber,
         email: userProfileJson?.email
       });
-      router.push("./success_homeaddress");
+      router.replace("./success_homeaddress");
     }, 1000);
   }, [addressLine1, addressLine2, city, postCode, userProfileJson]);
 
@@ -159,12 +159,12 @@ function PinVerificationScreen() {
     );
   }
 
+  if (loading) return <LoadingScreen loading={loading} />;
+
   return (
     <View className="flex-1 bg-white">
       <SafeAreaView className="flex-1">
         <Header onBack={router.back} title="Verification" />
-        <LoadingScreen loading={loading} />
-
         <ProgressBar completeAnimation={true} />
 
         <View

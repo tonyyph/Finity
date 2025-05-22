@@ -32,227 +32,222 @@ export default function AuthenticatedLayout() {
       {shouldPINLocal && (
         <AuthLocal onAuthenticated={() => setShouldPINLocal(false)} />
       )}
-      {!shouldPINLocal && (
-        <Stack
-          screenOptions={{
-            headerShown: true,
-            headerTintColor: getColor("--foreground"),
-            headerShadowVisible: false,
-            headerTitleStyle: {
-              fontSize: exactDesign(18),
-              color: getColor("--foreground")
-            },
-            headerStyle: {
-              backgroundColor: "#FAFAFA"
-            },
-            headerTitle: "",
-            headerLeft: () => <BackButton />
+      <Stack
+        screenOptions={{
+          headerShown: true,
+          headerTintColor: getColor("--foreground"),
+          headerShadowVisible: false,
+          headerTitleStyle: {
+            fontSize: exactDesign(18),
+            color: getColor("--foreground")
+          },
+          headerStyle: {
+            backgroundColor: "#FAFAFA"
+          },
+          headerTitle: "",
+          headerLeft: () => <BackButton />
+        }}
+      >
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false
           }}
-        >
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="active_card"
-            options={{
-              headerLeft: () => <BackButton />,
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="active_card_success"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="request_card_success"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="request_card"
-            options={{
-              headerLeft: () => <BackButton />,
-              headerShown: true
-            }}
-          />
-          <Stack.Screen
-            name="load_card"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="notification_center"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="point_received"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="transactions"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="review_transaction"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="transaction_result"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="send-card"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="statements"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="preview_statements"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="pin-verification"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="profile-edit"
-            options={{
-              headerTitle: `Personal information`,
-              headerStyle: {
-                backgroundColor: "#FFFFFF"
-              }
-            }}
-          />
-          <Stack.Screen
-            name="cash_out_point"
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="web_view" options={{ headerShown: false }} />
-          <Stack.Screen name="our_agreement" options={{ headerShown: false }} />
-          <Stack.Screen name="notifications" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="biometrics"
-            options={{
-              headerLeft: () => <BackButton />,
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="biometrics-success"
-            options={{
-              headerLeft: () => <BackButton />,
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="success_phonenumber"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="success_homeaddress"
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="login-with-pin"
-            options={{
-              headerLeft: () => null,
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="report_damaged"
-            options={{
-              headerShown: true,
-              headerTitle: `Report lost or damaged`,
-              headerShadowVisible: true,
-              headerStyle: {
-                backgroundColor: getColor("--background")
-              }
-            }}
-          />
-          <Stack.Screen
-            name="lost"
-            options={{
-              headerShown: true,
-              headerTitle: ``,
-              headerStyle: {
-                backgroundColor: getColor("--background")
-              }
-            }}
-          />
-          <Stack.Screen
-            name="damaged"
-            options={{
-              headerShown: true,
-              headerTitle: ``,
-              headerStyle: {
-                backgroundColor: getColor("--background")
-              }
-            }}
-          />
-          <Stack.Screen
-            name="edit_phonenumber"
-            options={{
-              headerShown: true,
-              headerTitle: ``,
-              headerStyle: {
-                backgroundColor: getColor("--background")
-              }
-            }}
-          />
-          <Stack.Screen
-            name="verify_phonenumber"
-            options={{
-              headerShown: true,
-              headerTitle: ``,
-              headerStyle: {
-                backgroundColor: getColor("--background")
-              }
-            }}
-          />
-          <Stack.Screen
-            name="edit_homeaddress"
-            options={{
-              headerShown: true,
-              headerTitle: ``,
-              headerStyle: {
-                backgroundColor: getColor("--background")
-              }
-            }}
-          />
-        </Stack>
-      )}
+        />
+        <Stack.Screen
+          name="active_card"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="active_card_success"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="request_card_success"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="request_card"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: true
+          }}
+        />
+        <Stack.Screen
+          name="load_card"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="notification_center"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="point_received"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="transactions"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="review_transaction"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="transaction_result"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="send_card"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="statements"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="preview_statements"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="pin-verification"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="profile-edit"
+          options={{
+            headerTitle: `Personal information`,
+            headerStyle: {
+              backgroundColor: "#FFFFFF"
+            }
+          }}
+        />
+        <Stack.Screen name="cash_out_point" options={{ headerShown: false }} />
+        <Stack.Screen name="web_view" options={{ headerShown: false }} />
+        <Stack.Screen name="our_agreement" options={{ headerShown: false }} />
+        <Stack.Screen name="notifications" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="biometrics"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="biometrics-success"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="success_phonenumber"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="success_homeaddress"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="login-with-pin"
+          options={{
+            headerLeft: () => null,
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="report_damaged"
+          options={{
+            headerShown: true,
+            headerTitle: `Report lost or damaged`,
+            headerShadowVisible: true,
+            headerStyle: {
+              backgroundColor: getColor("--background")
+            }
+          }}
+        />
+        <Stack.Screen
+          name="lost"
+          options={{
+            headerShown: true,
+            headerTitle: ``,
+            headerStyle: {
+              backgroundColor: getColor("--background")
+            }
+          }}
+        />
+        <Stack.Screen
+          name="damaged"
+          options={{
+            headerShown: true,
+            headerTitle: ``,
+            headerStyle: {
+              backgroundColor: getColor("--background")
+            }
+          }}
+        />
+        <Stack.Screen
+          name="edit_phonenumber"
+          options={{
+            headerShown: true,
+            headerTitle: ``,
+            headerStyle: {
+              backgroundColor: getColor("--background")
+            }
+          }}
+        />
+        <Stack.Screen
+          name="verify_phonenumber"
+          options={{
+            headerShown: true,
+            headerTitle: ``,
+            headerStyle: {
+              backgroundColor: getColor("--background")
+            }
+          }}
+        />
+        <Stack.Screen
+          name="edit_homeaddress"
+          options={{
+            headerShown: true,
+            headerTitle: ``,
+            headerStyle: {
+              backgroundColor: getColor("--background")
+            }
+          }}
+        />
+      </Stack>
     </View>
   );
 }

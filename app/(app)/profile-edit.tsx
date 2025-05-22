@@ -1,12 +1,12 @@
 import ProfileItem from "@/components/profile/profile-item";
 import { ProgressBar } from "@/components/ui/progress";
-import { useUserProfile } from "@/hooks/profile/useUserProfile";
+import { useSettingProfile } from "@/hooks/profile/useSettingProfile";
 import { formatDateString } from "@/lib/date";
 import { router } from "expo-router";
 import { ScrollView, View } from "react-native";
 
 export default function EditProfileScreen() {
-  const { userProfile, loading } = useUserProfile();
+  const { settingProfile: userProfile, loading } = useSettingProfile();
 
   const onPressEditMobileNumber = () => {
     router.push("/(app)/edit_phonenumber");
@@ -44,10 +44,10 @@ export default function EditProfileScreen() {
         <ProfileItem
           title={"Home address"}
           loadingMultiple={loading}
-          value={userProfile?.address?.addressLine1}
-          value0={userProfile?.address?.addressLine2}
-          value1={userProfile?.address?.city}
-          value2={userProfile?.address?.postCode}
+          value={userProfile?.addressLine1}
+          value0={userProfile?.addressLine2}
+          value1={userProfile?.city}
+          value2={userProfile?.postcode}
           onPress={onEditHomeAddress}
           canEdit={true}
         />

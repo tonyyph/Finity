@@ -250,3 +250,10 @@ type StatementProps = {
   month: string;
   year: string;
 };
+
+type UserCardHolder = {
+  name: string;
+  id: number;
+  email: string;
+  status: number;
+};

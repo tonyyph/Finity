@@ -1,6 +1,7 @@
 import {
   activeCard,
   getCardHolderCurrent,
+  getCardHolders,
   handleFreeze,
   handleUnFreeze,
   reportOrDamageCard
@@ -12,6 +13,7 @@ import { useEffect, useState } from "react";
 
 export const useCardHolder = () => {
   const [data, setData] = useState<UserCardInfo>({} as UserCardInfo);
+  const [listCardHolder, setListCardHolder] = useState<UserCardHolder[]>([]);
   const {
     setIsFreezeCard,
     isFreezeCard,
@@ -33,6 +35,20 @@ export const useCardHolder = () => {
         setData(session);
         setIsFreezeCard(session?.cardStatus === 3);
         setCardStatus(session?.cardStatus);
+      }
+    } catch (error) {
+      setLoading(false);
+      setError((error as AxiosError).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchListCardHolder = async () => {
+    try {
+      const { data: session } = await getCardHolders();
+      if (session) {
+        setListCardHolder(session);
       }
     } catch (error) {
       setLoading(false);
@@ -130,6 +146,8 @@ export const useCardHolder = () => {
     cardStatus,
     isFreezeCard,
     handleActivateCard,
-    handleReportOrDamaged
+    handleReportOrDamaged,
+    listCardHolder,
+    fetchListCardHolder
   };
 };

@@ -1,12 +1,10 @@
-import { useUserAuthenticateStore } from "@/stores";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect } from "react";
 import { AppState, type AppStateStatus } from "react-native";
+import { useUserAuthenticateStore } from "@/stores";
 
-// 1 minutes / 20s / 1s
-const BIO_AUTH_EXPIRATION_TIME = 1000 * 1 * 1;
-
-// const BIO_TEN_SECONDS = 1000 * 10;
+// Constants
+const BIO_AUTH_EXPIRATION_TIME = 1000 * 60 * 1; // 1 minute
 
 export function useLocalPIN() {
   const { isFirst2FA, shouldPINLocal, setShouldPINLocal, setPinInfo } =
@@ -14,27 +12,26 @@ export function useLocalPIN() {
 
   const changeAppStateListener = useCallback(
     async (status: AppStateStatus) => {
-      console.log(" status:", status);
-
       if (isFirst2FA) {
-        AsyncStorage.removeItem("movedToBackgroundAt");
+        await AsyncStorage.removeItem("movedToBackgroundAt");
         return;
       }
 
       if (status === "background") {
-        const date = Date.now();
-        await AsyncStorage.setItem("movedToBackgroundAt", date.toString());
-        if (date && Date.now() - Number(date) >= BIO_AUTH_EXPIRATION_TIME) {
-          await AsyncStorage.removeItem("movedToBackgroundAt");
-          setShouldPINLocal(true);
-        }
+        const now = Date.now();
+        await AsyncStorage.setItem("movedToBackgroundAt", now.toString());
+        return;
       }
 
       if (status === "active") {
-        const date = await AsyncStorage.getItem("movedToBackgroundAt");
-        if (date && Date.now() - Number(date) >= BIO_AUTH_EXPIRATION_TIME) {
-          await AsyncStorage.removeItem("movedToBackgroundAt");
-          setShouldPINLocal(true);
+        const stored = await AsyncStorage.getItem("movedToBackgroundAt");
+        if (stored) {
+          const diff = Date.now() - Number(stored);
+
+          if (diff >= BIO_AUTH_EXPIRATION_TIME) {
+            await AsyncStorage.removeItem("movedToBackgroundAt");
+            setShouldPINLocal(true);
+          }
         }
       }
     },
@@ -46,7 +43,7 @@ export function useLocalPIN() {
       "change",
       changeAppStateListener
     );
-    return subscription.remove;
+    return () => subscription.remove();
   }, [changeAppStateListener]);
 
   return {

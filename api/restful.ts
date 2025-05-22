@@ -49,7 +49,7 @@ export const getUserProfile = async () => {
 
 export const getSettingProfile = async () => {
   const token = await clerk.session?.getToken();
-  return await axios.get<SettingProfileResponse>(
+  return await axios.get<UserValue>(
     `${process.env.EXPO_PUBLIC_API_URL}/settings/profile`,
     {
       headers: {
@@ -353,4 +353,40 @@ export const reportOrDamageCard = async (isDamaged: boolean) => {
       }
     }
   );
+};
+
+export const getCardHolders = async () => {
+  const token = await clerk.session?.getToken(); // Make sure this is awaited
+
+  if (!token) {
+    throw new Error("No auth token found");
+  }
+
+  return axios.get<UserCardHolder[]>(
+    `${process.env.EXPO_PUBLIC_API_URL}/cardHolders/get-cardholders`,
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+      }
+    }
+  );
+};
+
+export const getSettingInfo = async () => {
+  const token = await clerk.session?.getToken();
+  return await axios.get<any>(`${process.env.EXPO_PUBLIC_API_URL}/settings`, {
+    headers: {
+      Accept: "application/json",
+      "Accept-Encoding": "gzip, deflate, br, zstd",
+      "Accept-Language": "en-US,en;q=0.9",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+    }
+  });
 };

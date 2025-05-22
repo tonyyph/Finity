@@ -1,3 +1,4 @@
+import { MenuItem } from "@/components/common";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { CircleAlert } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
@@ -5,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import Touch from "@/components/ui/touch";
+import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { cn } from "@/lib/utils";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { Image, Keyboard, SafeAreaView, TextInput, View } from "react-native";
 import Animated, {
   useAnimatedKeyboard,
@@ -16,19 +18,20 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const mockupCardHolders = [
-  { id: 1, shortName: "AG", name: "Amber Green", isChoose: true },
-  { id: 2, shortName: "BB", name: "Blaire Brown", isChoose: false },
-  { id: 3, shortName: "ZW", name: "Zack White", isChoose: false }
-];
-
 function SendCardScreen() {
   const { bottom } = useSafeAreaInsets();
-
+  const { userData, fetchListCardHolder, listCardHolder } = useCardHolder();
   const [enterAmount, setEnterAmount] = useState("");
-  const [error, setError] = useState(false);
+  const [cardHolderValue, setCardHolderValue] = useState<UserCardHolder>(
+    {} as UserCardHolder
+  );
+  const [error, setError] = useState("");
   const sheetRef = useRef<BottomSheetModal>(null);
   const keyboard = useAnimatedKeyboard();
+
+  useLayoutEffect(() => {
+    fetchListCardHolder();
+  }, []);
 
   const translateStyle = useAnimatedStyle(() => ({
     transform: [
@@ -39,16 +42,37 @@ function SendCardScreen() {
     ]
   }));
 
+  const formatPointValue = new Intl.NumberFormat("en-US").format(
+    Number(userData?.pointsBalance ?? 0)
+  );
+
   const handleContinue = () => {
+    if (enterAmount?.includes(",")) {
+      setError("Amount must be a whole number");
+      return;
+    }
     if (
-      Number(enterAmount.replace(/,/g, "")) < 100 ||
-      Number(enterAmount.replace(/,/g, "")) > 123890
+      Number(enterAmount) < 100 ||
+      Number(enterAmount) > userData?.pointsBalance
     ) {
-      setError(true);
+      setError(
+        Number(enterAmount) < 100
+          ? "The minimum amount to load is 100 points"
+          : "Amount exceeds your balance"
+      );
     } else {
-      router.back();
+      router.push({
+        pathname: "/pin-verification",
+        params: {
+          type: "load-card",
+          amount: Number(enterAmount),
+          cardHolderName: "Amber Green"
+        }
+      });
     }
   };
+
+  const isEmpty = (str: string) => !str.trim();
 
   return (
     <View className="flex-1 bg-white">
@@ -64,7 +88,7 @@ function SendCardScreen() {
             </Typography>
             <TextInput
               editable={false}
-              value={"123,890"}
+              value={formatPointValue}
               className="bg-neutral-100  rounded-lg h-[48px] border-[1px] border-subtitle px-3 text-[18px] font-semibold"
             />
           </View>
@@ -80,16 +104,30 @@ function SendCardScreen() {
               }}
               className="flex-row justify-between items-center rounded-lg z-10 border-[1px] border-subtitle px-3"
             >
-              <TextInput
-                editable={false}
-                value={"Amber Green"}
-                className="flex-1 bg-white h-[48px] text-[16px] font-medium"
-              />
+              <View className="bg-white h-[48px] justify-center">
+                <Typography>
+                  {isEmpty(cardHolderValue?.name ?? "")
+                    ? cardHolderValue?.email
+                    : cardHolderValue?.name}
+                </Typography>
+              </View>
               <Image
                 source={require("@/assets/images/caret-down.png")}
                 className="w-[24px] h-[24px]"
               />
             </Touch>
+            {cardHolderValue?.status === 0 && error && (
+              <View className={cn("flex flex-row items-center")}>
+                <CircleAlert className="top-1" />
+                <Typography
+                  type="body-small"
+                  weight="medium"
+                  textColor="#D9323D"
+                >
+                  {`Cardholder must verify account to receive points`}
+                </Typography>
+              </View>
+            )}
           </View>
           {/* Enter amount */}
           <View className="p-4 gap-2 ">
@@ -100,17 +138,10 @@ function SendCardScreen() {
               <TextInput
                 value={enterAmount}
                 className="flex-1 bg-white h-[72px] text-[28px] font-medium"
-                keyboardType="number-pad"
+                keyboardType="numeric"
                 onChangeText={(text) => {
-                  let numericValue = text
-                    .toString()
-                    .replace(/,/g, "")
-                    .replace(/\D/g, "");
-                  let formattedValue = new Intl.NumberFormat("en-US").format(
-                    Number(numericValue)
-                  );
-                  setError(false);
-                  setEnterAmount(formattedValue);
+                  setError("");
+                  setEnterAmount(text);
                 }}
               />
               <Typography type="body-large" weight="medium" textColor="#737373">
@@ -125,9 +156,7 @@ function SendCardScreen() {
                   weight="medium"
                   textColor="#D9323D"
                 >
-                  {Number(enterAmount.replace(/,/g, "")) < 100
-                    ? "The minimum amount to load is 100 points"
-                    : "Amount exceeds your balance"}
+                  {error}
                 </Typography>
               </View>
             )}
@@ -153,7 +182,7 @@ function SendCardScreen() {
             </Button>
           </View>
         </Animated.View>
-        <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
+        <BottomSheet ref={sheetRef} index={0} snapPoints={["44%"]}>
           <BottomSheetView className="min-h-[50%] mt-1">
             <Header
               title="Select a cardholder"
@@ -162,26 +191,18 @@ function SendCardScreen() {
               }}
             />
             <View className="p-4 my-3 mb-4">
-              {mockupCardHolders.map((item, index) => (
-                <View key={index} className="gap-4">
-                  <View
-                    key={item.id}
-                    className={cn(
-                      "flex-row gap-4 items-center rounded-lg  p-4 mb-2",
-                      item?.isChoose && "bg-[#E5E5E5]"
-                    )}
-                  >
-                    <View className="flex items-center justify-center w-10 h-10 rounded-full bg-[#A3A3A3]">
-                      <Typography textColor="white">
-                        {item?.shortName}
-                      </Typography>
-                    </View>
-                    <Typography type="body-default" weight="medium">
-                      {item.name}
-                    </Typography>
-                  </View>
-                  {index < 2 && (
-                    <View className="h-[1px] bottom-3 bg-[#E5E5E5]" />
+              {listCardHolder?.map((item, index) => (
+                <View key={`${index}`}>
+                  <MenuItem
+                    label={!isEmpty(item?.name) ? item?.name : item?.email}
+                    onPress={() => {
+                      setCardHolderValue(item);
+                      sheetRef.current?.close();
+                    }}
+                    className="py-3"
+                  />
+                  {index < listCardHolder.length - 1 && (
+                    <View className="h-[1px] my-2 bg-[#E5E5E5]" />
                   )}
                 </View>
               ))}

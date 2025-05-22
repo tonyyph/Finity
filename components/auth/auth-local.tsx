@@ -106,20 +106,23 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
 
   if (authInProgress) {
     return (
-      <BlurView
-        intensity={Platform.OS === "ios" ? 60 : 100}
-        tint="dark"
-        style={StyleSheet.absoluteFill}
-      />
+      <View className="absolute top-0 right-0 bottom-0 left-0 z-50 flex-1 p-8 gap-4 bg-background">
+        <BlurView
+          intensity={Platform.OS === "ios" ? 60 : 100}
+          tint="dark"
+          style={StyleSheet.absoluteFill}
+        />
+      </View>
     );
   }
+
+  if (loading) return <LoadingScreen loading={loading} />;
 
   return (
     <View
       className="absolute top-0 right-0 bottom-0 left-0 z-50 flex-1 p-8 gap-4 bg-background"
       style={{ paddingTop: top * 2 }}
     >
-      <LoadingScreen loading={loading} />
       <View className="flex-1">
         {/* Welcome */}
         <View className="z-10">
