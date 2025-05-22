@@ -1,6 +1,5 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { Text } from "@/components/ui/text";
 import { useUserSettingsStore } from "@/stores";
 import { exactDesign } from "@/utils";
 import { router } from "expo-router";
@@ -46,23 +45,22 @@ function RequestCard() {
         <Typography type="heading-small" weight="semibold">
           {"Request a physical card"}
         </Typography>
-        <Typography weight="regular">
+        <Typography weight="regular" className="mr-6">
           Convert your points into real value and start enjoying the rewards.
         </Typography>
-        <Text className="self-stretch justify-start text-neutral-950 text-base font-normal font-['PP_Neue_Montreal'] leading-snug tracking-wide"></Text>
       </View>
-      <View className="items-center pb-4">
+      <View className="items-center py-6">
         <Image
           resizeMode="contain"
           source={require("@/assets/images/OnboardCard.png")}
-          style={{ width: exactDesign(120), height: exactDesign(187.5) }}
+          style={{ width: exactDesign(124), height: exactDesign(192) }}
         />
       </View>
-      <View className="flex-1 p-4 gap-5">
+      <View className="p-4 gap-5">
         {content.map((e, i) => {
           return (
             <View key={`${i}`} className="flex-row gap-3">
-              <View className="items-star ">
+              <View className="items-start">
                 <Image
                   source={e.icons}
                   resizeMode="contain"
@@ -77,7 +75,7 @@ function RequestCard() {
           );
         })}
       </View>
-      <View className="p-4 mb-4">
+      <View className="p-4 pt-5 flex-1">
         <Typography weight="regular" textColor="#404040">
           {`By proceeding, you agree to bank’s `}
           <Typography
