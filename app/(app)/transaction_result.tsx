@@ -47,13 +47,12 @@ function TransactionResultScreen() {
 
   const handleLoadCardAgain = useCallback(() => {
     if (success !== "false") {
+      router.dismissTo("/load_card");
+    } else {
       setLoading(true);
       setTimeout(() => {
-        setLoading(false);
-        router.dismissAll();
-      }, 3000);
-    } else {
-      router.back();
+        router.back();
+      }, 1000);
     }
   }, [success]);
 

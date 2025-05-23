@@ -56,9 +56,7 @@ function BiometricsSuccess() {
   }, [typeAuthentication, res]);
 
   const handleContinue = useCallback(() => {
-    router.replace({
-      pathname: "/(app)/(tabs)"
-    });
+    router.dismissAll();
   }, []);
 
   return (

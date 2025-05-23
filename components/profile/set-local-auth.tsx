@@ -9,17 +9,37 @@ import { router } from "expo-router";
 
 export function SetLocalAuth() {
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);
+  const [supportType, setSupportType] = useState<
+    LocalAuthentication.AuthenticationType[]
+  >([]);
   const { enabledLocalAuth, setEnabledLocalAuth } = useUserSettingsStore();
 
   useEffect(() => {
     (async () => {
       const compatible = await LocalAuthentication.hasHardwareAsync();
       const enrolled = await LocalAuthentication.isEnrolledAsync();
+      const supportType =
+        await LocalAuthentication.supportedAuthenticationTypesAsync();
+
+      setSupportType(supportType);
       setIsBiometricSupported(compatible && enrolled);
     })();
   }, []);
 
+  // async function handleToggleLocalAuth(enabled: boolean) {
+
+  // }
+
   async function handleToggleLocalAuth(enabled: boolean) {
+    if (!enabledLocalAuth) {
+      router.push({
+        pathname: "/biometrics",
+        params: {
+          typeAuthentication: supportType[0]?.toString()
+        }
+      });
+      return;
+    }
     const result = await LocalAuthentication.authenticateAsync({
       promptMessage: "Authenticate with biometrics",
       disableDeviceFallback: true, // This only works on Android
@@ -39,10 +59,6 @@ export function SetLocalAuth() {
       );
     }
   }
-
-  // async function handleToggleLocalAuth(enabled: boolean) {
-  //   router.push("/biometrics");
-  // }
 
   if (!isBiometricSupported) {
     return null;

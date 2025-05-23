@@ -1,5 +1,7 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import Header from "@/components/ui/header";
+import { useUserSettingsStore } from "@/stores";
 import { BlurView } from "expo-blur";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
@@ -61,6 +63,8 @@ const authenticationAndroid: AuthenticationProps[] = [
 
 function Biometrics() {
   const { typeAuthentication } = useLocalSearchParams();
+  const { setEnabledLocalAuth } = useUserSettingsStore();
+
   const [authenticationType, setAuthenticationType] =
     useState<AuthenticationProps>();
   const [authInProgress, setAuthInProgress] = useState(false);
@@ -84,6 +88,7 @@ function Biometrics() {
     });
 
     if (result.success) {
+      setEnabledLocalAuth(true);
       setAuthInProgress(false);
       router.replace({
         pathname: "/(app)/biometrics-success",
@@ -110,11 +115,9 @@ function Biometrics() {
 
   return (
     <View className="flex-1 bg-white">
+      <Header onBack={router.back} title="" />
       <SafeAreaView />
-      <Button size="icon" variant="ghost" onPress={router.back}>
-        <ArrowLeftIcon className="h-8 w-8 left-4 text-foreground" />
-      </Button>
-      <View className="flex-1 px-4 gap-3 top-6">
+      <View className="flex-1 px-4 gap-3 mt-10">
         <Typography type="heading-small" weight="semibold">
           {`${authenticationType?.title}`}
         </Typography>
@@ -125,7 +128,7 @@ function Biometrics() {
           {`${authenticationType?.subTitle2}`}
         </Typography>
       </View>
-      <View className="px-6 gap-6">
+      <View className="px-6 gap-6 mb-10">
         <Button
           variant="default"
           size={"lg"}

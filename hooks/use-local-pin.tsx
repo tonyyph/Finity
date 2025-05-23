@@ -12,7 +12,14 @@ export function useLocalPIN() {
 
   const changeAppStateListener = useCallback(
     async (status: AppStateStatus) => {
+      console.log(" status:", status);
+
       if (isFirst2FA) {
+        await AsyncStorage.removeItem("movedToBackgroundAt");
+        return;
+      }
+
+      if (status === "inactive") {
         await AsyncStorage.removeItem("movedToBackgroundAt");
         return;
       }
@@ -25,9 +32,9 @@ export function useLocalPIN() {
 
       if (status === "active") {
         const stored = await AsyncStorage.getItem("movedToBackgroundAt");
+
         if (stored) {
           const diff = Date.now() - Number(stored);
-
           if (diff >= BIO_AUTH_EXPIRATION_TIME) {
             await AsyncStorage.removeItem("movedToBackgroundAt");
             setShouldPINLocal(true);
