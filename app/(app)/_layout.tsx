@@ -161,6 +161,37 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
+          name="pin-current"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="pin-confirm-change"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
+
+        <Stack.Screen
+          name="pin-verify-change"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
+
+        <Stack.Screen
+          name="pin-success-change"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
+
+        <Stack.Screen
           name="biometrics-success"
           options={{
             headerLeft: () => <BackButton />,

@@ -67,7 +67,8 @@ const EditHomeAddressScreen = () => {
   const isDisabled =
     !validateUKPostcode(postCode) ||
     addressLine1?.length > 50 ||
-    addressLine2?.length > 50;
+    addressLine2?.length > 50 ||
+    townOrCity?.length > 20;
 
   return (
     <View className="flex-1 bg-background" style={{ paddingBottom: bottom }}>
@@ -179,7 +180,7 @@ const EditHomeAddressScreen = () => {
                       weight="medium"
                       textColor="#D9323D"
                     >
-                      {`Cannot exceed 50 characters`}
+                      {`Cannot exceed 20 characters`}
                     </Typography>
                   </View>
                 )}

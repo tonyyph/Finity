@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { MenuItem } from "../common/menu-item";
 import { toast } from "../common/toast";
 import { Switch } from "../ui/switch";
+import { router } from "expo-router";
 
 export function SetLocalAuth() {
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);
@@ -39,7 +40,10 @@ export function SetLocalAuth() {
     }
   }
 
-  // //TODO: check support for device fallback
+  // async function handleToggleLocalAuth(enabled: boolean) {
+  //   router.push("/biometrics");
+  // }
+
   if (!isBiometricSupported) {
     return null;
   }

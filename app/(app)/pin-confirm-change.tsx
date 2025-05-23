@@ -1,73 +1,61 @@
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
+import Header from "@/components/ui/header";
+import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { twMerge } from "tailwind-merge";
 
-export default function VerifyPINScreen() {
-  const { isResetPin, type } = useLocalSearchParams();
-  const { verificationPin } = useUserAuthenticateStore();
+export default function ConfirmPINChangeScreen() {
+  const { pin } = useLocalSearchParams();
+  const { setVerificationPin } = useUserAuthenticateStore();
 
-  const [pin, setPin] = useState<string>("");
+  const [wrongPin, setWrongPin] = useState(false);
+  const [confirmPin, setConfirmPin] = useState<string>("");
   const { bottom } = useSafeAreaInsets();
-  const [error, setError] = useState("");
 
   const handlePress = (num: string) => {
-    if (pin.length < 4) {
-      setPin((prev) => prev + num);
+    if (confirmPin.length < 4) {
+      setConfirmPin((prev) => prev + num);
     }
   };
 
   const handleDelete = () => {
-    setPin((prev) => prev.slice(0, -1));
+    setConfirmPin((prev) => prev.slice(0, -1));
   };
 
   useEffect(() => {
-    if (pin.length === 4) {
-      if (type === "change") {
-        if (pin === verificationPin) {
-          setError("New PIN must be different from the current one.");
-        } else {
-          setError("");
-          router.push({
-            pathname: "/pin-confirm",
-            params: {
-              pin: pin,
-              isResetPin,
-              type
-            }
-          });
-        }
-      } else {
+    if (confirmPin?.length === 4) {
+      if (confirmPin === pin) {
+        setVerificationPin(confirmPin);
         router.push({
-          pathname: "/pin-confirm",
-          params: {
-            pin: pin,
-            isResetPin,
-            type
-          }
+          pathname: "/pin-success-change"
         });
+      } else {
+        setWrongPin(true);
       }
+    } else {
+      setWrongPin(false);
     }
-  }, [pin, isResetPin, type, verificationPin]);
+  }, [confirmPin, pin, setVerificationPin]);
 
   return (
     <View
-      className="bg-background gap-4 p-8 flex-1"
+      className="bg-background gap-4 flex-1"
       style={{ paddingBottom: bottom * 2.5 }}
     >
-      <View className="flex-1">
+      <Header onBack={router.back} title="" />
+      <View className="flex-1 px-8 pt-6">
         {/* Welcome */}
         <View className="z-10 mb-2">
           <View className="gap-2">
             <Typography type="heading-small" weight="semibold">
-              Set up your PIN code
+              Confirm your PIN code
             </Typography>
             <Typography weight="regular">
-              Create a 4-digit PIN to sign in faster next time.
+              Re-enter your PIN for confirmation.
             </Typography>
           </View>
         </View>
@@ -77,25 +65,25 @@ export default function VerifyPINScreen() {
           {[...Array(4)].map((_, i) => (
             <View
               key={i}
-              className={twMerge(
-                "w-[12px] h-[12px] bg-neutral-300 rounded-full",
-                pin.length > i && "bg-black"
+              className={cn(
+                "w-[12px] h-[12px] relative bg-neutral-300 rounded-full",
+                confirmPin.length > i && "bg-black"
               )}
             />
           ))}
         </View>
-        {error && (
-          <View className="flex flex-row  items-center justify-center mt-4">
+        {wrongPin && (
+          <View className="flex flex-row items-center justify-center mt-4">
             <CircleAlert className="top-1 " />
             <Typography type="body-small" weight="medium" textColor="#D9323D">
-              {error}
+              Incorrect PIN. Try again.
             </Typography>
           </View>
         )}
       </View>
 
       {/* Button */}
-      <View className="justify-end flex-1 mx-5">
+      <View className="justify-end flex-1 mx-8">
         <View className="py-4 gap-3">
           <View className="flex-row justify-between">
             {["1", "2", "3"].map((num) => (

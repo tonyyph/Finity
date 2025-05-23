@@ -1,5 +1,6 @@
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
+import Header from "@/components/ui/header";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
 import { router } from "expo-router";
@@ -27,10 +28,7 @@ export default function PINCurrentScreen() {
   useEffect(() => {
     if (confirmPin?.length === 4) {
       if (confirmPin === verificationPin) {
-        router.push({
-          pathname: "/pin-verify",
-          params: { type: "change" }
-        });
+        router.push("/(app)/pin-verify-change");
       } else {
         setWrongPin(true);
       }
@@ -41,10 +39,11 @@ export default function PINCurrentScreen() {
 
   return (
     <View
-      className="bg-background gap-4 p-8 flex-1"
+      className="bg-background gap-4 flex-1"
       style={{ paddingBottom: bottom * 2.5 }}
     >
-      <View className="flex-1">
+      <Header onBack={router.back} title="" />
+      <View className="flex-1 px-8 pt-6">
         {/* Welcome */}
         <View className="z-10 mb-2">
           <View className="gap-2">
@@ -78,7 +77,7 @@ export default function PINCurrentScreen() {
       </View>
 
       {/* Button */}
-      <View className="justify-end flex-1 mx-5">
+      <View className="justify-end flex-1 mx-8">
         <View className="py-4 gap-3">
           <View className="flex-row justify-between">
             {["1", "2", "3"].map((num) => (

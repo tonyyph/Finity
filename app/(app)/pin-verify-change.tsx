@@ -1,16 +1,15 @@
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
+import Header from "@/components/ui/header";
 import { useUserAuthenticateStore } from "@/stores";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { twMerge } from "tailwind-merge";
 
-export default function VerifyPINScreen() {
-  const { isResetPin, type } = useLocalSearchParams();
+export default function VerifyPINChangeScreen() {
   const { verificationPin } = useUserAuthenticateStore();
-
   const [pin, setPin] = useState<string>("");
   const { bottom } = useSafeAreaInsets();
   const [error, setError] = useState("");
@@ -26,40 +25,28 @@ export default function VerifyPINScreen() {
   };
 
   useEffect(() => {
-    if (pin.length === 4) {
-      if (type === "change") {
-        if (pin === verificationPin) {
-          setError("New PIN must be different from the current one.");
-        } else {
-          setError("");
-          router.push({
-            pathname: "/pin-confirm",
-            params: {
-              pin: pin,
-              isResetPin,
-              type
-            }
-          });
-        }
+    if (pin?.length === 4) {
+      if (pin === verificationPin) {
+        setError("New PIN must be different from the current one.");
       } else {
+        setError("");
         router.push({
-          pathname: "/pin-confirm",
+          pathname: "/pin-confirm-change",
           params: {
-            pin: pin,
-            isResetPin,
-            type
+            pin: pin
           }
         });
       }
     }
-  }, [pin, isResetPin, type, verificationPin]);
+  }, [pin, verificationPin]);
 
   return (
     <View
-      className="bg-background gap-4 p-8 flex-1"
+      className="bg-background gap-4 flex-1"
       style={{ paddingBottom: bottom * 2.5 }}
     >
-      <View className="flex-1">
+      <Header onBack={router.back} title="" />
+      <View className="flex-1 px-8 pt-6">
         {/* Welcome */}
         <View className="z-10 mb-2">
           <View className="gap-2">
@@ -95,7 +82,7 @@ export default function VerifyPINScreen() {
       </View>
 
       {/* Button */}
-      <View className="justify-end flex-1 mx-5">
+      <View className="justify-end flex-1 mx-8">
         <View className="py-4 gap-3">
           <View className="flex-row justify-between">
             {["1", "2", "3"].map((num) => (

@@ -5,23 +5,22 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 
 export const useVerification = (phoneNumber: string) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState<VerificationCodeResponse>();
   const [error, setError] = useState("");
   const userProfile = userStore?.getState().userProfile;
+  const fetchVerificationCode = async () => {
+    try {
+      const { data: session } = await sendMobileVerificationCode(phoneNumber);
+      setData(session);
+    } catch (error) {
+      setError((error as AxiosError).message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchVerificationCode = async () => {
-      try {
-        const { data: session } = await sendMobileVerificationCode(phoneNumber);
-        setData(session);
-      } catch (error) {
-        setError((error as AxiosError).message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchVerificationCode();
   }, []);
 

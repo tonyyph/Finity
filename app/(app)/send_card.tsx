@@ -57,7 +57,7 @@ function SendCardScreen() {
     ) {
       setError(
         Number(enterAmount) < 100
-          ? "The minimum amount to load is 100 points"
+          ? "The minimum amount to send is 1 point"
           : "Amount exceeds your balance"
       );
     } else {

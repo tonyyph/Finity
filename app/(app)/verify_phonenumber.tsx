@@ -98,10 +98,10 @@ export default function VerifyPhoneNumberCodeScreen() {
           <Typography weight="regular">
             {`To continue, verify your number by entering the verification code sent to ${phoneNumber
               .toString()
-              ?.replace(/^\+44(\d{4})(\d{3})(\d{3})$/, "+44 $1 $2 $3")}.`}
+              ?.replace(/^\+44(\d{4})(\d{3})(\d{3})$/, "$1 $2 $3")}.`}
           </Typography>
         </View>
-        <View className="flex flex-row justify-between items-center mt-8 gap-2">
+        <View className="flex flex-row justify-between items-center mt-6 gap-2">
           {otp.map((digit, index) => (
             <View
               className=" flex flex-row items-center mt-3 gap-4"

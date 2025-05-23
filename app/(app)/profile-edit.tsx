@@ -1,3 +1,4 @@
+import { Typography } from "@/components/common";
 import ProfileItem from "@/components/profile/profile-item";
 import { ProgressBar } from "@/components/ui/progress";
 import { useSettingProfile } from "@/hooks/profile/useSettingProfile";
@@ -54,7 +55,8 @@ export default function EditProfileScreen() {
 
         <View className="mt-4" />
         <ProfileItem
-          title={"Business name"}
+          title={""}
+          topicTitle={"Business information"}
           loading={loading}
           value={userProfile?.business?.name ?? "TOMATO LIMITED"}
           showDivider={false}

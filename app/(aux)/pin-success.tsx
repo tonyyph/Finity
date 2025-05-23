@@ -36,10 +36,14 @@ function SetupPinSuccess() {
   }, [type]);
 
   const handleContinue = useCallback(() => {
-    router.replace("/(app)/(tabs)");
-    setIsLoggedIn(true);
-    setIsFirst2FA(false);
-  }, [setIsFirst2FA, setIsLoggedIn]);
+    if (type === "change") {
+      router.dismissAll();
+    } else {
+      router.replace("/(app)/(tabs)");
+      setIsLoggedIn(true);
+      setIsFirst2FA(false);
+    }
+  }, [setIsFirst2FA, setIsLoggedIn, type]);
 
   return (
     <View className="flex-1 bg-background">

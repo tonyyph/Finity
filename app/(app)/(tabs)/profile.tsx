@@ -89,7 +89,7 @@ export default function ProfileScreen() {
             }}
             rightSection={<ArrowRightIcon />}
           />
-          <Link href="/(aux)/pin-current" asChild>
+          <Link href="/pin-current" asChild>
             <MenuItem
               label={`Change PIN`}
               icon={ProtectIcon}

@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import Typography from "./text-typography";
+import Touch from "../ui/touch";
 
 export function ResendVerificationDowntime() {
   const [timeLeft, setTimeLeft] = useState(30); // 30s
@@ -14,19 +15,33 @@ export function ResendVerificationDowntime() {
   const minutes = String(Math.floor(timeLeft / 60)).padStart(2, "0");
   const seconds = String(timeLeft % 60).padStart(2, "0");
 
+  const resendVerificationCode = () => {
+    setTimeLeft(30);
+  };
+
+  if (timeLeft === 0) {
+    return (
+      <Touch onPress={resendVerificationCode}>
+        <Typography
+          type="body-small"
+          weight="medium"
+          textColor="#FF885D"
+          className="text-center mt-8 border-b self-center border-[#FF885D]"
+        >
+          Resend verification code
+        </Typography>
+      </Touch>
+    );
+  }
+
   return (
     <Typography
       type="body-small"
       weight="medium"
       textColor={timeLeft > 0 ? "#737373" : "#FF885D"}
-      className={cn(
-        "text-center mt-6",
-        timeLeft === 0 && "border-b self-center border-[#FF885D]"
-      )}
+      className={cn("text-center mt-8")}
     >
-      {timeLeft > 0
-        ? `Resend code in ${minutes}:${seconds}`
-        : "Resend verification code"}
+      {timeLeft > 0 && `Resend code in ${minutes}:${seconds}`}
     </Typography>
   );
 }

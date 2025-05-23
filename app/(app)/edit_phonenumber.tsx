@@ -1,3 +1,4 @@
+import { CircleAlert } from "@/components/common";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -13,6 +14,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 const EditPhoneNumberScreen = () => {
   const { bottom } = useSafeAreaInsets();
   const [loading, setLoading] = useState<boolean>();
+  const [isShowError, setIsShowError] = useState<boolean>();
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [focusMobileNumber, setFocusMobileNumber] = useState<boolean>(false);
 
@@ -28,6 +30,10 @@ const EditPhoneNumberScreen = () => {
   }));
 
   const handleConfirm = useCallback(() => {
+    if (!phoneNumber || phoneNumber.length !== 10) {
+      setIsShowError(true);
+      return;
+    }
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -57,7 +63,7 @@ const EditPhoneNumberScreen = () => {
             to verify your identity.
           </Typography>
           <Typography textColor="#404040">New mobile number</Typography>
-          <View className="flex-1 flex-row gap-3">
+          <View className="flex-row gap-3">
             <View className="w-[56px] h-[48px] bg-neutral-100 items-center border border-border justify-center rounded-lg">
               <Typography weight="regular" textColor="#404040">
                 +44
@@ -79,11 +85,20 @@ const EditPhoneNumberScreen = () => {
               autoCapitalize="none"
               value={phoneNumber}
               onChangeText={(text) => {
+                setIsShowError(!(text?.length === 10));
                 setPhoneNumber(text);
               }}
             />
             <View className="w-2" />
           </View>
+          {phoneNumber?.length > 10 && isShowError && (
+            <View className={cn("flex-row items-center")}>
+              <CircleAlert className="top-1" />
+              <Typography type="body-small" weight="medium" textColor="#D9323D">
+                {`Please enter a valid 10-digit phone number`}
+              </Typography>
+            </View>
+          )}
         </View>
         <Animated.View
           style={translateStyle}
@@ -94,7 +109,7 @@ const EditPhoneNumberScreen = () => {
             <Button
               variant="default"
               size={"lg"}
-              disabled={loading || phoneNumber?.length < 10}
+              disabled={loading || phoneNumber?.length < 10 || isShowError}
               className="rounded-full bg-primary h-[48px]"
               loading={loading}
               onPress={handleConfirm}

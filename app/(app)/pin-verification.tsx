@@ -1,7 +1,6 @@
 import { changeHomeAddress } from "@/api";
 import { FaceIDIcon } from "@/assets";
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
-import { LoadingScreen } from "@/components/common/loading";
 import Typography from "@/components/common/text-typography";
 import Header from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
@@ -12,6 +11,7 @@ import { userStore } from "@/stores/userStore";
 import { BlurView } from "expo-blur";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
+import LottieView from "lottie-react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Platform,
@@ -54,7 +54,6 @@ function PinVerificationScreen() {
   const onVerifyEditHomeAddress = useCallback(() => {
     setLoading(true);
     timeoutRef.current = setTimeout(async () => {
-      setLoading(false);
       await changeHomeAddress({
         addressLine1: addressLine1 as string,
         addressLine2: addressLine2 as string,
@@ -71,7 +70,8 @@ function PinVerificationScreen() {
         email: userProfileJson?.email
       });
       router.replace("./success_homeaddress");
-    }, 1000);
+      setLoading(false);
+    }, 2000);
   }, [addressLine1, addressLine2, city, postCode, userProfileJson]);
 
   const onVerifyViewPIN = useCallback(() => {
@@ -159,7 +159,19 @@ function PinVerificationScreen() {
     );
   }
 
-  if (loading) return <LoadingScreen loading={loading} />;
+  if (loading)
+    return (
+      <View className="flex-1 bg-white items-center justify-center">
+        <LottieView
+          style={{ width: 300, height: 300 }}
+          source={require("@/assets/json/loader.json")}
+          resizeMode="contain"
+          speed={1}
+          autoPlay
+          loop
+        />
+      </View>
+    );
 
   return (
     <View className="flex-1 bg-white">
