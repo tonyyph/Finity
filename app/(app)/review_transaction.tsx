@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import { formatNumber } from "@/utils";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 function ReviewTransactionScreen() {
   const { type, amount } = useLocalSearchParams();
@@ -39,7 +40,7 @@ function ReviewTransactionScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <SafeAreaView className="flex-1">
+      <View className="flex-1">
         <Header onBack={router.back} title="Review transactions" />
         <ProgressBar completeAnimation={true} />
 
@@ -92,7 +93,8 @@ function ReviewTransactionScreen() {
             </Typography>
           </Button>
         </View>
-      </SafeAreaView>
+      </View>
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

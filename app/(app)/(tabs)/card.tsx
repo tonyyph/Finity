@@ -15,6 +15,7 @@ import { MenuItem } from "@/components/common/menu-item";
 import Typography from "@/components/common/text-typography";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { Button } from "@/components/ui/button";
+import Header from "@/components/ui/header";
 import AnimatedSpinnerV2 from "@/components/ui/spinnerIndicator";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { formatExpDate } from "@/lib/date";
@@ -27,7 +28,7 @@ import {
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BlurView } from "expo-blur";
 import { router, useFocusEffect } from "expo-router";
-import { EyeIcon, TriangleAlertIcon, XIcon } from "lucide-react-native";
+import { EyeIcon, TriangleAlertIcon } from "lucide-react-native";
 import { useRef } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
@@ -130,18 +131,13 @@ export default function CardScreen() {
         snapPoints={["40%"]}
       >
         <BottomSheetView>
-          <View className="flex-row items-center justify-between px-4">
-            <View className="w-[24px] h-[24px]" />
-            <Typography type="body-large" weight="semibold" className="p-4">
-              {"View PIN"}
-            </Typography>
-            <XIcon
-              onPress={() => {
-                sheetRef.current?.dismiss();
-              }}
-              className="w-[24px] h-[24px] text-black"
-            />
-          </View>
+          <Header
+            title="View PIN"
+            spacing={false}
+            onRightFunction={() => {
+              sheetRef.current?.close();
+            }}
+          />
           <View className="flex-row items-center justify-center gap-3 mt-6 px-4">
             {pinInfo?.split("").map((digit, index) => (
               <View

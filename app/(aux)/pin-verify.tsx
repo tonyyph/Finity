@@ -1,7 +1,6 @@
 import { RemoveNumpad } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { cn } from "@/lib/utils";
-import { useUserAuthenticateStore } from "@/stores";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -9,7 +8,6 @@ import { TouchableOpacity, View } from "react-native";
 
 export default function VerifyPINScreen() {
   const { isResetPin } = useLocalSearchParams();
-  const { verificationPin } = useUserAuthenticateStore();
 
   const [pin, setPin] = useState<string>("");
 
@@ -33,7 +31,7 @@ export default function VerifyPINScreen() {
         }
       });
     }
-  }, [pin, isResetPin, verificationPin]);
+  }, [pin, isResetPin]);
 
   return (
     <View className="bg-background gap-4 p-8 flex-1">

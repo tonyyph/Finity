@@ -38,7 +38,7 @@ export default function ConfirmPINScreen() {
     } else {
       setWrongPin(false);
     }
-  }, [confirmPin, pin, isResetPin, setVerificationPin]);
+  }, [confirmPin, pin, isResetPin]);
 
   return (
     <View className="bg-background gap-4 p-8 flex-1">

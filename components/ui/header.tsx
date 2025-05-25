@@ -9,6 +9,7 @@ import { Button } from "./button";
 
 type Props = {
   title?: string;
+  spacing?: boolean;
   onLeftFunction?: (params?: any) => void;
   renderLeftView?: ReactNode;
   renderCenterView?: ReactNode;
@@ -22,6 +23,7 @@ type Props = {
 function Header({
   title,
   onBack,
+  spacing = true,
   onLeftFunction,
   onRightFunction,
   icon: Icon,
@@ -31,7 +33,7 @@ function Header({
 }: Props) {
   return (
     <View>
-      <TopIndicatorAvoidingView />
+      {spacing && <TopIndicatorAvoidingView />}
       <View className="flex-row justify-between items-center">
         {renderLeftView ??
           (!!onBack || !!onLeftFunction ? (
@@ -52,7 +54,7 @@ function Header({
             </View>
           ))}
         {renderCenterView ?? (
-          <Typography weight="bold" type="body-large">
+          <Typography weight="semibold" type="body-large">
             {title}
           </Typography>
         )}

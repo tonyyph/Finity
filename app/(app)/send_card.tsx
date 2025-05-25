@@ -14,7 +14,7 @@ import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
 import { isEmpty } from "lodash-es";
 import { useLayoutEffect, useRef, useState } from "react";
-import { Image, Keyboard, SafeAreaView, TextInput, View } from "react-native";
+import { Image, Keyboard, TextInput, View } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 function SendCardScreen() {
@@ -194,6 +194,7 @@ function SendCardScreen() {
           <BottomSheetView className="min-h-[50%] mt-1">
             <Header
               title="Select a cardholder"
+              spacing={false}
               onRightFunction={() => {
                 sheetRef.current?.close();
               }}

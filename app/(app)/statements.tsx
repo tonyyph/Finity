@@ -12,7 +12,7 @@ import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { router, useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
-import { FlatList, Image, Keyboard, SafeAreaView, View } from "react-native";
+import { FlatList, Image, Keyboard, View } from "react-native";
 
 function StatementScreen() {
   const { type, title } = useLocalSearchParams();
@@ -53,11 +53,9 @@ function StatementScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <SafeAreaView className="flex-1">
+      <View className="flex-1">
         <Header onBack={router.back} title={title as string} />
-
         <ProgressBar completeAnimation={true} />
-
         <View className="flex-1 p-4 gap-2">
           {/* Description */}
           <Typography type="body-default" weight="regular">
@@ -119,12 +117,12 @@ function StatementScreen() {
             )}
           />
         </View>
-
         {/* Bottom Sheet for Year Filter */}
         <BottomSheet ref={sheetRef} index={0} snapPoints={["30%"]}>
           <BottomSheetView className="min-h-[50%] mt-1">
             <Header
               title="Filter by year"
+              spacing={false}
               onRightFunction={() => {
                 sheetRef.current?.close();
               }}
@@ -160,7 +158,7 @@ function StatementScreen() {
             </View>
           </BottomSheetView>
         </BottomSheet>
-      </SafeAreaView>
+      </View>
     </View>
   );
 }

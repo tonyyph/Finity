@@ -11,7 +11,6 @@ import { TouchableOpacity, View } from "react-native";
 export default function ConfirmPINChangeScreen() {
   const { pin } = useLocalSearchParams();
   const { setVerificationPin } = useUserAuthenticateStore();
-
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
 

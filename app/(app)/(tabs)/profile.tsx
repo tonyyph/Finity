@@ -216,6 +216,7 @@ export default function ProfileScreen() {
         <BottomSheetView className="min-h-[50%] mt-1">
           <Header
             title="Statements"
+            spacing={false}
             onRightFunction={() => {
               sheetRef.current?.close();
             }}

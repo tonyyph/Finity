@@ -2,17 +2,13 @@ import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { useUserSettingsStore } from "@/stores";
-import {
-  BottomIndicatorAvoidingView,
-  TopIndicatorAvoidingView
-} from "@/utils/spacing";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BlurView } from "expo-blur";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
 import { find } from "lodash-es";
-import { ArrowLeftIcon } from "lucide-react-native";
 import { useCallback, useEffect, useState } from "react";
-import { Platform, SafeAreaView, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 
 interface AuthenticationProps {
   authenticationType: LocalAuthentication.AuthenticationType;

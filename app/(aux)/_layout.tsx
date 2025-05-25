@@ -1,13 +1,13 @@
 import { BackButton } from "@/components/common/back-button";
 import { useColorPalette } from "@/hooks/use-color-palette";
 import { Stack } from "expo-router";
-import { SafeAreaView } from "react-native";
+import { View } from "react-native";
 
 export default function AuxiliaryLayout() {
   const { getColor } = useColorPalette();
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <View className="flex-1 bg-red-200">
       <Stack
         screenOptions={{
           headerShown: true,
@@ -97,6 +97,6 @@ export default function AuxiliaryLayout() {
           }}
         />
       </Stack>
-    </SafeAreaView>
+    </View>
   );
 }
