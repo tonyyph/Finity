@@ -107,13 +107,17 @@ export const ProgressBar = ({
   completeAnimation?: boolean;
 }) => {
   const progress = React.useRef(new RNAnimated.Value(0)).current;
-  const [completed, setCompleted] = React.useState(completeAnimation);
+  const [completed, setCompleted] = React.useState(false);
   const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  React.useEffect(() => {
+    setCompleted(completeAnimation);
+  }, [completeAnimation]);
 
   React.useEffect(() => {
     RNAnimated.timing(progress, {
       toValue: 1,
-      duration: 3000, // 3 seconds
+      duration: 2500, // 2.5 seconds
       useNativeDriver: false
     }).start(() => {
       timeoutRef.current = setTimeout(() => {

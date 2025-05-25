@@ -47,7 +47,12 @@ function TransactionResultScreen() {
 
   const handleLoadCardAgain = useCallback(() => {
     if (success !== "false") {
-      router.dismissTo("/load_card");
+      router.dismissTo({
+        pathname: "/load_card",
+        params: {
+          isReset: "true"
+        }
+      });
     } else {
       setLoading(true);
       setTimeout(() => {

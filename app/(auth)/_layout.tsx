@@ -57,14 +57,6 @@ export default function UnAuthenticatedLayout() {
             }
           }}
         />
-        <Stack.Screen
-          name="st-went-wrong"
-          options={{
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
-          }}
-        />
       </Stack>
     </View>
   );

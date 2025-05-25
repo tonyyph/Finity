@@ -7,9 +7,9 @@ import Tooltip from "@/components/ui/tooltip";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { cn } from "@/lib/utils";
 import { formatNumber } from "@/utils";
-import { router } from "expo-router";
-import { useState } from "react";
-import { Image, SafeAreaView, TextInput, View } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
+import { Image, Keyboard, SafeAreaView, TextInput, View } from "react-native";
 import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle
@@ -18,11 +18,20 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function LoadCardScreen() {
   const { bottom } = useSafeAreaInsets();
+  const { isReset } = useLocalSearchParams();
 
   const [enterAmount, setEnterAmount] = useState("");
   const [error, setError] = useState("");
   const [focusAmount, setFocusAmount] = useState(false);
   const { userData } = useCardHolder();
+
+  useEffect(() => {
+    if (isReset === "true") {
+      setEnterAmount("");
+      setError("");
+      Keyboard.dismiss();
+    }
+  }, [isReset]);
 
   const keyboard = useAnimatedKeyboard();
 

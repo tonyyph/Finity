@@ -22,6 +22,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Svg from "react-native-svg";
 import "../global.css";
 import { CustomPaletteWrapper } from "@/components/common/custom-palate-wrapper";
+import { NetworkProvider } from "@/stores/core/network-provider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -97,16 +98,18 @@ export default function RootLayout() {
           {/* <StoreProvider> */}
           <ThemeProvider value={DefaultTheme}>
             <CustomPaletteWrapper>
-              <SafeAreaProvider>
-                <GestureHandlerRootView>
-                  <KeyboardProvider>
-                    <BottomSheetModalProvider>
-                      <Stack screenOptions={{ headerShown: false }} />
-                      <ToastRoot />
-                    </BottomSheetModalProvider>
-                  </KeyboardProvider>
-                </GestureHandlerRootView>
-              </SafeAreaProvider>
+              <NetworkProvider>
+                <SafeAreaProvider>
+                  <GestureHandlerRootView>
+                    <KeyboardProvider>
+                      <BottomSheetModalProvider>
+                        <Stack screenOptions={{ headerShown: false }} />
+                        <ToastRoot />
+                      </BottomSheetModalProvider>
+                    </KeyboardProvider>
+                  </GestureHandlerRootView>
+                </SafeAreaProvider>
+              </NetworkProvider>
             </CustomPaletteWrapper>
           </ThemeProvider>
           {/* </StoreProvider> */}

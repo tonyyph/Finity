@@ -19,7 +19,10 @@ function StatementScreen() {
   const { bottom } = useSafeAreaInsets();
   const sheetRef = useRef<BottomSheetModal>(null);
   const userProfile = userStore?.getState().userProfile;
-  const { handleGeneratePointPDF, handleGenerateCardPDF } = useStatements();
+  const { handleGeneratePointPDF, handleGenerateCardPDF, loading } =
+    useStatements();
+
+  console.log(" StatementScreen 💯 loading:", loading);
 
   // Created date reference
   const dateCreated = new Date(`${userProfile?.dateCreated}`);
@@ -55,6 +58,7 @@ function StatementScreen() {
     <View className="flex-1 bg-white">
       <SafeAreaView className="flex-1">
         <Header onBack={router.back} title={title as string} />
+
         <ProgressBar completeAnimation={true} />
 
         <View className="flex-1 p-4 gap-2">
@@ -95,6 +99,7 @@ function StatementScreen() {
               <View key={`${index}-${item.value}`}>
                 <MenuItem
                   label={item.value}
+                  disabled={loading}
                   onPress={() => {
                     type === "points" &&
                       handleGeneratePointPDF({

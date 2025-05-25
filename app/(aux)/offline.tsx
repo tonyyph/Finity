@@ -1,22 +1,20 @@
 import { CircleAlertX } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { router, useNavigation } from "expo-router";
-import { useEffect } from "react";
+import { useNetwork } from "@/stores/core/network-provider";
+import { router } from "expo-router";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function SomethingWentWrong() {
-  const navigation = useNavigation();
-  const { top, bottom } = useSafeAreaInsets();
+export default function OfflineScreen() {
+  const { top } = useSafeAreaInsets();
+  const { isConnected } = useNetwork();
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => <View />
-    });
-  }, []);
   return (
-    <View className="flex-1 bg-background px-4">
+    <View
+      className="flex-1 bg-background px-4"
+      style={{ paddingTop: top * 1.5 }}
+    >
       <View className=" flex-1 bg-background items-center">
         <CircleAlertX />
         <Typography type="heading-small" weight="semibold" className="mt-4">
@@ -33,14 +31,13 @@ export default function SomethingWentWrong() {
         size={"lg"}
         className="rounded-full bg-primary h-[48px]"
         onPress={() => {
-          router.back();
+          isConnected && router.navigate("/(app)/(tabs)");
         }}
       >
         <Typography type="body-default" weight="medium" textColor="white">
           Try again
         </Typography>
       </Button>
-      <View style={{ height: bottom }} />
     </View>
   );
 }

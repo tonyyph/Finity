@@ -4,7 +4,7 @@ import { AppState, type AppStateStatus } from "react-native";
 import { useUserAuthenticateStore } from "@/stores";
 
 // Constants
-const BIO_AUTH_EXPIRATION_TIME = 1000 * 60 * 1; // 1 minute
+const BIO_AUTH_EXPIRATION_TIME = 1000 * 10 * 1; // 1 minute
 
 export function useLocalPIN() {
   const { isFirst2FA, shouldPINLocal, setShouldPINLocal, setPinInfo } =

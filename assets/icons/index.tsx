@@ -30,3 +30,4 @@ export * from "./ReceivedIcon";
 export * from "./RefundIcon";
 export * from "./SearchIcon";
 export * from "./SentIcon";
+export * from "./ArrowDownIcon";

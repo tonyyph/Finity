@@ -1,5 +1,7 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import Header from "@/components/ui/header";
+import { ProgressBar } from "@/components/ui/progress";
 import { Radio } from "@/components/ui/radio";
 import { cn } from "@/lib/utils";
 import { router } from "expo-router";
@@ -27,6 +29,8 @@ export const ReportLostOrDamagedScreen = () => {
 
   return (
     <View className="flex-1 bg-background">
+      <Header onBack={router.back} title="Report lost or damaged" />
+      <ProgressBar completeAnimation={true} />
       <View className="flex-1 pt-4">
         <View className="flex-1 px-6 gap-3">
           <TouchableOpacity
@@ -65,7 +69,7 @@ export const ReportLostOrDamagedScreen = () => {
             </View>
           </TouchableOpacity>
         </View>
-        <View className="px-4 gap-6">
+        <View className="px-6 gap-6">
           <Button
             variant="default"
             size={"lg"}

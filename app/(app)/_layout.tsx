@@ -3,6 +3,7 @@ import { BackButton } from "@/components/common/back-button";
 import { useColorPalette } from "@/hooks/use-color-palette";
 import { useLocalPIN } from "@/hooks/use-local-pin";
 import { useUserAuthenticateStore } from "@/stores";
+import { useNetwork } from "@/stores/core/network-provider";
 import { exactDesign } from "@/utils";
 import { useUser } from "@clerk/clerk-expo";
 import { Redirect, Stack } from "expo-router";
@@ -11,6 +12,7 @@ import { View } from "react-native";
 export default function AuthenticatedLayout() {
   const { getColor } = useColorPalette();
   const { shouldPINLocal, setShouldPINLocal } = useLocalPIN();
+  const { isConnected } = useNetwork();
 
   const { isLoggedIn, isFirst2FA } = useUserAuthenticateStore();
 
@@ -22,6 +24,10 @@ export default function AuthenticatedLayout() {
 
   if ((!isLoggedIn || isFirst2FA) && isLoaded) {
     return <Redirect href={"/success-2factor"} />;
+  }
+
+  if (!isConnected) {
+    return <Redirect href={"/offline"} />;
   }
 
   return (
@@ -220,12 +226,7 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="report_damaged"
           options={{
-            headerShown: true,
-            headerTitle: `Report lost or damaged`,
-            headerShadowVisible: true,
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
+            headerShown: false
           }}
         />
         <Stack.Screen
@@ -276,6 +277,12 @@ export default function AuthenticatedLayout() {
             headerStyle: {
               backgroundColor: getColor("--background")
             }
+          }}
+        />
+        <Stack.Screen
+          name="st-went-wrong"
+          options={{
+            headerShown: false
           }}
         />
       </Stack>

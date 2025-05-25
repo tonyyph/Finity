@@ -9,18 +9,18 @@ export const useVerification = (phoneNumber: string) => {
   const [data, setData] = useState<VerificationCodeResponse>();
   const [error, setError] = useState("");
   const userProfile = userStore?.getState().userProfile;
-  const fetchVerificationCode = async () => {
-    try {
-      const { data: session } = await sendMobileVerificationCode(phoneNumber);
-      setData(session);
-    } catch (error) {
-      setError((error as AxiosError).message);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
+    const fetchVerificationCode = async () => {
+      try {
+        const { data: session } = await sendMobileVerificationCode(phoneNumber);
+        setData(session);
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchVerificationCode();
   }, []);
 

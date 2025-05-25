@@ -5,7 +5,7 @@ import { router } from "expo-router";
 import { useState } from "react";
 
 export const useStatements = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleGeneratePointPDF = async ({ month, year }: StatementProps) => {

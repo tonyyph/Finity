@@ -89,6 +89,13 @@ export default function AuxiliaryLayout() {
             headerShown: true
           }}
         />
+        <Stack.Screen
+          name="offline"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
       </Stack>
     </SafeAreaView>
   );

@@ -10,6 +10,7 @@ import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { cn } from "@/lib/utils";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
+import { isEmpty } from "lodash-es";
 import { useLayoutEffect, useRef, useState } from "react";
 import { Image, Keyboard, SafeAreaView, TextInput, View } from "react-native";
 import Animated, {
@@ -26,6 +27,7 @@ function SendCardScreen() {
     {} as UserCardHolder
   );
   const [error, setError] = useState("");
+  const [cardHolderError, setCardHolderError] = useState("");
   const sheetRef = useRef<BottomSheetModal>(null);
   const keyboard = useAnimatedKeyboard();
 
@@ -49,18 +51,29 @@ function SendCardScreen() {
   const handleContinue = () => {
     if (enterAmount?.includes(",")) {
       setError("Amount must be a whole number");
-      return;
+    }
+    if (isEmpty(cardHolderValue)) {
+      setCardHolderError("You must select a cardholder");
+    }
+    if (cardHolderValue?.status === 0) {
+      setCardHolderError("Cardholder must verify account to receive points");
     }
     if (
-      Number(enterAmount) < 100 ||
+      Number(enterAmount) < 1 ||
       Number(enterAmount) > userData?.pointsBalance
     ) {
       setError(
-        Number(enterAmount) < 100
+        Number(enterAmount) < 1
           ? "The minimum amount to send is 1 point"
           : "Amount exceeds your balance"
       );
-    } else {
+    }
+    if (
+      Number(enterAmount) >= 1 &&
+      Number(enterAmount) <= userData?.pointsBalance &&
+      !isEmpty(cardHolderValue) &&
+      cardHolderValue?.status !== 0
+    ) {
       router.push({
         pathname: "/pin-verification",
         params: {
@@ -72,7 +85,7 @@ function SendCardScreen() {
     }
   };
 
-  const isEmpty = (str: string) => !str.trim();
+  const isEmptyString = (str: string) => !str.trim();
 
   return (
     <View className="flex-1 bg-white">
@@ -106,7 +119,7 @@ function SendCardScreen() {
             >
               <View className="bg-white h-[48px] justify-center">
                 <Typography>
-                  {isEmpty(cardHolderValue?.name ?? "")
+                  {isEmptyString(cardHolderValue?.name ?? "")
                     ? cardHolderValue?.email
                     : cardHolderValue?.name}
                 </Typography>
@@ -116,18 +129,19 @@ function SendCardScreen() {
                 className="w-[24px] h-[24px]"
               />
             </Touch>
-            {cardHolderValue?.status === 0 && error && (
-              <View className={cn("flex flex-row items-center")}>
-                <CircleAlert className="top-1" />
-                <Typography
-                  type="body-small"
-                  weight="medium"
-                  textColor="#D9323D"
-                >
-                  {`Cardholder must verify account to receive points`}
-                </Typography>
-              </View>
-            )}
+            {(cardHolderValue?.status === 0 || isEmpty(cardHolderValue)) &&
+              cardHolderError && (
+                <View className={cn("flex flex-row items-center")}>
+                  <CircleAlert className="top-1" />
+                  <Typography
+                    type="body-small"
+                    weight="medium"
+                    textColor="#D9323D"
+                  >
+                    {cardHolderError}
+                  </Typography>
+                </View>
+              )}
           </View>
           {/* Enter amount */}
           <View className="p-4 gap-2 ">
@@ -194,9 +208,12 @@ function SendCardScreen() {
               {listCardHolder?.map((item, index) => (
                 <View key={`${index}`}>
                   <MenuItem
-                    label={!isEmpty(item?.name) ? item?.name : item?.email}
+                    label={
+                      !isEmptyString(item?.name) ? item?.name : item?.email
+                    }
                     onPress={() => {
                       setCardHolderValue(item);
+                      setCardHolderError("");
                       sheetRef.current?.close();
                     }}
                     className="py-3"

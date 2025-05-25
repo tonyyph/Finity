@@ -1,10 +1,10 @@
+import { ArrowDownIcon } from "@/assets";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import { formatNumber } from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
-import { ArrowDownIcon } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 
@@ -55,7 +55,7 @@ function ReviewTransactionScreen() {
               className="bg-white rounded-full self-center absolute p-[6px] top-[50%] z-10"
               style={styles.arrowStyle}
             >
-              <ArrowDownIcon className="size-9" />
+              <ArrowDownIcon />
             </View>
             <View className="bg-neutral-100 px-5 py-4 items-start justify-center gap-1 rounded-xl">
               <Typography type="body-large" weight="semibold">
@@ -69,7 +69,7 @@ function ReviewTransactionScreen() {
             </View>
           </View>
           {/* point balance */}
-          <View className="flex-row gap-1 items-center px-4 pt-2">
+          <View className="flex-row gap-1 items-center px-6 pt-2">
             <Typography type="body-small" weight="medium" textColor="#525252">
               {`Card balance after load: £${formatNumber({
                 value: Number(amount?.toString().replace(/,/g, "")) * 0.1
