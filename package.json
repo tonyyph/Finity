@@ -14,7 +14,9 @@
     "test": "jest --watchAll",
     "lint": "expo lint",
     "tcp": "adb reverse tcp:8081 tcp:8081",
-    "debug": "adb reverse tcp:9090 tcp:9090"
+    "debug": "adb reverse tcp:9090 tcp:9090",
+    "build:android-local": "eas build --platform android --profile production --local",
+    "build:android-production-eas": "eas build --platform android --profile production"
   },
   "jest": {
     "preset": "jest-expo"

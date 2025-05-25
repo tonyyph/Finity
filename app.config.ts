@@ -12,7 +12,7 @@ const APP_NAME = "Finity Rewards";
 const BUNDLE_IDENTIFIER = "co.finity.reward.uk";
 const PACKAGE_NAME = "co.finity.reward.uk";
 const ICON = "./assets/images/appstore.png";
-const ADAPTIVE_ICON = "./assets/images/playstore.png";
+const ADAPTIVE_ICON = "./assets/images/playstore_finity.png";
 const SCHEME = "finity-rewards";
 
 export default ({ config }: ConfigContext): ExpoConfig => {
@@ -76,7 +76,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         "expo-local-authentication",
         {
-          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
+          faceIDPermission: "Allow $(PRODUCT_NAME) to use Face ID."
         }
       ],
       "expo-router",
