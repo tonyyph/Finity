@@ -3,21 +3,14 @@ import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { colors } from "@/constants/Colors";
+import { useAnimatedKeyboard } from "@/hooks";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
-import { useUserSettingsStore } from "@/stores";
 import { exactDesign } from "@/utils";
-import {
-  BottomIndicatorAvoidingView,
-  TopIndicatorAvoidingView
-} from "@/utils/spacing";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Keyboard, TextInput, View } from "react-native";
-import Animated, {
-  useAnimatedKeyboard,
-  useAnimatedStyle
-} from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 function ActiveCardScreen() {
   const [loading, setLoading] = useState<boolean>();
@@ -28,18 +21,10 @@ function ActiveCardScreen() {
     useRef<TextInput>(null),
     useRef<TextInput>(null)
   ];
-  const { bottom } = useSafeAreaInsets();
-  const keyboard = useAnimatedKeyboard();
-  const translateStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateY:
-            -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0)
-        }
-      ]
-    };
-  });
+  const { keyboardHeight } = useAnimatedKeyboard(0);
+  const translateStyle = useAnimatedStyle(() => ({
+    height: keyboardHeight.value
+  }));
 
   const [cardNumber, setCardNumber] = useState(["", "", "", ""]);
   const [indexCursor, setIndexCursor] = useState<number>(0);
@@ -76,17 +61,6 @@ function ActiveCardScreen() {
       setTimeout(() => {
         setLoading(false);
         handleActivateCard(enteredOtp);
-        // if (enteredOtp === "1234") {
-        //   setCardNumber(["", "", "", ""]);
-        //   setActiveCard(2);
-        //   setIsDisableCard(false);
-        //   router.replace({
-        //     pathname: "/active_card_success"
-        //   });
-        // } else {
-        //   setCardNumber(["", "", "", ""]);
-        //   setError(true);
-        // }
       }, 2000);
     } else {
       Alert.alert("Error", "Please enter all 4 numbers.");
@@ -102,10 +76,9 @@ function ActiveCardScreen() {
   }, [cardNumber, handleSubmit]);
 
   return (
-    <View className="bg-white gap-4 p-6 flex-1">
-      <TopIndicatorAvoidingView />
+    <View className="bg-white flex-1">
       <Header onRightFunction={router.back} />
-      <View className="flex-1 gap-8">
+      <View className="flex-1 gap-8 mt-6 px-6 ">
         <View className="gap-2">
           <Typography type="heading-small" weight="semibold">
             Activate card
@@ -154,7 +127,7 @@ function ActiveCardScreen() {
             </View>
           )}
         </View>
-        <Animated.View style={translateStyle} className="justify-end">
+        <View className="justify-end">
           <Button
             variant="default"
             disabled={loading}
@@ -167,9 +140,10 @@ function ActiveCardScreen() {
               {loading ? `Activating......` : `Activate card`}
             </Typography>
           </Button>
-        </Animated.View>
+        </View>
       </View>
       <BottomIndicatorAvoidingView />
+      <Animated.View style={translateStyle} />
     </View>
   );
 }

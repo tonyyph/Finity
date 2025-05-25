@@ -1,20 +1,19 @@
 import { CircleAlert } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import Header from "@/components/ui/header";
 import { colors } from "@/constants/Colors";
+import { useAnimatedKeyboard } from "@/hooks";
 import { useLogin } from "@/hooks/auth";
 import { cn } from "@/lib/utils";
 import { exactDesign } from "@/utils";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { router } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Keyboard, TextInput, View } from "react-native";
-import Animated, {
-  useAnimatedKeyboard,
-  useAnimatedStyle
-} from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 export default function Verify2FactorScreen() {
-  const { bottom } = useSafeAreaInsets();
   const { handleVerifyTOTP, error, isLoading } = useLogin();
   const [isFirstTry, setIsFirstTry] = useState<boolean>(true);
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
@@ -27,15 +26,9 @@ export default function Verify2FactorScreen() {
     }
   }, []);
 
-  const keyboard = useAnimatedKeyboard();
-
+  const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY:
-          -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0)
-      }
-    ]
+    height: keyboardHeight.value
   }));
 
   const otpString = otp.join("");
@@ -78,11 +71,9 @@ export default function Verify2FactorScreen() {
   };
 
   return (
-    <View
-      className="bg-background gap-4 p-6 flex-1"
-      style={{ paddingBottom: bottom }}
-    >
-      <View className="flex-1">
+    <View className="bg-background flex-1">
+      <Header onBack={router.back} title="" />
+      <View className="flex-1 px-6  mt-6">
         <View className="z-10 mb-2 pr-4 gap-2">
           <Typography type="heading-small" weight="semibold">
             Two-factor authentication
@@ -138,17 +129,13 @@ export default function Verify2FactorScreen() {
           </View>
         )}
       </View>
-      <Animated.View
-        style={translateStyle}
-        key={1}
-        className={cn("justify-start")}
-      >
+      <View key={1} className={cn("justify-start px-6")}>
         <View className="justify-end">
           <Button
             variant="default"
             size="lg"
             disabled={otpString.length !== 6 || isLoading}
-            className="rounded-full bg-primary h-12"
+            className="rounded-full bg-primary h-[48px]"
             loading={isLoading}
             onPress={handleVerifyOTP}
           >
@@ -161,7 +148,9 @@ export default function Verify2FactorScreen() {
             </Typography>
           </Button>
         </View>
-      </Animated.View>
+      </View>
+      <BottomIndicatorAvoidingView />
+      <Animated.View style={translateStyle} />
     </View>
   );
 }

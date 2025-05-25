@@ -4,20 +4,17 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import Tooltip from "@/components/ui/tooltip";
+import { useAnimatedKeyboard } from "@/hooks";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { cn } from "@/lib/utils";
 import { formatNumber } from "@/utils";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, Keyboard, SafeAreaView, TextInput, View } from "react-native";
-import Animated, {
-  useAnimatedKeyboard,
-  useAnimatedStyle
-} from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Image, Keyboard, TextInput, View } from "react-native";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 function LoadCardScreen() {
-  const { bottom } = useSafeAreaInsets();
   const { isReset } = useLocalSearchParams();
 
   const [enterAmount, setEnterAmount] = useState("");
@@ -33,15 +30,9 @@ function LoadCardScreen() {
     }
   }, [isReset]);
 
-  const keyboard = useAnimatedKeyboard();
-
+  const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY:
-          -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0)
-      }
-    ]
+    height: keyboardHeight.value
   }));
 
   const formatPointValue = new Intl.NumberFormat("en-US").format(
@@ -76,7 +67,7 @@ function LoadCardScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <SafeAreaView className="flex-1">
+      <View className="flex-1">
         <Header onBack={router.back} title="Load points to card" />
         <ProgressBar />
 
@@ -155,7 +146,7 @@ function LoadCardScreen() {
           </View>
         </View>
         {/* Bottom */}
-        <Animated.View style={translateStyle} className="justify-end">
+        <Animated.View className="justify-end">
           <View className="px-6">
             <Button
               disabled={!enterAmount}
@@ -173,8 +164,10 @@ function LoadCardScreen() {
               </Typography>
             </Button>
           </View>
+          <BottomIndicatorAvoidingView />
         </Animated.View>
-      </SafeAreaView>
+        <Animated.View style={translateStyle} />
+      </View>
     </View>
   );
 }

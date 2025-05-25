@@ -26,7 +26,7 @@ export default function TabLayout() {
           backgroundColor: getColor("--background"),
           borderColor: getColor("--border"),
           borderTopColor: getColor("--border"),
-          height: bottom ? exactDesign(100) : exactDesign(80)
+          height: bottom ? exactDesign(100) : exactDesign(76)
         },
         tabBarLabelStyle: {
           fontSize: exactDesign(12)

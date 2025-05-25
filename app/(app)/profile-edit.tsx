@@ -1,5 +1,6 @@
 import { Typography } from "@/components/common";
 import ProfileItem from "@/components/profile/profile-item";
+import Header from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import { useSettingProfile } from "@/hooks/profile/useSettingProfile";
 import { formatDateString } from "@/lib/date";
@@ -18,6 +19,7 @@ export default function EditProfileScreen() {
 
   return (
     <View className="flex-1 bg-background">
+      <Header onBack={router.back} title="Personal information" />
       <ProgressBar completeAnimation={!loading} />
       <ScrollView className="bg-background" contentContainerClassName="p-6">
         <ProfileItem

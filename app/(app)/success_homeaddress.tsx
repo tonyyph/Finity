@@ -2,13 +2,15 @@ import { getUserProfile } from "@/api";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { userStore } from "@/stores/userStore";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function SuccessHomeAddressScreen() {
-  const { top, bottom } = useSafeAreaInsets();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -29,10 +31,8 @@ function SuccessHomeAddressScreen() {
   }, []);
 
   return (
-    <View
-      className="flex-1 bg-background"
-      style={{ paddingBottom: bottom, paddingTop: top }}
-    >
+    <View className="flex-1 bg-background">
+      <TopIndicatorAvoidingView />
       <View className="flex-1">
         <View className="flex-1 px-4 gap-3 items-center mt-40">
           <Image
@@ -61,6 +61,7 @@ function SuccessHomeAddressScreen() {
           </Button>
         </View>
       </View>
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

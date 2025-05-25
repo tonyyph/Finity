@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { Link, useNavigation } from "expo-router";
 import { EllipsisIcon } from "lucide-react-native";
 import { useEffect } from "react";
-import { ScrollView, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScrollView, Text } from "react-native";
 
 export default function NotificationsScreen() {
-  const { bottom } = useSafeAreaInsets();
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -33,7 +32,7 @@ export default function NotificationsScreen() {
       <Text className="text-foreground text-base font-bold px-6 mb-6">
         Yesterday, April 21
       </Text>
-      <View style={{ height: bottom }} />
+      <BottomIndicatorAvoidingView />
     </ScrollView>
   );
 }

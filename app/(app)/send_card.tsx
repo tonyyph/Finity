@@ -6,21 +6,18 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import Touch from "@/components/ui/touch";
+import { useAnimatedKeyboard } from "@/hooks";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { cn } from "@/lib/utils";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { router } from "expo-router";
 import { isEmpty } from "lodash-es";
 import { useLayoutEffect, useRef, useState } from "react";
 import { Image, Keyboard, SafeAreaView, TextInput, View } from "react-native";
-import Animated, {
-  useAnimatedKeyboard,
-  useAnimatedStyle
-} from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 function SendCardScreen() {
-  const { bottom } = useSafeAreaInsets();
   const { userData, fetchListCardHolder, listCardHolder } = useCardHolder();
   const [enterAmount, setEnterAmount] = useState("");
   const [cardHolderValue, setCardHolderValue] = useState<UserCardHolder>(
@@ -29,20 +26,14 @@ function SendCardScreen() {
   const [error, setError] = useState("");
   const [cardHolderError, setCardHolderError] = useState("");
   const sheetRef = useRef<BottomSheetModal>(null);
-  const keyboard = useAnimatedKeyboard();
+  const { keyboardHeight } = useAnimatedKeyboard(0);
+  const translateStyle = useAnimatedStyle(() => ({
+    height: keyboardHeight.value
+  }));
 
   useLayoutEffect(() => {
     fetchListCardHolder();
   }, []);
-
-  const translateStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY:
-          -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0)
-      }
-    ]
-  }));
 
   const formatPointValue = new Intl.NumberFormat("en-US").format(
     Number(userData?.pointsBalance ?? 0)
@@ -89,7 +80,7 @@ function SendCardScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <SafeAreaView className="flex-1">
+      <View className="flex-1">
         <Header onBack={router.back} title="Send points" />
         <ProgressBar />
 
@@ -177,7 +168,7 @@ function SendCardScreen() {
           </View>
         </View>
         {/* Bottom */}
-        <Animated.View style={translateStyle} className="justify-end">
+        <View className="justify-end">
           <View className="px-4">
             <Button
               disabled={!enterAmount}
@@ -195,7 +186,10 @@ function SendCardScreen() {
               </Typography>
             </Button>
           </View>
-        </Animated.View>
+          <BottomIndicatorAvoidingView />
+        </View>
+        <Animated.View style={translateStyle} />
+
         <BottomSheet ref={sheetRef} index={0} snapPoints={["44%"]}>
           <BottomSheetView className="min-h-[50%] mt-1">
             <Header
@@ -226,7 +220,7 @@ function SendCardScreen() {
             </View>
           </BottomSheetView>
         </BottomSheet>
-      </SafeAreaView>
+      </View>
     </View>
   );
 }

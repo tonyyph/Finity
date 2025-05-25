@@ -2,19 +2,19 @@ import { CircleAlertX } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useNetwork } from "@/stores/core/network-provider";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { router } from "expo-router";
 import { View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function OfflineScreen() {
-  const { top } = useSafeAreaInsets();
   const { isConnected } = useNetwork();
 
   return (
-    <View
-      className="flex-1 bg-background px-4"
-      style={{ paddingTop: top * 1.5 }}
-    >
+    <View className="flex-1 bg-background px-4">
+      <TopIndicatorAvoidingView number={1.5} />
       <View className=" flex-1 bg-background items-center">
         <CircleAlertX />
         <Typography type="heading-small" weight="semibold" className="mt-4">
@@ -38,6 +38,7 @@ export default function OfflineScreen() {
           Try again
         </Typography>
       </Button>
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

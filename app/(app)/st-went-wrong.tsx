@@ -1,18 +1,17 @@
 import { CircleAlertX } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { router } from "expo-router";
 import { View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SomethingWentWrong() {
-  const { bottom, top } = useSafeAreaInsets();
-
   return (
-    <View
-      className="flex-1 bg-background px-4"
-      style={{ paddingTop: top * 1.5 }}
-    >
+    <View className="flex-1 bg-background px-4">
+      <TopIndicatorAvoidingView />
       <View className=" flex-1 bg-background items-center">
         <CircleAlertX />
         <Typography type="heading-small" weight="semibold" className="mt-4">
@@ -36,7 +35,7 @@ export default function SomethingWentWrong() {
           Try again
         </Typography>
       </Button>
-      <View style={{ height: bottom }} />
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

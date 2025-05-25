@@ -3,6 +3,10 @@ import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
 import { userStore } from "@/stores/userStore";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { BlurView } from "expo-blur";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router } from "expo-router";
@@ -14,7 +18,6 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CircleAlert, RemoveNumpad } from "../common/icons";
 import { LoadingScreen } from "../common/loading";
 import Typography from "../common/text-typography";
@@ -28,7 +31,6 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
   const { bioStatus } = useBiometrics();
   const [authInProgress, setAuthInProgress] = useState(bioStatus);
 
-  const { top, bottom } = useSafeAreaInsets();
   const [loading, setLoading] = useState(false);
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
@@ -119,10 +121,8 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
   if (loading) return <LoadingScreen loading={loading} />;
 
   return (
-    <View
-      className="absolute top-0 right-0 bottom-0 left-0 z-50 flex-1 p-8 gap-4 bg-background"
-      style={{ paddingTop: top * 2 }}
-    >
+    <View className="absolute top-0 right-0 bottom-0 left-0 z-50 flex-1 p-8 gap-4 bg-background">
+      <TopIndicatorAvoidingView number={1.5} />
       <View className="flex-1">
         {/* Welcome */}
         <View className="z-10">
@@ -247,7 +247,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
           {`Forgot PIN?`}
         </Typography>
       </View>
-      <View style={{ height: bottom }} />
+      <BottomIndicatorAvoidingView number={2} />
     </View>
   );
 }

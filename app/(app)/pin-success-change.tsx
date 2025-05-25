@@ -1,22 +1,21 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { router } from "expo-router";
 import { useCallback } from "react";
 import { Image, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function PINChangeSuccess() {
-  const { top, bottom } = useSafeAreaInsets();
-
   const handleContinue = useCallback(() => {
     router.dismissAll();
   }, []);
 
   return (
-    <View
-      className="flex-1 bg-background"
-      style={{ paddingBottom: bottom, paddingTop: top * 1.5 }}
-    >
+    <View className="flex-1 bg-background">
+      <TopIndicatorAvoidingView />
       <View className="flex-1">
         <View className="flex-1 px-4 gap-4 items-center mt-40">
           <Image
@@ -44,6 +43,7 @@ function PINChangeSuccess() {
           </Button>
         </View>
       </View>
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

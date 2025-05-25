@@ -1,13 +1,13 @@
 import { useColorPalette } from "@/hooks/use-color-palette";
 import { formatDateTimeShort } from "@/lib/date";
 import { sleep } from "@/lib/utils";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { type BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Haptics from "expo-haptics";
 import { CalendarRangeIcon } from "lucide-react-native";
 import { useRef, useState } from "react";
 import { Keyboard, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button } from "../ui/button";
 import { BottomSheet } from "./bottom-sheet";
 
@@ -62,7 +62,6 @@ export function DatePicker({
   maximumDate?: Date;
   minimumDate?: Date;
 }) {
-  const { bottom } = useSafeAreaInsets();
   const sheetRef = useRef<BottomSheetModal>(null);
 
   return (
@@ -82,11 +81,7 @@ export function DatePicker({
         </Text>
       </Button>
       <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
-        <BottomSheetView
-          style={{
-            paddingBottom: bottom
-          }}
-        >
+        <BottomSheetView>
           <SpinnerDatePicker
             value={value}
             onChange={async (date) => {
@@ -97,6 +92,7 @@ export function DatePicker({
             maximumDate={maximumDate}
             minimumDate={minimumDate}
           />
+          <BottomIndicatorAvoidingView />
         </BottomSheetView>
       </BottomSheet>
     </>

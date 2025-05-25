@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 
 export default function ConfirmPINScreen() {
-  const { pin, isResetPin, type } = useLocalSearchParams();
+  const { pin, isResetPin } = useLocalSearchParams();
   const { setVerificationPin } = useUserAuthenticateStore();
 
   const [wrongPin, setWrongPin] = useState(false);
@@ -30,7 +30,7 @@ export default function ConfirmPINScreen() {
         setVerificationPin(confirmPin);
         router.push({
           pathname: "/pin-success",
-          params: { isResetPin, type }
+          params: { isResetPin }
         });
       } else {
         setWrongPin(true);
@@ -38,7 +38,7 @@ export default function ConfirmPINScreen() {
     } else {
       setWrongPin(false);
     }
-  }, [confirmPin, pin, isResetPin, setVerificationPin, type]);
+  }, [confirmPin, pin, isResetPin, setVerificationPin]);
 
   return (
     <View className="bg-background gap-4 p-8 flex-1">

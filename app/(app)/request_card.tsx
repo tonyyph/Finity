@@ -2,10 +2,10 @@ import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useUserSettingsStore } from "@/stores";
 import { exactDesign } from "@/utils";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Image, Linking, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const content = [
   {
@@ -27,7 +27,6 @@ const content = [
 
 function RequestCard() {
   const [loading, setLoading] = useState<boolean>();
-  const { bottom } = useSafeAreaInsets();
   const { setActiveCard } = useUserSettingsStore();
 
   const handleConfirm = () => {
@@ -89,7 +88,7 @@ function RequestCard() {
           </Typography>
         </Typography>
       </View>
-      <View className="bg-white p-4" style={{ paddingBottom: bottom }}>
+      <View className="bg-white p-4">
         <Button
           variant="default"
           disabled={loading}
@@ -103,6 +102,7 @@ function RequestCard() {
           </Typography>
         </Button>
       </View>
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

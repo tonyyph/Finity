@@ -1,5 +1,7 @@
+import { useAnimatedKeyboard } from "@/hooks";
 import { memoFC } from "@/utils";
 import { Platform, StatusBar, View } from "react-native";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
@@ -18,12 +20,29 @@ export const BottomIndicatorAvoidingView = memoFC(({ number = 1 }: Props) => {
   );
 });
 
-export const TopIndicatorAvoidingView = memoFC(() => {
+export const TopIndicatorAvoidingView = memoFC(({ number = 1 }) => {
   const { top } = useSafeAreaInsets();
   const STATUS_BAR_HEIGHT = StatusBar.currentHeight ?? 0;
+
   return (
     <View
-      style={[{ height: Platform.OS === "android" ? STATUS_BAR_HEIGHT : top }]}
+      style={[
+        {
+          height:
+            Platform.OS === "android"
+              ? STATUS_BAR_HEIGHT * number
+              : top * number
+        }
+      ]}
     />
   );
+});
+
+export const KeyboardSpacer = memoFC(() => {
+  const { keyboardHeight } = useAnimatedKeyboard();
+  const style = useAnimatedStyle(() => ({
+    height: keyboardHeight.value
+  }));
+
+  return <Animated.View style={style} />;
 });

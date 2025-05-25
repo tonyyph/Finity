@@ -1,14 +1,13 @@
 import { CircleAlertX } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { Linking, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function AccessDenied() {
   const navigation = useNavigation();
-  const { bottom } = useSafeAreaInsets();
 
   useEffect(() => {
     navigation.setOptions({
@@ -50,7 +49,7 @@ export default function AccessDenied() {
           Close
         </Typography>
       </Button>
-      <View style={{ height: bottom }} />
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

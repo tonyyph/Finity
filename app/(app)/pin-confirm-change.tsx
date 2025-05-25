@@ -3,10 +3,10 @@ import Typography from "@/components/common/text-typography";
 import Header from "@/components/ui/header";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ConfirmPINChangeScreen() {
   const { pin } = useLocalSearchParams();
@@ -14,7 +14,6 @@ export default function ConfirmPINChangeScreen() {
 
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
-  const { bottom } = useSafeAreaInsets();
 
   const handlePress = (num: string) => {
     if (confirmPin.length < 4) {
@@ -42,10 +41,7 @@ export default function ConfirmPINChangeScreen() {
   }, [confirmPin, pin, setVerificationPin]);
 
   return (
-    <View
-      className="bg-background gap-4 flex-1"
-      style={{ paddingBottom: bottom * 2.5 }}
-    >
+    <View className="bg-background gap-4 flex-1">
       <Header onBack={router.back} title="" />
       <View className="flex-1 px-8 pt-6">
         {/* Welcome */}
@@ -150,6 +146,7 @@ export default function ConfirmPINChangeScreen() {
           </View>
         </View>
       </View>
+      <BottomIndicatorAvoidingView number={2.5} />
     </View>
   );
 }

@@ -8,21 +8,18 @@ import Touch from "@/components/ui/touch";
 import { useStatements } from "@/hooks/profile/useStatements";
 import { listOfMonths, listOfYears } from "@/lib/constaints";
 import { userStore } from "@/stores/userStore";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { router, useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
 import { FlatList, Image, Keyboard, SafeAreaView, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function StatementScreen() {
   const { type, title } = useLocalSearchParams();
-  const { bottom } = useSafeAreaInsets();
   const sheetRef = useRef<BottomSheetModal>(null);
   const userProfile = userStore?.getState().userProfile;
   const { handleGeneratePointPDF, handleGenerateCardPDF, loading } =
     useStatements();
-
-  console.log(" StatementScreen 💯 loading:", loading);
 
   // Created date reference
   const dateCreated = new Date(`${userProfile?.dateCreated}`);
@@ -94,7 +91,7 @@ function StatementScreen() {
             keyExtractor={(item, index) => `${index}-${item.value}`}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: bottom }}
+            ListFooterComponent={() => <BottomIndicatorAvoidingView />}
             renderItem={({ item, index }) => (
               <View key={`${index}-${item.value}`}>
                 <MenuItem

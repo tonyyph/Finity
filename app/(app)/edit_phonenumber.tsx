@@ -1,32 +1,24 @@
 import { CircleAlert } from "@/components/common";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import Header from "@/components/ui/header";
+import { useAnimatedKeyboard } from "@/hooks";
 import { cn } from "@/lib/utils";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
 import { useCallback, useState } from "react";
 import { TextInput, View } from "react-native";
-import Animated, {
-  useAnimatedKeyboard,
-  useAnimatedStyle
-} from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 const EditPhoneNumberScreen = () => {
-  const { bottom } = useSafeAreaInsets();
   const [loading, setLoading] = useState<boolean>();
   const [isShowError, setIsShowError] = useState<boolean>();
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [focusMobileNumber, setFocusMobileNumber] = useState<boolean>(false);
 
-  const keyboard = useAnimatedKeyboard();
-
+  const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY:
-          -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0)
-      }
-    ]
+    height: keyboardHeight.value
   }));
 
   const handleConfirm = useCallback(() => {
@@ -48,7 +40,8 @@ const EditPhoneNumberScreen = () => {
   }, [phoneNumber]);
 
   return (
-    <View className="flex-1 bg-background" style={{ paddingBottom: bottom }}>
+    <View className="flex-1 bg-background">
+      <Header onBack={router.back} title="" />
       <View className="flex-1">
         <View className="flex-1 px-6 gap-3 pt-6">
           <Typography type="heading-medium" weight="semibold">
@@ -100,11 +93,7 @@ const EditPhoneNumberScreen = () => {
             </View>
           )}
         </View>
-        <Animated.View
-          style={translateStyle}
-          key={1}
-          className="justify-end flex-1"
-        >
+        <View key={1} className="justify-end flex-1">
           <View className="px-6 gap-6">
             <Button
               variant="default"
@@ -123,8 +112,10 @@ const EditPhoneNumberScreen = () => {
               </Typography>
             </Button>
           </View>
-        </Animated.View>
+          <BottomIndicatorAvoidingView />
+        </View>
       </View>
+      <Animated.View style={translateStyle} />
     </View>
   );
 };

@@ -36,7 +36,7 @@ function Header({
         {renderLeftView ??
           (!!onBack || !!onLeftFunction ? (
             <Button
-              className="flex-shrink left-2"
+              className="flex-shrink ml-2"
               onPress={(value) => {
                 onBack?.(value);
                 onLeftFunction?.(value);
@@ -47,7 +47,7 @@ function Header({
               <ArrowBackIcon />
             </Button>
           ) : (
-            <View className="flex-shrink left-2">
+            <View className="flex-shrink ml-2">
               <View className="w-8 h-8" />
             </View>
           ))}
@@ -59,23 +59,23 @@ function Header({
         {renderRightView ??
           (!!onRightFunction ? (
             <Button
-              className="flex-shrink "
+              className="flex-shrink items-center mr-2"
               size="icon"
               variant="ghost"
               onPress={onRightFunction}
             >
               {Icon ? (
-                <Icon className="h-8 w-8 right-2 text-foreground" />
+                <Icon className="h-8 w-8 text-foreground" />
               ) : (
-                <XIcon className="h-8 w-8 right-2 text-foreground" />
+                <XIcon className="h-8 w-8 text-foreground" />
               )}
             </Button>
           ) : (
-            <View className="flex-shrink ">
+            <View className="flex-shrink mr-2">
               {Icon ? (
-                <Icon className="h-8 w-8 right-2 color-transparent" />
+                <Icon className="h-8 w-8 color-transparent" />
               ) : (
-                <XIcon className="h-8 w-8 right-2 color-transparent" />
+                <XIcon className="h-8 w-8 color-transparent" />
               )}
             </View>
           ))}

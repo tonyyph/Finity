@@ -36,9 +36,7 @@ export default function UnAuthenticatedLayout() {
         <Stack.Screen
           name="verify-2factor"
           options={{
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
+            headerShown: false
           }}
         />
         <Stack.Screen

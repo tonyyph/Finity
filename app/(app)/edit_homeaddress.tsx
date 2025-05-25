@@ -1,20 +1,18 @@
 import { CircleAlert } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import Header from "@/components/ui/header";
+import { useAnimatedKeyboard } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { userStore } from "@/stores/userStore";
 import { validateUKPostcode } from "@/utils";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
 import { useCallback, useState } from "react";
 import { TextInput, View } from "react-native";
-import Animated, {
-  useAnimatedKeyboard,
-  useAnimatedStyle
-} from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 const EditHomeAddressScreen = () => {
-  const { bottom } = useSafeAreaInsets();
   const userProfile = userStore?.getState().userProfile;
 
   const [loading, setLoading] = useState<boolean>();
@@ -35,15 +33,9 @@ const EditHomeAddressScreen = () => {
   const [focusTownOrCity, setFocusTownOrCity] = useState<boolean>(false);
   const [focusPostCode, setFocusPostCode] = useState<boolean>(false);
 
-  const keyboard = useAnimatedKeyboard();
-
+  const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY:
-          -keyboard.height.value + (!!keyboard.height.value ? bottom / 3 : 0)
-      }
-    ]
+    height: keyboardHeight.value
   }));
 
   const handleSave = useCallback(() => {
@@ -71,7 +63,8 @@ const EditHomeAddressScreen = () => {
     townOrCity?.length > 20;
 
   return (
-    <View className="flex-1 bg-background" style={{ paddingBottom: bottom }}>
+    <View className="flex-1 bg-background">
+      <Header onBack={router.back} title="" />
       <View className="flex-1 justify-between">
         <View className="px-4 gap-4 pt-6">
           <Typography type="heading-medium" weight="semibold">
@@ -224,7 +217,7 @@ const EditHomeAddressScreen = () => {
             </View>
           </View>
         </View>
-        <Animated.View style={translateStyle} key={1} className="justify-end">
+        <View key={1} className="justify-end">
           <View className="px-4 gap-6">
             <Button
               variant={"default"}
@@ -243,8 +236,10 @@ const EditHomeAddressScreen = () => {
               </Typography>
             </Button>
           </View>
-        </Animated.View>
+          <BottomIndicatorAvoidingView />
+        </View>
       </View>
+      <Animated.View style={translateStyle} />
     </View>
   );
 };

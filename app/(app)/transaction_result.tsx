@@ -3,10 +3,13 @@ import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { formatDateNow } from "@/lib/date";
 import { formatNumber } from "@/utils";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface propsLocal {
   title: string;
@@ -38,7 +41,6 @@ function TransactionResultScreen() {
     }
   ];
 
-  const { bottom, top } = useSafeAreaInsets();
   const [localType, setLocalType] = useState<propsLocal>();
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
@@ -137,14 +139,13 @@ function TransactionResultScreen() {
   };
 
   return (
-    <View
-      className="flex-1 bg-subtle p-4"
-      style={{ paddingBottom: bottom, paddingTop: top * 1.5 }}
-    >
+    <View className="flex-1 bg-subtle p-4">
       <LoadingScreen loading={loading} />
+      <TopIndicatorAvoidingView number={1.5} />
 
       <TransactionDetail />
       <ButtonSection />
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

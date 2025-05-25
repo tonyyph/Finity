@@ -20,19 +20,22 @@ import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { formatExpDate } from "@/lib/date";
 import { useUserAuthenticateStore, useUserSettingsStore } from "@/stores";
 import { userStore } from "@/stores/userStore";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BlurView } from "expo-blur";
 import { router, useFocusEffect } from "expo-router";
 import { EyeIcon, TriangleAlertIcon, XIcon } from "lucide-react-native";
 import { useRef } from "react";
 import { Image, StyleSheet, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function CardScreen() {
-  const { top, bottom } = useSafeAreaInsets();
   const { isDamagedCard, isDisableCard } = useUserSettingsStore();
   const data = userStore.getState();
   const { pinInfo, cardDetailInfo } = data || {};
+
   const { showBottomSheetPin, setShowBottomSheetPin } =
     useUserAuthenticateStore();
 
@@ -126,7 +129,7 @@ export default function CardScreen() {
         index={0}
         snapPoints={["40%"]}
       >
-        <BottomSheetView style={{ paddingBottom: bottom }}>
+        <BottomSheetView>
           <View className="flex-row items-center justify-between px-4">
             <View className="w-[24px] h-[24px]" />
             <Typography type="body-large" weight="semibold" className="p-4">
@@ -164,6 +167,7 @@ export default function CardScreen() {
             </View>
           </View>
           <DowntimeMessage ref={sheetRef} />
+          <BottomIndicatorAvoidingView />
         </BottomSheetView>
       </BottomSheet>
     );
@@ -173,7 +177,8 @@ export default function CardScreen() {
   if (cardStatus === 1 || cardStatus === 4 || cardStatus === 3) {
     return (
       <>
-        <View className="flex-1 bg-background" style={{ paddingTop: top }}>
+        <View className="flex-1 bg-background">
+          <TopIndicatorAvoidingView />
           <Typography type="heading-small" weight="semibold" className="p-4">
             {"Card"}
           </Typography>
@@ -231,7 +236,8 @@ export default function CardScreen() {
 
   //REQUIRING ACTIVATION
   return (
-    <View className="flex-1 bg-background" style={{ paddingTop: top }}>
+    <View className="flex-1 bg-background">
+      <TopIndicatorAvoidingView />
       <Typography type="heading-small" weight="semibold" className="p-4">
         {"Card"}
       </Typography>

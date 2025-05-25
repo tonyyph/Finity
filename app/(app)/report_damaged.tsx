@@ -4,6 +4,7 @@ import Header from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import { Radio } from "@/components/ui/radio";
 import { cn } from "@/lib/utils";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
 import { useCallback, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
@@ -74,7 +75,7 @@ export const ReportLostOrDamagedScreen = () => {
             variant="default"
             size={"lg"}
             disabled={!reportType}
-            className="rounded-full bg-primary h-[48px] mb-10"
+            className="rounded-full bg-primary h-[48px]"
             onPress={handleContinue}
           >
             <Typography
@@ -86,6 +87,7 @@ export const ReportLostOrDamagedScreen = () => {
             </Typography>
           </Button>
         </View>
+        <BottomIndicatorAvoidingView />
       </View>
     </View>
   );

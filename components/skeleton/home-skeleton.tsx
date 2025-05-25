@@ -1,13 +1,12 @@
+import { TopIndicatorAvoidingView } from "@/utils/spacing";
 import React from "react";
 import { View } from "react-native";
 import { Skeleton } from "../ui/skeleton";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export function HomeSkeleton() {
-  const { top } = useSafeAreaInsets();
-
   return (
-    <View className="flex-1 mx-4" style={{ paddingTop: top }}>
+    <View className="flex-1 mx-4">
+      <TopIndicatorAvoidingView />
       <Skeleton className="my-5 h-6 w-20 rounded-full" />
 
       <View className="bg-neutral-300 rounded-2xl p-4 my-4">

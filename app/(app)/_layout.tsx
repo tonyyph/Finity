@@ -63,7 +63,6 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="active_card"
           options={{
-            headerLeft: () => <BackButton />,
             headerShown: false
           }}
         />
@@ -82,7 +81,6 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="request_card"
           options={{
-            headerLeft: () => <BackButton />,
             headerShown: true
           }}
         />
@@ -142,19 +140,9 @@ export default function AuthenticatedLayout() {
         />
         <Stack.Screen
           name="pin-verification"
-          options={{
-            headerShown: false
-          }}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="profile-edit"
-          options={{
-            headerTitle: `Personal information`,
-            headerStyle: {
-              backgroundColor: "#FFFFFF"
-            }
-          }}
-        />
+        <Stack.Screen name="profile-edit" options={{ headerShown: false }} />
         <Stack.Screen name="cash_out_point" options={{ headerShown: false }} />
         <Stack.Screen name="web_view" options={{ headerShown: false }} />
         <Stack.Screen name="our_agreement" options={{ headerShown: false }} />
@@ -162,21 +150,18 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="biometrics"
           options={{
-            headerLeft: () => <BackButton />,
             headerShown: false
           }}
         />
         <Stack.Screen
           name="pin-current"
           options={{
-            headerLeft: () => <BackButton />,
             headerShown: false
           }}
         />
         <Stack.Screen
           name="pin-confirm-change"
           options={{
-            headerLeft: () => <BackButton />,
             headerShown: false
           }}
         />
@@ -184,7 +169,6 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="pin-verify-change"
           options={{
-            headerLeft: () => <BackButton />,
             headerShown: false
           }}
         />
@@ -192,7 +176,6 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="pin-success-change"
           options={{
-            headerLeft: () => <BackButton />,
             headerShown: false
           }}
         />
@@ -200,83 +183,32 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="biometrics-success"
           options={{
-            headerLeft: () => <BackButton />,
             headerShown: false
           }}
         />
         <Stack.Screen
           name="success_phonenumber"
-          options={{
-            headerShown: false
-          }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="success_homeaddress"
-          options={{
-            headerShown: false
-          }}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="login-with-pin"
-          options={{
-            headerLeft: () => null,
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="report_damaged"
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="lost"
-          options={{
-            headerShown: true,
-            headerTitle: ``,
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
-          }}
-        />
-        <Stack.Screen
-          name="damaged"
-          options={{
-            headerShown: true,
-            headerTitle: ``,
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
-          }}
-        />
+        <Stack.Screen name="report_damaged" options={{ headerShown: false }} />
+        <Stack.Screen name="lost" options={{ headerShown: false }} />
+        <Stack.Screen name="damaged" options={{ headerShown: false }} />
         <Stack.Screen
           name="edit_phonenumber"
-          options={{
-            headerShown: true,
-            headerTitle: ``,
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
-          }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="verify_phonenumber"
-          options={{
-            headerShown: true,
-            headerTitle: ``,
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
-          }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="edit_homeaddress"
           options={{
-            headerShown: true,
-            headerTitle: ``,
-            headerStyle: {
-              backgroundColor: getColor("--background")
-            }
+            headerShown: false
           }}
         />
         <Stack.Screen

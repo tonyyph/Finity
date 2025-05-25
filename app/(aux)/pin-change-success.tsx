@@ -1,9 +1,12 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { router } from "expo-router";
 import { useCallback } from "react";
 import { Image, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function ChangePinSuccess() {
   const handleContinue = useCallback(() => {
@@ -11,13 +14,10 @@ function ChangePinSuccess() {
       pathname: "/(app)/(tabs)"
     });
   }, []);
-  const { top, bottom } = useSafeAreaInsets();
 
   return (
-    <View
-      className="flex-1 bg-background"
-      style={{ paddingBottom: bottom, paddingTop: top }}
-    >
+    <View className="flex-1 bg-background">
+      <TopIndicatorAvoidingView />
       <View className="flex-1">
         <View className="flex-1 px-4 gap-3 items-center mt-40">
           <Image
@@ -45,6 +45,7 @@ function ChangePinSuccess() {
           </Button>
         </View>
       </View>
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

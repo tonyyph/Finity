@@ -20,6 +20,7 @@ import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
 import { resetAllStorage } from "@/utils";
+import { TopIndicatorAvoidingView } from "@/utils/spacing";
 import { useAuth } from "@clerk/clerk-expo";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import * as Application from "expo-application";
@@ -28,11 +29,9 @@ import { Link, router } from "expo-router";
 import LottieView from "lottie-react-native";
 import { useRef } from "react";
 import { Image, ScrollView, TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ProfileScreen() {
   const { signOut } = useAuth();
-  const { top } = useSafeAreaInsets();
   const sheetRef = useRef<BottomSheetModal>(null);
   const sheetSignOutRef = useRef<BottomSheetModal>(null);
   const { setEnabledPushNotifications, enabledPushNotifications } =
@@ -61,7 +60,8 @@ export default function ProfileScreen() {
   };
 
   return (
-    <View className="flex-1 bg-background" style={{ paddingTop: top }}>
+    <View className="flex-1 bg-background">
+      <TopIndicatorAvoidingView />
       <Typography type="heading-small" weight="semibold" className="p-4">
         {"Profile"}
       </Typography>

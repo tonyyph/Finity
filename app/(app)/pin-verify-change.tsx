@@ -2,16 +2,15 @@ import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import Header from "@/components/ui/header";
 import { useUserAuthenticateStore } from "@/stores";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { twMerge } from "tailwind-merge";
 
 export default function VerifyPINChangeScreen() {
   const { verificationPin } = useUserAuthenticateStore();
   const [pin, setPin] = useState<string>("");
-  const { bottom } = useSafeAreaInsets();
   const [error, setError] = useState("");
 
   const handlePress = (num: string) => {
@@ -41,10 +40,7 @@ export default function VerifyPINChangeScreen() {
   }, [pin, verificationPin]);
 
   return (
-    <View
-      className="bg-background gap-4 flex-1"
-      style={{ paddingBottom: bottom * 2.5 }}
-    >
+    <View className="bg-background gap-4 flex-1">
       <Header onBack={router.back} title="" />
       <View className="flex-1 px-8 pt-6">
         {/* Welcome */}
@@ -149,6 +145,7 @@ export default function VerifyPINChangeScreen() {
           </View>
         </View>
       </View>
+      <BottomIndicatorAvoidingView number={2.5} />
     </View>
   );
 }

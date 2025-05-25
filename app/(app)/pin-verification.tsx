@@ -8,19 +8,16 @@ import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
 import { userStore } from "@/stores/userStore";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { BlurView } from "expo-blur";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
 import LottieView from "lottie-react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-  View
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 
 function PinVerificationScreen() {
   const { type, amount, addressLine1, addressLine2, city, postCode } =
@@ -28,7 +25,6 @@ function PinVerificationScreen() {
   const userProfileJson = userStore?.getState().userProfile;
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { top, bottom } = useSafeAreaInsets();
   const [loading, setLoading] = useState(false);
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
@@ -175,14 +171,11 @@ function PinVerificationScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <SafeAreaView className="flex-1">
-        <Header onBack={router.back} title="Verification" />
-        <ProgressBar completeAnimation={true} />
-
-        <View
-          className="flex-1 flex-col justify-between bg-white mx-5"
-          style={{ paddingTop: top * 2, paddingBottom: bottom }}
-        >
+      <Header onBack={router.back} title="Verification" />
+      <ProgressBar completeAnimation={true} />
+      <View className="flex-1">
+        <View className="flex-1 flex-col justify-between mx-5">
+          <TopIndicatorAvoidingView number={2.5} />
           <View className="flex-1">
             {/* PIN container */}
             <View className="flex-row h-7 inline-flex justify-center items-center gap-14 mt-8">
@@ -295,9 +288,9 @@ function PinVerificationScreen() {
               {`Forgot PIN?`}
             </Typography>
           </View>
-          <View style={{ height: bottom }} />
         </View>
-      </SafeAreaView>
+      </View>
+      <BottomIndicatorAvoidingView number={4} />
     </View>
   );
 }

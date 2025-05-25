@@ -1,12 +1,12 @@
 import { formatDateShort } from "@/lib/date";
 import { cn, sleep } from "@/lib/utils";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { type BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Haptics from "expo-haptics";
 import { ArrowRightIcon } from "lucide-react-native";
 import { useRef, useState } from "react";
 import { Keyboard, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
 import { BottomSheet } from "./bottom-sheet";
@@ -65,7 +65,6 @@ export function DateRangePicker({
   maximumDate?: Date;
   minimumDate?: Date;
 }) {
-  const { bottom } = useSafeAreaInsets();
   const sheetFromRef = useRef<BottomSheetModal>(null);
   const sheetToRef = useRef<BottomSheetModal>(null);
   const [fromDate, toDate] = value ?? [];
@@ -106,11 +105,7 @@ export function DateRangePicker({
         </Button>
       </View>
       <BottomSheet ref={sheetFromRef} index={0} enableDynamicSizing>
-        <BottomSheetView
-          style={{
-            paddingBottom: bottom
-          }}
-        >
+        <BottomSheetView>
           <SpinnerDatePicker
             title={`Period start date`}
             value={fromDate}
@@ -128,14 +123,11 @@ export function DateRangePicker({
             maximumDate={maximumDate}
             minimumDate={minimumDate}
           />
+          <BottomIndicatorAvoidingView />
         </BottomSheetView>
       </BottomSheet>
       <BottomSheet ref={sheetToRef} index={0} enableDynamicSizing>
-        <BottomSheetView
-          style={{
-            paddingBottom: bottom
-          }}
-        >
+        <BottomSheetView>
           <SpinnerDatePicker
             title={`Period end date`}
             value={toDate}
@@ -147,6 +139,7 @@ export function DateRangePicker({
             maximumDate={maximumDate}
             minimumDate={minimumDate}
           />
+          <BottomIndicatorAvoidingView />
         </BottomSheetView>
       </BottomSheet>
     </>

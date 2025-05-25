@@ -1,4 +1,4 @@
-import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
+import { RemoveNumpad } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
@@ -8,11 +8,10 @@ import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 
 export default function VerifyPINScreen() {
-  const { isResetPin, type } = useLocalSearchParams();
+  const { isResetPin } = useLocalSearchParams();
   const { verificationPin } = useUserAuthenticateStore();
 
   const [pin, setPin] = useState<string>("");
-  const [error, setError] = useState("");
 
   const handlePress = (num: string) => {
     if (pin.length < 4) {
@@ -26,32 +25,15 @@ export default function VerifyPINScreen() {
 
   useEffect(() => {
     if (pin.length === 4) {
-      if (type === "change") {
-        if (pin === verificationPin) {
-          setError("New PIN must be different from the current one.");
-        } else {
-          setError("");
-          router.push({
-            pathname: "/pin-confirm",
-            params: {
-              pin: pin,
-              isResetPin,
-              type
-            }
-          });
+      router.push({
+        pathname: "/pin-confirm",
+        params: {
+          pin: pin,
+          isResetPin
         }
-      } else {
-        router.push({
-          pathname: "/pin-confirm",
-          params: {
-            pin: pin,
-            isResetPin,
-            type
-          }
-        });
-      }
+      });
     }
-  }, [pin, isResetPin, type, verificationPin]);
+  }, [pin, isResetPin, verificationPin]);
 
   return (
     <View className="bg-background gap-4 p-8 flex-1">
@@ -80,14 +62,6 @@ export default function VerifyPINScreen() {
             />
           ))}
         </View>
-        {error && (
-          <View className="flex flex-row  items-center justify-center mt-4">
-            <CircleAlert className="top-1 " />
-            <Typography type="body-small" weight="medium" textColor="#D9323D">
-              {error}
-            </Typography>
-          </View>
-        )}
       </View>
 
       {/* Button */}
