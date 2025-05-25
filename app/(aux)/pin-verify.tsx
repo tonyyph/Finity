@@ -1,18 +1,17 @@
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
+import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { twMerge } from "tailwind-merge";
 
 export default function VerifyPINScreen() {
   const { isResetPin, type } = useLocalSearchParams();
   const { verificationPin } = useUserAuthenticateStore();
 
   const [pin, setPin] = useState<string>("");
-  const { bottom } = useSafeAreaInsets();
   const [error, setError] = useState("");
 
   const handlePress = (num: string) => {
@@ -55,10 +54,7 @@ export default function VerifyPINScreen() {
   }, [pin, isResetPin, type, verificationPin]);
 
   return (
-    <View
-      className="bg-background gap-4 p-8 flex-1"
-      style={{ paddingBottom: bottom * 2.5 }}
-    >
+    <View className="bg-background gap-4 p-8 flex-1">
       <View className="flex-1">
         {/* Welcome */}
         <View className="z-10 mb-2">
@@ -77,7 +73,7 @@ export default function VerifyPINScreen() {
           {[...Array(4)].map((_, i) => (
             <View
               key={i}
-              className={twMerge(
+              className={cn(
                 "w-[12px] h-[12px] bg-neutral-300 rounded-full",
                 pin.length > i && "bg-black"
               )}
@@ -162,6 +158,7 @@ export default function VerifyPINScreen() {
           </View>
         </View>
       </View>
+      <BottomIndicatorAvoidingView number={2.5} />
     </View>
   );
 }

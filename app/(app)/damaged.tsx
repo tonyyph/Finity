@@ -3,13 +3,12 @@ import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useUserProfile } from "@/hooks/profile/useUserProfile";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
 import { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const DamagedScreen = () => {
-  const { bottom } = useSafeAreaInsets();
   const [loading, setLoading] = useState<boolean>();
   const { handleReportOrDamaged } = useCardHolder();
   const { userProfile } = useUserProfile();
@@ -27,7 +26,7 @@ const DamagedScreen = () => {
   };
 
   return (
-    <View className="flex-1 bg-background" style={{ paddingBottom: bottom }}>
+    <View className="flex-1 bg-background">
       <View className="flex-1">
         <View className="flex-1 px-4 gap-3 pt-6">
           <Typography type="heading-small" weight="semibold">
@@ -93,6 +92,7 @@ const DamagedScreen = () => {
           </Button>
         </View>
       </View>
+      <BottomIndicatorAvoidingView />
     </View>
   );
 };

@@ -6,6 +6,10 @@ import { colors } from "@/constants/Colors";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useUserSettingsStore } from "@/stores";
 import { exactDesign } from "@/utils";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { router } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Keyboard, TextInput, View } from "react-native";
@@ -24,7 +28,7 @@ function ActiveCardScreen() {
     useRef<TextInput>(null),
     useRef<TextInput>(null)
   ];
-  const { top, bottom } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
   const keyboard = useAnimatedKeyboard();
   const translateStyle = useAnimatedStyle(() => {
     return {
@@ -98,10 +102,8 @@ function ActiveCardScreen() {
   }, [cardNumber, handleSubmit]);
 
   return (
-    <View
-      className="bg-white gap-4 p-6 flex-1"
-      style={{ paddingBottom: bottom, paddingTop: top }}
-    >
+    <View className="bg-white gap-4 p-6 flex-1">
+      <TopIndicatorAvoidingView />
       <Header onRightFunction={router.back} />
       <View className="flex-1 gap-8">
         <View className="gap-2">
@@ -167,6 +169,7 @@ function ActiveCardScreen() {
           </Button>
         </Animated.View>
       </View>
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

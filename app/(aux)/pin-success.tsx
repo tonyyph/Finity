@@ -1,6 +1,7 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useUserAuthenticateStore } from "@/stores";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
 import { find } from "lodash-es";
 import { useCallback, useEffect, useState } from "react";
@@ -76,6 +77,7 @@ function SetupPinSuccess() {
           </Button>
         </View>
       </View>
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

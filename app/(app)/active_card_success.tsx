@@ -1,10 +1,13 @@
 import { LoadingScreen } from "@/components/common/loading";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface propsLocal {
   title: string;
@@ -30,7 +33,6 @@ const type = [
 
 function ActiveCardSuccessScreen() {
   const { success } = useLocalSearchParams();
-  const { top, bottom } = useSafeAreaInsets();
   const [localType, setLocalType] = useState<propsLocal>();
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
@@ -54,10 +56,8 @@ function ActiveCardSuccessScreen() {
   }, [success]);
 
   return (
-    <View
-      className="flex-1 bg-background p-6"
-      style={{ paddingTop: top, paddingBottom: bottom }}
-    >
+    <View className="flex-1 bg-background p-6">
+      <TopIndicatorAvoidingView />
       <LoadingScreen loading={loading} />
 
       <View className=" flex-1 bg-background items-center mt-28">
@@ -83,6 +83,7 @@ function ActiveCardSuccessScreen() {
           {localType?.button}
         </Typography>
       </Button>
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

@@ -1,7 +1,8 @@
 import { ArrowBackIcon } from "@/assets";
+import { TopIndicatorAvoidingView } from "@/utils/spacing";
 import { XIcon } from "lucide-react-native";
 import { ReactNode } from "react";
-import { SafeAreaView, View } from "react-native";
+import { View } from "react-native";
 import type { SvgProps } from "react-native-svg";
 import Typography from "../common/text-typography";
 import { Button } from "./button";
@@ -29,7 +30,8 @@ function Header({
   renderRightView
 }: Props) {
   return (
-    <SafeAreaView>
+    <View>
+      <TopIndicatorAvoidingView />
       <View className="flex-row justify-between items-center">
         {renderLeftView ??
           (!!onBack || !!onLeftFunction ? (
@@ -78,7 +80,7 @@ function Header({
             </View>
           ))}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 export default Header;

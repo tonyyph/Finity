@@ -2,6 +2,10 @@ import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/ui/header";
 import { useUserSettingsStore } from "@/stores";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { BlurView } from "expo-blur";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
@@ -116,7 +120,6 @@ function Biometrics() {
   return (
     <View className="flex-1 bg-white">
       <Header onBack={router.back} title="" />
-      <SafeAreaView />
       <View className="flex-1 px-4 gap-3 mt-10">
         <Typography type="heading-small" weight="semibold">
           {`${authenticationType?.title}`}
@@ -128,7 +131,7 @@ function Biometrics() {
           {`${authenticationType?.subTitle2}`}
         </Typography>
       </View>
-      <View className="px-6 gap-6 mb-10">
+      <View className="px-6 gap-6 mb-6">
         <Button
           variant="default"
           size={"lg"}
@@ -149,7 +152,7 @@ function Biometrics() {
           {`Not now`}
         </Typography>
       </View>
-      <SafeAreaView />
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

@@ -2,10 +2,10 @@ import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function ConfirmPINScreen() {
   const { pin, isResetPin, type } = useLocalSearchParams();
@@ -13,7 +13,6 @@ export default function ConfirmPINScreen() {
 
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
-  const { bottom } = useSafeAreaInsets();
 
   const handlePress = (num: string) => {
     if (confirmPin.length < 4) {
@@ -42,10 +41,7 @@ export default function ConfirmPINScreen() {
   }, [confirmPin, pin, isResetPin, setVerificationPin, type]);
 
   return (
-    <View
-      className="bg-background gap-4 p-8 flex-1"
-      style={{ paddingBottom: bottom * 2.5 }}
-    >
+    <View className="bg-background gap-4 p-8 flex-1">
       <View className="flex-1">
         {/* Welcome */}
         <View className="z-10 mb-2">
@@ -149,6 +145,7 @@ export default function ConfirmPINScreen() {
           </View>
         </View>
       </View>
+      <BottomIndicatorAvoidingView number={2.5} />
     </View>
   );
 }

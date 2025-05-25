@@ -10,14 +10,12 @@ import RequestCardNotification from "@/components/home/request_card_noti";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useNotification } from "@/hooks/notifications/useNotification";
 import { SCREEN_WIDTH } from "@/utils";
+import { TopIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
 import { isEmpty } from "lodash-es";
 import { ScrollView, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function HomeScreen() {
-  const { top } = useSafeAreaInsets();
-
   const { userData, handleFreezeCard, isFreezeCard, cardStatus } =
     useCardHolder();
   const { notifications } = useNotification();
@@ -76,8 +74,8 @@ function HomeScreen() {
       showsVerticalScrollIndicator={false}
       className="bg-backgroundSubtle"
       nestedScrollEnabled={true}
-      style={{ paddingTop: top }}
     >
+      <TopIndicatorAvoidingView />
       <HomeHeader
         haveNotification={notifications?.length > 0}
         onNotification={handleToNotificationCenter}

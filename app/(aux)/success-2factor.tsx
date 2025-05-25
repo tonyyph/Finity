@@ -1,6 +1,7 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useUserAuthenticateStore } from "@/stores";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
 import { Image, View } from "react-native";
@@ -23,8 +24,8 @@ function TwoFactorAuthenticationSuccess() {
 
   return (
     <View className="flex-1 bg-background">
-      <View className="flex-1">
-        <View className="flex-1 px-4 gap-3 items-center mt-40">
+      <View className="flex-1 justify-between">
+        <View className="px-4 gap-3 items-center mt-40">
           <Image
             className="w-16 h-16"
             resizeMode="contain"
@@ -52,6 +53,7 @@ function TwoFactorAuthenticationSuccess() {
           </Button>
         </View>
       </View>
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

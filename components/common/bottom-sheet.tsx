@@ -8,7 +8,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import type { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { forwardRef, useCallback } from "react";
-import { View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import { FullWindowOverlay } from "react-native-screens";
 
 export const BottomSheet = forwardRef<
@@ -28,6 +28,12 @@ export const BottomSheet = forwardRef<
   );
 
   const containerComponent = useCallback(
+    (props: { children?: React.ReactNode }) => (
+      <View style={styles.androidContainer}>{props.children}</View>
+    ),
+    []
+  );
+  const iOSContainerComponent = useCallback(
     (props: { children?: React.ReactNode }) => (
       <FullWindowOverlay>{props.children}</FullWindowOverlay>
     ),
@@ -54,7 +60,9 @@ export const BottomSheet = forwardRef<
       ref={ref}
       handleComponent={handleComponent}
       backdropComponent={backdropComponent}
-      containerComponent={containerComponent}
+      containerComponent={
+        Platform.OS === "ios" ? iOSContainerComponent : containerComponent
+      }
       backgroundComponent={backgroundComponent}
       keyboardBehavior="extend"
       enablePanDownToClose
@@ -62,4 +70,16 @@ export const BottomSheet = forwardRef<
       {...props}
     />
   );
+});
+
+const styles = StyleSheet.create({
+  androidContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 9999,
+    pointerEvents: "box-none" // or 'auto' depending on interaction needs
+  }
 });

@@ -1,11 +1,14 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { AuthenticationType } from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
 import { find } from "lodash-es";
 import { useCallback, useEffect, useState } from "react";
 import { Image, Platform, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface AuthenticationProps {
   authenticationType: AuthenticationType;
@@ -44,8 +47,6 @@ function BiometricsSuccess() {
 
   const [authenticationType, setAuthenticationType] =
     useState<AuthenticationProps>();
-  const { top, bottom } = useSafeAreaInsets();
-
   useEffect(() => {
     setAuthenticationType(
       find(
@@ -60,10 +61,8 @@ function BiometricsSuccess() {
   }, []);
 
   return (
-    <View
-      className="flex-1 bg-background"
-      style={{ paddingBottom: bottom, paddingTop: top }}
-    >
+    <View className="flex-1 bg-background">
+      <TopIndicatorAvoidingView />
       <View className="flex-1">
         <View className="flex-1 px-4 gap-3 items-center mt-40">
           <Image
@@ -91,6 +90,7 @@ function BiometricsSuccess() {
           </Button>
         </View>
       </View>
+      <BottomIndicatorAvoidingView />
     </View>
   );
 }

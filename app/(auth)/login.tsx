@@ -142,9 +142,6 @@ export default function LoginScreen() {
               {/* Login Button */}
               <Button
                 variant="default"
-                // disabled={
-                //   !usernameState.value || !passwordState.value || isLoading
-                // }
                 size={"lg"}
                 className="mt-8 rounded-full bg-primary h-[48px]"
                 loading={isLoading}
