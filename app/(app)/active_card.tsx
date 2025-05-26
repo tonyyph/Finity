@@ -137,7 +137,7 @@ function ActiveCardScreen() {
             onPress={null}
           >
             <Typography type="body-default" weight="medium" textColor="white">
-              {loading ? `Activating......` : `Activate card`}
+              {loading ? `Activating...` : `Activate card`}
             </Typography>
           </Button>
         </View>

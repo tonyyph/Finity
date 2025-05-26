@@ -22,11 +22,16 @@ function HomeScreen() {
   const { cardholderId, hasIssuedCard } = userData || {};
 
   async function handleShowToastError() {
-    toast.error(`You cannot load your card while it is frozen`, {
-      icon: <AlertIcon />,
-      duration: 3000,
-      width: SCREEN_WIDTH - 28
-    });
+    toast.error(
+      hasIssuedCard
+        ? `You must activate your new card before you can load it`
+        : `You cannot load your card while it is frozen`,
+      {
+        icon: <AlertIcon />,
+        duration: 3000,
+        width: SCREEN_WIDTH - 28
+      }
+    );
   }
 
   const onLoadCard = () => {

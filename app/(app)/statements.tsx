@@ -1,3 +1,4 @@
+import { LoadingScreen } from "@/components/common";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { MenuItem } from "@/components/common/menu-item";
 import Typography from "@/components/common/text-typography";
@@ -17,9 +18,9 @@ import { FlatList, Image, Keyboard, View } from "react-native";
 function StatementScreen() {
   const { type, title } = useLocalSearchParams();
   const sheetRef = useRef<BottomSheetModal>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const userProfile = userStore?.getState().userProfile;
-  const { handleGeneratePointPDF, handleGenerateCardPDF, loading } =
-    useStatements();
+  const { handleGeneratePointPDF, handleGenerateCardPDF } = useStatements();
 
   // Created date reference
   const dateCreated = new Date(`${userProfile?.dateCreated}`);
@@ -50,6 +51,10 @@ function StatementScreen() {
     }
     return true;
   });
+
+  if (loading) {
+    return <LoadingScreen loading={loading} />;
+  }
 
   return (
     <View className="flex-1 bg-white">
@@ -96,6 +101,10 @@ function StatementScreen() {
                   label={item.value}
                   disabled={loading}
                   onPress={() => {
+                    setLoading(true);
+                    setTimeout(() => {
+                      setLoading(false);
+                    }, 2500);
                     type === "points" &&
                       handleGeneratePointPDF({
                         month: item.value,

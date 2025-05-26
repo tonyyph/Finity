@@ -47,19 +47,21 @@ function RequestCardSuccessScreen() {
     if (success !== "false") {
       setLoading(true);
       setTimeout(() => {
-        setLoading(false);
         router.dismissAll();
+        setLoading(false);
       }, 3000);
     } else {
       router.back();
     }
   }, [success]);
 
+  if (loading) {
+    return <LoadingScreen loading={true} />;
+  }
   return (
-    <View className="flex-1 bg-background p-6">
-      <LoadingScreen loading={loading} />
-      <TopIndicatorAvoidingView />
-      <View className=" flex-1 bg-background items-center mt-28">
+    <View className="flex-1 bg-background">
+      <TopIndicatorAvoidingView number={2.5} />
+      <View className=" flex-1 bg-background items-center mx-6">
         <Image
           className="w-16 h-16"
           resizeMode="contain"
@@ -75,7 +77,7 @@ function RequestCardSuccessScreen() {
       <Button
         variant="default"
         size={"lg"}
-        className="rounded-full bg-primary h-[48px]"
+        className="rounded-full bg-primary h-[48px] mx-6"
         onPress={handleReturnHome}
       >
         <Typography type="body-default" weight="medium" textColor="white">

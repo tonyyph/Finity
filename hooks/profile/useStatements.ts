@@ -7,7 +7,6 @@ import { useState } from "react";
 export const useStatements = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
   const handleGeneratePointPDF = async ({ month, year }: StatementProps) => {
     setLoading(true);
     try {
@@ -16,7 +15,7 @@ export const useStatements = () => {
         year: year
       });
       if (session) {
-        router.push({
+        router.navigate({
           pathname: "./preview_statements",
           params: {
             title: `${month} ${year}`,
@@ -40,7 +39,7 @@ export const useStatements = () => {
         year: year
       });
       if (session) {
-        router.push({
+        router.navigate({
           pathname: "./preview_statements",
           params: {
             title: `${month} ${year}`,
