@@ -4,7 +4,8 @@ import {
   getCardHolders,
   handleFreeze,
   handleUnFreeze,
-  reportOrDamageCard
+  reportOrDamageCard,
+  requestCard
 } from "@/api";
 import { useUserSettingsStore } from "@/stores";
 import { AxiosError } from "axios";
@@ -14,20 +15,14 @@ import { useState } from "react";
 export const useCardHolder = () => {
   const [data, setData] = useState<UserCardInfo>({} as UserCardInfo);
   const [listCardHolder, setListCardHolder] = useState<UserCardHolder[]>([]);
-  const {
-    setIsFreezeCard,
-    isFreezeCard,
-    setCardStatus,
-    cardStatus,
-    setActiveCard,
-    setIsDisableCard,
-    setIsDamagedCard
-  } = useUserSettingsStore();
+  const { setIsFreezeCard, isFreezeCard, setCardStatus, cardStatus } =
+    useUserSettingsStore();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const fetchCardHolderCurrent = async () => {
+    setLoading(true);
     try {
       const { data: session } = await getCardHolderCurrent();
       if (session) {
@@ -91,13 +86,24 @@ export const useCardHolder = () => {
     }
   };
 
+  const handleRequestCardHolder = async (data: RequestCardInfo) => {
+    setLoading(true);
+    try {
+      await requestCard(data);
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      fetchCardHolderCurrent();
+      setLoading(false);
+      router.back();
+    }
+  };
+
   const handleActivateCard = async (last4Digits: string) => {
     setLoading(true);
     try {
       await activeCard(last4Digits);
 
-      setActiveCard(2);
-      setIsDisableCard(false);
       router.replace({
         pathname: "/active_card_success"
       });
@@ -113,12 +119,6 @@ export const useCardHolder = () => {
     setLoading(true);
     try {
       await reportOrDamageCard(isDamaged);
-      if (!isDamaged) {
-        setIsDisableCard(true);
-        setActiveCard(1);
-      } else {
-        setIsDamagedCard(true);
-      }
       router.push({
         pathname: "/(app)/request_card_success"
       });
@@ -144,6 +144,7 @@ export const useCardHolder = () => {
     handleReportOrDamaged,
     listCardHolder,
     fetchListCardHolder,
-    fetchCardHolderCurrent
+    fetchCardHolderCurrent,
+    handleRequestCardHolder
   };
 };

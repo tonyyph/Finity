@@ -6,18 +6,12 @@ import { createJSONStorage, persist } from "zustand/middleware";
 interface UserSettingsStore {
   enabledPushNotifications: boolean;
   setEnabledPushNotifications: (enabledPushNotifications: boolean) => void;
-  activeCard: number;
-  setActiveCard: (activeCard: number) => void;
   enabledLocalAuth: boolean;
   setEnabledLocalAuth: (enabledLocalAuth: boolean) => void;
   preferredPalette: Palette;
   setPreferredPalette: (preferredPalette: Palette) => void;
   isFreezeCard: boolean;
   setIsFreezeCard: (isFreezeCard: boolean) => void;
-  isDisableCard: boolean;
-  setIsDisableCard: (isDisableCard: boolean) => void;
-  isDamagedCard: boolean;
-  setIsDamagedCard: (isDamagedCard: boolean) => void;
   cardStatus: number;
   setCardStatus: (cardStatus: number) => void;
 }
@@ -28,18 +22,12 @@ export const useUserSettingsStore = create<UserSettingsStore>()(
       enabledPushNotifications: false,
       setEnabledPushNotifications: (enabledPushNotifications) =>
         set({ enabledPushNotifications }),
-      activeCard: 0,
-      setActiveCard: (activeCard) => set({ activeCard }),
       enabledLocalAuth: false,
       setEnabledLocalAuth: (enabledLocalAuth) => set({ enabledLocalAuth }),
       preferredPalette: Palette.Default,
       setPreferredPalette: (preferredPalette) => set({ preferredPalette }),
       isFreezeCard: false,
       setIsFreezeCard: (isFreezeCard) => set({ isFreezeCard }),
-      isDisableCard: false,
-      setIsDisableCard: (isDisableCard) => set({ isDisableCard }),
-      isDamagedCard: false,
-      setIsDamagedCard: (isDamagedCard) => set({ isDamagedCard }),
       cardStatus: 0,
       setCardStatus: (cardStatus) => set({ cardStatus })
     }),

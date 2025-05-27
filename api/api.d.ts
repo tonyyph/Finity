@@ -237,6 +237,13 @@ type ChangeHomeAddressRequest = {
   postcode?: string;
 };
 
+type RequestCardInfo = {
+  addressLine1?: string;
+  addressLine2?: string;
+  postcode?: string;
+  city?: string;
+};
+
 type GenerateFileResponse = {
   fileContents: string; // base64-encoded file content
   contentType: string; // MIME type, e.g., "application/pdf"

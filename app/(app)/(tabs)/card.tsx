@@ -19,7 +19,7 @@ import Header from "@/components/ui/header";
 import AnimatedSpinnerV2 from "@/components/ui/spinnerIndicator";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { formatExpDate } from "@/lib/date";
-import { useUserAuthenticateStore, useUserSettingsStore } from "@/stores";
+import { useUserAuthenticateStore } from "@/stores";
 import { userStore } from "@/stores/userStore";
 import {
   BottomIndicatorAvoidingView,
@@ -28,12 +28,12 @@ import {
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BlurView } from "expo-blur";
 import { router, useFocusEffect } from "expo-router";
+import { isEmpty } from "lodash-es";
 import { EyeIcon, TriangleAlertIcon } from "lucide-react-native";
 import { useCallback, useRef } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 export default function CardScreen() {
-  const { isDamagedCard, isDisableCard } = useUserSettingsStore();
   const data = userStore.getState();
   const { pinInfo, cardDetailInfo } = data || {};
 
@@ -58,6 +58,8 @@ export default function CardScreen() {
 
   const { cardholderId, cardStatus, last4Digits, hasIssuedCard } =
     userData || {};
+
+  console.log(" CardScreen 💯 userData:", userData);
 
   const sheetRef = useRef<BottomSheetModal>(null);
 
@@ -184,7 +186,7 @@ export default function CardScreen() {
           <Typography type="heading-small" weight="semibold" className="p-4">
             {"Card"}
           </Typography>
-          {isDamagedCard && (
+          {hasIssuedCard && (
             <View className="p-3 mx-4 mt-2 rounded-2xl items-start bg-teal-200 flex-row">
               <Image
                 source={require("@/assets/images/info-filled-b.png")}
@@ -228,7 +230,7 @@ export default function CardScreen() {
     );
   }
 
-  if (loading) {
+  if (loading && isEmpty(userData)) {
     return (
       <View className="flex-1 bg-background">
         <HomeSkeleton />
@@ -259,7 +261,7 @@ export default function CardScreen() {
       )}
       <View className="bg-neutral-100 border border-[#E5E5E5] rounded-2xl min-h-[200px] p-4 m-4 gap-4">
         <View className="gap-3">
-          {isDisableCard || hasIssuedCard ? (
+          {hasIssuedCard && cardStatus !== 0 ? (
             <Image
               resizeMode="cover"
               source={CardLost}

@@ -390,3 +390,27 @@ export const getSettingInfo = async () => {
     }
   });
 };
+
+export const requestCard = async (data: RequestCardInfo) => {
+  const token = await clerk.session?.getToken();
+  return await axios.post<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/cards/issue-self`,
+    {
+      addressLine1: data?.addressLine1,
+      addressLine2: data?.addressLine2,
+      city: data?.city,
+      postCode: data?.postcode,
+      country: ""
+    },
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+      }
+    }
+  );
+};

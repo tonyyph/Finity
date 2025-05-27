@@ -1,5 +1,7 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
+import { useUserProfile } from "@/hooks/profile/useUserProfile";
 import { useUserSettingsStore } from "@/stores";
 import { exactDesign } from "@/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
@@ -26,16 +28,18 @@ const content = [
 ];
 
 function RequestCard() {
-  const [loading, setLoading] = useState<boolean>();
-  const { setActiveCard } = useUserSettingsStore();
+  const { handleRequestCardHolder, loading } = useCardHolder();
+  const { userProfile } = useUserProfile();
+
+  console.log(" RequestCard 💯 loading:", loading);
 
   const handleConfirm = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setActiveCard(1);
-      setLoading(false);
-      router.back();
-    }, 2000);
+    handleRequestCardHolder({
+      addressLine1: userProfile?.address?.addressLine1,
+      addressLine2: userProfile?.address?.addressLine2,
+      city: userProfile?.address?.city,
+      postcode: userProfile?.address?.postCode
+    });
   };
 
   return (
