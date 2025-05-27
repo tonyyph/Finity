@@ -11,13 +11,21 @@ import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useNotification } from "@/hooks/notifications/useNotification";
 import { SCREEN_WIDTH } from "@/utils";
 import { TopIndicatorAvoidingView } from "@/utils/spacing";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { isEmpty } from "lodash-es";
+import { useCallback } from "react";
 import { ScrollView, View } from "react-native";
 
 function HomeScreen() {
-  const { userData, handleFreezeCard, isFreezeCard, cardStatus } =
+  const { userData, handleFreezeCard, cardStatus, fetchCardHolderCurrent } =
     useCardHolder();
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchCardHolderCurrent();
+    }, [])
+  );
+
   const { notifications } = useNotification();
   const { cardholderId, hasIssuedCard } = userData || {};
 
@@ -92,7 +100,7 @@ function HomeScreen() {
             requested={!cardholderId}
           />
         )}
-        {isFreezeCard && !isEmpty(userData) && (
+        {cardStatus === 3 && !isEmpty(userData) && (
           <FrozenBanner onPress={handleFreezeCard} />
         )}
         <View className="gap-2 mb-1">

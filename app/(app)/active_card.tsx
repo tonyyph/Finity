@@ -31,7 +31,8 @@ function ActiveCardScreen() {
 
   const handleChange = (text: string, index: number) => {
     if (/^\d?$/.test(text)) {
-      setIndexCursor(index + 1);
+      if (index === 0) setIndexCursor(0);
+      else setIndexCursor(index + 1);
       inputRefs[index].current?.setNativeProps({
         selection: { start: text.length, end: text.length }
       });

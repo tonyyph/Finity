@@ -9,7 +9,7 @@ import {
 import { useUserSettingsStore } from "@/stores";
 import { AxiosError } from "axios";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export const useCardHolder = () => {
   const [data, setData] = useState<UserCardInfo>({} as UserCardInfo);
@@ -30,7 +30,6 @@ export const useCardHolder = () => {
   const fetchCardHolderCurrent = async () => {
     try {
       const { data: session } = await getCardHolderCurrent();
-
       if (session) {
         setData(session);
         setIsFreezeCard(session?.cardStatus === 3);
@@ -58,10 +57,6 @@ export const useCardHolder = () => {
     }
   };
 
-  useEffect(() => {
-    loading && fetchCardHolderCurrent();
-  }, [loading]);
-
   const handleRequestCard = () => {
     router.navigate({
       pathname: "/request_card"
@@ -88,10 +83,10 @@ export const useCardHolder = () => {
       } else {
         await handleFreeze(data?.cardholderId || 0);
       }
-      fetchCardHolderCurrent();
     } catch (error) {
       console.log("error", error);
     } finally {
+      fetchCardHolderCurrent();
       setLoading(false);
     }
   };
@@ -103,7 +98,6 @@ export const useCardHolder = () => {
 
       setActiveCard(2);
       setIsDisableCard(false);
-      fetchCardHolderCurrent();
       router.replace({
         pathname: "/active_card_success"
       });
@@ -111,6 +105,7 @@ export const useCardHolder = () => {
       console.log("1", error);
       setError((error as AxiosError).message);
     } finally {
+      fetchCardHolderCurrent();
       setLoading(false);
     }
   };
@@ -127,10 +122,10 @@ export const useCardHolder = () => {
       router.push({
         pathname: "/(app)/request_card_success"
       });
-      fetchCardHolderCurrent();
     } catch (error) {
       setError((error as AxiosError).message);
     } finally {
+      fetchCardHolderCurrent();
       setLoading(false);
     }
   };
@@ -148,6 +143,7 @@ export const useCardHolder = () => {
     handleActivateCard,
     handleReportOrDamaged,
     listCardHolder,
-    fetchListCardHolder
+    fetchListCardHolder,
+    fetchCardHolderCurrent
   };
 };

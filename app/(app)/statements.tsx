@@ -20,7 +20,11 @@ function StatementScreen() {
   const sheetRef = useRef<BottomSheetModal>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const userProfile = userStore?.getState().userProfile;
-  const { handleGeneratePointPDF, handleGenerateCardPDF } = useStatements();
+  const {
+    handleGeneratePointPDF,
+    handleGenerateCardPDF,
+    loading: statementLoading
+  } = useStatements();
 
   // Created date reference
   const dateCreated = new Date(`${userProfile?.dateCreated}`);
@@ -99,7 +103,7 @@ function StatementScreen() {
               <View key={`${index}-${item.value}`}>
                 <MenuItem
                   label={item.value}
-                  disabled={loading}
+                  disabled={statementLoading}
                   onPress={() => {
                     setLoading(true);
                     setTimeout(() => {

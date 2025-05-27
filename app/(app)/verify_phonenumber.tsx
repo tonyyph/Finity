@@ -54,7 +54,8 @@ export default function VerifyPhoneNumberCodeScreen() {
 
   const handleChange = (text: string, index: number) => {
     if (/^\d?$/.test(text)) {
-      setIndexCursor(index + 1);
+      if (index === 0) setIndexCursor(0);
+      else setIndexCursor(index + 1);
       inputsRef.current?.[index]?.setNativeProps({
         selection: { start: text.length, end: text.length }
       });

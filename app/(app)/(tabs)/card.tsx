@@ -29,7 +29,7 @@ import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BlurView } from "expo-blur";
 import { router, useFocusEffect } from "expo-router";
 import { EyeIcon, TriangleAlertIcon } from "lucide-react-native";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 export default function CardScreen() {
@@ -47,8 +47,14 @@ export default function CardScreen() {
     handleReport,
     handleFreezeCard,
     loading,
-    isFreezeCard
+    fetchCardHolderCurrent
   } = useCardHolder();
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchCardHolderCurrent();
+    }, [])
+  );
 
   const { cardholderId, cardStatus, last4Digits, hasIssuedCard } =
     userData || {};
@@ -106,7 +112,7 @@ export default function CardScreen() {
               className="w-[65px] h-[40px]"
             />
           </View>
-          {isFreezeCard && (
+          {cardStatus === 3 && (
             <BlurView
               intensity={25}
               experimentalBlurMethod="dimezisBlurView"
@@ -202,9 +208,9 @@ export default function CardScreen() {
               icon={EyeIcon}
             />
             <MenuItem
-              label={!isFreezeCard ? `Freeze card` : `Unfreeze card`}
+              label={cardStatus === 4 ? `Freeze card` : `Unfreeze card`}
               onPress={handleFreezeCard}
-              icon={!isFreezeCard ? FreezeIcon : UnFreezeIcon}
+              icon={cardStatus === 4 ? FreezeIcon : UnFreezeIcon}
               rightSection={
                 loading && <AnimatedSpinnerV2 size={24} color={"#fb923c"} />
               }

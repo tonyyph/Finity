@@ -12,7 +12,9 @@ import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 const EditPhoneNumberScreen = () => {
   const [loading, setLoading] = useState<boolean>();
-  const [isShowError, setIsShowError] = useState<boolean>();
+  const [isShowError, setIsShowError] = useState<boolean>(false);
+  const [isFirstTry, setIsFirstTry] = useState<boolean>(false);
+
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [focusMobileNumber, setFocusMobileNumber] = useState<boolean>(false);
 
@@ -24,6 +26,7 @@ const EditPhoneNumberScreen = () => {
   const handleConfirm = useCallback(() => {
     if (!phoneNumber || phoneNumber.length !== 10) {
       setIsShowError(true);
+      setIsFirstTry(true);
       return;
     }
     setLoading(true);
@@ -78,13 +81,13 @@ const EditPhoneNumberScreen = () => {
               autoCapitalize="none"
               value={phoneNumber}
               onChangeText={(text) => {
-                setIsShowError(!(text?.length === 10));
+                setIsShowError(text?.length !== 10);
                 setPhoneNumber(text);
               }}
             />
             <View className="w-2" />
           </View>
-          {phoneNumber?.length > 10 && isShowError && (
+          {isFirstTry && isShowError && (
             <View className={cn("flex-row items-center")}>
               <CircleAlert className="top-1" />
               <Typography type="body-small" weight="medium" textColor="#D9323D">
@@ -98,7 +101,7 @@ const EditPhoneNumberScreen = () => {
             <Button
               variant="default"
               size={"lg"}
-              disabled={loading || phoneNumber?.length < 10 || isShowError}
+              disabled={loading || phoneNumber?.length === 0}
               className="rounded-full bg-primary h-[48px]"
               loading={loading}
               onPress={handleConfirm}
@@ -106,7 +109,7 @@ const EditPhoneNumberScreen = () => {
               <Typography
                 type="body-default"
                 weight="medium"
-                textColor={phoneNumber?.length < 10 ? "#A3A3A3" : "white"}
+                textColor={phoneNumber?.length === 0 ? "#A3A3A3" : "white"}
               >
                 {loading ? `Sending...` : `Send code`}
               </Typography>
