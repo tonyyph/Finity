@@ -85,7 +85,7 @@ export const useLogin = () => {
         }
         await setActiveSignIn({ session: result.createdSessionId });
       }
-    } catch (error) {
+    } catch {
       setError("Incorrect email address or password. Try again.");
     } finally {
       setLoading(false);
@@ -130,7 +130,7 @@ export const useLogin = () => {
       } else {
         setError("Invalid code. Please try again.");
       }
-    } catch (error) {
+    } catch {
       setError("Incorrect verification code. Try again.");
     } finally {
       setLoading(false);

@@ -17,7 +17,7 @@ import { useCallback } from "react";
 import { ScrollView, View } from "react-native";
 
 function HomeScreen() {
-  const { userData, handleFreezeCard, cardStatus, fetchCardHolderCurrent } =
+  const { userData, handleFreezeCard, fetchCardHolderCurrent } =
     useCardHolder();
 
   useFocusEffect(
@@ -27,7 +27,7 @@ function HomeScreen() {
   );
 
   const { notifications } = useNotification();
-  const { cardholderId, hasIssuedCard } = userData || {};
+  const { cardholderId, cardStatus, hasIssuedCard } = userData || {};
 
   async function handleShowToastError() {
     toast.error(

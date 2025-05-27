@@ -69,8 +69,6 @@ export const useNotification = () => {
       //   const { data: session } = await getCardHolderCurrent();
       //   if (session) {
       //     setData(session);
-      //     setIsFreezeCard(session?.cardStatus === 3);
-      //     setCardStatus(session?.cardStatus);
       //   }
     } catch (error) {
       setLoading(false);

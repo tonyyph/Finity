@@ -31,8 +31,6 @@ function RequestCard() {
   const { handleRequestCardHolder, loading } = useCardHolder();
   const { userProfile } = useUserProfile();
 
-  console.log(" RequestCard 💯 loading:", loading);
-
   const handleConfirm = () => {
     handleRequestCardHolder({
       addressLine1: userProfile?.address?.addressLine1,

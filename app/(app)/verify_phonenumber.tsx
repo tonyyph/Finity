@@ -81,8 +81,8 @@ export default function VerifyPhoneNumberCodeScreen() {
   return (
     <View className="bg-white flex-1">
       <Header onBack={router.back} title="" />
-      <View className="flex-1 gap-6 mt-6 px-6">
-        <View className="z-10 mb-2 gap-2">
+      <View className="flex-1 gap-3 mt-6 px-6">
+        <View className="z-10 my-3 gap-2">
           <Typography type="heading-small" weight="semibold">
             Verify mobile number
           </Typography>
@@ -127,7 +127,7 @@ export default function VerifyPhoneNumberCodeScreen() {
         </View>
 
         {!!error && (
-          <View className="flex flex-row items-center mt-3">
+          <View className="flex flex-row items-center">
             <CircleAlert className="top-1" />
             <Typography
               type="body-small"

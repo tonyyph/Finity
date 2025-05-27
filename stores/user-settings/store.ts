@@ -10,10 +10,6 @@ interface UserSettingsStore {
   setEnabledLocalAuth: (enabledLocalAuth: boolean) => void;
   preferredPalette: Palette;
   setPreferredPalette: (preferredPalette: Palette) => void;
-  isFreezeCard: boolean;
-  setIsFreezeCard: (isFreezeCard: boolean) => void;
-  cardStatus: number;
-  setCardStatus: (cardStatus: number) => void;
 }
 
 export const useUserSettingsStore = create<UserSettingsStore>()(
@@ -25,11 +21,7 @@ export const useUserSettingsStore = create<UserSettingsStore>()(
       enabledLocalAuth: false,
       setEnabledLocalAuth: (enabledLocalAuth) => set({ enabledLocalAuth }),
       preferredPalette: Palette.Default,
-      setPreferredPalette: (preferredPalette) => set({ preferredPalette }),
-      isFreezeCard: false,
-      setIsFreezeCard: (isFreezeCard) => set({ isFreezeCard }),
-      cardStatus: 0,
-      setCardStatus: (cardStatus) => set({ cardStatus })
+      setPreferredPalette: (preferredPalette) => set({ preferredPalette })
     }),
     {
       name: "user-settings-storage",

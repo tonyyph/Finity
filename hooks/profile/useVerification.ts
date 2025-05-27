@@ -14,15 +14,15 @@ export const useVerification = (phoneNumber: string) => {
     const fetchVerificationCode = async () => {
       try {
         const { data: session } = await sendMobileVerificationCode(phoneNumber);
+
         setData(session);
-      } catch (error) {
       } finally {
         setLoading(false);
       }
     };
 
     fetchVerificationCode();
-  }, []);
+  }, [phoneNumber]);
 
   const handleVerifyOTP = async ({
     verificationCode

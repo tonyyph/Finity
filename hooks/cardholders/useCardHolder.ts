@@ -7,7 +7,6 @@ import {
   reportOrDamageCard,
   requestCard
 } from "@/api";
-import { useUserSettingsStore } from "@/stores";
 import { AxiosError } from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -15,10 +14,9 @@ import { useState } from "react";
 export const useCardHolder = () => {
   const [data, setData] = useState<UserCardInfo>({} as UserCardInfo);
   const [listCardHolder, setListCardHolder] = useState<UserCardHolder[]>([]);
-  const { setIsFreezeCard, isFreezeCard, setCardStatus, cardStatus } =
-    useUserSettingsStore();
 
   const [loading, setLoading] = useState(false);
+  const [freezeLoading, setFreezeLoading] = useState(false);
   const [error, setError] = useState("");
 
   const fetchCardHolderCurrent = async () => {
@@ -27,8 +25,6 @@ export const useCardHolder = () => {
       const { data: session } = await getCardHolderCurrent();
       if (session) {
         setData(session);
-        setIsFreezeCard(session?.cardStatus === 3);
-        setCardStatus(session?.cardStatus);
       }
     } catch (error) {
       setLoading(false);
@@ -71,9 +67,9 @@ export const useCardHolder = () => {
   };
 
   const handleFreezeCard = async () => {
-    setLoading(true);
+    setFreezeLoading(true);
     try {
-      if (isFreezeCard) {
+      if (data?.cardStatus === 3) {
         await handleUnFreeze(data?.cardholderId || 0);
       } else {
         await handleFreeze(data?.cardholderId || 0);
@@ -82,7 +78,7 @@ export const useCardHolder = () => {
       console.log("error", error);
     } finally {
       fetchCardHolderCurrent();
-      setLoading(false);
+      setFreezeLoading(false);
     }
   };
 
@@ -108,7 +104,6 @@ export const useCardHolder = () => {
         pathname: "/active_card_success"
       });
     } catch (error) {
-      console.log("1", error);
       setError((error as AxiosError).message);
     } finally {
       fetchCardHolderCurrent();
@@ -132,14 +127,13 @@ export const useCardHolder = () => {
 
   return {
     loading,
+    freezeLoading,
     userData: data,
     handleRequestCard,
     handleActiveCard,
     handleReport,
     handleFreezeCard,
     error,
-    cardStatus,
-    isFreezeCard,
     handleActivateCard,
     handleReportOrDamaged,
     listCardHolder,
