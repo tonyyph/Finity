@@ -1,6 +1,8 @@
 import axios from "axios";
 
 import { clerk } from "@/lib/client";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
 
 export const refreshToken = async (data: RefreshTokenRequest) => {
   return await axios.post<RefreshTokenResponse>(
@@ -410,6 +412,68 @@ export const requestCard = async (data: RequestCardInfo) => {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
         Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+      }
+    }
+  );
+};
+
+export const handleLoadCard = async (data: LoadCardRequest) => {
+  const token = await clerk.session?.getToken();
+
+  let deviceId = await AsyncStorage.getItem("device-id");
+  if (!deviceId) {
+    deviceId = uuid.v4() as string;
+    await AsyncStorage.setItem("device-id", deviceId);
+  }
+
+  console.log("first", {
+    otp: data?.otp,
+    pointsAmount: data?.pointsAmount
+  });
+
+  return await axios.post<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/PersonalPoints/load-points-mobile`,
+    {
+      otp: data?.otp,
+      pointsAmount: data?.pointsAmount
+    },
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "X-DeviceId": deviceId
+      }
+    }
+  );
+};
+
+export const handleSendPoint = async (data: SendPointRequest) => {
+  const token = await clerk.session?.getToken();
+
+  let deviceId = await AsyncStorage.getItem("device-id");
+  if (!deviceId) {
+    deviceId = uuid.v4() as string;
+    await AsyncStorage.setItem("device-id", deviceId);
+  }
+
+  return await axios.post<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/accounts/send-points-mobile"`,
+    {
+      otp: data?.otp,
+      pointsAmount: data?.pointsAmount,
+      destinationUserId: data?.destinationUserId
+    },
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "X-DeviceId": deviceId
       }
     }
   );

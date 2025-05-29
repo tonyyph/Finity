@@ -9,7 +9,7 @@ import {
 } from "@/api";
 import { AxiosError } from "axios";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 export const useCardHolder = () => {
   const [data, setData] = useState<UserCardInfo>({} as UserCardInfo);
@@ -33,6 +33,10 @@ export const useCardHolder = () => {
       setLoading(false);
     }
   };
+
+  useLayoutEffect(() => {
+    fetchCardHolderCurrent();
+  }, []);
 
   const fetchListCardHolder = async () => {
     try {

@@ -264,3 +264,14 @@ type UserCardHolder = {
   email: string;
   status: number;
 };
+
+type LoadCardRequest = {
+  otp: string;
+  pointsAmount: number;
+};
+
+type SendPointRequest = {
+  otp: string;
+  pointsAmount: number;
+  destinationUserId: number;
+};
