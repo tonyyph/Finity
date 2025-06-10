@@ -62,7 +62,7 @@ const authenticationAndroid: AuthenticationProps[] = [
 ];
 
 function Biometrics() {
-  const { typeAuthentication } = useLocalSearchParams();
+  const { typeAuthentication, firstFA = "0" } = useLocalSearchParams();
   const { setEnabledLocalAuth } = useUserSettingsStore();
 
   const [authenticationType, setAuthenticationType] =
@@ -93,7 +93,8 @@ function Biometrics() {
       router.replace({
         pathname: "/(app)/biometrics-success",
         params: {
-          typeAuthentication: authenticationType?.authenticationType
+          typeAuthentication: authenticationType?.authenticationType,
+          firstFA: firstFA
         }
       });
     } else {
@@ -115,7 +116,7 @@ function Biometrics() {
 
   return (
     <View className="flex-1 bg-white">
-      <Header onBack={router.back} title="" />
+      <Header {...(!(firstFA === "1") && { onBack: router.back })} title="" />
       <View className="flex-1 px-4 gap-3 mt-10">
         <Typography type="heading-small" weight="semibold">
           {`${authenticationType?.title}`}
@@ -142,7 +143,11 @@ function Biometrics() {
           type="body-default"
           className="text-center"
           onPress={() => {
-            router.back();
+            if (firstFA === "0") {
+              router.back();
+            } else {
+              router.replace("/(app)/(tabs)");
+            }
           }}
         >
           {`Not now`}

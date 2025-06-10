@@ -1,4 +1,5 @@
 import { useAnimatedKeyboard } from "@/hooks";
+import { cn } from "@/lib/utils";
 import { memoFC } from "@/utils";
 import { Platform, StatusBar, View } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
@@ -36,13 +37,4 @@ export const TopIndicatorAvoidingView = memoFC(({ number = 1 }) => {
       ]}
     />
   );
-});
-
-export const KeyboardSpacer = memoFC(() => {
-  const { keyboardHeight } = useAnimatedKeyboard();
-  const style = useAnimatedStyle(() => ({
-    height: keyboardHeight.value
-  }));
-
-  return <Animated.View style={style} />;
 });

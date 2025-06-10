@@ -16,6 +16,8 @@ interface UserAuthenticateStore {
   setPinInfo: (pinInfo: string) => void;
   showBottomSheetPin: boolean;
   setShowBottomSheetPin: (showBottomSheetPin: boolean) => void;
+  storeUserId: string | null | undefined;
+  setStoreUserId: (storeUserId: string | null | undefined) => void;
 }
 
 const defaultValue = {
@@ -24,7 +26,8 @@ const defaultValue = {
   verificationPin: "",
   shouldPINLocal: false,
   pinInfo: "",
-  showBottomSheetPin: false
+  showBottomSheetPin: false,
+  storeUserId: null
 };
 
 export const useUserAuthenticateStore = create<UserAuthenticateStore>()(
@@ -42,7 +45,10 @@ export const useUserAuthenticateStore = create<UserAuthenticateStore>()(
       pinInfo: "",
       setPinInfo: (pinInfo) => set({ pinInfo }),
       showBottomSheetPin: false,
-      setShowBottomSheetPin: (showBottomSheetPin) => set({ showBottomSheetPin })
+      setShowBottomSheetPin: (showBottomSheetPin) =>
+        set({ showBottomSheetPin }),
+      storeUserId: null,
+      setStoreUserId: (storeUserId) => set({ storeUserId })
     }),
     {
       name: "user-authenticate-storage",

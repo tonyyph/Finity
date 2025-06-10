@@ -32,9 +32,6 @@ export default function AuthenticatedLayout() {
 
   return (
     <View className="flex-1">
-      {/* {shouldAuthLocal && (
-        <AuthBiometrics onAuthenticated={() => setShouldAuthLocal(false)} />
-      )} */}
       {shouldPINLocal && (
         <AuthLocal onAuthenticated={() => setShouldPINLocal(false)} />
       )}

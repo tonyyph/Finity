@@ -118,7 +118,6 @@ export const useLogin = () => {
           const { data: session } = await getUserProfile();
           const { data: res } = await getPINInfo(otp);
           const { data: cardDetail } = await getCardDetail(otp);
-
           userStore.setState({
             userProfile: session,
             pinInfo: res?.pin,
@@ -145,6 +144,7 @@ export const useLogin = () => {
     handleVerifyTOTP,
     error,
     isLoading: loading,
-    onLogin
+    onLogin,
+    setError
   };
 };

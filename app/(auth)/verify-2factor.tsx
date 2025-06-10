@@ -14,7 +14,8 @@ import { Keyboard, TextInput, View } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 export default function Verify2FactorScreen() {
-  const { handleVerifyTOTP, error, isLoading } = useLogin();
+  const { handleVerifyTOTP, error, isLoading, setError } = useLogin();
+
   const [isFirstTry, setIsFirstTry] = useState<boolean>(true);
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const inputsRef = useRef<(TextInput | null)[]>([]);
@@ -45,8 +46,15 @@ export default function Verify2FactorScreen() {
     }
   }, [otpString, isFirstTry]);
 
+  useEffect(() => {
+    if (error) {
+      otpString.length === 6 && setOtp(Array(6).fill(""));
+    }
+  }, [error, otpString]);
+
   const handleChange = (text: string, index: number) => {
     if (/^\d?$/.test(text)) {
+      setError("");
       if (index === 0) setIndexCursor(0);
       else setIndexCursor(index + 1);
       inputsRef.current?.[index]?.setNativeProps({

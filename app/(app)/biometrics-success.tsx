@@ -43,8 +43,7 @@ const authenticationAndroid: AuthenticationProps[] = [
 ];
 
 function BiometricsSuccess() {
-  const { typeAuthentication, ...res } = useLocalSearchParams();
-
+  const { typeAuthentication, firstFA = "0", ...res } = useLocalSearchParams();
   const [authenticationType, setAuthenticationType] =
     useState<AuthenticationProps>();
   useEffect(() => {
@@ -57,8 +56,12 @@ function BiometricsSuccess() {
   }, [typeAuthentication, res]);
 
   const handleContinue = useCallback(() => {
-    router.dismissAll();
-  }, []);
+    if (firstFA === "1") {
+      router.replace("/(app)/(tabs)");
+    } else {
+      router.dismissAll();
+    }
+  }, [firstFA]);
 
   return (
     <View className="flex-1 bg-background">

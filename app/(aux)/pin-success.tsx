@@ -1,5 +1,6 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import { useBiometrics } from "@/hooks";
 import { useUserAuthenticateStore } from "@/stores";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
@@ -9,12 +10,22 @@ import { Image, View } from "react-native";
 function SetupPinSuccess() {
   const { isResetPin } = useLocalSearchParams();
   const { setIsLoggedIn, setIsFirst2FA } = useUserAuthenticateStore();
+  const { bioStatus, isBiometricSupported, supportType } = useBiometrics();
 
   const handleContinue = useCallback(() => {
     router.replace("/(app)/(tabs)");
     setIsLoggedIn(true);
     setIsFirst2FA(false);
   }, [setIsFirst2FA, setIsLoggedIn]);
+
+  const handleSetupBiometrics = useCallback(() => {
+    router.replace({
+      pathname: "/biometrics",
+      params: { typeAuthentication: supportType, firstFA: "1" }
+    });
+    setIsLoggedIn(true);
+    setIsFirst2FA(false);
+  }, [setIsLoggedIn, setIsFirst2FA, supportType]);
 
   return (
     <View className="flex-1 bg-background">
@@ -39,7 +50,11 @@ function SetupPinSuccess() {
             variant="default"
             size={"lg"}
             className="rounded-full bg-primary h-[48px]"
-            onPress={handleContinue}
+            onPress={
+              isBiometricSupported && !bioStatus
+                ? handleSetupBiometrics
+                : handleContinue
+            }
           >
             <Typography type="body-default" weight="medium" textColor="white">
               {`Continue`}

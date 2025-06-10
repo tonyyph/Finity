@@ -1,4 +1,4 @@
-import { expoSecurePersistStorage } from "@/utils";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import isEqual from "react-fast-compare";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { createWithEqualityFn } from "zustand/traditional";
@@ -21,7 +21,7 @@ export const userStore = createWithEqualityFn<
     }),
     {
       name: "user-storage",
-      storage: createJSONStorage(() => expoSecurePersistStorage)
+      storage: createJSONStorage(() => AsyncStorage)
     }
   ),
   isEqual

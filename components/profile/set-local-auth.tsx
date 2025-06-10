@@ -35,7 +35,7 @@ export function SetLocalAuth() {
       router.push({
         pathname: "/biometrics",
         params: {
-          typeAuthentication: supportType[0]?.toString()
+          typeAuthentication: supportType
         }
       });
       return;

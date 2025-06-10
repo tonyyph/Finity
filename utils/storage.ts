@@ -12,9 +12,3 @@ export async function getSecureStringFor(key: string) {
 export async function deleteSecureString(key: string) {
   return await SecureStore.deleteItemAsync(key);
 }
-
-export const expoSecurePersistStorage = {
-  getItem: (name: string) => SecureStore.getItem(name),
-  setItem: (name: string, value: string) => SecureStore.setItem(name, value),
-  removeItem: (name: string) => SecureStore.deleteItemAsync(name)
-};

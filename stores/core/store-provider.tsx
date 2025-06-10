@@ -11,6 +11,7 @@ import {
 } from "react";
 import { StoreIntervalUpdate } from "./store-interval-update";
 import { useResetAllStores } from "./use-reset-all-stores";
+import { useUserAuthenticateStore } from "../user-authenticate";
 
 export type StoreProviderProps = {
   children: ReactNode;
@@ -19,32 +20,22 @@ export type StoreProviderProps = {
 export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
   const [isReady, setIsReady] = useState(false);
   const { userId } = useAuth();
-  const queryClient = useQueryClient();
-  const { getItem, setItem, removeItem } = useAsyncStorage("user-id");
   const resetAllStores = useResetAllStores();
+  const { storeUserId } = useUserAuthenticateStore();
+
+  console.log(" storeUserId:", storeUserId);
 
   const handleUserChange = useCallback(async () => {
-    const storedUserId = await getItem();
-
-    if (storedUserId === userId) {
+    console.log("current user id", userId);
+    if (userId === storeUserId || !userId) {
       return;
     }
 
-    console.log("User changed, clearing storage", userId);
-
     await clearAsyncStorage();
-    queryClient.clear();
-    queryClient.invalidateQueries();
     resetAllStores();
 
     console.log("Storage cleared");
-
-    if (userId) {
-      await setItem(userId);
-    } else {
-      await removeItem();
-    }
-  }, [getItem, queryClient, userId, removeItem, setItem, resetAllStores]);
+  }, [userId, resetAllStores, storeUserId]);
 
   useEffect(() => {
     handleUserChange().catch((error) => {

@@ -1,17 +1,27 @@
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import { useUserProfile } from "@/hooks";
 import { useUserAuthenticateStore } from "@/stores";
 import {
   BottomIndicatorAvoidingView,
   TopIndicatorAvoidingView
 } from "@/utils/spacing";
+import { useAuth } from "@clerk/clerk-expo";
 import { router, useLocalSearchParams } from "expo-router";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Image, View } from "react-native";
 
 function TwoFactorAuthenticationSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { isFirst2FA, setIsLoggedIn, isLoggedIn } = useUserAuthenticateStore();
+  const { isFirst2FA, setIsLoggedIn, setStoreUserId, storeUserId } =
+    useUserAuthenticateStore();
+  const { userId } = useAuth();
+
+  useEffect(() => {
+    if (userId) {
+      !!userId && userId !== storeUserId && setStoreUserId(userId);
+    }
+  }, []);
 
   const handleSetupPin = useCallback(() => {
     router.push({
