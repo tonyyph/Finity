@@ -19,7 +19,6 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
-import { resetAllStorage } from "@/utils";
 import { TopIndicatorAvoidingView } from "@/utils/spacing";
 import { useAuth } from "@clerk/clerk-expo";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
@@ -45,7 +44,6 @@ export default function ProfileScreen() {
 
   async function handleLogout() {
     await signOut();
-    resetAllStorage();
     sheetSignOutRef.current?.close();
   }
 

@@ -1,4 +1,3 @@
-// providers/NetworkProvider.tsx
 import NetInfo from "@react-native-community/netinfo";
 import React, { createContext, useContext, useEffect, useState } from "react";
 

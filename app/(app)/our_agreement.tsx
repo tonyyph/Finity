@@ -12,7 +12,7 @@ export default function OurAgreementScreen() {
     <View className="flex-1 bg-background">
       <Header onBack={router.back} title="Our agreements" />
 
-      <ProgressBar />
+      <ProgressBar completeAnimation={true} />
       <View className="p-4">
         <MenuItem
           label={`Terms and conditions`}

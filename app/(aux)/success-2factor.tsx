@@ -11,7 +11,7 @@ import { Image, View } from "react-native";
 
 function TwoFactorAuthenticationSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { isFirst2FA, setIsLoggedIn } = useUserAuthenticateStore();
+  const { isFirst2FA, setIsLoggedIn, isLoggedIn } = useUserAuthenticateStore();
 
   const handleSetupPin = useCallback(() => {
     router.push({

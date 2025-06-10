@@ -1,7 +1,6 @@
-import axios from "axios";
-
 import { clerk } from "@/lib/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import uuid from "react-native-uuid";
 
 export const refreshToken = async (data: RefreshTokenRequest) => {
@@ -425,11 +424,6 @@ export const handleLoadCard = async (data: LoadCardRequest) => {
     deviceId = uuid.v4() as string;
     await AsyncStorage.setItem("device-id", deviceId);
   }
-
-  console.log("first", {
-    otp: data?.otp,
-    pointsAmount: data?.pointsAmount
-  });
 
   return await axios.post<any>(
     `${process.env.EXPO_PUBLIC_API_URL}/PersonalPoints/load-points-mobile`,

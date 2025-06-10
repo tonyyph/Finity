@@ -1,12 +1,12 @@
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import Header from "@/components/ui/header";
+import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { twMerge } from "tailwind-merge";
 
 export default function VerifyPINChangeScreen() {
   const { verificationPin } = useUserAuthenticateStore();
@@ -60,7 +60,7 @@ export default function VerifyPINChangeScreen() {
           {[...Array(4)].map((_, i) => (
             <View
               key={i}
-              className={twMerge(
+              className={cn(
                 "w-[12px] h-[12px] bg-neutral-300 rounded-full",
                 pin.length > i && "bg-black"
               )}

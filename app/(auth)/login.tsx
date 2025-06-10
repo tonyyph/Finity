@@ -62,7 +62,7 @@ export default function LoginScreen() {
                     )}
                     onFocus={() => setFocusUsername(true)}
                     onEndEditing={() => setFocusUsername(false)}
-                    placeholder={`Enter your username`}
+                    placeholder={`Enter email address`}
                     placeholderTextColor={"gray"}
                     autoCapitalize="none"
                     value={usernameState.value}
@@ -104,7 +104,7 @@ export default function LoginScreen() {
                     )}
                     onFocus={() => setFocusPassword(true)}
                     onEndEditing={() => setFocusPassword(false)}
-                    placeholder={`Enter your password`}
+                    placeholder={`Enter password`}
                     placeholderTextColor={"gray"}
                     secureTextEntry={securePassword}
                     value={passwordState.value}
@@ -162,7 +162,9 @@ export default function LoginScreen() {
                   weight="medium"
                   className="text-center mt-2"
                   onPress={() =>
-                    Linking.openURL("https://www.finity.co.uk/rewards/")
+                    Linking.openURL(
+                      "https://as-rwd-uks-rewards-web-dev.azurewebsites.net/account/forgot-password"
+                    )
                   }
                 >
                   Forgot password?

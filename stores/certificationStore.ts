@@ -6,12 +6,12 @@ import { createWithEqualityFn } from "zustand/traditional";
 interface CertificationStore {
   tempUserName?: string;
   tempPassword?: string;
-  reset: () => void;
+  _reset: () => void;
 }
 
 const defaultValue = {
-  tempUserName: undefined,
-  tempPassword: undefined
+  tempUserName: "",
+  tempPassword: ""
 };
 
 export const certificationStore = createWithEqualityFn<
@@ -21,7 +21,7 @@ export const certificationStore = createWithEqualityFn<
   persist(
     (set) => ({
       ...defaultValue,
-      reset: () => set({ ...defaultValue })
+      _reset: () => set({ ...defaultValue })
     }),
     {
       name: "certification-storage",

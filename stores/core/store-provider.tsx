@@ -30,7 +30,6 @@ export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
       return;
     }
 
-    // biome-ignore lint/suspicious/noConsoleLog: <explanation>
     console.log("User changed, clearing storage", userId);
 
     await clearAsyncStorage();
@@ -38,7 +37,6 @@ export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
     queryClient.invalidateQueries();
     resetAllStores();
 
-    // biome-ignore lint/suspicious/noConsoleLog: <explanation>
     console.log("Storage cleared");
 
     if (userId) {
@@ -48,7 +46,6 @@ export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
     }
   }, [getItem, queryClient, userId, removeItem, setItem, resetAllStores]);
 
-  // Clear the async storage & queryClient when the user changes
   useEffect(() => {
     handleUserChange().catch((error) => {
       console.error("Failed to clear storage", error);

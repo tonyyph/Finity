@@ -1,15 +1,32 @@
-import { create } from "zustand";
+import { expoSecurePersistStorage } from "@/utils";
+import isEqual from "react-fast-compare";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { createWithEqualityFn } from "zustand/traditional";
+
 interface CommonStore {
   isLoading: boolean;
   networkName: string;
-  isCommentEditorVisible?: boolean;
+  _reset: () => void;
 }
 
-const defaultValue: CommonStore = {
+const defaultValue = {
   isLoading: false,
   networkName: ""
 };
 
-export const commonStore = create<CommonStore>(() => ({
-  ...defaultValue
-}));
+export const commonStore = createWithEqualityFn<
+  CommonStore,
+  [["zustand/persist", CommonStore]]
+>(
+  persist(
+    (set) => ({
+      ...defaultValue,
+      _reset: () => set({ ...defaultValue })
+    }),
+    {
+      name: "commons-storage",
+      storage: createJSONStorage(() => expoSecurePersistStorage)
+    }
+  ),
+  isEqual
+);

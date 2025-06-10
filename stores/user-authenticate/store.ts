@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 interface UserAuthenticateStore {
+  _reset: () => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
   isFirst2FA: boolean;
@@ -17,9 +18,19 @@ interface UserAuthenticateStore {
   setShowBottomSheetPin: (showBottomSheetPin: boolean) => void;
 }
 
+const defaultValue = {
+  isLoggedIn: false,
+  isFirst2FA: true,
+  verificationPin: "",
+  shouldPINLocal: false,
+  pinInfo: "",
+  showBottomSheetPin: false
+};
+
 export const useUserAuthenticateStore = create<UserAuthenticateStore>()(
   persist(
     (set) => ({
+      _reset: () => set({ ...defaultValue }),
       isLoggedIn: false,
       setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
       isFirst2FA: true,
