@@ -7,6 +7,7 @@ import {
   reportOrDamageCard,
   requestCard
 } from "@/api";
+import { useUserAuthenticateStore } from "@/stores";
 import { AxiosError } from "axios";
 import { router } from "expo-router";
 import { useLayoutEffect, useState } from "react";
@@ -14,7 +15,8 @@ import { useLayoutEffect, useState } from "react";
 export const useCardHolder = () => {
   const [data, setData] = useState<UserCardInfo>({} as UserCardInfo);
   const [listCardHolder, setListCardHolder] = useState<UserCardHolder[]>([]);
-
+  const { showBottomSheetPin, setShowBottomSheetPin } =
+    useUserAuthenticateStore();
   const [loading, setLoading] = useState(false);
   const [freezeLoading, setFreezeLoading] = useState(false);
   const [error, setError] = useState("");
@@ -143,6 +145,8 @@ export const useCardHolder = () => {
     listCardHolder,
     fetchListCardHolder,
     fetchCardHolderCurrent,
-    handleRequestCardHolder
+    handleRequestCardHolder,
+    showBottomSheetPin,
+    setShowBottomSheetPin
   };
 };

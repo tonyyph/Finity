@@ -12,19 +12,32 @@ import { userStore } from "@/stores/userStore";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { router, useLocalSearchParams } from "expo-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FlatList, Image, Keyboard, View } from "react-native";
 
 function StatementScreen() {
   const { type, title } = useLocalSearchParams();
   const sheetRef = useRef<BottomSheetModal>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const userProfile = userStore?.getState().userProfile;
   const {
     handleGeneratePointPDF,
     handleGenerateCardPDF,
-    loading: statementLoading
+    loading: statementLoading,
+    data
   } = useStatements();
+
+  useEffect(() => {
+    if (data?.fileContents) {
+      router.push({
+        pathname: "./preview_statements",
+        params: {
+          title,
+          fileContent: data?.fileContents,
+          fileDownloadName: data?.fileDownloadName
+        }
+      });
+    }
+  }, [data]);
 
   // Created date reference
   const dateCreated = new Date(`${userProfile?.dateCreated}`);
@@ -38,6 +51,7 @@ function StatementScreen() {
   const currentMonth = listOfMonths[now.getMonth()].value;
 
   const [yearOfFilter, setYearOfFilter] = useState(currentYear);
+
   const [monthOfFilter, setMonthOfFilter] = useState(currentMonth);
 
   const onPressYearFilter = () => {
@@ -56,15 +70,11 @@ function StatementScreen() {
     return true;
   });
 
-  if (loading) {
-    return <LoadingScreen loading={loading} />;
-  }
-
   return (
     <View className="flex-1 bg-white">
       <View className="flex-1">
         <Header onBack={router.back} title={title as string} />
-        <ProgressBar completeAnimation={true} />
+        <ProgressBar completeAnimation={!statementLoading} />
         <View className="flex-1 p-4 gap-2">
           {/* Description */}
           <Typography type="body-default" weight="regular">
@@ -105,10 +115,6 @@ function StatementScreen() {
                   label={item.value}
                   disabled={statementLoading}
                   onPress={() => {
-                    setLoading(true);
-                    setTimeout(() => {
-                      setLoading(false);
-                    }, 2500);
                     type === "points" &&
                       handleGeneratePointPDF({
                         month: item.value,
