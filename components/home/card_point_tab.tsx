@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
     borderBottomColor: "#E5E5E5"
   },
   tabViewContainer: {
-    minHeight: SCREEN_HEIGHT * 0.75
+    minHeight: SCREEN_HEIGHT
   }
 });

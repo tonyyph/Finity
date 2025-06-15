@@ -30,6 +30,7 @@ import { Link, router } from "expo-router";
 import LottieView from "lottie-react-native";
 import { useRef } from "react";
 import { Image, ScrollView, TouchableOpacity, View } from "react-native";
+import * as Haptics from "expo-haptics";
 
 export default function ProfileScreen() {
   const { signOut } = useAuth();
@@ -120,6 +121,8 @@ export default function ProfileScreen() {
               <Switch
                 checked={enabledPushNotifications}
                 onCheckedChange={async (checked) => {
+                  Haptics.selectionAsync();
+
                   if (checked) {
                     const { status: existingStatus } =
                       await Notifications.getPermissionsAsync();
@@ -130,43 +133,9 @@ export default function ProfileScreen() {
                       finalStatus = status;
                     }
                     if (finalStatus !== "granted") {
-                      if (toastShownRef.current) return;
-
-                      toastShownRef.current = true;
-                      toast.error(`Push notifications are not enabled`, {
-                        icon: <AlertIcon />,
-                        duration: 3000,
-                        width: SCREEN_WIDTH - 28
-                      });
-                      setTimeout(() => {
-                        toastShownRef.current = false;
-                      }, 3000);
                       setEnabledPushNotifications(false);
                       return;
                     }
-                    if (toastShownRef.current) return;
-
-                    toastShownRef.current = true;
-                    toast.error(`Push notifications are enabled`, {
-                      icon: <AlertIcon />,
-                      duration: 3000,
-                      width: SCREEN_WIDTH - 28
-                    });
-                    setTimeout(() => {
-                      toastShownRef.current = false;
-                    }, 3000);
-                  } else {
-                    if (toastShownRef.current) return;
-
-                    toastShownRef.current = true;
-                    toast.error(`Push notifications are disabled`, {
-                      icon: <AlertIcon />,
-                      duration: 3000,
-                      width: SCREEN_WIDTH - 28
-                    });
-                    setTimeout(() => {
-                      toastShownRef.current = false;
-                    }, 3000);
                   }
                   setEnabledPushNotifications(checked);
                 }}
