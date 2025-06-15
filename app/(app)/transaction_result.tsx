@@ -8,7 +8,7 @@ import {
   TopIndicatorAvoidingView
 } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Image, View } from "react-native";
 
 interface propsLocal {
@@ -43,28 +43,27 @@ function TransactionResultScreen() {
 
   const [localType, setLocalType] = useState<propsLocal>();
   const [loading, setLoading] = useState<boolean>(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
     setLocalType(success !== "false" ? type[1] : type[0]);
   }, []);
 
   const handleLoadCardAgain = useCallback(() => {
-    if (success !== "false") {
-      router.dismissTo({
-        pathname: "/load_card",
-        params: {
-          isReset: "true"
-        }
-      });
-    } else {
-      setLoading(true);
-      setTimeout(() => {
-        router.back();
-      }, 1000);
-    }
-  }, [success]);
+    router.dismissTo({
+      pathname: "/load_card",
+      params: {
+        isReset: "true"
+      }
+    });
+  }, []);
 
   const handleReturnHome = useCallback(() => {
-    router.dismissAll();
+    setLoading(true);
+    timeoutRef.current = setTimeout(() => {
+      setLoading(false);
+      router.dismissAll();
+    }, 3000);
   }, []);
 
   const TransRowItem = ({ title, value }: { title: string; value: string }) => {
@@ -138,11 +137,34 @@ function TransactionResultScreen() {
     );
   };
 
+  if (success === "false") {
+    return (
+      <View className="flex-1 bg-white p-4">
+        <LoadingScreen loading={loading} />
+        <TopIndicatorAvoidingView number={1.5} />
+        <View className="flex-1 justify-start items-center">
+          <Image
+            className="w-16 h-16"
+            resizeMode="contain"
+            source={localType?.icon}
+          />
+          <Typography type="heading-small" weight="semibold" className="mt-4">
+            {localType?.title}
+          </Typography>
+          <Typography weight="regular" className="text-center mt-2 mx-2">
+            {localType?.sub}
+          </Typography>
+        </View>
+        <ButtonSection />
+        <BottomIndicatorAvoidingView />
+      </View>
+    );
+  }
+
   return (
     <View className="flex-1 bg-subtle p-4">
       <LoadingScreen loading={loading} />
       <TopIndicatorAvoidingView number={1.5} />
-
       <TransactionDetail />
       <ButtonSection />
       <BottomIndicatorAvoidingView />

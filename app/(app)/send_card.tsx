@@ -5,9 +5,8 @@ import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
-import Touch from "@/components/ui/touch";
-import { useAnimatedKeyboard } from "@/hooks";
-import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
+import { Touch } from "@/components/ui/touch";
+import { useAnimatedKeyboard, useCardHolder } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
@@ -143,7 +142,7 @@ function SendCardScreen() {
               <TextInput
                 value={enterAmount}
                 className="flex-1 bg-white h-[72px] text-[28px] font-medium"
-                keyboardType="numeric"
+                keyboardType="number-pad"
                 onChangeText={(text) => {
                   setError("");
                   setEnterAmount(text);

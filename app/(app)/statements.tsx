@@ -4,7 +4,7 @@ import { MenuItem } from "@/components/common/menu-item";
 import { Typography } from "@/components/common/text-typography";
 import { Header } from "@/components/ui/header";
 import { Separator } from "@/components/ui/separator";
-import Touch from "@/components/ui/touch";
+import { Touch } from "@/components/ui/touch";
 import { useStatements } from "@/hooks/profile/useStatements";
 import { listOfMonths, listOfYears } from "@/lib/constaints";
 import { userStore } from "@/stores/userStore";

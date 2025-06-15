@@ -109,7 +109,7 @@ function ActiveCardScreen() {
                 ]}
                 key={index}
                 ref={inputRefs[index]}
-                keyboardType="numeric"
+                keyboardType="number-pad"
                 maxLength={1}
                 value={cardNumber[index]}
                 onChangeText={(text) => handleChange(text, index)}

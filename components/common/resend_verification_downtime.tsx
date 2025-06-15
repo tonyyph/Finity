@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { Typography } from "./text-typography";
-import Touch from "../ui/touch";
+import { Touch } from "../ui/touch";
 
 export function ResendVerificationDowntime() {
   const [timeLeft, setTimeLeft] = useState(30); // 30s

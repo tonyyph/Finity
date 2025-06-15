@@ -419,61 +419,20 @@ export const requestCard = async (data: RequestCardInfo) => {
 export const handleLoadCard = async (data: LoadCardRequest) => {
   const token = await clerk.session?.getToken();
 
-  console.log(" handleLoadCard 💯 token:", token);
-
   if (!token) throw new Error("No session token found");
 
   let deviceId = await AsyncStorage.getItem("device-id");
 
-  console.log(" handleLoadCard 💯 deviceId:", deviceId);
-
   if (!deviceId) {
     deviceId = uuid.v4() as string;
     await AsyncStorage.setItem("device-id", deviceId);
   }
 
-  try {
-    const response = await axios.post(
-      `${process.env.EXPO_PUBLIC_API_URL}/PersonalPoints/load-points-mobile`,
-      {
-        pointsAmount: data.pointsAmount
-      },
-      {
-        headers: {
-          Accept: "application/json",
-          "Accept-Encoding": "gzip, deflate, br, zstd",
-          "Accept-Language": "en-US,en;q=0.9",
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-          "X-DeviceId": deviceId
-        }
-      }
-    );
-
-    return response.data;
-  } catch (error: any) {
-    console.error(
-      "handleLoadCard error:",
-      error?.response?.data || error.message
-    );
-    throw error;
-  }
-};
-export const handleSendPoint = async (data: SendPointRequest) => {
-  const token = await clerk.session?.getToken();
-
-  let deviceId = await AsyncStorage.getItem("device-id");
-  if (!deviceId) {
-    deviceId = uuid.v4() as string;
-    await AsyncStorage.setItem("device-id", deviceId);
-  }
-
-  return await axios.post<any>(
-    `${process.env.EXPO_PUBLIC_API_URL}/accounts/send-points-mobile"`,
+  return await axios.post(
+    `${process.env.EXPO_PUBLIC_API_URL}/PersonalPoints/load-points-mobile`,
     {
-      otp: data?.otp,
-      pointsAmount: data?.pointsAmount,
-      destinationUserId: data?.destinationUserId
+      pointsAmount: data.pointsAmount,
+      DeviceId: deviceId
     },
     {
       headers: {
@@ -482,7 +441,40 @@ export const handleSendPoint = async (data: SendPointRequest) => {
         "Accept-Language": "en-US,en;q=0.9",
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
-        "X-DeviceId": deviceId
+        "X-DeviceId": deviceId,
+        DeviceId: deviceId
+      }
+    }
+  );
+};
+export const handleSendPoint = async (data: SendPointRequest) => {
+  const token = await clerk.session?.getToken();
+
+  if (!token) throw new Error("No session token found");
+
+  let deviceId = await AsyncStorage.getItem("device-id");
+
+  if (!deviceId) {
+    deviceId = uuid.v4() as string;
+    await AsyncStorage.setItem("device-id", deviceId);
+  }
+
+  return await axios.post<any>(
+    `${process.env.EXPO_PUBLIC_API_URL}/accounts/send-points-mobile"`,
+    {
+      pointsAmount: data?.pointsAmount,
+      destinationUserId: data?.destinationUserId,
+      DeviceId: deviceId
+    },
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.9",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "X-DeviceId": deviceId,
+        DeviceId: deviceId
       }
     }
   );

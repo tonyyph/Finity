@@ -266,12 +266,11 @@ type UserCardHolder = {
 };
 
 type LoadCardRequest = {
-  otp: string;
-  pointsAmount: number;
+  pointsAmount: string;
+  type?: string;
 };
 
 type SendPointRequest = {
-  otp: string;
-  pointsAmount: number;
+  pointsAmount: string;
   destinationUserId: number;
 };

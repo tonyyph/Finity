@@ -3,41 +3,23 @@ import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
+import { useTransaction } from "@/hooks";
 import { formatNumber } from "@/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 function ReviewTransactionScreen() {
   const { type, amount } = useLocalSearchParams();
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [loading, setLoading] = useState(false);
-  // const {loadCard} =
+  const { loadCard, loading } = useTransaction();
 
-  const handleConfirm = () => {
-    setLoading(true);
-    timeoutRef.current = setTimeout(() => {
-      router.push({
-        pathname: "/transaction_result",
-        params: {
-          type: type,
-          amount: amount,
-          success: "true"
-        }
-      });
-      setLoading(false);
-    }, 1500);
+  const handleConfirm = async () => {
+    await loadCard({
+      pointsAmount: amount.toString(),
+      type: type.toString()
+    });
   };
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
 
   return (
     <View className="flex-1 bg-white">

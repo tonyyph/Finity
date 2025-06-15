@@ -105,7 +105,7 @@ function LoadCardScreen() {
               <TextInput
                 value={enterAmount}
                 className="flex-1 bg-white h-[72px] text-[28px] font-medium"
-                keyboardType="numeric"
+                keyboardType="number-pad"
                 onFocus={() => setFocusAmount(true)}
                 onEndEditing={() => setFocusAmount(false)}
                 onChangeText={(text) => {
