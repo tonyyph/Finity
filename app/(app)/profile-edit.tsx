@@ -1,8 +1,7 @@
-import { Typography } from "@/components/common";
-import ProfileItem from "@/components/profile/profile-item";
-import Header from "@/components/ui/header";
+import { ProfileItem } from "@/components/profile/profile-item";
+import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
-import { useSettingProfile } from "@/hooks/profile/useSettingProfile";
+import { useSettingProfile } from "@/hooks";
 import { formatDateString } from "@/lib/date";
 import { router } from "expo-router";
 import { ScrollView, View } from "react-native";

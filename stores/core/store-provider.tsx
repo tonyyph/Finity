@@ -23,10 +23,10 @@ export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
   const resetAllStores = useResetAllStores();
   const { storeUserId } = useUserAuthenticateStore();
 
-  console.log(" storeUserId:", storeUserId);
+  // console.log(" storeUserId:", storeUserId);
 
   const handleUserChange = useCallback(async () => {
-    console.log("current user id", userId);
+    // console.log("current user id", userId);
     if (userId === storeUserId || !userId) {
       return;
     }

@@ -1,6 +1,6 @@
 import { LogoMark } from "@/assets";
-import Typography from "@/components/common/text-typography";
-import Header from "@/components/ui/header";
+import { Typography } from "@/components/common/text-typography";
+import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import {
   NotificationItem,

@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
 import { Pressable, View } from "react-native";
 import type { SvgProps } from "react-native-svg";
-import Typography from "./text-typography";
+import { Typography } from "./text-typography";
 
 type MenuItemProps = {
   label: string;

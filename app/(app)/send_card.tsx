@@ -1,9 +1,9 @@
 import { MenuItem } from "@/components/common";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { CircleAlert } from "@/components/common/icons";
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import Touch from "@/components/ui/touch";
 import { useAnimatedKeyboard } from "@/hooks";

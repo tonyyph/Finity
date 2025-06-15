@@ -1,5 +1,5 @@
 import { CircleAlertX } from "@/components/common/icons";
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useNetwork } from "@/stores/core/network-provider";
 import {

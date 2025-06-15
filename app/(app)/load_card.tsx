@@ -1,7 +1,7 @@
 import { CircleAlert } from "@/components/common/icons";
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import Tooltip from "@/components/ui/tooltip";
 import { useAnimatedKeyboard } from "@/hooks";
@@ -32,7 +32,7 @@ function LoadCardScreen() {
 
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    height: keyboardHeight.value
+    height: keyboardHeight.value - 12
   }));
 
   const formatPointValue = new Intl.NumberFormat("en-US").format(
@@ -69,7 +69,7 @@ function LoadCardScreen() {
     <View className="flex-1 bg-white">
       <View className="flex-1">
         <Header onBack={router.back} title="Load points to card" />
-        <ProgressBar />
+        <ProgressBar completeAnimation />
 
         <View className="flex-1">
           <View className="p-6 gap-2">

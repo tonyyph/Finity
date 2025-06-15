@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import Typography from "./text-typography";
+import { Typography } from "./text-typography";
 import Touch from "../ui/touch";
 
 export function ResendVerificationDowntime() {

@@ -1,5 +1,5 @@
 import { getUserProfile } from "@/api";
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { userStore } from "@/stores/userStore";
 import {

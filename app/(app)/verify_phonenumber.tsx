@@ -1,8 +1,8 @@
 import { CircleAlert } from "@/components/common/icons";
 import { ResendVerificationDowntime } from "@/components/common/resend_verification_downtime";
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import { colors } from "@/constants/Colors";
 import { useAnimatedKeyboard } from "@/hooks";
 import { useVerification } from "@/hooks/profile/useVerification";

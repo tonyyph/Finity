@@ -1,6 +1,6 @@
 import { formatNumber } from "@/utils";
 import { Image, View } from "react-native";
-import Typography from "../common/text-typography";
+import { Typography } from "../common/text-typography";
 import Touch from "../ui/touch";
 
 type Props = {

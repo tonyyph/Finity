@@ -1,7 +1,7 @@
 import { userStore } from "@/stores/userStore";
 import { useUser } from "@clerk/clerk-expo";
 import { View } from "react-native";
-import Typography from "../common/text-typography";
+import { Typography } from "../common/text-typography";
 import { UserAvatar } from "../common/user-avatar";
 
 export function ProfileCard() {

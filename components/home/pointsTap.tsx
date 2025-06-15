@@ -7,7 +7,7 @@ import { FlashList } from "@shopify/flash-list";
 import { router } from "expo-router";
 import { useEffect } from "react";
 import { View } from "react-native";
-import Typography from "../common/text-typography";
+import { Typography } from "../common/text-typography";
 import { Button } from "../ui/button";
 
 function PointsTap({ showAll = false }: { showAll?: boolean }) {

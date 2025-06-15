@@ -1,10 +1,9 @@
 import { CircleAlert } from "@/components/common/icons";
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import { colors } from "@/constants/Colors";
 import { useAnimatedKeyboard } from "@/hooks";
-import { useLogin } from "@/hooks/auth";
 import { useForgotPin } from "@/hooks/auth/useForgotPin";
 import { cn } from "@/lib/utils";
 import { exactDesign } from "@/utils";

@@ -2,7 +2,7 @@ import * as LocalAuthentication from "expo-local-authentication";
 import { LockKeyholeIcon, ScanFaceIcon } from "lucide-react-native";
 import { useCallback, useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
-import Typography from "../common/text-typography";
+import { Typography } from "../common/text-typography";
 import { Button } from "../ui/button";
 
 type AuthBiometricsProps = {

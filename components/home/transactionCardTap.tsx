@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import Typography from "../common/text-typography";
+import { Typography } from "../common/text-typography";
 import { Button } from "../ui/button";
 import DATA from "./mockup.json";
 

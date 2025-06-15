@@ -1,6 +1,6 @@
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import { useUserSettingsStore } from "@/stores";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BlurView } from "expo-blur";

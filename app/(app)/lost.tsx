@@ -1,7 +1,7 @@
 import { ClockIcon, HouseIcon } from "@/assets";
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useUserProfile } from "@/hooks/profile/useUserProfile";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";

@@ -1,6 +1,6 @@
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
-import Typography from "@/components/common/text-typography";
-import Header from "@/components/ui/header";
+import { Typography } from "@/components/common/text-typography";
+import { Header } from "@/components/ui/header";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";

@@ -1,7 +1,7 @@
 import { CircleAlert } from "@/components/common";
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import { useAnimatedKeyboard } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";

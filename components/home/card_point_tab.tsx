@@ -2,7 +2,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from "@/utils";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { SceneMap, TabBar, TabBarItem, TabView } from "react-native-tab-view";
-import Typography from "../common/text-typography";
+import { Typography } from "../common/text-typography";
 import CardTab from "./cardTap";
 import PointsTap from "./pointsTap";
 

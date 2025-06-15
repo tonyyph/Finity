@@ -15,7 +15,7 @@ import { BottomSheet, MenuItem, toast, Typography } from "@/components/common";
 import { ProfileCard } from "@/components/profile/profile-card";
 import { SetLocalAuth } from "@/components/profile/set-local-auth";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";

@@ -1,6 +1,6 @@
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import { Radio } from "@/components/ui/radio";
 import { cn } from "@/lib/utils";

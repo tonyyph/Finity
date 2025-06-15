@@ -1,4 +1,4 @@
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useUserProfile } from "@/hooks/profile/useUserProfile";

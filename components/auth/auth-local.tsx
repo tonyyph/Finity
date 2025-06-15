@@ -20,7 +20,7 @@ import {
 } from "react-native";
 import { CircleAlert, RemoveNumpad } from "../common/icons";
 import { LoadingScreen } from "../common/loading";
-import Typography from "../common/text-typography";
+import { Typography } from "../common/text-typography";
 
 type AuthLocalProps = {
   onAuthenticated?: () => void;

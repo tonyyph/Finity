@@ -1,8 +1,8 @@
 import { changeHomeAddress } from "@/api";
 import { FaceIDIcon } from "@/assets";
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
-import Typography from "@/components/common/text-typography";
-import Header from "@/components/ui/header";
+import { Typography } from "@/components/common/text-typography";
+import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
 import { cn } from "@/lib/utils";

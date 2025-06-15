@@ -6,7 +6,7 @@ import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Animated, View } from "react-native";
-import Typography from "../common/text-typography";
+import { Typography } from "../common/text-typography";
 import { Button } from "../ui/button";
 import DATA from "./mockup.json";
 

@@ -9,16 +9,15 @@ import {
 } from "@/assets";
 import { ArrowRightIcon } from "@/assets/icons/ArrowRightIcon";
 import { FrozenIcon } from "@/assets/icons/FrozenIcon";
+import { DowntimeMessage } from "@/components";
 import { BottomSheet } from "@/components/common/bottom-sheet";
-import DowntimeMessage from "@/components/common/down-time-message";
 import { MenuItem } from "@/components/common/menu-item";
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import AnimatedSpinnerV2 from "@/components/ui/spinnerIndicator";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
-import { useUserAuthenticateStore } from "@/stores";
 import { userStore } from "@/stores/userStore";
 import {
   BottomIndicatorAvoidingView,
@@ -34,7 +33,7 @@ import { Image, StyleSheet, View } from "react-native";
 
 export default function CardScreen() {
   const data = userStore.getState();
-  const { pinInfo, cardDetailInfo } = data || {};
+  const { pinInfo } = data || {};
 
   const {
     userData,

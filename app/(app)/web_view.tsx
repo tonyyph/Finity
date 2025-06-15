@@ -1,5 +1,5 @@
-import Typography from "@/components/common/text-typography";
-import Header from "@/components/ui/header";
+import { Typography } from "@/components/common/text-typography";
+import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import { router, useLocalSearchParams } from "expo-router";
 import { View } from "react-native";

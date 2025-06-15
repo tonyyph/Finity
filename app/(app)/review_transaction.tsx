@@ -1,7 +1,7 @@
 import { ArrowDownIcon } from "@/assets";
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import { formatNumber } from "@/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
@@ -14,6 +14,7 @@ function ReviewTransactionScreen() {
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [loading, setLoading] = useState(false);
+  // const {loadCard} =
 
   const handleConfirm = () => {
     setLoading(true);

@@ -1,5 +1,5 @@
 import { TouchableOpacity, View } from "react-native";
-import Typography from "../common/text-typography";
+import { Typography } from "../common/text-typography";
 import { Separator } from "../ui/separator";
 import { Skeleton } from "../ui/skeleton";
 
@@ -106,4 +106,3 @@ export const ProfileItem = ({
     </View>
   );
 };
-export default ProfileItem;

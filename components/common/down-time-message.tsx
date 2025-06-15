@@ -1,9 +1,9 @@
 import React, { useEffect, useState, forwardRef } from "react";
 import { View } from "react-native";
-import Typography from "./text-typography";
+import { Typography } from "./text-typography";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
-const DowntimeMessage = forwardRef(
+export const DowntimeMessage = forwardRef(
   (props, ref: React.ForwardedRef<BottomSheetModalMethods>) => {
     const [secondsLeft, setSecondsLeft] = useState(20); // initial downtime in seconds
 
@@ -37,5 +37,3 @@ const DowntimeMessage = forwardRef(
 );
 
 DowntimeMessage.displayName = "DowntimeMessage";
-
-export default DowntimeMessage;

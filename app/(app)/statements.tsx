@@ -1,8 +1,8 @@
 import { GlobalProgressBar } from "@/components/common";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { MenuItem } from "@/components/common/menu-item";
-import Typography from "@/components/common/text-typography";
-import Header from "@/components/ui/header";
+import { Typography } from "@/components/common/text-typography";
+import { Header } from "@/components/ui/header";
 import { Separator } from "@/components/ui/separator";
 import Touch from "@/components/ui/touch";
 import { useStatements } from "@/hooks/profile/useStatements";

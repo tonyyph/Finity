@@ -1,5 +1,5 @@
 import { CircleAlert } from "@/components/common/icons";
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { cn } from "@/lib/utils";

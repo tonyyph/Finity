@@ -1,5 +1,5 @@
 import { DownloadIcon } from "@/assets/icons/DownloadIcon";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import { copyFileToDownloadFolder, IS_IOS } from "@/lib/utils";
 import { router, useLocalSearchParams } from "expo-router";

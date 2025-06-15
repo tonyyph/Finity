@@ -4,7 +4,7 @@ import { XIcon } from "lucide-react-native";
 import { ReactNode } from "react";
 import { View } from "react-native";
 import type { SvgProps } from "react-native-svg";
-import Typography from "../common/text-typography";
+import { Typography } from "../common/text-typography";
 import { Button } from "./button";
 
 type Props = {
@@ -20,7 +20,7 @@ type Props = {
   renderRightView?: ReactNode;
 };
 
-function Header({
+export const Header = ({
   title,
   onBack,
   spacing = true,
@@ -30,7 +30,7 @@ function Header({
   renderLeftView,
   renderCenterView,
   renderRightView
-}: Props) {
+}: Props) => {
   return (
     <View>
       {spacing && <TopIndicatorAvoidingView />}
@@ -84,5 +84,4 @@ function Header({
       </View>
     </View>
   );
-}
-export default Header;
+};

@@ -1,6 +1,5 @@
-import Typography from "@/components/common/text-typography";
+import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { useUserProfile } from "@/hooks";
 import { useUserAuthenticateStore } from "@/stores";
 import {
   BottomIndicatorAvoidingView,
