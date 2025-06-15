@@ -18,7 +18,10 @@ function PointsTap({ showAll = false }: { showAll?: boolean }) {
   }, [fetchPaginatedPointTransactions]);
 
   const handleSeeMore = () => {
-    router.push("/transactions");
+    router.push({
+      pathname: "/transactions",
+      params: { initTab: "1" }
+    });
   };
 
   const EmptyList = () => {
@@ -53,10 +56,14 @@ function PointsTap({ showAll = false }: { showAll?: boolean }) {
         data={showAll ? pointList : pointList.slice(0, 10)}
         contentContainerClassName="pt-3"
         showsVerticalScrollIndicator={false}
+        estimatedItemSize={96}
+        keyExtractor={(item, index) => `${item.id}-${index}`}
+        className="flex-1"
+        onEndReachedThreshold={0.1}
         renderItem={({ item, index }) => {
           return (
-            <View className="flex-row justify-between items-start my-2">
-              <View className="flex flex-row items-start gap-4 min-h-[64px]">
+            <View className="flex-1 flex-row justify-between items-start my-2">
+              <View className="flex-1 flex-row items-start gap-4 min-h-[64px]">
                 <View className="w-[40px] h-[40px] bg-[#F4F4F4] rounded-full justify-center items-center">
                   {item?.type === "Card Load" ? (
                     <CardLoadIcon />
@@ -66,7 +73,16 @@ function PointsTap({ showAll = false }: { showAll?: boolean }) {
                 </View>
                 <View>
                   <Typography>{item.type}</Typography>
-                  <Typography textColor="#404040" weight="regular">
+                  <Typography
+                    textColor="#404040"
+                    weight="regular"
+                    style={{
+                      maxWidth: "100%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      flex: 1
+                    }}
+                  >
                     {!!item?.source
                       ? item?.source
                       : `£ ${Math.abs(item?.amount).toFixed(2)}`}
@@ -78,7 +94,7 @@ function PointsTap({ showAll = false }: { showAll?: boolean }) {
               </View>
               <Typography
                 textColor={item.amount > 0 ? "#00A464" : "#D9323D"}
-                className="text-right"
+                className="text-right flex-[0.2]"
               >
                 {`${item?.amount > 0 ? "+" : "-"}${Math.abs(
                   item?.amount
@@ -90,7 +106,6 @@ function PointsTap({ showAll = false }: { showAll?: boolean }) {
         nestedScrollEnabled={true}
         scrollEnabled={showAll}
         ListFooterComponent={Footer}
-        estimatedItemSize={64}
         ListEmptyComponent={EmptyList}
       />
     </View>

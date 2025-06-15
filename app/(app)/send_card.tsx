@@ -10,13 +10,14 @@ import { useAnimatedKeyboard, useCardHolder } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { isEmpty } from "lodash-es";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Image, Keyboard, TextInput, View } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 function SendCardScreen() {
+  const { isReset } = useLocalSearchParams();
   const { userData, fetchListCardHolder, listCardHolder } = useCardHolder();
   const [enterAmount, setEnterAmount] = useState("");
   const [cardHolderValue, setCardHolderValue] = useState<UserCardHolder>(
@@ -27,8 +28,16 @@ function SendCardScreen() {
   const sheetRef = useRef<BottomSheetModal>(null);
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    height: keyboardHeight.value
+    height: keyboardHeight.value - 12
   }));
+
+  useEffect(() => {
+    if (isReset === "true") {
+      setEnterAmount("");
+      setError("");
+      Keyboard.dismiss();
+    }
+  }, [isReset]);
 
   useLayoutEffect(() => {
     fetchListCardHolder();
@@ -37,6 +46,20 @@ function SendCardScreen() {
   const formatPointValue = new Intl.NumberFormat("en-US").format(
     Number(userData?.pointsBalance ?? 0)
   );
+
+  useEffect(() => {
+    if (
+      (Number(enterAmount) < 1 ||
+        Number(enterAmount) > userData?.pointsBalance) &&
+      !!enterAmount
+    ) {
+      setError(
+        Number(enterAmount) < 1
+          ? "The minimum amount to send is 1 point"
+          : "Amount exceeds your balance"
+      );
+    }
+  }, [enterAmount, userData]);
 
   const handleContinue = () => {
     if (enterAmount?.includes(",")) {
@@ -67,9 +90,12 @@ function SendCardScreen() {
       router.push({
         pathname: "/pin-verification",
         params: {
-          type: "load-card",
+          type: "send-points",
           amount: Number(enterAmount),
-          cardHolderName: "Amber Green"
+          cardHolderName: isEmptyString(cardHolderValue?.name ?? "")
+            ? cardHolderValue?.email
+            : cardHolderValue?.name,
+          cardHolderId: cardHolderValue?.id
         }
       });
     }

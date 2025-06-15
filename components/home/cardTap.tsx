@@ -17,7 +17,10 @@ function CardTab({ showAll = false }: { showAll?: boolean }) {
   }, [fetchPaginatedCardTransactions]);
 
   const handleSeeMore = () => {
-    router.push("/transactions");
+    router.push({
+      pathname: "/transactions",
+      params: { initTab: "0" }
+    });
   };
 
   const EmptyList = () => {

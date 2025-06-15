@@ -1,13 +1,39 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "@/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { SceneMap, TabBar, TabBarItem, TabView } from "react-native-tab-view";
 import { Typography } from "../common/text-typography";
 import CardTab from "./cardTap";
 import PointsTap from "./pointsTap";
+import { useListTransaction } from "@/hooks";
 
 function CardAndPointTab() {
+  const {
+    pointList,
+    cardList,
+    fetchPaginatedCardTransactions,
+    fetchPaginatedPointTransactions
+  } = useListTransaction();
+  useEffect(() => {
+    fetchPaginatedPointTransactions();
+    fetchPaginatedCardTransactions();
+  }, [fetchPaginatedPointTransactions, fetchPaginatedCardTransactions]);
+
+  const cardListHeight =
+    cardList.length === 0
+      ? SCREEN_HEIGHT / 2
+      : cardList.length > 10
+      ? 10 * 96
+      : cardList.length * 96;
+  const pointTapHeight =
+    pointList.length === 0
+      ? SCREEN_HEIGHT / 2
+      : pointList.length > 10
+      ? 96 * 10
+      : 96 * pointList.length;
   const [index, setIndex] = useState<number>(0);
+  const tabViewHeight = index === 0 ? cardListHeight : pointTapHeight;
+
   const [routes] = useState([
     { key: "card", title: "Card" },
     { key: "points", title: "Points" }
@@ -51,7 +77,7 @@ function CardAndPointTab() {
             )}
           />
         )}
-        style={styles.tabViewContainer}
+        style={{ height: tabViewHeight }}
       />
     </View>
   );
@@ -69,8 +95,5 @@ const styles = StyleSheet.create({
   containerStyle: {
     borderBottomWidth: 1,
     borderBottomColor: "#E5E5E5"
-  },
-  tabViewContainer: {
-    minHeight: SCREEN_HEIGHT
   }
 });

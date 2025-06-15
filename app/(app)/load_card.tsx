@@ -39,6 +39,22 @@ function LoadCardScreen() {
     Number(userData?.pointsBalance ?? 0)
   );
 
+  useEffect(() => {
+    if (
+      (Number(enterAmount) < 100 ||
+        Number(enterAmount) > userData?.pointsBalance) &&
+      !!enterAmount
+    ) {
+      setError(
+        Number(enterAmount) < 100
+          ? "The minimum amount to load is 100 points"
+          : "Amount exceeds your balance"
+      );
+    } else {
+      setError("");
+    }
+  }, [enterAmount, userData]);
+
   const handleContinue = () => {
     if (enterAmount?.includes(",")) {
       setError("Invalid amount");
@@ -48,11 +64,7 @@ function LoadCardScreen() {
       Number(enterAmount) < 100 ||
       Number(enterAmount) > userData?.pointsBalance
     ) {
-      setError(
-        Number(enterAmount) < 100
-          ? "The minimum amount to load is 100 points"
-          : "Amount exceeds your balance"
-      );
+      return;
     } else {
       router.push({
         pathname: "/pin-verification",
@@ -109,7 +121,6 @@ function LoadCardScreen() {
                 onFocus={() => setFocusAmount(true)}
                 onEndEditing={() => setFocusAmount(false)}
                 onChangeText={(text) => {
-                  setError("");
                   setEnterAmount(text);
                 }}
               />

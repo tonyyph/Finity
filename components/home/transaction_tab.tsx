@@ -11,8 +11,8 @@ const routes = [
   { key: "points", title: "Points" }
 ];
 
-function TransactionTab() {
-  const [index, setIndex] = useState<number>(0);
+function TransactionTab({ initTab }: { initTab?: number }) {
+  const [index, setIndex] = useState<number>(initTab || 0);
 
   const renderScene = ({ route }: any) => {
     if (Math.abs(index - routes.indexOf(route)) > 2) {
@@ -20,9 +20,9 @@ function TransactionTab() {
     } else {
       switch (route.key) {
         case "card":
-          return <TransactionCardTap showAll />;
+          return <TransactionCardTap />;
         case "points":
-          return <TransactionPointTap showAll />;
+          return <TransactionPointTap />;
         default:
           break;
       }

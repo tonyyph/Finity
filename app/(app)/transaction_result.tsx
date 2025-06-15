@@ -1,13 +1,18 @@
 import { LoadingScreen } from "@/components/common/loading";
 import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { formatDateNow } from "@/lib/date";
+import {
+  formatDateNow,
+  formatDateTransaction,
+  formatDateTransactionDetails
+} from "@/lib/date";
 import { formatNumber } from "@/utils";
 import {
   BottomIndicatorAvoidingView,
   TopIndicatorAvoidingView
 } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
+import { isEmpty } from "lodash-es";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Image, View } from "react-native";
 
@@ -20,23 +25,47 @@ interface propsLocal {
 }
 
 function TransactionResultScreen() {
-  const { success, amount } = useLocalSearchParams();
+  const {
+    success,
+    amount,
+    type: transType,
+    transactionId,
+    email,
+    cardBalance,
+    pointsBalance,
+    dateTransacted,
+    destinationUserFullName
+  } = useLocalSearchParams();
+
+  const isEmptyString = (str: string) => !str.trim();
 
   const type = [
     {
       title: `Something went wrong`,
       sub: `An unexpected error occurred while processing your request. Please try again.`,
       icon: require("@/assets/images/error-filled.png"),
-      button: `Load card again`,
+      button:
+        transType === "load-card" ? `Load card again` : `Send points again`,
       secondaryButton: `Return to home`
     },
     {
-      title: `+£${formatNumber({
-        value: Number(amount?.toString().replace(/,/g, "")) * 0.1
-      })}`,
-      sub: `successfully loaded to your card.`,
+      title:
+        transType === "load-card"
+          ? `+£${formatNumber({
+              value: Number(amount?.toString().replace(/,/g, "")) * 0.1
+            })}`
+          : `${amount} points`,
+      sub:
+        transType === "load-card"
+          ? `successfully loaded to your card.`
+          : `successfully sent to ${
+              !isEmptyString(destinationUserFullName.toString())
+                ? destinationUserFullName.toString()
+                : email
+            }.`,
       icon: require("@/assets/images/success-filled.png"),
-      button: `Load card again`,
+      button:
+        transType === "load-card" ? `Load card again` : `Send points again`,
       secondaryButton: `Return to home`
     }
   ];
@@ -58,6 +87,15 @@ function TransactionResultScreen() {
     });
   }, []);
 
+  const handleSendPointAgain = useCallback(() => {
+    router.dismissTo({
+      pathname: "/send_card",
+      params: {
+        isReset: "true"
+      }
+    });
+  }, []);
+
   const handleReturnHome = useCallback(() => {
     setLoading(true);
     timeoutRef.current = setTimeout(() => {
@@ -69,13 +107,17 @@ function TransactionResultScreen() {
   const TransRowItem = ({ title, value }: { title: string; value: string }) => {
     return (
       <View key={`${title}-${value}`} className="flex-row justify-between">
-        <Typography weight="regular">{title}</Typography>
-        <Typography>{value}</Typography>
+        <Typography weight="regular" style={{ flex: 0.6 }}>
+          {title}
+        </Typography>
+        <Typography style={{ flex: 0.4, textAlign: "right" }}>
+          {value}
+        </Typography>
       </View>
     );
   };
 
-  const TransactionDetail = () => {
+  const TransactionCardDetail = () => {
     return (
       <View className=" flex-1 bg-subtle justify-start items-center">
         <Image
@@ -90,7 +132,7 @@ function TransactionResultScreen() {
           {localType?.sub}
         </Typography>
         <Typography weight="regular" className="text-center mt-6">
-          {formatDateNow()}
+          {formatDateTransactionDetails(dateTransacted?.toString())}
         </Typography>
 
         <View className="mt-8 w-full border border-border rounded-2xl px-4 py-6 gap-2 bg-white">
@@ -110,6 +152,59 @@ function TransactionResultScreen() {
     );
   };
 
+  const TransactionPointDetail = () => {
+    return (
+      <View className=" flex-1 bg-subtle justify-start items-center">
+        <Image
+          className="w-16 h-16"
+          resizeMode="contain"
+          source={localType?.icon}
+        />
+        <Typography type="heading-small" weight="semibold" className="mt-4">
+          {localType?.title}
+        </Typography>
+        <Typography weight="regular" className="text-center mt-2">
+          {localType?.sub}
+        </Typography>
+        <Typography weight="regular" className="text-center mt-4">
+          {formatDateTransactionDetails(dateTransacted?.toString())}
+        </Typography>
+
+        <View className="mt-6 w-full border border-border rounded-2xl px-4 py-6 gap-2 bg-white">
+          <TransRowItem
+            title="Reference number"
+            value={transactionId?.toString()}
+          />
+          <TransRowItem title="You sent" value={`${amount} points`} />
+
+          <View className="h-[1px] bg-border my-2" />
+
+          <Typography type="body-default" weight="semibold">
+            Recipient details
+          </Typography>
+          <TransRowItem
+            title="Account holder"
+            value={destinationUserFullName.toString()}
+          />
+          <TransRowItem title="Email address" value={email.toString()} />
+
+          <View className="h-[1px] bg-border my-2" />
+
+          <Typography type="body-default" weight="semibold">
+            Account balances
+          </Typography>
+          <TransRowItem title="Points" value={`${pointsBalance} points`} />
+          <TransRowItem
+            title="Card"
+            value={`£${formatNumber({
+              value: Number(cardBalance?.toString().replace(/,/g, "")) * 0.1
+            })}`}
+          />
+        </View>
+      </View>
+    );
+  };
+
   const ButtonSection = () => {
     return (
       <View className="gap-4">
@@ -117,7 +212,11 @@ function TransactionResultScreen() {
           variant="default"
           size={"lg"}
           className="rounded-full bg-primary h-[48px]"
-          onPress={handleLoadCardAgain}
+          onPress={
+            transType === "load-card"
+              ? handleLoadCardAgain
+              : handleSendPointAgain
+          }
         >
           <Typography type="body-default" weight="medium" textColor="white">
             {localType?.button}
@@ -165,7 +264,11 @@ function TransactionResultScreen() {
     <View className="flex-1 bg-subtle p-4">
       <LoadingScreen loading={loading} />
       <TopIndicatorAvoidingView number={1.5} />
-      <TransactionDetail />
+      {transType === "load-card" ? (
+        <TransactionCardDetail />
+      ) : (
+        <TransactionPointDetail />
+      )}
       <ButtonSection />
       <BottomIndicatorAvoidingView />
     </View>

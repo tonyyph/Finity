@@ -10,15 +10,91 @@ import { router, useLocalSearchParams } from "expo-router";
 import { StyleSheet, View } from "react-native";
 
 function ReviewTransactionScreen() {
-  const { type, amount } = useLocalSearchParams();
+  const { type, amount, cardHolderName, cardHolderId } = useLocalSearchParams();
 
-  const { loadCard, loading } = useTransaction();
+  const isLoadCard = type === "load-card";
 
-  const handleConfirm = async () => {
+  const { loadCard, loading, sendPoints } = useTransaction();
+
+  const handleConfirmLoadCard = async () => {
     await loadCard({
       pointsAmount: amount.toString(),
       type: type.toString()
     });
+  };
+
+  const handleConfirmSendPoints = async () => {
+    await sendPoints({
+      pointsAmount: amount.toString(),
+      destinationUserId: Number(cardHolderId),
+      type: type.toString()
+    });
+  };
+
+  const LoadCardInfo = () => {
+    return (
+      <View className="flex-1 pt-4">
+        <View className="px-4 gap-2">
+          <View className="bg-neutral-100 px-5 py-4 items-start justify-center gap-1 rounded-xl">
+            <Typography type="body-large" weight="semibold">
+              {`Load`}
+            </Typography>
+            <Typography>{`${amount} points`}</Typography>
+          </View>
+          <View
+            className="bg-white rounded-full self-center absolute p-[6px] top-[50%] z-10"
+            style={styles.arrowStyle}
+          >
+            <ArrowDownIcon />
+          </View>
+          <View className="bg-neutral-100 px-5 py-4 items-start justify-center gap-1 rounded-xl">
+            <Typography type="body-large" weight="semibold">
+              {`You’ll receive`}
+            </Typography>
+            <Typography>
+              {`£${formatNumber({
+                value: Number(amount?.toString().replace(/,/g, "")) * 0.1
+              })}`}
+            </Typography>
+          </View>
+        </View>
+        {/* point balance */}
+        <View className="flex-row gap-1 items-center px-6 pt-2">
+          <Typography type="body-small" weight="medium" textColor="#525252">
+            {`Card balance after load: £${formatNumber({
+              value: Number(amount?.toString().replace(/,/g, "")) * 0.1
+            })}`}
+          </Typography>
+        </View>
+      </View>
+    );
+  };
+
+  const SendPointInfo = () => {
+    return (
+      <View className="flex-1 pt-4">
+        <View className="px-4 gap-2">
+          <View className="bg-neutral-100 px-5 py-4 items-start justify-center gap-1 rounded-xl">
+            <Typography type="body-large" weight="semibold">
+              {`Send`}
+            </Typography>
+            <Typography>{`${amount} points`}</Typography>
+          </View>
+          <View
+            className="bg-white rounded-full self-center absolute p-[6px] top-[50%] z-10"
+            style={styles.arrowStyle}
+          >
+            <ArrowDownIcon />
+          </View>
+          <View className="bg-neutral-100 px-5 py-4 items-start justify-center gap-1 rounded-xl">
+            <Typography type="body-large" weight="semibold">
+              {`Recipient`}
+            </Typography>
+            <Typography>{`${cardHolderName}`}</Typography>
+          </View>
+        </View>
+      </View>
+    );
   };
 
   return (
@@ -27,40 +103,7 @@ function ReviewTransactionScreen() {
         <Header onBack={router.back} title="Review transactions" />
         <ProgressBar completeAnimation={true} />
 
-        <View className="flex-1 pt-4">
-          <View className="px-4 gap-2">
-            <View className="bg-neutral-100 px-5 py-4 items-start justify-center gap-1 rounded-xl">
-              <Typography type="body-large" weight="semibold">
-                {`Load`}
-              </Typography>
-              <Typography>{`${amount} points`}</Typography>
-            </View>
-            <View
-              className="bg-white rounded-full self-center absolute p-[6px] top-[50%] z-10"
-              style={styles.arrowStyle}
-            >
-              <ArrowDownIcon />
-            </View>
-            <View className="bg-neutral-100 px-5 py-4 items-start justify-center gap-1 rounded-xl">
-              <Typography type="body-large" weight="semibold">
-                {`You’ll receive`}
-              </Typography>
-              <Typography>
-                {`£${formatNumber({
-                  value: Number(amount?.toString().replace(/,/g, "")) * 0.1
-                })}`}
-              </Typography>
-            </View>
-          </View>
-          {/* point balance */}
-          <View className="flex-row gap-1 items-center px-6 pt-2">
-            <Typography type="body-small" weight="medium" textColor="#525252">
-              {`Card balance after load: £${formatNumber({
-                value: Number(amount?.toString().replace(/,/g, "")) * 0.1
-              })}`}
-            </Typography>
-          </View>
-        </View>
+        {isLoadCard ? <LoadCardInfo /> : <SendPointInfo />}
         {/* Bottom */}
         <View className="px-4">
           <Button
@@ -69,10 +112,18 @@ function ReviewTransactionScreen() {
             className="rounded-full bg-primary h-[48px]"
             loading={loading}
             disabled={loading}
-            onPress={handleConfirm}
+            onPress={
+              isLoadCard ? handleConfirmLoadCard : handleConfirmSendPoints
+            }
           >
             <Typography type="body-default" weight="medium" textColor="white">
-              {loading ? `Loading card...` : `Confirm and load`}
+              {loading
+                ? isLoadCard
+                  ? `Loading card...`
+                  : `Sending points...`
+                : isLoadCard
+                ? `Confirm and load`
+                : `Confirm and send`}
             </Typography>
           </Button>
         </View>

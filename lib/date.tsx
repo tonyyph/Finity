@@ -132,6 +132,28 @@ export const formatDateTransaction = (dateString: string) => {
   return formatted;
 };
 
+export const formatDateTransactionDetails = (dateString: string) => {
+  if (!dateString) {
+    return "";
+  }
+  const date = new Date(dateString);
+
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = date.toLocaleString("en-US", { month: "long" });
+  const year = date.getFullYear();
+
+  let hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const ampm = hours >= 12 ? "pm" : "am";
+
+  hours = hours % 12;
+  hours = hours === 0 ? 12 : hours;
+
+  const hourStr = hours.toString().padStart(2, "0");
+
+  return `${day} ${month} ${year}, ${hourStr}:${minutes}${ampm}`;
+};
+
 export const formatDateNow = () => {
   const now = new Date();
 

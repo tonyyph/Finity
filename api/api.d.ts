@@ -273,4 +273,5 @@ type LoadCardRequest = {
 type SendPointRequest = {
   pointsAmount: string;
   destinationUserId: number;
+  type?: string;
 };

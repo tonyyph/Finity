@@ -16,7 +16,7 @@ export const useListTransaction = () => {
     try {
       const { data: session } = await getCardTransaction({
         cursor: "0",
-        take: "20",
+        take: "50",
         search: ""
       });
 
@@ -33,7 +33,7 @@ export const useListTransaction = () => {
     try {
       const { data: session } = await getPointTransaction({
         cursor: "0",
-        take: "20",
+        take: "50",
         search: ""
       });
 

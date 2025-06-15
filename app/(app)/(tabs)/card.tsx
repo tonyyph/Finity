@@ -114,7 +114,7 @@ export default function CardScreen() {
                 />
                 <View className="h-12" />
                 <View className="flex-row items-center gap-3">
-                  <Typography>{`**** ${last4Digits ?? "0000"}`}</Typography>
+                  <Typography>{`**** ${last4Digits ?? "****"}`}</Typography>
                 </View>
               </View>
               <View className="justify-between flex-1 items-end p-6">

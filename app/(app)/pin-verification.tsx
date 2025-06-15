@@ -20,8 +20,16 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 
 function PinVerificationScreen() {
-  const { type, amount, addressLine1, addressLine2, city, postCode } =
-    useLocalSearchParams();
+  const {
+    type,
+    amount,
+    addressLine1,
+    addressLine2,
+    city,
+    postCode,
+    cardHolderName,
+    cardHolderId
+  } = useLocalSearchParams();
   const userProfileJson = userStore?.getState().userProfile;
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -41,11 +49,13 @@ function PinVerificationScreen() {
         pathname: "/review_transaction",
         params: {
           type: type,
-          amount: amount
+          amount: amount,
+          cardHolderName: cardHolderName,
+          cardHolderId: cardHolderId
         }
       });
     }, 3000);
-  }, [amount, type]);
+  }, [amount, type, cardHolderName, cardHolderId]);
 
   const onVerifyEditHomeAddress = useCallback(() => {
     setLoading(true);
@@ -89,7 +99,7 @@ function PinVerificationScreen() {
       setAuthInProgress(false);
       type === "edit-home-address" && onVerifyEditHomeAddress();
       type === "view-pin" && onVerifyViewPIN();
-      type === "load-card" && onAuthenticated?.();
+      (type === "load-card" || type === "send-points") && onAuthenticated?.();
     } else {
       if (!!result?.error && result?.error === "user_cancel") {
         setAuthInProgress(false);
@@ -116,7 +126,7 @@ function PinVerificationScreen() {
       if (confirmPin === verificationPin) {
         type === "edit-home-address" && onVerifyEditHomeAddress();
         type === "view-pin" && onVerifyViewPIN();
-        type === "load-card" && onAuthenticated?.();
+        (type === "load-card" || type === "send-points") && onAuthenticated?.();
       } else {
         setWrongPin(true);
       }
