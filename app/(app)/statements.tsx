@@ -1,9 +1,8 @@
-import { LoadingScreen } from "@/components/common";
+import { GlobalProgressBar } from "@/components/common";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { MenuItem } from "@/components/common/menu-item";
 import Typography from "@/components/common/text-typography";
 import Header from "@/components/ui/header";
-import { ProgressBar } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import Touch from "@/components/ui/touch";
 import { useStatements } from "@/hooks/profile/useStatements";
@@ -12,34 +11,35 @@ import { userStore } from "@/stores/userStore";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FlatList, Image, Keyboard, View } from "react-native";
 
 function StatementScreen() {
   const { type, title } = useLocalSearchParams();
   const sheetRef = useRef<BottomSheetModal>(null);
   const userProfile = userStore?.getState().userProfile;
-  const {
-    handleGeneratePointPDF,
-    handleGenerateCardPDF,
-    loading: statementLoading,
-    data
-  } = useStatements();
+  const { handleGeneratePointPDF, handleGenerateCardPDF } = useStatements();
 
-  useEffect(() => {
-    if (data?.fileContents) {
-      router.push({
-        pathname: "./preview_statements",
-        params: {
-          title,
-          fileContent: data?.fileContents,
-          fileDownloadName: data?.fileDownloadName
-        }
-      });
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handlePress = ({ id, value }: { id: number; value: string }) => {
+    if (debounceRef.current) return;
+
+    debounceRef.current = setTimeout(() => {
+      debounceRef.current = null;
+    }, 1500);
+
+    if (type === "points") {
+      handleGeneratePointPDF({ month: value, year: yearOfFilter });
     }
-  }, [data]);
 
-  // Created date reference
+    if (type === "card") {
+      handleGenerateCardPDF({ month: value, year: yearOfFilter });
+    }
+
+    sheetRef.current?.close();
+  };
+
   const dateCreated = new Date(`${userProfile?.dateCreated}`);
   const createdYear = dateCreated.getFullYear();
   const createdMonth = dateCreated.getMonth();
@@ -74,7 +74,8 @@ function StatementScreen() {
     <View className="flex-1 bg-white">
       <View className="flex-1">
         <Header onBack={router.back} title={title as string} />
-        <ProgressBar completeAnimation={!statementLoading} />
+        <GlobalProgressBar />
+
         <View className="flex-1 p-4 gap-2">
           {/* Description */}
           <Typography type="body-default" weight="regular">
@@ -113,20 +114,7 @@ function StatementScreen() {
               <View key={`${index}-${item.value}`}>
                 <MenuItem
                   label={item.value}
-                  disabled={statementLoading}
-                  onPress={() => {
-                    type === "points" &&
-                      handleGeneratePointPDF({
-                        month: item.value,
-                        year: yearOfFilter
-                      });
-                    type === "card" &&
-                      handleGenerateCardPDF({
-                        month: item.value,
-                        year: yearOfFilter
-                      });
-                    sheetRef.current?.close();
-                  }}
+                  onPress={() => handlePress(item)}
                   className="py-3"
                 />
                 {index !== filteredMonths.length - 1 && (

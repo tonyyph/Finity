@@ -5,6 +5,7 @@ import Header from "@/components/ui/header";
 import { colors } from "@/constants/Colors";
 import { useAnimatedKeyboard } from "@/hooks";
 import { useLogin } from "@/hooks/auth";
+import { useForgotPin } from "@/hooks/auth/useForgotPin";
 import { cn } from "@/lib/utils";
 import { exactDesign } from "@/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
@@ -13,8 +14,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Keyboard, TextInput, View } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
-export default function Verify2FactorScreen() {
-  const { handleVerifyTOTP, error, isLoading, setError } = useLogin();
+export default function PINVerify2FactorScreen() {
+  const { handleVerifyTOTP, error, isLoading, setError } = useForgotPin();
 
   const [isFirstTry, setIsFirstTry] = useState<boolean>(true);
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));

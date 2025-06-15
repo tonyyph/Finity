@@ -1,4 +1,5 @@
 import {
+  AlertIcon,
   ArrowRightIcon,
   BellIcon,
   CashOutIcon,
@@ -19,6 +20,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Text } from "@/components/ui/text";
 import { useUserSettingsStore } from "@/stores/user-settings/store";
+import { SCREEN_WIDTH } from "@/utils";
 import { TopIndicatorAvoidingView } from "@/utils/spacing";
 import { useAuth } from "@clerk/clerk-expo";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
@@ -33,13 +35,26 @@ export default function ProfileScreen() {
   const { signOut } = useAuth();
   const sheetRef = useRef<BottomSheetModal>(null);
   const sheetSignOutRef = useRef<BottomSheetModal>(null);
+  const toastShownRef = useRef(false);
+
   const { setEnabledPushNotifications, enabledPushNotifications } =
     useUserSettingsStore();
 
   async function handleCopyVersion() {
+    if (toastShownRef.current) return;
+
+    toastShownRef.current = true;
     toast.success(
-      `Copied version to clipboard ${Application.nativeApplicationVersion}`
+      `Copied version to clipboard ${Application.nativeApplicationVersion}`,
+      {
+        icon: <AlertIcon />,
+        duration: 3000,
+        width: SCREEN_WIDTH - 28
+      }
     );
+    setTimeout(() => {
+      toastShownRef.current = false;
+    }, 3000);
   }
 
   async function handleLogout() {
@@ -115,13 +130,43 @@ export default function ProfileScreen() {
                       finalStatus = status;
                     }
                     if (finalStatus !== "granted") {
-                      toast.error(`Push notifications are not enabled`);
+                      if (toastShownRef.current) return;
+
+                      toastShownRef.current = true;
+                      toast.error(`Push notifications are not enabled`, {
+                        icon: <AlertIcon />,
+                        duration: 3000,
+                        width: SCREEN_WIDTH - 28
+                      });
+                      setTimeout(() => {
+                        toastShownRef.current = false;
+                      }, 3000);
                       setEnabledPushNotifications(false);
                       return;
                     }
-                    toast.success(`Push notifications are enabled`);
+                    if (toastShownRef.current) return;
+
+                    toastShownRef.current = true;
+                    toast.error(`Push notifications are enabled`, {
+                      icon: <AlertIcon />,
+                      duration: 3000,
+                      width: SCREEN_WIDTH - 28
+                    });
+                    setTimeout(() => {
+                      toastShownRef.current = false;
+                    }, 3000);
                   } else {
-                    toast.success(`Push notifications are disabled`);
+                    if (toastShownRef.current) return;
+
+                    toastShownRef.current = true;
+                    toast.error(`Push notifications are disabled`, {
+                      icon: <AlertIcon />,
+                      duration: 3000,
+                      width: SCREEN_WIDTH - 28
+                    });
+                    setTimeout(() => {
+                      toastShownRef.current = false;
+                    }, 3000);
                   }
                   setEnabledPushNotifications(checked);
                 }}

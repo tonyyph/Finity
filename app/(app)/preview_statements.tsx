@@ -52,7 +52,7 @@ function PreviewStatementScreen() {
         icon={DownloadIcon}
         onRightFunction={onDownload}
       />
-      <ProgressBar />
+      <ProgressBar completeAnimation />
       {/* PDF Preview */}
       <Pdf
         source={source}

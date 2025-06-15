@@ -2,13 +2,17 @@ import { getCardDetail, getPINInfo, getUserProfile } from "@/api";
 import { certificationStore } from "@/stores/certificationStore";
 import { userStore } from "@/stores/userStore";
 import { validatePassword, validateUsername } from "@/utils";
-import { useSignIn } from "@clerk/clerk-expo";
+import { useAuth, useSignIn } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useValidateInput } from "../commons";
+import { useLocalPIN } from "../use-local-pin";
 
 export const useForgotPin = () => {
   const { signIn, setActive: setActiveSignIn, isLoaded } = useSignIn();
+  const { signOut } = useAuth();
+  const { setShouldPINLocal } = useLocalPIN();
+
   const [loading, setLoading] = useState<boolean>(false);
   const { tempPassword, tempUserName } = certificationStore.getState();
   const router = useRouter();
@@ -56,25 +60,43 @@ export const useForgotPin = () => {
           : passwordState.value === "2"
           ? "Tuyetvo123@@"
           : passwordState.value) === tempPassword;
-      //   const result = await signIn.create({
-      //     identifier:
-      //       usernameState.value === "1"
-      //         ? "tonyphvincent@gmail.com" //TODO: remove that mockup
-      //         : usernameState.value === "2"
-      //         ? "anhtuyetk36acntt@gmail.com"
-      //         : usernameState.value,
-      //     password:
-      //   passwordState.value === "1"
-      //     ? "Khaccuong@14"
-      //     : passwordState.value === "2"
-      //     ? "Tuyetvo123@@"
-      //     : passwordState.value;
-      //   });
-
-      console.log("result", result);
 
       if (result) {
-        router.push("/(auth)/verify-2factor");
+        await signOut();
+
+        const value = await signIn.create({
+          identifier:
+            usernameState.value === "1"
+              ? "tonyphvincent@gmail.com" //TODO: remove that mockup
+              : usernameState.value === "2"
+              ? "tuyetvo001vat@gmail.com"
+              : usernameState.value,
+          password:
+            passwordState.value === "1"
+              ? "Khaccuong@14"
+              : passwordState.value === "2"
+              ? "Tuyetvo123@@"
+              : passwordState.value
+        });
+        if (value.status === "needs_second_factor") {
+          certificationStore.setState({
+            tempUserName:
+              usernameState.value === "1"
+                ? "tonyphvincent@gmail.com" //TODO: remove that mockup
+                : usernameState.value === "2"
+                ? "tuyetvo001vat@gmail.com"
+                : usernameState.value,
+            tempPassword:
+              passwordState.value === "1"
+                ? "Khaccuong@14"
+                : passwordState.value === "2"
+                ? "Tuyetvo123@@"
+                : passwordState.value
+          });
+          router.push("/pin-verify-2factor");
+        } else {
+          await setActiveSignIn({ session: value?.createdSessionId });
+        }
       } else {
         setError("Invalid username or password");
       }
@@ -95,7 +117,6 @@ export const useForgotPin = () => {
     if (!isLoaded) return;
     try {
       setLoading(true);
-      // setShouldPINLocal(false);
       if (!signIn) {
         setError("Sign-in session not initialized. Please try again.");
         return;
@@ -112,14 +133,16 @@ export const useForgotPin = () => {
           const { data: session } = await getUserProfile();
           const { data: res } = await getPINInfo(otp);
           const { data: cardDetail } = await getCardDetail(otp);
-
           userStore.setState({
             userProfile: session,
             pinInfo: res?.pin,
             cardDetailInfo: cardDetail
           });
-        } else {
-          router.push("/success_phonenumber"); //TODO: review it
+          setShouldPINLocal(false);
+          router.push({
+            pathname: "/pin-success-2factor",
+            params: { isResetPin: "1" }
+          });
         }
       } else {
         setError("Invalid code. Please try again.");
@@ -138,6 +161,7 @@ export const useForgotPin = () => {
     passwordState,
     handleVerifyTOTP,
     error,
+    setError,
     isLoading: loading,
     onSubmitForgotPIN
   };

@@ -1,8 +1,10 @@
 import { CircleAlert } from "@/components/common/icons";
 import Typography from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
+import { useAnimatedKeyboard } from "@/hooks";
 import { useForgotPin } from "@/hooks/auth/useForgotPin";
 import { cn } from "@/lib/utils";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { useState } from "react";
 import {
@@ -12,11 +14,17 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 export default function ForgotPINScreen() {
   const [securePassword, setSecurePassword] = useState(true);
   const [focusUsername, setFocusUsername] = useState(false);
   const [focusPassword, setFocusPassword] = useState(false);
+  const { keyboardHeight } = useAnimatedKeyboard(0);
+  const translateStyle = useAnimatedStyle(() => ({
+    height: keyboardHeight.value - 36
+  }));
+
   const {
     onSubmitForgotPIN,
     usernameState,
@@ -147,31 +155,31 @@ export default function ForgotPINScreen() {
             </View>
           </View>
         </View>
-        <View className="justify-end flex-1">
-          <View className="justify-end">
-            {/* Submit Button */}
-            <Button
-              variant="default"
-              size={"lg"}
-              disabled={!usernameState.value || !passwordState.value || loading}
-              className="mt-8 rounded-full bg-primary h-[48px]"
-              loading={loading}
-              onPress={onSubmitForgotPIN}
+        <View className="justify-end">
+          {/* Submit Button */}
+          <Button
+            variant="default"
+            size={"lg"}
+            disabled={!usernameState.value || !passwordState.value || loading}
+            className="mt-8 rounded-full bg-primary h-[48px]"
+            loading={loading}
+            onPress={onSubmitForgotPIN}
+          >
+            <Typography
+              type="body-default"
+              weight="medium"
+              textColor={
+                !usernameState.value || !passwordState.value
+                  ? "#A3A3A3"
+                  : "white"
+              }
             >
-              <Typography
-                type="body-default"
-                weight="medium"
-                textColor={
-                  !usernameState.value || !passwordState.value
-                    ? "#A3A3A3"
-                    : "white"
-                }
-              >
-                {loading ? `Continuing...` : `Continue`}
-              </Typography>
-            </Button>
-          </View>
+              {loading ? `Continuing...` : `Continue`}
+            </Typography>
+          </Button>
         </View>
+        <BottomIndicatorAvoidingView />
+        <Animated.View style={translateStyle} />
       </View>
     </TouchableWithoutFeedback>
   );

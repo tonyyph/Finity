@@ -13,12 +13,14 @@ import { SCREEN_WIDTH } from "@/utils";
 import { TopIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useFocusEffect } from "expo-router";
 import { isEmpty } from "lodash-es";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { ScrollView, View } from "react-native";
+import * as Haptics from "expo-haptics";
 
 function HomeScreen() {
   const { userData, handleFreezeCard, fetchCardHolderCurrent } =
     useCardHolder();
+  const toastShownRef = useRef(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -30,6 +32,9 @@ function HomeScreen() {
   const { cardholderId, cardStatus, hasIssuedCard } = userData || {};
 
   async function handleShowToastError() {
+    if (toastShownRef.current) return;
+
+    toastShownRef.current = true;
     toast.error(
       hasIssuedCard
         ? `You must activate your new card before you can load it`
@@ -40,9 +45,14 @@ function HomeScreen() {
         width: SCREEN_WIDTH - 28
       }
     );
+    setTimeout(() => {
+      toastShownRef.current = false;
+    }, 3000);
   }
 
   const onLoadCard = () => {
+    Haptics.selectionAsync();
+
     if (cardStatus === 4 || cardStatus === 1) {
       router.navigate({
         pathname: "/(app)/load_card"

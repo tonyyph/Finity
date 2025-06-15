@@ -24,6 +24,7 @@ import "../global.css";
 import { CustomPaletteWrapper } from "@/components/common/custom-palate-wrapper";
 import { NetworkProvider } from "@/stores/core/network-provider";
 import { StoreProvider } from "@/stores/core/store-provider";
+import { LoadingProvider } from "@/stores";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -97,22 +98,24 @@ export default function RootLayout() {
           persistOptions={{ persister: asyncStoragePersister }}
         >
           <StoreProvider>
-            <ThemeProvider value={DefaultTheme}>
-              <CustomPaletteWrapper>
-                <NetworkProvider>
-                  <SafeAreaProvider>
-                    <GestureHandlerRootView>
-                      <KeyboardProvider>
-                        <BottomSheetModalProvider>
-                          <Stack screenOptions={{ headerShown: false }} />
-                          <ToastRoot />
-                        </BottomSheetModalProvider>
-                      </KeyboardProvider>
-                    </GestureHandlerRootView>
-                  </SafeAreaProvider>
-                </NetworkProvider>
-              </CustomPaletteWrapper>
-            </ThemeProvider>
+            <LoadingProvider>
+              <ThemeProvider value={DefaultTheme}>
+                <CustomPaletteWrapper>
+                  <NetworkProvider>
+                    <SafeAreaProvider>
+                      <GestureHandlerRootView>
+                        <KeyboardProvider>
+                          <BottomSheetModalProvider>
+                            <Stack screenOptions={{ headerShown: false }} />
+                            <ToastRoot />
+                          </BottomSheetModalProvider>
+                        </KeyboardProvider>
+                      </GestureHandlerRootView>
+                    </SafeAreaProvider>
+                  </NetworkProvider>
+                </CustomPaletteWrapper>
+              </ThemeProvider>
+            </LoadingProvider>
           </StoreProvider>
         </PersistQueryClientProvider>
       </ClerkLoaded>

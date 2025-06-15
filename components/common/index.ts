@@ -3,6 +3,7 @@ export * from "./bottom-sheet";
 export * from "./circular-progress";
 export * from "./date-picker";
 export * from "./date-range-picker";
+export * from "./global-progress";
 export * from "./icons";
 export * from "./loading";
 export * from "./logo";
