@@ -15,23 +15,24 @@ function CardAndPointTab() {
     fetchPaginatedPointTransactions
   } = useListTransaction();
   useEffect(() => {
-    fetchPaginatedPointTransactions();
-    fetchPaginatedCardTransactions();
+    fetchPaginatedPointTransactions({});
+    fetchPaginatedCardTransactions({});
   }, [fetchPaginatedPointTransactions, fetchPaginatedCardTransactions]);
 
   const cardListHeight =
     cardList.length === 0
       ? SCREEN_HEIGHT / 2
       : cardList.length > 10
-      ? 10 * 96
-      : cardList.length * 96;
+      ? 10 * 104
+      : (cardList.length + 1) * 104;
   const pointTapHeight =
     pointList.length === 0
       ? SCREEN_HEIGHT / 2
       : pointList.length > 10
-      ? 96 * 10
-      : 96 * pointList.length;
+      ? 104 * 10
+      : 104 * (pointList.length + 1);
   const [index, setIndex] = useState<number>(0);
+
   const tabViewHeight = index === 0 ? cardListHeight : pointTapHeight;
 
   const [routes] = useState([

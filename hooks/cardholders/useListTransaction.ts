@@ -11,39 +11,67 @@ export const useListTransaction = () => {
     defaultValue: "",
     validate: validateLetter
   });
-  const fetchPaginatedCardTransactions = useCallback(async () => {
-    setLoading(true);
-    try {
-      const { data: session } = await getCardTransaction({
-        cursor: "0",
-        take: "50",
-        search: ""
-      });
+  const fetchPaginatedCardTransactions = useCallback(
+    async ({
+      types,
+      searchText = "",
+      take,
+      cursor
+    }: {
+      types?: string[];
+      searchText?: string;
+      take?: number;
+      cursor?: number;
+    }) => {
+      setLoading(true);
+      try {
+        const { data: session } = await getCardTransaction({
+          cursor: cursor ?? 0,
+          take: take ?? 20,
+          types: types || [],
+          search: searchText
+        });
 
-      setCardList(session?.data || []);
-    } catch (error) {
-      console.log("error", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+        setCardList(session?.data || []);
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
-  const fetchPaginatedPointTransactions = useCallback(async () => {
-    setLoading(true);
-    try {
-      const { data: session } = await getPointTransaction({
-        cursor: "0",
-        take: "50",
-        search: ""
-      });
+  const fetchPaginatedPointTransactions = useCallback(
+    async ({
+      types,
+      searchText = "",
+      take,
+      cursor
+    }: {
+      types?: string[];
+      searchText?: string;
+      take?: number;
+      cursor?: number;
+    }) => {
+      setLoading(true);
+      try {
+        const { data: session } = await getPointTransaction({
+          cursor: cursor ?? 0,
+          take: take ?? 20,
+          types: types || [],
+          search: searchText
+        });
 
-      setPointList(session?.data || []);
-    } catch (error) {
-      console.log("error", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+        setPointList(session?.data || []);
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   return {
     loading,

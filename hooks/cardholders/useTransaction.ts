@@ -104,11 +104,43 @@ export const useTransaction = () => {
     }
   };
 
+  const getTransactionDetailInfo = async ({
+    transId,
+    item
+  }: {
+    transId: number;
+    item: Transaction;
+  }) => {
+    setLoading(true);
+    try {
+      const { data: session } = await getConfirmationDetails(transId);
+
+      if (!session) {
+        throw new Error("No session data found");
+      }
+      if (!!session) {
+        router.push({
+          pathname: "/point_received",
+          params: {
+            item: JSON.stringify(item),
+            detail: JSON.stringify(session),
+            transactionId: transId
+          }
+        });
+      }
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     error: errorMessage,
     setErrorMessage: (message: string) => setErrorMessage(message),
     getConfirmInfo,
+    getTransactionDetailInfo,
     loadCard,
     sendPoints
   };

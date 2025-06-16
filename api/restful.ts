@@ -193,7 +193,19 @@ export const getCardTransaction = async (data: ListTransactionRequest) => {
       params: {
         cursor: data?.cursor ?? 0,
         take: data?.take ?? 20,
-        search: data?.search ?? ""
+        search: data?.search ?? "",
+        types: data?.types
+      },
+      paramsSerializer: (params) => {
+        const query = new URLSearchParams();
+        Object.entries(params).forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            value.forEach((v) => query.append(key, String(v)));
+          } else {
+            query.append(key, String(value));
+          }
+        });
+        return query.toString();
       }
     }
   );
@@ -209,6 +221,7 @@ export const getPointTransaction = async (data: ListTransactionRequest) => {
   const url = `${process.env.EXPO_PUBLIC_API_URL}/account/paginated-point-transactions`;
 
   const params = {
+    types: data?.types,
     cursor: data?.cursor ?? 0,
     take: data?.take ?? 20,
     search: data?.search ?? ""
@@ -220,7 +233,18 @@ export const getPointTransaction = async (data: ListTransactionRequest) => {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json"
     },
-    params
+    params,
+    paramsSerializer: (params) => {
+      const query = new URLSearchParams();
+      Object.entries(params).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          value.forEach((v) => query.append(key, String(v)));
+        } else {
+          query.append(key, String(value));
+        }
+      });
+      return query.toString();
+    }
   });
 };
 

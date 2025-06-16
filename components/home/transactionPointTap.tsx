@@ -1,8 +1,8 @@
-import { CardLoadIcon } from "@/assets/icons/CardLoadIcon";
-import { FinityIcon } from "@/assets/icons/FinityIcon";
+import { FilterTransactionIcon, SearchIcon } from "@/assets";
 import { useListTransaction } from "@/hooks/cardholders/useListTransaction";
-import { formatDateTransaction } from "@/lib/date";
+import { cn } from "@/lib/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { useEffect, useRef, useState } from "react";
 import {
   Animated,
@@ -11,66 +11,112 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
+import { BottomSheet } from "../common";
 import { Typography } from "../common/text-typography";
-import { FilterTransactionIcon, SearchIcon } from "@/assets";
-import { cn } from "@/lib/utils";
+import { PointItem } from "../transaction";
+import { Header } from "../ui/header";
+import { FilterPointList } from "./filter-point-list";
+import { XIcon } from "lucide-react-native";
 
 function TransactionPointTap() {
   const { pointList, fetchPaginatedPointTransactions } = useListTransaction();
   const scrollY = useRef(new Animated.Value(0)).current;
+  const sheetRef = useRef<BottomSheetModal>(null);
+  const [selectedFilterTypes, setSelectedFilterTypes] = useState<string[]>([]);
+  const [page, setPage] = useState(0);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+
   const [listHeight, setListHeight] = useState(1);
   const [contentHeight, setContentHeight] = useState(1);
 
   const [searchText, setSearchText] = useState("");
-  const [filterCardLoadOnly, setFilterCardLoadOnly] = useState(false);
   const [filteredData, setFilteredData] = useState(pointList);
   useEffect(() => {
-    fetchPaginatedPointTransactions();
-  }, [fetchPaginatedPointTransactions]);
+    setPage(0);
 
+    fetchPaginatedPointTransactions({
+      searchText,
+      types: selectedFilterTypes,
+      cursor: 0,
+      take: 20
+    });
+  }, [fetchPaginatedPointTransactions, searchText, selectedFilterTypes]);
   useEffect(() => {
     let newData = [...pointList];
-    if (filterCardLoadOnly) {
-      newData = newData.filter((item) => item.type === "Card Load");
-    }
-    if (searchText.trim()) {
-      const keyword = searchText.toLowerCase();
-      newData = newData.filter(
-        (item) =>
-          item.type.toLowerCase().includes(keyword) ||
-          item.source?.toLowerCase().includes(keyword)
-      );
-    }
-    setFilteredData(newData);
-  }, [searchText, filterCardLoadOnly, pointList]);
 
-  const Header = () => (
-    <View className="flex-row items-center gap-2 px-4 py-4 bg-white">
-      <View className="border flex-1 border-border rounded-lg relative">
-        <TextInput
-          className="flex-1 h-[48px] px-4 rounded-lg bg-subtle border border-border pl-10 pr-4"
-          placeholder="Search transaction"
-          placeholderTextColor="#737373"
-          autoCorrect={false}
-          autoCapitalize="none"
-          value={searchText}
-          onChangeText={setSearchText}
-          onSubmitEditing={Keyboard.dismiss}
-          returnKeyType="search"
-        />
-        <View className="absolute top-3.5 left-2">
-          <SearchIcon />
+    setFilteredData(newData);
+  }, [searchText, pointList, selectedFilterTypes]);
+
+  const handleLoadMore = () => {
+    if (isFetchingMore) return;
+
+    setIsFetchingMore(true);
+    const nextPage = page + 1;
+
+    fetchPaginatedPointTransactions({
+      searchText,
+      types: selectedFilterTypes,
+      cursor: 0,
+      take: 20 + nextPage * 20
+    }).finally(() => {
+      setPage(nextPage);
+      setIsFetchingMore(false);
+    });
+  };
+
+  const HeaderTab = () => (
+    <View>
+      <View className="flex-row items-center gap-3 px-4 py-4 bg-white">
+        <View className="border flex-1 border-border rounded-lg relative">
+          <TextInput
+            className="flex-1 h-[48px] px-4 rounded-lg bg-subtle border border-border pl-10 pr-4"
+            placeholder="Search transaction"
+            placeholderTextColor="#737373"
+            autoCorrect={false}
+            autoCapitalize="none"
+            value={searchText}
+            onChangeText={setSearchText}
+            onSubmitEditing={Keyboard.dismiss}
+            returnKeyType="search"
+          />
+          <View className="absolute top-3.5 left-2">
+            <SearchIcon />
+          </View>
         </View>
+        <TouchableOpacity
+          onPress={() => sheetRef?.current?.present()}
+          className={cn(
+            "p-[10px] rounded-full",
+            selectedFilterTypes.length > 0 && "bg-[#E5E5E5]"
+          )}
+        >
+          <FilterTransactionIcon />
+          {selectedFilterTypes.length > 0 && (
+            <View className="rounded-full justify-center w-[20px] h-[20px] items-center bg-[#000000] absolute left-[34px] top-[-6px]">
+              <Typography
+                type="body-extraSmall"
+                weight="medium"
+                textColor="white"
+              >
+                {selectedFilterTypes.length}
+              </Typography>
+            </View>
+          )}
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        onPress={() => setFilterCardLoadOnly((prev) => !prev)}
-        className={cn(
-          "p-[10px] rounded-full ",
-          filterCardLoadOnly && "bg-[#E5E5E5]"
-        )}
-      >
-        <FilterTransactionIcon />
-      </TouchableOpacity>
+      {selectedFilterTypes.length > 0 && (
+        <TouchableOpacity
+          onPress={() => {
+            setSelectedFilterTypes([]);
+          }}
+          className="px-4 py-3 bg-[#525252] self-start items-center mx-4 mb-2 rounded-full flex-row gap-[2px]"
+        >
+          <Typography type="body-small" weight="regular" textColor="white">
+            Clear filter
+          </Typography>
+          <XIcon color={"white"} size={16} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 
@@ -96,50 +142,11 @@ function TransactionPointTap() {
 
   return (
     <View className="flex-1 relative">
-      {Header()}
+      {HeaderTab()}
 
       <Animated.FlatList
         data={filteredData}
-        renderItem={({ item, index }) => {
-          return (
-            <View className="flex-1 flex-row justify-between items-start my-2 mx-4">
-              <View className="flex-1 flex-row items-start gap-4 min-h-[64px]">
-                <View className="w-[40px] h-[40px] bg-[#F4F4F4] rounded-full justify-center items-center">
-                  {item?.type === "Card Load" ? (
-                    <CardLoadIcon />
-                  ) : (
-                    <FinityIcon />
-                  )}
-                </View>
-                <View>
-                  <Typography>{item.type}</Typography>
-                  <Typography
-                    textColor="#404040"
-                    weight="regular"
-                    style={{
-                      maxWidth: 300
-                    }}
-                  >
-                    {!!item?.source
-                      ? item?.source
-                      : `£ ${Math.abs(item?.amount).toFixed(2)}`}
-                  </Typography>
-                  <Typography textColor="#737373" weight="regular">
-                    {formatDateTransaction(item?.date)}
-                  </Typography>
-                </View>
-              </View>
-              <Typography
-                textColor={item.amount > 0 ? "#00A464" : "#D9323D"}
-                className="text-right flex-[0.2]"
-              >
-                {`${item?.amount > 0 ? "+" : "-"}${Math.abs(
-                  item?.amount
-                ).toLocaleString()}`}
-              </Typography>
-            </View>
-          );
-        }}
+        renderItem={({ item, index }) => <PointItem item={item} />}
         contentContainerStyle={{
           paddingTop: 12,
           paddingRight: 10
@@ -148,6 +155,8 @@ function TransactionPointTap() {
         onLayout={(e) => setListHeight(e.nativeEvent.layout.height)}
         onContentSizeChange={(_, h) => setContentHeight(h)}
         scrollEventThrottle={16}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.5} // Load more when 50% from bottom
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
           { useNativeDriver: false }
@@ -173,6 +182,21 @@ function TransactionPointTap() {
           }}
         />
       )}
+      <BottomSheet ref={sheetRef} index={0} snapPoints={["50%"]}>
+        <BottomSheetView className="min-h-[100%] mt-1">
+          <Header
+            title="Filter transactions"
+            spacing={false}
+            onRightFunction={() => {
+              sheetRef.current?.close();
+            }}
+          />
+          <FilterPointList
+            onChange={(selected) => setSelectedFilterTypes(selected)}
+            selectedFilterTypes={selectedFilterTypes}
+          />
+        </BottomSheetView>
+      </BottomSheet>
     </View>
   );
 }

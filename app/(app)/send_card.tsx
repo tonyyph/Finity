@@ -107,7 +107,7 @@ function SendCardScreen() {
     <View className="flex-1 bg-white">
       <View className="flex-1">
         <Header onBack={router.back} title="Send points" />
-        <ProgressBar />
+        <ProgressBar completeAnimation />
 
         <View className="flex-1">
           {/* point balance */}

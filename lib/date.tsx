@@ -151,7 +151,7 @@ export const formatDateTransactionDetails = (dateString: string) => {
 
   const hourStr = hours.toString().padStart(2, "0");
 
-  return `${day} ${month} ${year}, ${hourStr}:${minutes}${ampm}`;
+  return `${day} ${month} ${year}, ${hourStr}:${minutes} ${ampm}`;
 };
 
 export const formatDateNow = () => {

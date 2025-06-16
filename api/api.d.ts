@@ -119,9 +119,10 @@ type CardDetailInfo = {
 };
 
 type ListTransactionRequest = {
-  cursor: string;
-  take: string;
+  cursor: number;
+  take: number;
   search: string;
+  types: string[] | number[];
 };
 
 type Transaction = {

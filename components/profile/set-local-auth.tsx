@@ -6,6 +6,7 @@ import { MenuItem } from "../common/menu-item";
 import { toast } from "../common/toast";
 import { Switch } from "../ui/switch";
 import { router } from "expo-router";
+import * as Haptics from "expo-haptics";
 
 export function SetLocalAuth() {
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);
@@ -31,6 +32,8 @@ export function SetLocalAuth() {
   // }
 
   async function handleToggleLocalAuth(enabled: boolean) {
+    Haptics.selectionAsync();
+
     if (!enabledLocalAuth) {
       router.push({
         pathname: "/biometrics",

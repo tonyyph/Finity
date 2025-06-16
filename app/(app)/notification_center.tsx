@@ -81,7 +81,7 @@ function NotificationScreen() {
   return (
     <View className="flex-1 bg-white">
       <Header onBack={router.back} title="Notifications" />
-      <ProgressBar />
+      <ProgressBar completeAnimation />
       <FlashList
         data={notifications}
         className="mx-4"
