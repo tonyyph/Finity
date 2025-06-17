@@ -3,12 +3,22 @@ import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
 import { useSettingProfile } from "@/hooks";
 import { formatDateString } from "@/lib/date";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback } from "react";
 import { ScrollView, View } from "react-native";
 
 export default function EditProfileScreen() {
-  const { settingProfile: userProfile, loading } = useSettingProfile();
+  const {
+    settingProfile: userProfile,
+    loading,
+    fetchSettingProfile
+  } = useSettingProfile();
 
+  useFocusEffect(
+    useCallback(() => {
+      fetchSettingProfile();
+    }, [fetchSettingProfile])
+  );
   const onPressEditMobileNumber = () => {
     router.push("/(app)/edit_phonenumber");
   };

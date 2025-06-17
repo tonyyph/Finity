@@ -12,15 +12,16 @@ import { Image, View } from "react-native";
 
 function TwoFactorAuthenticationSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { isFirst2FA, setIsLoggedIn, setStoreUserId, storeUserId } =
+  const { isFirst2FA, setIsLoggedIn, setStoreUserId } =
     useUserAuthenticateStore();
+
   const { userId } = useAuth();
 
   useEffect(() => {
     if (userId) {
-      !!userId && userId !== storeUserId && setStoreUserId(userId);
+      !!userId && setStoreUserId(userId);
     }
-  }, []);
+  }, [userId]);
 
   const handleSetupPin = useCallback(() => {
     router.push({

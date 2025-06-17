@@ -182,6 +182,16 @@ export const getCardTransaction = async (data: ListTransactionRequest) => {
     throw new Error("No auth token found");
   }
 
+  const params: Record<string, any> = {
+    cursor: data?.cursor ?? 0,
+    take: data?.take ?? 20,
+    search: data?.search ?? ""
+  };
+
+  if (data?.types && data.types.length > 0) {
+    params.types = data.types;
+  }
+
   return axios.get<ListTransactionResponse>(
     `${process.env.EXPO_PUBLIC_API_URL}/account/paginated-card-transactions`,
     {
@@ -190,12 +200,7 @@ export const getCardTransaction = async (data: ListTransactionRequest) => {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json"
       },
-      params: {
-        cursor: data?.cursor ?? 0,
-        take: data?.take ?? 20,
-        search: data?.search ?? "",
-        types: data?.types
-      },
+      params,
       paramsSerializer: (params) => {
         const query = new URLSearchParams();
         Object.entries(params).forEach(([key, value]) => {
@@ -212,7 +217,7 @@ export const getCardTransaction = async (data: ListTransactionRequest) => {
 };
 
 export const getPointTransaction = async (data: ListTransactionRequest) => {
-  const token = await clerk.session?.getToken(); // Make sure this is awaited
+  const token = await clerk.session?.getToken();
 
   if (!token) {
     throw new Error("No auth token found");
@@ -220,12 +225,15 @@ export const getPointTransaction = async (data: ListTransactionRequest) => {
 
   const url = `${process.env.EXPO_PUBLIC_API_URL}/account/paginated-point-transactions`;
 
-  const params = {
-    types: data?.types,
+  const params: Record<string, any> = {
     cursor: data?.cursor ?? 0,
     take: data?.take ?? 20,
     search: data?.search ?? ""
   };
+
+  if (data?.types && data.types.length > 0) {
+    params.types = data.types;
+  }
 
   return axios.get<ListTransactionResponse>(url, {
     headers: {

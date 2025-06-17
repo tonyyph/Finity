@@ -9,23 +9,26 @@ import { Image, View } from "react-native";
 
 function SetupPinSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { setIsLoggedIn, setIsFirst2FA } = useUserAuthenticateStore();
+  const { setIsLoggedIn, setIsFirst2FA, setShouldPINLocal } =
+    useUserAuthenticateStore();
   const { bioStatus, isBiometricSupported, supportType } = useBiometrics();
 
   const handleContinue = useCallback(() => {
-    router.replace("/(app)/(tabs)");
     setIsLoggedIn(true);
     setIsFirst2FA(false);
-  }, [setIsFirst2FA, setIsLoggedIn]);
+    setShouldPINLocal(false);
+    router.replace("/(app)/(tabs)");
+  }, [setIsFirst2FA, setIsLoggedIn, setShouldPINLocal]);
 
   const handleSetupBiometrics = useCallback(() => {
+    setIsLoggedIn(true);
+    setIsFirst2FA(false);
+    setShouldPINLocal(false);
     router.replace({
       pathname: "/biometrics",
       params: { typeAuthentication: supportType, firstFA: "1" }
     });
-    setIsLoggedIn(true);
-    setIsFirst2FA(false);
-  }, [setIsLoggedIn, setIsFirst2FA, supportType]);
+  }, [setIsLoggedIn, setIsFirst2FA, supportType, setShouldPINLocal]);
 
   return (
     <View className="flex-1 bg-background">

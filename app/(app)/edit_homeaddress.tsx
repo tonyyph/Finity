@@ -35,14 +35,14 @@ const EditHomeAddressScreen = () => {
 
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    height: keyboardHeight.value
+    height: (keyboardHeight.value * 13) / 14
   }));
 
   const handleSave = useCallback(() => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      router.push({
+      router.replace({
         pathname: "/pin-verification",
         params: {
           type: "edit-home-address",

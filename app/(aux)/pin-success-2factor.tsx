@@ -12,14 +12,14 @@ import { Image, View } from "react-native";
 
 function PINTwoFactorAuthenticationSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { setStoreUserId, storeUserId } = useUserAuthenticateStore();
+  const { setStoreUserId } = useUserAuthenticateStore();
   const { userId } = useAuth();
 
   useEffect(() => {
     if (userId) {
-      !!userId && userId !== storeUserId && setStoreUserId(userId);
+      !!userId && setStoreUserId(userId);
     }
-  }, []);
+  }, [userId]);
 
   const handleSetupPin = useCallback(() => {
     router.push({

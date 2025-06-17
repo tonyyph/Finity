@@ -182,7 +182,7 @@ function TransactionCardTap() {
           }}
         />
       )}
-      <BottomSheet ref={sheetRef} index={0} snapPoints={["50%"]}>
+      <BottomSheet ref={sheetRef} index={0} snapPoints={["40%"]}>
         <BottomSheetView className="min-h-[100%] mt-1">
           <Header
             title="Filter transactions"

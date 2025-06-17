@@ -18,7 +18,9 @@ import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 function SendCardScreen() {
   const { isReset } = useLocalSearchParams();
-  const { userData, fetchListCardHolder, listCardHolder } = useCardHolder();
+  const { userData, fetchListCardHolder, listCardHolder, loading } =
+    useCardHolder();
+
   const [enterAmount, setEnterAmount] = useState("");
   const [cardHolderValue, setCardHolderValue] = useState<UserCardHolder>(
     {} as UserCardHolder
@@ -28,7 +30,7 @@ function SendCardScreen() {
   const sheetRef = useRef<BottomSheetModal>(null);
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    height: keyboardHeight.value - 12
+    height: (keyboardHeight.value * 13) / 14
   }));
 
   useEffect(() => {
@@ -127,6 +129,7 @@ function SendCardScreen() {
               {`Cardholder`}
             </Typography>
             <Touch
+              disabled={loading}
               onPress={() => {
                 sheetRef?.current?.present();
                 Keyboard.dismiss();

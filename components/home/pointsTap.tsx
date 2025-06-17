@@ -1,20 +1,18 @@
-import { useListTransaction } from "@/hooks/cardholders/useListTransaction";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { FlashList } from "@shopify/flash-list";
 import { router } from "expo-router";
-import { useEffect } from "react";
 import { View } from "react-native";
 import { Typography } from "../common/text-typography";
 import { PointItem } from "../transaction";
 import { Button } from "../ui/button";
 
-function PointsTap({ showAll = false }: { showAll?: boolean }) {
-  const { pointList, fetchPaginatedPointTransactions } = useListTransaction();
-
-  useEffect(() => {
-    fetchPaginatedPointTransactions({});
-  }, [fetchPaginatedPointTransactions]);
-
+function PointsTap({
+  showAll = false,
+  pointList
+}: {
+  showAll?: boolean;
+  pointList: Transaction[];
+}) {
   const handleSeeMore = () => {
     router.push({
       pathname: "/transactions",

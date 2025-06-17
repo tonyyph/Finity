@@ -78,25 +78,32 @@ export const useForgotPin = () => {
               ? "Tuyetvo123@@"
               : passwordState.value
         });
+
         if (value.status === "needs_second_factor") {
-          certificationStore.setState({
-            tempUserName:
-              usernameState.value === "1"
-                ? "tonyphvincent@gmail.com" //TODO: remove that mockup
-                : usernameState.value === "2"
-                ? "tuyetvo001vat@gmail.com"
-                : usernameState.value,
-            tempPassword:
-              passwordState.value === "1"
-                ? "Khaccuong@14"
-                : passwordState.value === "2"
-                ? "Tuyetvo123@@"
-                : passwordState.value
-          });
           router.push("/pin-verify-2factor");
         } else {
+          router.push({
+            pathname: "/pin-verify",
+            params: { isResetPin: "1", type: "setup" }
+          });
           await setActiveSignIn({ session: value?.createdSessionId });
         }
+        certificationStore.setState({
+          tempUserName:
+            usernameState.value === "1"
+              ? "tonyphvincent@gmail.com" //TODO: remove that mockup
+              : usernameState.value === "2"
+              ? "tuyetvo001vat@gmail.com"
+              : usernameState.value,
+          tempPassword:
+            passwordState.value === "1"
+              ? "Khaccuong@14"
+              : passwordState.value === "2"
+              ? "Tuyetvo123@@"
+              : passwordState.value
+        });
+        setError("");
+        setErrorUsername("");
       } else {
         setError("Invalid username or password");
       }

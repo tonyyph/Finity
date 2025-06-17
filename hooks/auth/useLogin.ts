@@ -50,31 +50,17 @@ export const useLogin = () => {
           usernameState.value === "1"
             ? "tonyphvincent@gmail.com" //TODO: remove that mockup
             : usernameState.value === "2"
-            ? "tuyetvo001vat@gmail.com"
+            ? "chelsea.chan+0530@finity.co.uk"
             : usernameState.value,
         password:
           passwordState.value === "1"
             ? "Khaccuong@14"
             : passwordState.value === "2"
-            ? "Tuyetvo123@@"
+            ? "Uat5678!"
             : passwordState.value
       });
 
       if (result.status === "needs_second_factor") {
-        certificationStore.setState({
-          tempUserName:
-            usernameState.value === "1"
-              ? "tonyphvincent@gmail.com" //TODO: remove that mockup
-              : usernameState.value === "2"
-              ? "tuyetvo001vat@gmail.com"
-              : usernameState.value,
-          tempPassword:
-            passwordState.value === "1"
-              ? "Khaccuong@14"
-              : passwordState.value === "2"
-              ? "Tuyetvo123@@"
-              : passwordState.value
-        });
         router.push("/(auth)/verify-2factor");
       } else {
         if (!verificationPin) {
@@ -85,6 +71,20 @@ export const useLogin = () => {
         }
         await setActiveSignIn({ session: result.createdSessionId });
       }
+      certificationStore.setState({
+        tempUserName:
+          usernameState.value === "1"
+            ? "tonyphvincent@gmail.com" //TODO: remove that mockup
+            : usernameState.value === "2"
+            ? "chelsea.chan+0530@finity.co.uk"
+            : usernameState.value,
+        tempPassword:
+          passwordState.value === "1"
+            ? "Khaccuong@14"
+            : passwordState.value === "2"
+            ? "Uat5678!"
+            : passwordState.value
+      });
     } catch {
       setError("Incorrect email address or password. Try again.");
     } finally {

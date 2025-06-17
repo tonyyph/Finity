@@ -32,7 +32,7 @@ function LoadCardScreen() {
 
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    height: keyboardHeight.value - 12
+    height: (keyboardHeight.value * 13) / 14
   }));
 
   const formatPointValue = new Intl.NumberFormat("en-US").format(

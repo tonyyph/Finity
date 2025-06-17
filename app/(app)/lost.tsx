@@ -2,18 +2,24 @@ import { ClockIcon, HouseIcon } from "@/assets";
 import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
+import { useSettingProfile } from "@/hooks";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
-import { useUserProfile } from "@/hooks/profile/useUserProfile";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
-import { router } from "expo-router";
-import { useState } from "react";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 
 const LostScreen = () => {
   const [loading, setLoading] = useState<boolean>();
   const { handleReportOrDamaged } = useCardHolder();
-  const { userProfile } = useUserProfile();
+  const { settingProfile: userProfile, fetchSettingProfile } =
+    useSettingProfile();
 
+  useFocusEffect(
+    useCallback(() => {
+      fetchSettingProfile();
+    }, [fetchSettingProfile])
+  );
   const handleConfirm = () => {
     setLoading(true);
     setTimeout(() => {
@@ -40,25 +46,21 @@ const LostScreen = () => {
               <Typography type="body-default" weight="semibold">
                 Will be delivered to
               </Typography>
-              {userProfile?.address?.addressLine1 && (
+              {userProfile?.addressLine1 && (
                 <Typography weight="regular">
-                  {userProfile?.address?.addressLine1}
+                  {userProfile?.addressLine1}
                 </Typography>
               )}
-              {userProfile?.address?.addressLine2 && (
+              {userProfile?.addressLine2 && (
                 <Typography weight="regular">
-                  {userProfile?.address?.addressLine2}
+                  {userProfile?.addressLine2}
                 </Typography>
               )}
-              {userProfile?.address?.city && (
-                <Typography weight="regular">
-                  {userProfile?.address?.city}
-                </Typography>
+              {userProfile?.city && (
+                <Typography weight="regular">{userProfile.city}</Typography>
               )}
-              {userProfile?.address?.postCode && (
-                <Typography weight="regular">
-                  {userProfile?.address?.postCode}
-                </Typography>
+              {userProfile.postcode && (
+                <Typography weight="regular">{userProfile.postcode}</Typography>
               )}
               <TouchableOpacity onPress={onEditHomeAddress}>
                 <Typography weight="regular" className="mt-2 underline">

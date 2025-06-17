@@ -1,19 +1,17 @@
-import { useListTransaction } from "@/hooks/cardholders/useListTransaction";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { FlashList } from "@shopify/flash-list";
 import { router } from "expo-router";
-import { useEffect } from "react";
 import { View } from "react-native";
 import { Typography } from "../common/text-typography";
 import { CardItem } from "../transaction/card-item";
 import { Button } from "../ui/button";
-function CardTab({ showAll = false }: { showAll?: boolean }) {
-  const { cardList, fetchPaginatedCardTransactions } = useListTransaction();
-
-  useEffect(() => {
-    fetchPaginatedCardTransactions({});
-  }, [fetchPaginatedCardTransactions]);
-
+function CardTab({
+  showAll = false,
+  cardList
+}: {
+  showAll?: boolean;
+  cardList: Transaction[];
+}) {
   const handleSeeMore = () => {
     router.push({
       pathname: "/transactions",

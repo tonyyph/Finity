@@ -56,7 +56,7 @@ function ActiveCardSuccessScreen() {
   }, [success]);
 
   return (
-    <View className="flex-1 bg-background p-6">
+    <View className="flex-1 bg-background px-6 pt-6">
       <TopIndicatorAvoidingView />
       <LoadingScreen loading={loading} />
 

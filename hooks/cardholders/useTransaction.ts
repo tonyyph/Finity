@@ -19,9 +19,9 @@ export const useTransaction = () => {
     setLoading(true);
     try {
       const { data: session } = await handleLoadCard(data);
-      if (!!session?.transactionId) {
+      if (session?.referenceNumber) {
         await getConfirmInfo({
-          transId: session.transactionId,
+          transId: session.referenceNumber,
           type: data?.type ?? ""
         });
       }
@@ -95,8 +95,6 @@ export const useTransaction = () => {
           }
         });
       }
-
-      console.log(" getConfirmInfo 💯 session:", session);
     } catch (error) {
       handleError(error);
     } finally {

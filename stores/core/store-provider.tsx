@@ -20,10 +20,9 @@ export type StoreProviderProps = {
 export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
   const [isReady, setIsReady] = useState(false);
   const { userId } = useAuth();
+
   const resetAllStores = useResetAllStores();
   const { storeUserId } = useUserAuthenticateStore();
-
-  // console.log(" storeUserId:", storeUserId);
 
   const handleUserChange = useCallback(async () => {
     // console.log("current user id", userId);

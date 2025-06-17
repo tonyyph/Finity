@@ -1,11 +1,12 @@
+import { useListTransaction } from "@/hooks";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "@/utils";
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { SceneMap, TabBar, TabBarItem, TabView } from "react-native-tab-view";
+import { TabBar, TabBarItem, TabView } from "react-native-tab-view";
 import { Typography } from "../common/text-typography";
 import CardTab from "./cardTap";
 import PointsTap from "./pointsTap";
-import { useListTransaction } from "@/hooks";
 
 function CardAndPointTab() {
   const {
@@ -14,23 +15,26 @@ function CardAndPointTab() {
     fetchPaginatedCardTransactions,
     fetchPaginatedPointTransactions
   } = useListTransaction();
-  useEffect(() => {
-    fetchPaginatedPointTransactions({});
-    fetchPaginatedCardTransactions({});
-  }, [fetchPaginatedPointTransactions, fetchPaginatedCardTransactions]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchPaginatedPointTransactions({});
+      fetchPaginatedCardTransactions({});
+    }, [fetchPaginatedPointTransactions, fetchPaginatedCardTransactions])
+  );
 
   const cardListHeight =
     cardList.length === 0
       ? SCREEN_HEIGHT / 2
       : cardList.length > 10
       ? 10 * 104
-      : (cardList.length + 1) * 104;
+      : cardList.length * 108;
   const pointTapHeight =
     pointList.length === 0
       ? SCREEN_HEIGHT / 2
       : pointList.length > 10
       ? 104 * 10
-      : 104 * (pointList.length + 1);
+      : 108 * pointList.length;
   const [index, setIndex] = useState<number>(0);
 
   const tabViewHeight = index === 0 ? cardListHeight : pointTapHeight;
@@ -40,10 +44,21 @@ function CardAndPointTab() {
     { key: "points", title: "Points" }
   ]);
 
-  const renderScene = SceneMap({
-    card: CardTab,
-    points: PointsTap
-  });
+  const renderScene = ({ route }: { route: { key: string } }) => {
+    switch (route.key) {
+      case "card":
+        return <CardTab cardList={cardList} />;
+      case "points":
+        return <PointsTap pointList={pointList} />;
+      default:
+        return null;
+    }
+  };
+
+  // const renderScene = SceneMap({
+  //   card: CardTab,
+  //   points: PointsTap
+  // });
 
   return (
     <View className="flex-1 px-4 bg-white shadow-md shadow-slate-200">

@@ -28,7 +28,7 @@ export function AuthBiometrics({ onAuthenticated }: AuthBiometricsProps) {
   }, [handleAuthenticate]);
 
   return (
-    <SafeAreaView className="absolute inset-0 z-50 flex-1 bg-background p-6">
+    <SafeAreaView className="absolute inset-0 z-50 flex-1 bg-background pt-6 px-6">
       <View className="space-y-6 flex-1 p-4">
         <View className="z-10 mb-2 gap-4 items-center justify-center flex-1">
           <LockKeyholeIcon className="size-12 self-center text-primary" />

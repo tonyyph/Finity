@@ -27,7 +27,7 @@ function SuccessHomeAddressScreen() {
   }, [loading]);
 
   const handleContinue = useCallback(() => {
-    router.dismissAll();
+    router.back();
   }, []);
 
   return (

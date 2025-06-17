@@ -10,9 +10,13 @@ type FilterItem = {
 };
 
 const initialFilters: FilterItem[] = [
-  { id: "1", label: "Card load", checked: false, value: "Card Load" },
-  { id: "2", label: "Payment", checked: false, value: "Payment" },
-  { id: "3", label: "Refund", checked: false, value: "Refund" }
+  { id: "1", label: "Card payment", checked: false, value: "Card payment" },
+  {
+    id: "2",
+    label: "Points conversion",
+    checked: false,
+    value: "Points conversion"
+  }
 ];
 
 type FilterListProps = {

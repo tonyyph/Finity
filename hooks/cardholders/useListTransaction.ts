@@ -3,38 +3,41 @@ import { validateLetter } from "@/utils";
 import { useCallback, useState } from "react";
 import { useValidateInput } from "../commons";
 
+type FetchParams = {
+  types?: string[];
+  searchText?: string;
+  take?: number;
+  cursor?: number;
+};
+
 export const useListTransaction = () => {
   const [loading, setLoading] = useState(true);
   const [cardList, setCardList] = useState<Transaction[]>([]);
   const [pointList, setPointList] = useState<Transaction[]>([]);
+
   const searchState = useValidateInput({
     defaultValue: "",
     validate: validateLetter
   });
-  const fetchPaginatedCardTransactions = useCallback(
-    async ({
-      types,
-      searchText = "",
-      take,
-      cursor
-    }: {
-      types?: string[];
-      searchText?: string;
-      take?: number;
-      cursor?: number;
-    }) => {
+
+  const fetchTransactions = useCallback(
+    async (
+      fetcher: typeof getCardTransaction | typeof getPointTransaction,
+      setter: React.Dispatch<React.SetStateAction<Transaction[]>>,
+      { types = [], searchText = "", take = 20, cursor = 0 }: FetchParams
+    ) => {
       setLoading(true);
       try {
-        const { data: session } = await getCardTransaction({
-          cursor: cursor ?? 0,
-          take: take ?? 20,
-          types: types || [],
+        const { data: session } = await fetcher({
+          cursor,
+          take,
+          types,
           search: searchText
         });
 
-        setCardList(session?.data || []);
+        setter(session?.data || []);
       } catch (error) {
-        console.log("error", error);
+        console.log("Fetch transaction error", error);
       } finally {
         setLoading(false);
       }
@@ -42,35 +45,16 @@ export const useListTransaction = () => {
     []
   );
 
-  const fetchPaginatedPointTransactions = useCallback(
-    async ({
-      types,
-      searchText = "",
-      take,
-      cursor
-    }: {
-      types?: string[];
-      searchText?: string;
-      take?: number;
-      cursor?: number;
-    }) => {
-      setLoading(true);
-      try {
-        const { data: session } = await getPointTransaction({
-          cursor: cursor ?? 0,
-          take: take ?? 20,
-          types: types || [],
-          search: searchText
-        });
+  const fetchPaginatedCardTransactions = useCallback(
+    (params: FetchParams) =>
+      fetchTransactions(getCardTransaction, setCardList, params),
+    [fetchTransactions]
+  );
 
-        setPointList(session?.data || []);
-      } catch (error) {
-        console.log("error", error);
-      } finally {
-        setLoading(false);
-      }
-    },
-    []
+  const fetchPaginatedPointTransactions = useCallback(
+    (params: FetchParams) =>
+      fetchTransactions(getPointTransaction, setPointList, params),
+    [fetchTransactions]
   );
 
   return {
