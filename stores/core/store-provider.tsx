@@ -1,17 +1,15 @@
-import { clearAsyncStorage } from "@/lib/utils";
-import { useAuth } from "@clerk/clerk-expo";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
-import { useQueryClient } from "@tanstack/react-query";
 import {
-  type FC,
-  type ReactNode,
-  useCallback,
   useEffect,
-  useState
+  useState,
+  useCallback,
+  type FC,
+  type ReactNode
 } from "react";
-import { StoreIntervalUpdate } from "./store-interval-update";
-import { useResetAllStores } from "./use-reset-all-stores";
+import { useAuth } from "@clerk/clerk-expo";
 import { useUserAuthenticateStore } from "../user-authenticate";
+import { useResetAllStores } from "./use-reset-all-stores";
+import { clearAsyncStorage } from "@/lib/utils";
+import { StoreIntervalUpdate } from "./store-interval-update";
 
 export type StoreProviderProps = {
   children: ReactNode;
@@ -20,33 +18,27 @@ export type StoreProviderProps = {
 export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
   const [isReady, setIsReady] = useState(false);
   const { userId } = useAuth();
-
-  const resetAllStores = useResetAllStores();
   const { storeUserId } = useUserAuthenticateStore();
+  const resetAllStores = useResetAllStores();
 
+  // Handle storage reset when user changes
   const handleUserChange = useCallback(async () => {
-    // console.log("current user id", userId);
-    if (userId === storeUserId || !userId) {
-      return;
+    if (!userId || userId === storeUserId) return;
+
+    try {
+      await clearAsyncStorage();
+      resetAllStores();
+      console.log("Storage cleared due to user change.");
+    } catch (error) {
+      console.error("Failed to clear storage:", error);
     }
-
-    await clearAsyncStorage();
-    resetAllStores();
-
-    console.log("Storage cleared");
-  }, [userId, resetAllStores, storeUserId]);
+  }, [userId, storeUserId, resetAllStores]);
 
   useEffect(() => {
-    handleUserChange().catch((error) => {
-      console.error("Failed to clear storage", error);
-    });
-
-    setIsReady(true);
+    handleUserChange().finally(() => setIsReady(true));
   }, [handleUserChange]);
 
-  if (!isReady) {
-    return null;
-  }
+  if (!isReady) return null;
 
   return (
     <>

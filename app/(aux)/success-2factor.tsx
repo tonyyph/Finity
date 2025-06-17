@@ -5,23 +5,13 @@ import {
   BottomIndicatorAvoidingView,
   TopIndicatorAvoidingView
 } from "@/utils/spacing";
-import { useAuth } from "@clerk/clerk-expo";
 import { router, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { Image, View } from "react-native";
 
 function TwoFactorAuthenticationSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { isFirst2FA, setIsLoggedIn, setStoreUserId } =
-    useUserAuthenticateStore();
-
-  const { userId } = useAuth();
-
-  useEffect(() => {
-    if (userId) {
-      !!userId && setStoreUserId(userId);
-    }
-  }, [userId]);
+  const { isFirst2FA, setIsLoggedIn } = useUserAuthenticateStore();
 
   const handleSetupPin = useCallback(() => {
     router.push({
