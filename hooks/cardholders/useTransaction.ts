@@ -19,6 +19,9 @@ export const useTransaction = () => {
     setLoading(true);
     try {
       const { data: session } = await handleLoadCard(data);
+
+      console.log(" loadCard 💯 session:", session);
+
       if (session?.referenceNumber) {
         await getConfirmInfo({
           transId: session.referenceNumber,
@@ -44,6 +47,8 @@ export const useTransaction = () => {
     setLoading(true);
     try {
       const { data: session } = await handleSendPoint(data);
+
+      console.log(" sendPoints 💯 session:", session);
 
       if (!!session?.transactionId) {
         await getConfirmInfo({

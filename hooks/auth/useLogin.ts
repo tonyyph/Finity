@@ -50,13 +50,13 @@ export const useLogin = () => {
           usernameState.value === "1"
             ? "tonyphvincent@gmail.com" //TODO: remove that mockup
             : usernameState.value === "2"
-            ? "chelsea.chan+0530@finity.co.uk"
+            ? "chelsea.chan+0617@finity.co.uk"
             : usernameState.value,
         password:
           passwordState.value === "1"
             ? "Khaccuong@14"
             : passwordState.value === "2"
-            ? "Uat5678!"
+            ? "EGQ@mkx1pmw_dct1vdp"
             : passwordState.value
       });
 
@@ -76,13 +76,13 @@ export const useLogin = () => {
           usernameState.value === "1"
             ? "tonyphvincent@gmail.com" //TODO: remove that mockup
             : usernameState.value === "2"
-            ? "chelsea.chan+0530@finity.co.uk"
+            ? "chelsea.chan+0617@finity.co.uk"
             : usernameState.value,
         tempPassword:
           passwordState.value === "1"
             ? "Khaccuong@14"
             : passwordState.value === "2"
-            ? "Uat5678!"
+            ? "EGQ@mkx1pmw_dct1vdp"
             : passwordState.value
       });
     } catch {

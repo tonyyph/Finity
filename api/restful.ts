@@ -510,7 +510,10 @@ export const getConfirmationDetails = async (transactionId: number) => {
   if (!token) throw new Error("No session token found");
 
   let deviceId = await AsyncStorage.getItem("device-id");
-  if (!deviceId) throw new Error("No device ID found");
+  if (!deviceId || typeof deviceId !== "string") {
+    deviceId = uuid.v4() as string;
+    await AsyncStorage.setItem("device-id", deviceId);
+  }
 
   try {
     return await axios.get(
