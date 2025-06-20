@@ -130,6 +130,8 @@ type Transaction = {
   date: string; // ISO 8601 timestamp
   type: string; // extend if more types are possible
   source: string;
+  fullName?: string | null;
+  cardProviderReference?: string | null;
   amount: number;
 };
 

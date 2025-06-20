@@ -479,6 +479,7 @@ export const handleLoadCard = async (data: LoadCardRequest) => {
     }
   );
 };
+
 export const handleSendPoint = async (data: SendPointRequest) => {
   const token = await clerk.session?.getToken();
   if (!token) throw new Error("No session token found");
@@ -530,6 +531,65 @@ export const getConfirmationDetails = async (transactionId: number) => {
   } catch (err: any) {
     console.error(
       "❌ getConfirmationDetails error:",
+      err?.response?.data || err.message
+    );
+    throw err;
+  }
+};
+
+export const getPersonalPoints = async () => {
+  const token = await clerk.session?.getToken();
+  if (!token) throw new Error("No session token found");
+
+  let deviceId = await AsyncStorage.getItem("device-id");
+  if (!deviceId || typeof deviceId !== "string") {
+    deviceId = uuid.v4() as string;
+    await AsyncStorage.setItem("device-id", deviceId);
+  }
+
+  try {
+    return await axios.get(
+      `${process.env.EXPO_PUBLIC_API_URL}/PersonalPoints`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-DeviceId": deviceId,
+          Accept: "application/json"
+        }
+      }
+    );
+  } catch (err: any) {
+    console.error(
+      "❌ getPersonalPoints error:",
+      err?.response?.data || err.message
+    );
+    throw err;
+  }
+};
+
+export const getPersonalCard = async () => {
+  const token = await clerk.session?.getToken();
+  if (!token) throw new Error("No session token found");
+
+  let deviceId = await AsyncStorage.getItem("device-id");
+  if (!deviceId || typeof deviceId !== "string") {
+    deviceId = uuid.v4() as string;
+    await AsyncStorage.setItem("device-id", deviceId);
+  }
+
+  try {
+    return await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/Cards`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "X-DeviceId": deviceId,
+        Accept: "application/json"
+      }
+    });
+  } catch (err: any) {
+    console.error(
+      "❌ getPersonalCard error:",
       err?.response?.data || err.message
     );
     throw err;

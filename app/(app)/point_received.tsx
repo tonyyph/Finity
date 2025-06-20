@@ -8,6 +8,9 @@ import { View } from "react-native";
 function PointReceivedScreen() {
   const { item, detail, transactionId } = useLocalSearchParams();
   const data = JSON.parse(item as string);
+
+  console.log(" PointReceivedScreen 💯 data:", data);
+
   const dataDetail = JSON.parse(detail as string);
 
   const renderContent = (type: string) => {
@@ -47,11 +50,11 @@ function PointReceivedScreen() {
         <Typography weight="regular" textColor="#404040">
           Account holder
         </Typography>
-        <Typography>{dataDetail?.destinationUserFullName}</Typography>
+        <Typography>{data?.destinationUserFullName}</Typography>
         <Typography weight="regular" textColor="#404040" className="mt-4">
           Email address
         </Typography>
-        <Typography>{dataDetail?.email}</Typography>
+        <Typography>{data?.source}</Typography>
         <View className=" h-[1px] bg-[#E5E5E5] my-4" />
         <Typography weight="regular" textColor="#404040">
           Reference number
@@ -70,7 +73,7 @@ function PointReceivedScreen() {
     return (
       <View className="bg-[#FAFAFA] border border-[#E5E5E5] px-4 py-6 rounded-2xl mt-6">
         <Typography weight="regular" textColor="#404040">
-          {data?.type}
+          {`You loaded`}
         </Typography>
         <Typography>{Math.abs(Number(data?.amount)) + " points"}</Typography>
         <Typography weight="regular" textColor="#404040" className="mt-4">
@@ -199,14 +202,18 @@ function PointReceivedScreen() {
         <Typography weight="semibold" className="mb-2">
           Recipient details
         </Typography>
-        <Typography weight="regular" textColor="#404040">
-          Account holder
-        </Typography>
-        <Typography>{dataDetail?.destinationUserFullName}</Typography>
+        {data?.destinationUserFullName && (
+          <>
+            <Typography weight="regular" textColor="#404040">
+              Account holder
+            </Typography>
+            <Typography>{data?.destinationUserFullName}</Typography>
+          </>
+        )}
         <Typography weight="regular" textColor="#404040" className="mt-4">
           Email address
         </Typography>
-        <Typography>{dataDetail?.email}</Typography>
+        <Typography>{data?.source}</Typography>
         <View className=" h-[1px] bg-[#E5E5E5] my-4" />
         <Typography weight="regular" textColor="#404040">
           Reference number

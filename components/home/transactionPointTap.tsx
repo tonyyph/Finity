@@ -84,7 +84,10 @@ function TransactionPointTap() {
           </View>
         </View>
         <TouchableOpacity
-          onPress={() => sheetRef?.current?.present()}
+          onPress={() => {
+            sheetRef?.current?.present();
+            Keyboard.dismiss();
+          }}
           className={cn(
             "p-[10px] rounded-full",
             selectedFilterTypes.length > 0 && "bg-[#E5E5E5]"

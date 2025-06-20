@@ -3,6 +3,7 @@ import { forwardRef } from "react";
 import { Pressable, View } from "react-native";
 import type { SvgProps } from "react-native-svg";
 import { Typography } from "./text-typography";
+import { UserAvatar } from "./user-avatar";
 
 type MenuItemProps = {
   label: string;
@@ -12,6 +13,7 @@ type MenuItemProps = {
   onPress?: () => void;
   className?: string;
   disabled?: boolean;
+  showUserAvatar?: boolean;
 };
 
 export const MenuItem = forwardRef(function (
@@ -22,7 +24,8 @@ export const MenuItem = forwardRef(function (
     rightSection,
     onPress,
     className,
-    disabled
+    disabled,
+    showUserAvatar
   }: MenuItemProps,
   ref: React.ForwardedRef<React.ElementRef<typeof Pressable>>
 ) {
@@ -42,6 +45,13 @@ export const MenuItem = forwardRef(function (
           <View className="flex items-center justify-center bg-neutral-100 w-[40px] h-[40px] rounded-full">
             <Icon className="w-[24px] h-[24px] self-center text-[#525252]" />
           </View>
+        )}
+        {showUserAvatar && (
+          <UserAvatar
+            fullName={label}
+            className="w-[40px] h-[40px] rounded-full"
+            textType="body-default"
+          />
         )}
         <View className="gap-1">
           <Typography type="body-default">{label}</Typography>

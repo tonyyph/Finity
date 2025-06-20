@@ -3,6 +3,10 @@ import { parseError } from "@/utils/errors";
 import { router } from "expo-router";
 import { useState } from "react";
 
+type LoadCardCustomRequest = {
+  pointsAmount: string;
+  type?: string | undefined;
+};
 export const useTransaction = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -15,17 +19,20 @@ export const useTransaction = () => {
     setErrorMessage(parsed.message);
   };
 
-  const loadCard = async (data: LoadCardRequest) => {
+  const loadCard = async (data: LoadCardCustomRequest) => {
     setLoading(true);
     try {
       const { data: session } = await handleLoadCard(data);
 
-      console.log(" loadCard 💯 session:", session);
-
       if (session?.referenceNumber) {
-        await getConfirmInfo({
-          transId: session.referenceNumber,
-          type: data?.type ?? ""
+        router.push({
+          pathname: "/transaction_result",
+          params: {
+            type: data?.type,
+            transactionId: session.referenceNumber,
+            amount: data.pointsAmount,
+            success: "true"
+          }
         });
       }
     } catch (error) {
@@ -47,8 +54,6 @@ export const useTransaction = () => {
     setLoading(true);
     try {
       const { data: session } = await handleSendPoint(data);
-
-      console.log(" sendPoints 💯 session:", session);
 
       if (!!session?.transactionId) {
         await getConfirmInfo({

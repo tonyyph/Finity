@@ -8,7 +8,7 @@ import { Typography } from "../common/text-typography";
 import CardTab from "./cardTap";
 import PointsTap from "./pointsTap";
 
-function CardAndPointTab() {
+export function CardAndPointTab() {
   const {
     pointList,
     cardList,
@@ -54,11 +54,6 @@ function CardAndPointTab() {
         return null;
     }
   };
-
-  // const renderScene = SceneMap({
-  //   card: CardTab,
-  //   points: PointsTap
-  // });
 
   return (
     <View className="flex-1 px-4 bg-white shadow-md shadow-slate-200">

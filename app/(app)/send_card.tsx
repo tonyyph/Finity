@@ -218,7 +218,7 @@ function SendCardScreen() {
         </View>
         <Animated.View style={translateStyle} />
 
-        <BottomSheet ref={sheetRef} index={0} snapPoints={["44%"]}>
+        <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
           <BottomSheetView className="min-h-[50%] mt-1">
             <Header
               title="Select a cardholder"
@@ -234,6 +234,7 @@ function SendCardScreen() {
                     label={
                       !isEmptyString(item?.name) ? item?.name : item?.email
                     }
+                    showUserAvatar
                     onPress={() => {
                       setCardHolderValue(item);
                       setCardHolderError("");
@@ -247,6 +248,7 @@ function SendCardScreen() {
                 </View>
               ))}
             </View>
+            <BottomIndicatorAvoidingView />
           </BottomSheetView>
         </BottomSheet>
       </View>

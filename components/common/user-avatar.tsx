@@ -1,5 +1,6 @@
 import { View } from "react-native";
-import { Typography } from "./text-typography";
+import { TextType, Typography } from "./text-typography";
+import { cn } from "@/lib/utils";
 
 type UserAvatarProps = {
   user?: {
@@ -8,21 +9,39 @@ type UserAvatarProps = {
     imageUrl?: string;
   } | null;
   className?: string;
-  fallbackClassName?: string;
+  textType: TextType;
   fullName?: string;
   fallbackLabelClassName?: string;
 };
 
-export function UserAvatar({ user, fullName }: UserAvatarProps) {
+export function UserAvatar({
+  user,
+  fullName,
+  className,
+  textType = "heading-extraSmall"
+}: UserAvatarProps) {
   const getInitials = (name: string) => {
-    const parts = name.trim().split(/\s+/);
-    return parts.map((part) => part[0].toUpperCase()).join("");
+    const parts = name
+      .split(" ")
+      .map((word) => word[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
+    return parts;
   };
   const shortName = getInitials(fullName || user?.fullName || "N/A");
 
   return (
-    <View className="h-[56px] w-[56px] bg-[#A3A3A3] rounded-full items-center justify-center">
-      <Typography type="heading-extraSmall" textColor="white">
+    <View
+      className={cn(
+        "h-[56px] w-[56px] bg-[#A3A3A3] rounded-full items-center justify-center",
+        className
+      )}
+    >
+      <Typography
+        type={textType ? textType : "heading-extraSmall"}
+        textColor="white"
+      >
         {shortName}
       </Typography>
     </View>

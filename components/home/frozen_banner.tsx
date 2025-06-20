@@ -9,7 +9,7 @@ type Props = {
   onPress?: (params?: any) => void;
 };
 
-function FrozenBanner({
+export function FrozenBanner({
   title = "Card is frozen",
   subTitle = "You cannot load your card while it is frozen.",
   onPress

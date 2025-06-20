@@ -25,6 +25,7 @@ export const useCardHolder = () => {
     setLoading(true);
     try {
       const { data: session } = await getCardHolderCurrent();
+
       if (session) {
         setData(session);
       }

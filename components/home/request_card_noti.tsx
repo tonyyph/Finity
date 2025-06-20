@@ -10,7 +10,7 @@ type Props = {
   requested?: boolean;
 };
 
-function RequestCardNotification({
+export function RequestCardNotification({
   title = "Finity Rewards card",
   subTitle = "Convert points, start spending anywhere you like.",
   requested = false,

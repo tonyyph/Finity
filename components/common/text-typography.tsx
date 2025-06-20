@@ -7,7 +7,7 @@ import {
   TextStyle
 } from "react-native";
 
-type TextType =
+export type TextType =
   | "heading-large"
   | "heading-medium"
   | "heading-small"

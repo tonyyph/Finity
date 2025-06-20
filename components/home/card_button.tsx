@@ -8,7 +8,7 @@ type Props = {
   hasIssuedCard?: boolean;
 };
 
-const CardButtonGroup = ({
+export const CardButtonGroup = ({
   onLoadCard,
   onSendPoints,
   hasIssuedCard

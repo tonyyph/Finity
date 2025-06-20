@@ -1,13 +1,14 @@
 import { LoadingScreen } from "@/components/common/loading";
 import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { formatDateTransactionDetails } from "@/lib/date";
+import { useCardHolder } from "@/hooks";
+import { formatDateNow, formatDateTransactionDetails } from "@/lib/date";
 import { formatNumber } from "@/utils";
 import {
   BottomIndicatorAvoidingView,
   TopIndicatorAvoidingView
 } from "@/utils/spacing";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Image, View } from "react-native";
 
@@ -31,6 +32,13 @@ function TransactionResultScreen() {
     dateTransacted,
     destinationUserFullName
   } = useLocalSearchParams();
+
+  const { userData, fetchCardHolderCurrent } = useCardHolder();
+  useFocusEffect(
+    useCallback(() => {
+      fetchCardHolderCurrent();
+    }, [])
+  );
 
   const isEmptyString = (str: string) => !str.trim();
 
@@ -91,12 +99,14 @@ function TransactionResultScreen() {
     });
   }, []);
 
-  const handleReturnHome = useCallback(() => {
+  const handleReturnHome = useCallback(async () => {
     setLoading(true);
-    timeoutRef.current = setTimeout(() => {
+
+    try {
+      await router.dismissAll();
+    } finally {
       setLoading(false);
-      router.dismissAll();
-    }, 3000);
+    }
   }, []);
 
   const TransRowItem = ({ title, value }: { title: string; value: string }) => {
@@ -127,7 +137,7 @@ function TransactionResultScreen() {
           {localType?.sub}
         </Typography>
         <Typography weight="regular" className="text-center mt-6">
-          {formatDateTransactionDetails(dateTransacted?.toString())}
+          {formatDateNow()}
         </Typography>
 
         <View className="mt-8 w-full border border-border rounded-2xl px-4 py-6 gap-2 bg-white">
@@ -143,11 +153,16 @@ function TransactionResultScreen() {
           <Typography type="body-default" weight="semibold">
             Account balances
           </Typography>
-          <TransRowItem title="Points" value={`${pointsBalance} points`} />
+          <TransRowItem
+            title="Points"
+            value={`${userData?.pointsBalance} points`}
+          />
           <TransRowItem
             title="Card"
             value={`£${formatNumber({
-              value: Number(cardBalance?.toString().replace(/,/g, "")) * 0.1
+              value:
+                Number(userData?.cardBalance?.toString().replace(/,/g, "")) *
+                0.1
             })}`}
           />
         </View>

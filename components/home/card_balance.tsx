@@ -10,7 +10,7 @@ type Props = {
   onTouch?: (params?: any) => void;
 };
 
-function CardBalanceCom({
+export function CardBalanceCom({
   title = "Card balance",
   value = 0,
   currency = "£",

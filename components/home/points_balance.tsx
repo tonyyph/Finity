@@ -10,7 +10,7 @@ type Props = {
   onTouch?: (params?: any) => void;
 };
 
-function PointsBalanceCom({
+export function PointsBalanceCom({
   title = "Points balance",
   value = 0,
   onTouch
