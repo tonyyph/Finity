@@ -278,3 +278,12 @@ type SendPointRequest = {
   destinationUserId: number;
   type?: string;
 };
+
+type CardHolderResponse = {
+  cardHolder?: {
+    cardIsActive: boolean;
+    currentStatus: number;
+    latestBalance: number;
+    latestBalanceRetrieval: string;
+  };
+};

@@ -28,9 +28,11 @@ function PinVerificationScreen() {
     city,
     postCode,
     cardHolderName,
-    cardHolderId
+    cardHolderId,
+    pointsBalance
   } = useLocalSearchParams();
   const userProfileJson = userStore?.getState().userProfile;
+
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const [loading, setLoading] = useState(false);
@@ -50,12 +52,13 @@ function PinVerificationScreen() {
         params: {
           type: type,
           amount: amount,
+          pointsBalance: pointsBalance,
           cardHolderName: cardHolderName,
           cardHolderId: cardHolderId
         }
       });
     }, 3000);
-  }, [amount, type, cardHolderName, cardHolderId]);
+  }, [amount, type, cardHolderName, cardHolderId, pointsBalance]);
 
   const onVerifyEditHomeAddress = useCallback(() => {
     setLoading(true);

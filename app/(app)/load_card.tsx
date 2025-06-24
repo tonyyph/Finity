@@ -71,6 +71,7 @@ function LoadCardScreen() {
         params: {
           type: "load-card",
           amount: Number(enterAmount),
+          pointsBalance: userData?.pointsBalance,
           cardHolderName: "Amber Green"
         }
       });

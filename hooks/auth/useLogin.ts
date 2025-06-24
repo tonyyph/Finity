@@ -51,12 +51,16 @@ export const useLogin = () => {
             ? "tonyphvincent@gmail.com" //TODO: remove that mockup
             : usernameState.value === "2"
             ? "chelsea.chan+0617@finity.co.uk"
+            : usernameState.value === "3"
+            ? "chelsea.chan@codatech.co.uk"
             : usernameState.value,
         password:
           passwordState.value === "1"
             ? "Khaccuong@14"
             : passwordState.value === "2"
             ? "EGQ@mkx1pmw_dct1vdp"
+            : passwordState.value === "3"
+            ? "uft1mfd!gfx6wzx7XUX"
             : passwordState.value
       });
 

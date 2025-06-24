@@ -1,6 +1,6 @@
 import { CardLoadIcon, FinityIcon } from "@/assets";
 import { formatDateTransaction } from "@/lib/date";
-import { TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Typography } from "../common";
 import { useTransaction } from "@/hooks";
 
@@ -21,17 +21,22 @@ export const PointItem = ({ item }: { item: Transaction }) => {
         <View className="w-[40px] h-[40px] bg-[#F4F4F4] rounded-full justify-center items-center">
           {item?.type === "Card Load" ? <CardLoadIcon /> : <FinityIcon />}
         </View>
-        <View>
-          <Typography>{item.type}</Typography>
+        <View className="flex-1">
+          <View className="flex-row justify-between">
+            <Typography>{item.type}</Typography>
+            <Typography
+              textColor={item.amount > 0 ? "#00A464" : "#D9323D"}
+              className="text-right"
+            >
+              {`${item?.amount > 0 ? "+" : "-"}${Math.abs(
+                item?.amount
+              ).toLocaleString()}`}
+            </Typography>
+          </View>
           <Typography
             textColor="#404040"
             weight="regular"
-            style={{
-              maxWidth: "100%",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              flex: 1
-            }}
+            style={styles.source}
           >
             {!!item?.source
               ? item?.source
@@ -42,14 +47,15 @@ export const PointItem = ({ item }: { item: Transaction }) => {
           </Typography>
         </View>
       </View>
-      <Typography
-        textColor={item.amount > 0 ? "#00A464" : "#D9323D"}
-        className="text-right flex-[0.2]"
-      >
-        {`${item?.amount > 0 ? "+" : "-"}${Math.abs(
-          item?.amount
-        ).toLocaleString()}`}
-      </Typography>
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  source: {
+    maxWidth: "100%",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    flex: 1
+  }
+});

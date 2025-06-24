@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Touch } from "@/components/ui/touch";
 import { useStatements } from "@/hooks/profile/useStatements";
 import { listOfMonths, listOfYears } from "@/lib/constaints";
+import { getAvailableMonthsByYear } from "@/lib/date";
 import { userStore } from "@/stores/userStore";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
@@ -19,56 +20,49 @@ function StatementScreen() {
   const sheetRef = useRef<BottomSheetModal>(null);
   const userProfile = userStore?.getState().userProfile;
   const { handleGeneratePointPDF, handleGenerateCardPDF } = useStatements();
-
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
+  const dateCreated = new Date(userProfile?.dateCreated || "");
+  const createdYear = dateCreated.getFullYear();
+
+  const now = new Date();
+  const currentYear = String(now.getFullYear());
+  const currentMonth = listOfMonths[now.getMonth()].value;
+
+  const [yearOfFilter, setYearOfFilter] = useState(currentYear);
+  const [monthOfFilter, setMonthOfFilter] = useState(currentMonth);
+
+  const validYears = listOfYears.filter((y) => Number(y.value) >= createdYear);
+
+  const validMonthIds = getAvailableMonthsByYear(
+    dateCreated,
+    Number(yearOfFilter),
+    now
+  );
+
+  const filteredMonths = listOfMonths.filter((month) =>
+    validMonthIds.includes(month.id + 1)
+  );
 
   const handlePress = ({ id, value }: { id: number; value: string }) => {
     if (debounceRef.current) return;
-
     debounceRef.current = setTimeout(() => {
       debounceRef.current = null;
     }, 1500);
 
     if (type === "points") {
       handleGeneratePointPDF({ month: value, year: yearOfFilter });
-    }
-
-    if (type === "card") {
+    } else if (type === "card") {
       handleGenerateCardPDF({ month: value, year: yearOfFilter });
     }
 
     sheetRef.current?.close();
   };
 
-  const dateCreated = new Date(`${userProfile?.dateCreated}`);
-  const createdYear = dateCreated.getFullYear();
-  const createdMonth = dateCreated.getMonth();
-  const currentMonthIndex = new Date().getMonth();
-
-  // Default to current date
-  const now = new Date();
-  const currentYear = String(now.getFullYear());
-  const currentMonth = listOfMonths[now.getMonth()].value;
-
-  const [yearOfFilter, setYearOfFilter] = useState(currentYear);
-
-  const [monthOfFilter, setMonthOfFilter] = useState(currentMonth);
-
   const onPressYearFilter = () => {
-    sheetRef?.current?.present();
+    sheetRef.current?.present();
     Keyboard.dismiss();
   };
-
-  // Valid years from dateCreated
-  const validYears = listOfYears.filter((y) => Number(y.value) >= createdYear);
-
-  // Filter months based on selected year
-  const filteredMonths = listOfMonths.filter((month) => {
-    if (yearOfFilter === currentYear) {
-      return month.id <= currentMonthIndex && month.id >= createdMonth;
-    }
-    return true;
-  });
 
   return (
     <View className="flex-1 bg-white">
@@ -77,7 +71,6 @@ function StatementScreen() {
         <GlobalProgressBar />
 
         <View className="flex-1 p-4 gap-2">
-          {/* Description */}
           <Typography type="body-default" weight="regular">
             {`Statements are automatically generated on the first day of every month.`}
           </Typography>
@@ -124,33 +117,42 @@ function StatementScreen() {
             )}
           />
         </View>
+
         {/* Bottom Sheet for Year Filter */}
         <BottomSheet ref={sheetRef} index={0} snapPoints={["30%"]}>
           <BottomSheetView className="min-h-[50%] mt-1">
             <Header
               title="Filter by year"
               spacing={false}
-              onRightFunction={() => {
-                sheetRef.current?.close();
-              }}
+              onRightFunction={() => sheetRef.current?.close()}
             />
             <View className="p-4 my-3 mb-10">
               {validYears.map((item, index) => (
                 <View key={`${index}-${item.value}`}>
                   <MenuItem
-                    label={item?.value}
+                    label={item.value}
                     onPress={() => {
-                      setYearOfFilter(item?.value);
+                      setYearOfFilter(item.value);
 
-                      // Reset month if it's invalid for the selected year
-                      const selectedYear = Number(item?.value);
-                      if (selectedYear === createdYear) {
-                        const selectedMonth = listOfMonths.find(
-                          (m) => m.value === monthOfFilter
+                      const selectedYear = Number(item.value);
+                      const validIds = getAvailableMonthsByYear(
+                        dateCreated,
+                        selectedYear,
+                        now
+                      );
+
+                      const currentSelected = listOfMonths.find(
+                        (m) => m.value === monthOfFilter
+                      );
+
+                      if (
+                        !currentSelected ||
+                        !validIds.includes(currentSelected.id + 1)
+                      ) {
+                        const fallback = listOfMonths.find(
+                          (m) => m.id + 1 === validIds[0]
                         );
-                        if (!selectedMonth || selectedMonth.id < createdMonth) {
-                          setMonthOfFilter(listOfMonths[createdMonth].value);
-                        }
+                        if (fallback) setMonthOfFilter(fallback.value);
                       }
 
                       sheetRef.current?.close();

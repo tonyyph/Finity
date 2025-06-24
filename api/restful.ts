@@ -579,14 +579,17 @@ export const getPersonalCard = async () => {
   }
 
   try {
-    return await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/Cards`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "X-DeviceId": deviceId,
-        Accept: "application/json"
+    return await axios.get<CardHolderResponse>(
+      `${process.env.EXPO_PUBLIC_API_URL}/Cards`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-DeviceId": deviceId,
+          Accept: "application/json"
+        }
       }
-    });
+    );
   } catch (err: any) {
     console.error(
       "❌ getPersonalCard error:",

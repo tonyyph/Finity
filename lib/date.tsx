@@ -292,3 +292,23 @@ export const formatDateRange = (
   // Example: Fri, Jan 1[, 2023]
   return `${format(from, "eee, LLL d")}${yearSuffix}`;
 };
+
+export function getAvailableMonthsByYear(
+  createdAt: Date,
+  selectedYear: number,
+  now: Date = new Date()
+): number[] {
+  const createdYear = createdAt.getFullYear();
+  const createdMonth = createdAt.getMonth() + 1;
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1;
+
+  if (selectedYear < createdYear || selectedYear > currentYear) return [];
+
+  const start = selectedYear === createdYear ? createdMonth : 1;
+  const end = selectedYear === currentYear ? currentMonth : 12;
+
+  const months: number[] = [];
+  for (let i = start; i <= end; i++) months.push(i);
+  return months;
+}

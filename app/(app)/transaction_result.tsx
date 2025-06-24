@@ -1,15 +1,14 @@
 import { LoadingScreen } from "@/components/common/loading";
 import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { useCardHolder } from "@/hooks";
 import { formatDateNow, formatDateTransactionDetails } from "@/lib/date";
 import { formatNumber } from "@/utils";
 import {
   BottomIndicatorAvoidingView,
   TopIndicatorAvoidingView
 } from "@/utils/spacing";
-import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";
 
 interface propsLocal {
@@ -29,16 +28,11 @@ function TransactionResultScreen() {
     email,
     cardBalance,
     pointsBalance,
+    totalCardBalance,
+    totalPointsBalance,
     dateTransacted,
     destinationUserFullName
   } = useLocalSearchParams();
-
-  const { userData, fetchCardHolderCurrent } = useCardHolder();
-  useFocusEffect(
-    useCallback(() => {
-      fetchCardHolderCurrent();
-    }, [])
-  );
 
   const isEmptyString = (str: string) => !str.trim();
 
@@ -75,7 +69,6 @@ function TransactionResultScreen() {
 
   const [localType, setLocalType] = useState<propsLocal>();
   const [loading, setLoading] = useState<boolean>(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setLocalType(success !== "false" ? type[1] : type[0]);
@@ -153,18 +146,8 @@ function TransactionResultScreen() {
           <Typography type="body-default" weight="semibold">
             Account balances
           </Typography>
-          <TransRowItem
-            title="Points"
-            value={`${userData?.pointsBalance} points`}
-          />
-          <TransRowItem
-            title="Card"
-            value={`£${formatNumber({
-              value:
-                Number(userData?.cardBalance?.toString().replace(/,/g, "")) *
-                0.1
-            })}`}
-          />
+          <TransRowItem title="Points" value={`${totalPointsBalance} points`} />
+          <TransRowItem title="Card" value={`£${totalCardBalance}`} />
         </View>
       </View>
     );

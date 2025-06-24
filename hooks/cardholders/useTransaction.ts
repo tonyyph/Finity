@@ -1,21 +1,26 @@
-import { getConfirmationDetails, handleLoadCard, handleSendPoint } from "@/api";
+import {
+  getConfirmationDetails,
+  getPersonalCard,
+  handleLoadCard,
+  handleSendPoint
+} from "@/api";
+import { formatNumber } from "@/utils";
 import { parseError } from "@/utils/errors";
 import { router } from "expo-router";
 import { useState } from "react";
 
 type LoadCardCustomRequest = {
+  totalPointsBalance?: string;
   pointsAmount: string;
   type?: string | undefined;
 };
 export const useTransaction = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [latestBalance, setLatestBalance] = useState<number>(0);
 
   const handleError = (error: unknown) => {
     const parsed = parseError(error);
-
-    console.log(" handleError 💯 parsed:", parsed);
-
     setErrorMessage(parsed.message);
   };
 
@@ -31,6 +36,12 @@ export const useTransaction = () => {
             type: data?.type,
             transactionId: session.referenceNumber,
             amount: data.pointsAmount,
+            totalPointsBalance: data.totalPointsBalance,
+            totalCardBalance: formatNumber({
+              value:
+                Number(data.pointsAmount?.toString().replace(/,/g, "")) * 0.1 +
+                latestBalance
+            }),
             success: "true"
           }
         });
@@ -143,6 +154,17 @@ export const useTransaction = () => {
     }
   };
 
+  const getCardDetailInfo = async () => {
+    try {
+      const { data: session } = await getPersonalCard();
+      if (!!session?.cardHolder?.latestBalance) {
+        setLatestBalance(session?.cardHolder?.latestBalance);
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
   return {
     loading,
     error: errorMessage,
@@ -150,6 +172,8 @@ export const useTransaction = () => {
     getConfirmInfo,
     getTransactionDetailInfo,
     loadCard,
-    sendPoints
+    sendPoints,
+    getCardDetailInfo,
+    latestBalance
   };
 };

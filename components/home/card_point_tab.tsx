@@ -28,13 +28,17 @@ export function CardAndPointTab() {
       ? SCREEN_HEIGHT / 2
       : cardList.length > 10
       ? 10 * 104
-      : cardList.length * 108;
+      : cardList.length * 108 > SCREEN_HEIGHT / 2
+      ? cardList.length * 108
+      : SCREEN_HEIGHT / 2;
   const pointTapHeight =
     pointList.length === 0
       ? SCREEN_HEIGHT / 2
       : pointList.length > 10
       ? 104 * 10
-      : 108 * pointList.length;
+      : 108 * pointList.length > SCREEN_HEIGHT / 2
+      ? 108 * pointList.length
+      : SCREEN_HEIGHT / 2;
   const [index, setIndex] = useState<number>(0);
 
   const tabViewHeight = index === 0 ? cardListHeight : pointTapHeight;
@@ -88,7 +92,7 @@ export function CardAndPointTab() {
             )}
           />
         )}
-        style={{ height: tabViewHeight }}
+        style={{ height: tabViewHeight, minHeight: tabViewHeight }}
       />
     </View>
   );
