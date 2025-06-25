@@ -128,7 +128,7 @@ export const useLogin = () => {
             cardDetailInfo: cardDetail
           });
         } else {
-          router.push("/success_phonenumber"); //TODO: review it
+          router.push("/success-phonenumber"); //TODO: review it
         }
       } else {
         setError("Invalid code. Please try again.");

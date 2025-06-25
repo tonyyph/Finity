@@ -22,7 +22,7 @@ export const useStatements = () => {
       if (session) {
         stopLoading(() => {
           router.navigate({
-            pathname: "./preview_statements",
+            pathname: "./preview-statements",
             params: {
               title: `${month} ${year}`,
               fileContent: session?.fileContents,
@@ -54,7 +54,7 @@ export const useStatements = () => {
       if (session) {
         stopLoading(() => {
           router.navigate({
-            pathname: "./preview_statements",
+            pathname: "./preview-statements",
             params: {
               title: `${month} ${year}`,
               fileContent: session.fileContents,

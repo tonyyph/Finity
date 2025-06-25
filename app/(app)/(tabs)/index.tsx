@@ -54,7 +54,7 @@ function HomeScreen() {
   const onLoadCard = () => {
     Haptics.selectionAsync();
     if (cardStatus === 4 || cardStatus === 1) {
-      router.navigate({ pathname: "/(app)/load_card" });
+      router.navigate({ pathname: "/(app)/load-card" });
     } else {
       handleShowToastError();
     }
@@ -62,7 +62,7 @@ function HomeScreen() {
 
   const onSendPoints = () => {
     if (cardStatus === 4 || cardStatus === 1) {
-      router.navigate({ pathname: "/(app)/send_card" });
+      router.navigate({ pathname: "/(app)/send-point" });
     } else {
       handleShowToastError();
     }
@@ -72,12 +72,12 @@ function HomeScreen() {
     if (!cardholderId) {
       router.navigate({ pathname: "/request_card" });
     } else if (cardStatus === 0) {
-      router.navigate({ pathname: "/active_card" });
+      router.navigate({ pathname: "/active-card" });
     }
   };
 
   const handleToNotificationCenter = () => {
-    router.navigate({ pathname: "/notification_center" });
+    router.navigate({ pathname: "/notification-center" });
   };
 
   const onRefresh = async () => {

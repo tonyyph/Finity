@@ -76,7 +76,7 @@ function TransactionResultScreen() {
 
   const handleLoadCardAgain = useCallback(() => {
     router.dismissTo({
-      pathname: "/load_card",
+      pathname: "/load-card",
       params: {
         isReset: "true"
       }
@@ -85,7 +85,7 @@ function TransactionResultScreen() {
 
   const handleSendPointAgain = useCallback(() => {
     router.dismissTo({
-      pathname: "/send_card",
+      pathname: "/send-point",
       params: {
         isReset: "true"
       }

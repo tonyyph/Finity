@@ -24,7 +24,7 @@ export default function CashOutPointScreen() {
       Linking.openURL(mailtoUrl);
     } else {
       router.push({
-        pathname: "/web_view",
+        pathname: "/web-view",
         params: {
           title: "",
           webLink: "https://support.finity.co.uk/en/"

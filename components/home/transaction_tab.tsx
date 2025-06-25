@@ -11,7 +11,7 @@ const routes = [
   { key: "points", title: "Points" }
 ];
 
-function TransactionTab({ initTab }: { initTab?: number }) {
+export function TransactionTab({ initTab }: { initTab?: number }) {
   const [index, setIndex] = useState<number>(initTab || 0);
 
   const renderScene = ({ route }: any) => {

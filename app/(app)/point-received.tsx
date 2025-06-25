@@ -1,17 +1,22 @@
+import { TransHisSkeleton } from "@/components";
 import { Typography } from "@/components/common/text-typography";
 import { Header } from "@/components/ui/header";
+import { useTransaction } from "@/hooks";
 import { formatDateTransactionDetails } from "@/lib/date";
 import { formatNumber } from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
+import { isEmpty } from "lodash-es";
+import { useEffect } from "react";
 import { View } from "react-native";
 
 function PointReceivedScreen() {
-  const { item, detail, transactionId } = useLocalSearchParams();
+  const { item, transactionId } = useLocalSearchParams();
+  const { getTransactionDetailInfo, transDetailInfo } = useTransaction();
   const data = JSON.parse(item as string);
 
-  console.log(" PointReceivedScreen 💯 data:", data);
-
-  const dataDetail = JSON.parse(detail as string);
+  useEffect(() => {
+    getTransactionDetailInfo({ transId: Number(transactionId as string) });
+  }, []);
 
   const renderContent = (type: string) => {
     switch (type) {
@@ -64,7 +69,7 @@ function PointReceivedScreen() {
           Date and time
         </Typography>
         <Typography>
-          {formatDateTransactionDetails(dataDetail?.dateTransacted)}
+          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
         </Typography>
       </View>
     );
@@ -95,7 +100,7 @@ function PointReceivedScreen() {
           Date and time
         </Typography>
         <Typography>
-          {formatDateTransactionDetails(dataDetail?.dateTransacted)}
+          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
         </Typography>
       </View>
     );
@@ -107,7 +112,7 @@ function PointReceivedScreen() {
         <Typography weight="regular" textColor="#404040">
           {`Merchant name`}
         </Typography>
-        <Typography>{dataDetail?.merchantName}</Typography>
+        <Typography>{transDetailInfo?.merchantName}</Typography>
         <Typography weight="regular" textColor="#404040" className="mt-4">
           {`Payment`}
         </Typography>
@@ -127,7 +132,7 @@ function PointReceivedScreen() {
           Date and time
         </Typography>
         <Typography>
-          {formatDateTransactionDetails(dataDetail?.dateTransacted)}
+          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
         </Typography>
       </View>
     );
@@ -139,7 +144,7 @@ function PointReceivedScreen() {
         <Typography weight="regular" textColor="#404040">
           {`Merchant name`}
         </Typography>
-        <Typography>{dataDetail?.merchantName}</Typography>
+        <Typography>{transDetailInfo?.merchantName}</Typography>
         <Typography weight="regular" textColor="#404040" className="mt-4">
           {`Payment`}
         </Typography>
@@ -154,7 +159,7 @@ function PointReceivedScreen() {
           Date and time
         </Typography>
         <Typography>
-          {formatDateTransactionDetails(dataDetail?.dateTransacted)}
+          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
         </Typography>
       </View>
     );
@@ -166,7 +171,7 @@ function PointReceivedScreen() {
         <Typography weight="regular" textColor="#404040">
           {`Merchant name`}
         </Typography>
-        <Typography>{dataDetail?.merchantName}</Typography>
+        <Typography>{transDetailInfo?.merchantName}</Typography>
         <Typography weight="regular" textColor="#404040" className="mt-4">
           {`Refund`}
         </Typography>
@@ -186,7 +191,7 @@ function PointReceivedScreen() {
           Date and time
         </Typography>
         <Typography>
-          {formatDateTransactionDetails(dataDetail?.dateTransacted)}
+          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
         </Typography>
       </View>
     );
@@ -223,7 +228,7 @@ function PointReceivedScreen() {
           Date and time
         </Typography>
         <Typography>
-          {formatDateTransactionDetails(dataDetail?.dateTransacted)}
+          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
         </Typography>
       </View>
     );
@@ -236,7 +241,11 @@ function PointReceivedScreen() {
         <Typography type="heading-small" weight="semibold" className="mx-2">
           Transaction details
         </Typography>
-        {renderContent(data?.type)}
+        {!isEmpty(transDetailInfo) ? (
+          renderContent(data?.type)
+        ) : (
+          <TransHisSkeleton />
+        )}
       </View>
     </View>
   );

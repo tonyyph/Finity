@@ -18,7 +18,7 @@ import { Header } from "../ui/header";
 import { FilterCardList } from "./filter-card-list";
 import { XIcon } from "lucide-react-native";
 
-function TransactionCardTap() {
+export function TransactionCardTap() {
   const { cardList, fetchPaginatedCardTransactions } = useListTransaction();
   const scrollY = useRef(new Animated.Value(0)).current;
   const sheetRef = useRef<BottomSheetModal>(null);

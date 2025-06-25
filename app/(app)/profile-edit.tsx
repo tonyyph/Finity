@@ -20,10 +20,10 @@ export default function EditProfileScreen() {
     }, [fetchSettingProfile])
   );
   const onPressEditMobileNumber = () => {
-    router.push("/(app)/edit_phonenumber");
+    router.push("/(app)/edit-phonenumber");
   };
   const onEditHomeAddress = () => {
-    router.push("/(app)/edit_homeaddress");
+    router.push("/(app)/edit-homeaddress");
   };
 
   return (

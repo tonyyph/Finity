@@ -33,7 +33,7 @@ const EditPhoneNumberScreen = () => {
     setTimeout(() => {
       setLoading(false);
       router.push({
-        pathname: "/(app)/verify_phonenumber",
+        pathname: "/(app)/verify-phonenumber",
         params: {
           phoneNumber: `+44${phoneNumber}`,
           rawPhoneNumber: phoneNumber

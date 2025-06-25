@@ -65,7 +65,7 @@ export default function ProfileScreen() {
 
   const handleToHelpCentre = () => {
     router.push({
-      pathname: "/web_view",
+      pathname: "/web-view",
       params: {
         title: "Help centre",
         webLink: "https://support.finity.co.uk/en/"
@@ -145,7 +145,7 @@ export default function ProfileScreen() {
           <View className="h-[1px] bg-[#E5E5E5] mt-2" />
         </View>
         <View className="gap-2">
-          <Link href="/cash_out_point" asChild>
+          <Link href="/cash-out-point" asChild>
             <MenuItem
               label={`Cash out points`}
               icon={CashOutIcon}
@@ -164,7 +164,7 @@ export default function ProfileScreen() {
             rightSection={<ArrowRightIcon />}
             onPress={() => {
               router.push({
-                pathname: "/our_agreement"
+                pathname: "/our-agreement"
               });
             }}
           />

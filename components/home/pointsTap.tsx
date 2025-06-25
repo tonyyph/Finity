@@ -6,7 +6,7 @@ import { Typography } from "../common/text-typography";
 import { PointItem } from "../transaction";
 import { Button } from "../ui/button";
 
-function PointsTap({
+export function PointsTap({
   showAll = false,
   pointList
 }: {

@@ -48,7 +48,7 @@ function PinVerificationScreen() {
     timeoutRef.current = setTimeout(() => {
       setLoading(false);
       router.replace({
-        pathname: "/review_transaction",
+        pathname: "/review-transaction",
         params: {
           type: type,
           amount: amount,
@@ -78,7 +78,7 @@ function PinVerificationScreen() {
         mobileNumber: userProfileJson?.mobileNumber,
         email: userProfileJson?.email
       });
-      router.replace("./success_homeaddress");
+      router.replace("./success-homeaddress");
       setLoading(false);
     }, 2000);
   }, [addressLine1, addressLine2, city, postCode, userProfileJson]);

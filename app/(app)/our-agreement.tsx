@@ -19,7 +19,7 @@ export default function OurAgreementScreen() {
           icon={TermIcon}
           onPress={() => {
             router.push({
-              pathname: "/web_view",
+              pathname: "/web-view",
               params: {
                 title: "Terms and conditions",
                 webLink:
@@ -35,7 +35,7 @@ export default function OurAgreementScreen() {
           icon={ProtectIcon}
           onPress={() => {
             router.push({
-              pathname: "/web_view",
+              pathname: "/web-view",
               params: {
                 title: "Privacy policy",
                 webLink: "https://www.finity.co.uk/privacy-policy/"

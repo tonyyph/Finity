@@ -18,6 +18,7 @@ export const useTransaction = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [latestBalance, setLatestBalance] = useState<number>(0);
+  const [transDetailInfo, setTransDetailInfo] = useState<any>();
 
   const handleError = (error: unknown) => {
     const parsed = parseError(error);
@@ -123,30 +124,11 @@ export const useTransaction = () => {
     }
   };
 
-  const getTransactionDetailInfo = async ({
-    transId,
-    item
-  }: {
-    transId: number;
-    item: Transaction;
-  }) => {
+  const getTransactionDetailInfo = async ({ transId }: { transId: number }) => {
     setLoading(true);
     try {
       const { data: session } = await getConfirmationDetails(transId);
-
-      if (!session) {
-        throw new Error("No session data found");
-      }
-      if (!!session) {
-        router.push({
-          pathname: "/point_received",
-          params: {
-            item: JSON.stringify(item),
-            detail: JSON.stringify(session),
-            transactionId: transId
-          }
-        });
-      }
+      setTransDetailInfo(session);
     } catch (error) {
       handleError(error);
     } finally {
@@ -165,6 +147,22 @@ export const useTransaction = () => {
     }
   };
 
+  const handleToTransactionDetail = async ({
+    transId,
+    item
+  }: {
+    transId: number;
+    item: Transaction;
+  }) => {
+    router.push({
+      pathname: "/point-received",
+      params: {
+        item: JSON.stringify(item),
+        transactionId: transId
+      }
+    });
+  };
+
   return {
     loading,
     error: errorMessage,
@@ -174,6 +172,8 @@ export const useTransaction = () => {
     loadCard,
     sendPoints,
     getCardDetailInfo,
-    latestBalance
+    latestBalance,
+    handleToTransactionDetail,
+    transDetailInfo
   };
 };

@@ -58,19 +58,19 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="active_card"
+          name="active-card"
           options={{
             headerShown: false
           }}
         />
         <Stack.Screen
-          name="active_card_success"
+          name="active-card-success"
           options={{
             headerShown: false
           }}
         />
         <Stack.Screen
-          name="request_card_success"
+          name="request-card-success"
           options={{
             headerShown: false
           }}
@@ -82,19 +82,19 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="load_card"
+          name="load-card"
           options={{
             headerShown: false
           }}
         />
         <Stack.Screen
-          name="notification_center"
+          name="notification-center"
           options={{
             headerShown: false
           }}
         />
         <Stack.Screen
-          name="point_received"
+          name="point-received"
           options={{
             headerShown: false
           }}
@@ -106,7 +106,7 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="review_transaction"
+          name="review-transaction"
           options={{
             headerShown: false
           }}
@@ -118,7 +118,7 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="send_card"
+          name="send-point"
           options={{
             headerShown: false
           }}
@@ -130,7 +130,7 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="preview_statements"
+          name="preview-statements"
           options={{
             headerShown: false
           }}
@@ -140,9 +140,9 @@ export default function AuthenticatedLayout() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="profile-edit" options={{ headerShown: false }} />
-        <Stack.Screen name="cash_out_point" options={{ headerShown: false }} />
-        <Stack.Screen name="web_view" options={{ headerShown: false }} />
-        <Stack.Screen name="our_agreement" options={{ headerShown: false }} />
+        <Stack.Screen name="cash-out-point" options={{ headerShown: false }} />
+        <Stack.Screen name="web-view" options={{ headerShown: false }} />
+        <Stack.Screen name="our-agreement" options={{ headerShown: false }} />
         <Stack.Screen name="notifications" options={{ headerShown: false }} />
         <Stack.Screen
           name="biometrics"
@@ -184,26 +184,26 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="success_phonenumber"
+          name="success-phonenumber"
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="success_homeaddress"
+          name="success-homeaddress"
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="report_damaged" options={{ headerShown: false }} />
+        <Stack.Screen name="report-damaged" options={{ headerShown: false }} />
         <Stack.Screen name="lost" options={{ headerShown: false }} />
         <Stack.Screen name="damaged" options={{ headerShown: false }} />
         <Stack.Screen
-          name="edit_phonenumber"
+          name="edit-phonenumber"
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="verify_phonenumber"
+          name="verify-phonenumber"
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="edit_homeaddress"
+          name="edit-homeaddress"
           options={{
             headerShown: false
           }}

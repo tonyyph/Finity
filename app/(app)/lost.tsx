@@ -29,7 +29,7 @@ const LostScreen = () => {
   };
 
   const onEditHomeAddress = () => {
-    router.push("/(app)/edit_homeaddress");
+    router.push("/(app)/edit-homeaddress");
   };
 
   return (

@@ -48,7 +48,7 @@ export const useVerification = (phoneNumber: string) => {
         verificationCode: verificationCode
       });
 
-      router.push("/(app)/success_phonenumber");
+      router.push("/(app)/success-phonenumber");
     } catch (error) {
       setError((error as AxiosError).message);
     } finally {

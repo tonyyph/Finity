@@ -5,16 +5,19 @@ import { Typography } from "../common";
 import { useTransaction } from "@/hooks";
 
 export const PointItem = ({ item }: { item: Transaction }) => {
-  const { getTransactionDetailInfo } = useTransaction();
+  const { handleToTransactionDetail } = useTransaction();
+
+  const handleToTransDetail = async () => {
+    handleToTransactionDetail &&
+      handleToTransactionDetail({
+        item,
+        transId: item.id
+      });
+  };
 
   return (
     <TouchableOpacity
-      onPress={() => {
-        getTransactionDetailInfo({
-          item,
-          transId: item.id
-        });
-      }}
+      onPress={handleToTransDetail}
       className="flex-1 flex-row justify-between items-start py-3 px-4 active:bg-subtitle rounded-lg"
     >
       <View className="flex-1 flex-row items-start gap-4 min-h-[64px]">

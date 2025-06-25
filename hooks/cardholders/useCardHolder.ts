@@ -63,13 +63,13 @@ export const useCardHolder = () => {
 
   const handleActiveCard = () => {
     router.navigate({
-      pathname: "/active_card"
+      pathname: "/active-card"
     });
   };
 
   const handleReport = () => {
     router.navigate({
-      pathname: "/report_damaged"
+      pathname: "/report-damaged"
     });
   };
 
@@ -108,7 +108,7 @@ export const useCardHolder = () => {
       await activeCard(last4Digits);
 
       router.replace({
-        pathname: "/active_card_success"
+        pathname: "/active-card-success"
       });
     } catch (error) {
       setError((error as AxiosError).message);
@@ -122,7 +122,7 @@ export const useCardHolder = () => {
     try {
       await reportOrDamageCard(isDamaged);
       router.push({
-        pathname: "/(app)/request_card_success"
+        pathname: "/(app)/request-card-success"
       });
     } catch (error) {
       setError((error as AxiosError).message);

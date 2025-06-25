@@ -18,7 +18,7 @@ import { Header } from "../ui/header";
 import { FilterPointList } from "./filter-point-list";
 import { XIcon } from "lucide-react-native";
 
-function TransactionPointTap() {
+export function TransactionPointTap() {
   const { pointList, fetchPaginatedPointTransactions } = useListTransaction();
   const scrollY = useRef(new Animated.Value(0)).current;
   const sheetRef = useRef<BottomSheetModal>(null);

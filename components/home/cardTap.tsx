@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { Typography } from "../common/text-typography";
 import { CardItem } from "../transaction/card-item";
 import { Button } from "../ui/button";
-function CardTab({
+export function CardTab({
   showAll = false,
   cardList
 }: {
