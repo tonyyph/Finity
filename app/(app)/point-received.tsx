@@ -16,6 +16,7 @@ function PointReceivedScreen() {
 
   useEffect(() => {
     getTransactionDetailInfo({ transId: Number(transactionId as string) });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderContent = (type: string) => {
