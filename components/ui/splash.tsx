@@ -1,12 +1,21 @@
+import { useLocalPIN } from "@/hooks/use-local-pin";
+import { useSignIn } from "@clerk/clerk-expo";
 import LottieView from "lottie-react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, View } from "react-native";
 
 export function SplashAnimationScreen() {
   const [loading, setLoading] = useState(true);
+  const { isLoaded } = useSignIn();
 
+  const { setShouldPINLocal } = useLocalPIN();
+
+  useEffect(() => {
+    isLoaded && setShouldPINLocal(true);
+  }, []);
   const onCloseSplash = () => {
     setLoading(false);
+    setShouldPINLocal(true);
   };
 
   return (

@@ -3,12 +3,12 @@ import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { cn } from "@/lib/utils";
+import { router } from "expo-router";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { useState } from "react";
 import {
   Image,
   Keyboard,
-  Linking,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -162,9 +162,14 @@ export default function LoginScreen() {
                   weight="medium"
                   className="text-center mt-2"
                   onPress={() =>
-                    Linking.openURL(
-                      "https://as-rwd-uks-rewards-web-dev.azurewebsites.net/account/forgot-password"
-                    )
+                    router.push({
+                      pathname: "/un-auth-web-view",
+                      params: {
+                        title: "Forgot password",
+                        webLink:
+                          "https://as-rwd-uks-rewards-web-dev.azurewebsites.net/account/forgot-password"
+                      }
+                    })
                   }
                 >
                   Forgot password?

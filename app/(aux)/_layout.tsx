@@ -61,6 +61,13 @@ export default function AuxiliaryLayout() {
           }}
         />
         <Stack.Screen
+          name="un-auth-web-view"
+          options={{
+            headerLeft: () => <BackButton />,
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
           name="pin-success-2factor"
           options={{
             headerLeft: () => <BackButton />,

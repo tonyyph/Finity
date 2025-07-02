@@ -20,11 +20,7 @@ export function HomeHeader({
       <View className="flex flex-1 flex-row items-center gap-3">
         <View className="flex-1 gap-1">
           <Typography weight="bold" type="heading-small" className="pt-4 pb-2">
-            {`${`Hi`} ${
-              userProfile?.firstName && userProfile?.lastName
-                ? userProfile?.firstName + " " + userProfile?.lastName
-                : ""
-            }!`}
+            {`${`Hi`} ${userProfile?.firstName ? userProfile?.firstName : ""}!`}
           </Typography>
         </View>
       </View>
