@@ -15,7 +15,7 @@ export function TransactionTab({ initTab }: { initTab?: number }) {
   const [index, setIndex] = useState<number>(initTab || 0);
 
   const renderScene = ({ route }: any) => {
-    if (Math.abs(index - routes.indexOf(route)) > 2) {
+    if (Math?.abs?.(index - routes.indexOf(route)) > 2) {
       return <View />;
     } else {
       switch (route.key) {

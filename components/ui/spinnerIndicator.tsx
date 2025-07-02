@@ -18,7 +18,7 @@ const AnimatedSpinnerV2: React.FC<MaterialIndicatorProps> = ({
   style
 }) => {
   const borderWidth = trackWidth ?? size / 10;
-  const frames = Math.round((60 * animationDuration) / 1000);
+  const frames = Math?.round?.((60 * animationDuration) / 1000);
   const easing = Easing.bezier(0.4, 0.0, 0.7, 1.0);
 
   const renderComponent = useMemo(
@@ -37,7 +37,7 @@ const AnimatedSpinnerV2: React.FC<MaterialIndicatorProps> = ({
         const outputRange = inputRange.map((_, frameIndex) => {
           let progressValue = (2 * sequences * frameIndex) / (frames - 1);
           let rotation = index ? 360 - sa : -(180 - sa);
-          let sequence = Math.ceil(progressValue);
+          let sequence = Math?.ceil?.(progressValue);
 
           progressValue =
             sequence % 2

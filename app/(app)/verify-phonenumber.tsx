@@ -6,6 +6,7 @@ import { Header } from "@/components/ui/header";
 import { colors } from "@/constants/Colors";
 import { useAnimatedKeyboard } from "@/hooks";
 import { useVerification } from "@/hooks/profile/useVerification";
+import { IS_IOS } from "@/lib/utils";
 import { exactDesign } from "@/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
@@ -32,7 +33,7 @@ export default function VerifyPhoneNumberCodeScreen() {
 
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    height: (keyboardHeight.value * 13) / 14
+    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value
   }));
 
   const otpString = otp.join("");

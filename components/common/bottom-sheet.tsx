@@ -33,6 +33,7 @@ export const BottomSheet = forwardRef<
     ),
     []
   );
+
   const iOSContainerComponent = useCallback(
     (props: { children?: React.ReactNode }) => (
       <FullWindowOverlay>{props.children}</FullWindowOverlay>

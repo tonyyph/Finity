@@ -6,7 +6,7 @@ import { ProgressBar } from "@/components/ui/progress";
 import Tooltip from "@/components/ui/tooltip";
 import { useAnimatedKeyboard } from "@/hooks";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
-import { cn } from "@/lib/utils";
+import { cn, IS_IOS } from "@/lib/utils";
 import { formatNumber } from "@/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
@@ -32,7 +32,7 @@ function LoadCardScreen() {
 
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    height: (keyboardHeight.value * 13) / 14
+    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value
   }));
 
   const formatPointValue = new Intl.NumberFormat("en-US").format(

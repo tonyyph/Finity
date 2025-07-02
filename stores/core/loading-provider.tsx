@@ -42,7 +42,7 @@ export const LoadingProvider: React.FC<{ children: React.ReactNode }> = ({
       const duration = 500;
 
       const start = startValueRef.current;
-      const progressValue = Math.min(
+      const progressValue = Math?.min?.(
         start + (100 - start) * (elapsed / duration),
         100
       );

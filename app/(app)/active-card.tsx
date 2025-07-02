@@ -5,6 +5,7 @@ import { Header } from "@/components/ui/header";
 import { colors } from "@/constants/Colors";
 import { useAnimatedKeyboard } from "@/hooks";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
+import { IS_IOS } from "@/lib/utils";
 import { exactDesign } from "@/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
@@ -23,7 +24,7 @@ function ActiveCardScreen() {
   ];
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    height: (keyboardHeight.value * 13) / 14
+    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value
   }));
 
   const [cardNumber, setCardNumber] = useState(["", "", "", ""]);

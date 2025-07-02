@@ -43,7 +43,7 @@ export const PointItem = ({ item }: { item: Transaction }) => {
           >
             {!!item?.source
               ? item?.source
-              : `£ ${Math.abs(item?.amount).toFixed(2)}`}
+              : `£ ${Math?.abs?.(item?.amount)?.toFixed?.(2)}`}
           </Typography>
           <Typography textColor="#737373" weight="regular">
             {formatDateTransaction(item?.date)}

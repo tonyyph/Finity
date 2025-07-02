@@ -2,7 +2,7 @@ import { CircleAlert } from "@/components/common/icons";
 import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useAnimatedKeyboard, useForgotPin } from "@/hooks";
-import { cn } from "@/lib/utils";
+import { cn, IS_IOS } from "@/lib/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { useState } from "react";
@@ -21,7 +21,7 @@ export default function ForgotPINScreen() {
   const [focusPassword, setFocusPassword] = useState(false);
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    height: (keyboardHeight.value * 13) / 14
+    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value
   }));
 
   const {

@@ -79,23 +79,23 @@ export function formatNumber({
   value,
   decimalCount = 2,
   decimal = ".",
-  thousands = ",",
+  thousands = ","
 }: {
   value: string | number;
   decimalCount?: number;
   decimal?: string;
   thousands?: string;
 }): string {
-  const num = typeof value === "string" ? parseFloat(value) : value;
+  const num = typeof value === "string" ? parseInt?.(value) : value;
 
   if (isNaN(num)) return `${0}${decimal}00`;
 
   const negativeSign = num < 0 ? "-" : "";
-  const absoluteAmount = Math.abs(num);
-  const fixedAmount = absoluteAmount.toFixed(decimalCount);
-  const [integerPart, decimalPart] = fixedAmount.split(".");
+  const absoluteAmount = Math?.abs?.(num);
+  const fixedAmount = absoluteAmount?.toFixed?.(decimalCount);
+  const [integerPart, decimalPart] = fixedAmount?.split?.(".");
 
-  const formattedInteger = integerPart.replace(
+  const formattedInteger = integerPart?.replace?.(
     /\B(?=(\d{3})+(?!\d))/g,
     thousands
   );

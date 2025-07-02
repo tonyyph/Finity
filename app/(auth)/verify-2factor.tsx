@@ -5,7 +5,7 @@ import { Header } from "@/components/ui/header";
 import { colors } from "@/constants/Colors";
 import { useAnimatedKeyboard } from "@/hooks";
 import { useLogin } from "@/hooks/auth";
-import { cn } from "@/lib/utils";
+import { cn, IS_IOS } from "@/lib/utils";
 import { exactDesign } from "@/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
@@ -29,7 +29,7 @@ export default function Verify2FactorScreen() {
 
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    height: (keyboardHeight.value * 13) / 14
+    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value
   }));
 
   const otpString = otp.join("");

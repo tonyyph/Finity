@@ -24,7 +24,7 @@ export const CardItem = ({ item }: { item: any }) => {
           >
             {!!item?.source
               ? item?.source
-              : `£ ${Math.abs(item?.amount).toFixed(2)}`}
+              : `£ ${Math?.abs?.(item?.amount)?.toFixed?.(2)}`}
           </Typography>
           <Typography textColor="#737373" weight="regular">
             {formatDateTransaction(item?.date)}
@@ -35,9 +35,9 @@ export const CardItem = ({ item }: { item: any }) => {
         textColor={item.amount > 0 ? "#00A464" : "#D9323D"}
         className="text-right flex-[0.2]"
       >
-        {`${item?.amount > 0 ? "+" : "-"}${Math.abs(
+        {`${item?.amount > 0 ? "+" : "-"}${Math?.abs?.(
           item?.amount
-        ).toLocaleString()}`}
+        )?.toLocaleString()}`}
       </Typography>
     </TouchableOpacity>
   );

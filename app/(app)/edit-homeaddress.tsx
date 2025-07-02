@@ -3,7 +3,7 @@ import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
 import { useAnimatedKeyboard } from "@/hooks";
-import { cn } from "@/lib/utils";
+import { cn, IS_IOS } from "@/lib/utils";
 import { userStore } from "@/stores/userStore";
 import { validateUKPostcode } from "@/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
@@ -35,7 +35,7 @@ const EditHomeAddressScreen = () => {
 
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    height: (keyboardHeight.value * 13) / 14
+    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value
   }));
 
   const handleSave = useCallback(() => {
