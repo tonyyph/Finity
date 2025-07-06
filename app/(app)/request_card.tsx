@@ -2,12 +2,10 @@ import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useUserProfile } from "@/hooks/profile/useUserProfile";
-import { useUserSettingsStore } from "@/stores";
 import { exactDesign } from "@/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
-import { useState } from "react";
-import { Image, Linking, View } from "react-native";
+import { Image, View } from "react-native";
 
 const content = [
   {
@@ -81,7 +79,13 @@ function RequestCard() {
           {`By proceeding, you agree to bank’s `}
           <Typography
             onPress={() => {
-              Linking.openURL("https://www.finity.co.uk/terms-conditions/");
+              router.push({
+                pathname: "/web-view",
+                params: {
+                  title: "Terms and conditions",
+                  webLink: "https://www.finity.co.uk/terms-conditions/"
+                }
+              });
             }}
             weight="medium"
             className="underline"

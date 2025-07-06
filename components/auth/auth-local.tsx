@@ -133,9 +133,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
               resizeMode="contain"
             />
             <Typography weight="regular">
-              {`Welcome back, ${
-                userProfile?.firstName + " " + userProfile?.lastName
-              }`}
+              {`Welcome back, ${userProfile?.firstName}`}
             </Typography>
           </View>
         </View>

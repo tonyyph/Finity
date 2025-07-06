@@ -14,6 +14,7 @@ export function ProfileCard() {
         <UserAvatar
           user={user!}
           fullName={userProfile?.firstName + " " + userProfile?.lastName}
+          textType={"body-large"}
         />
         <View className="flex-1 justify-center gap-[2px]">
           <Typography type="body-large">

@@ -138,7 +138,7 @@ export function CircularProgress({
               : {}
           }
         >
-          {Math?.round?.(progress)}%
+          {progress}%
         </Text>
       </View>
     </View>

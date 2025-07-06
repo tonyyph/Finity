@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { Linking, View } from "react-native";
+import { View } from "react-native";
 
 export default function PageNotFound() {
   const navigation = useNavigation();
@@ -30,7 +30,15 @@ export default function PageNotFound() {
           <Typography
             weight="regular"
             className="text-center mt-4 underline"
-            onPress={() => Linking.openURL("https://support.finity.co.uk")}
+            onPress={() =>
+              router.push({
+                pathname: "/un-auth-web-view",
+                params: {
+                  title: "",
+                  webLink: "https://support.finity.co.uk"
+                }
+              })
+            }
           >
             support.finity.co.uk
           </Typography>

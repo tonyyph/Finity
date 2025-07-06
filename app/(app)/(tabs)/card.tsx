@@ -18,7 +18,9 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
 import AnimatedSpinnerV2 from "@/components/ui/spinnerIndicator";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
+import { cn, IS_ANDROID } from "@/lib/utils";
 import { userStore } from "@/stores/userStore";
+import { exactDesign } from "@/utils";
 import {
   BottomIndicatorAvoidingView,
   TopIndicatorAvoidingView
@@ -104,7 +106,10 @@ export default function CardScreen() {
           <View className="bg-neutral-100 border border-[#E5E5E5] px-4 py-2 rounded-2xl m-4 gap-4">
             <View
               style={styles.shadow}
-              className="bg-white w-full h-[240px] my-2 border border-border rounded-xl flex-row"
+              className={cn(
+                `bg-white w-full h-[240px] my-2 border border-border rounded-xl flex-row`,
+                IS_ANDROID && `h-[200px]`
+              )}
             >
               <View className="justify-between flex-1 items-start p-6">
                 <View className="h-12" />
@@ -143,7 +148,7 @@ export default function CardScreen() {
               )}
             </View>
           </View>
-          <View className="gap-3 p-4">
+          <View className={`gap-[${exactDesign(12)}] p-[${exactDesign(16)}]`}>
             <MenuItem
               label={`View PIN`}
               onPress={handleViewPIN}
@@ -155,7 +160,7 @@ export default function CardScreen() {
               icon={cardStatus === 4 ? FreezeIcon : UnFreezeIcon}
               rightSection={
                 freezeLoading && (
-                  <AnimatedSpinnerV2 size={24} color={"#fb923c"} />
+                  <AnimatedSpinnerV2 size={exactDesign(24)} color={"#fb923c"} />
                 )
               }
             />

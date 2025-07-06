@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { exactDesign } from "@/utils";
 import React, { ReactNode } from "react";
 import {
   GestureResponderEvent,
@@ -29,14 +30,46 @@ interface TextProps {
 }
 
 const TEXT_STYLES: Record<TextType, TextStyle> = {
-  "heading-large": { fontSize: 34, lineHeight: 40, letterSpacing: 1 },
-  "heading-medium": { fontSize: 28, lineHeight: 34, letterSpacing: 1 },
-  "heading-small": { fontSize: 24, lineHeight: 30, letterSpacing: 1 },
-  "heading-extraSmall": { fontSize: 20, lineHeight: 26, letterSpacing: 1 },
-  "body-large": { fontSize: 18, lineHeight: 24, letterSpacing: 1 },
-  "body-default": { fontSize: 16, lineHeight: 22, letterSpacing: 1 },
-  "body-small": { fontSize: 14, lineHeight: 20, letterSpacing: 1 },
-  "body-extraSmall": { fontSize: 12, lineHeight: 18, letterSpacing: 1 }
+  "heading-large": {
+    fontSize: exactDesign(34),
+    lineHeight: exactDesign(40),
+    letterSpacing: 1
+  },
+  "heading-medium": {
+    fontSize: exactDesign(28),
+    lineHeight: exactDesign(34),
+    letterSpacing: 1
+  },
+  "heading-small": {
+    fontSize: exactDesign(24),
+    lineHeight: exactDesign(30),
+    letterSpacing: 1
+  },
+  "heading-extraSmall": {
+    fontSize: exactDesign(20),
+    lineHeight: exactDesign(26),
+    letterSpacing: 1
+  },
+  "body-large": {
+    fontSize: exactDesign(18),
+    lineHeight: exactDesign(24),
+    letterSpacing: 1
+  },
+  "body-default": {
+    fontSize: exactDesign(16),
+    lineHeight: exactDesign(22),
+    letterSpacing: 1
+  },
+  "body-small": {
+    fontSize: exactDesign(14),
+    lineHeight: exactDesign(20),
+    letterSpacing: 1
+  },
+  "body-extraSmall": {
+    fontSize: exactDesign(12),
+    lineHeight: exactDesign(18),
+    letterSpacing: 1
+  }
 };
 
 const FONT_WEIGHTS: Record<FontWeight, TextStyle["fontWeight"]> = {

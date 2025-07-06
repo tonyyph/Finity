@@ -10,8 +10,8 @@ export default function PrivacyScreen() {
       contentContainerClassName="px-6 py-3 gap-2"
     >
       <Text>
-        Hey there! Thanks for using Finity. Here's the lowdown on what data
-        we collect, how we use it, and how we keep it safe. We aim to be as
+        Hey there! Thanks for using Finity. Here's the lowdown on what data we
+        collect, how we use it, and how we keep it safe. We aim to be as
         transparent as possible, so let's dive in!
       </Text>
 
@@ -68,7 +68,7 @@ export default function PrivacyScreen() {
       <Text>
         Email:{" "}
         <Text
-          className="text-blue-600"
+          className="text-primary"
           onPress={() => Linking.openURL("mailto:support@Finity.com")}
         >
           support@Finity.com
