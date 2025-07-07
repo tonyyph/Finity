@@ -61,11 +61,7 @@ function HomeScreen() {
   };
 
   const onSendPoints = () => {
-    if (cardStatus === 4 || cardStatus === 1) {
-      router.navigate({ pathname: "/(app)/send-point" });
-    } else {
-      handleShowToastError();
-    }
+    router.navigate({ pathname: "/(app)/send-point" });
   };
 
   const onPressCard = () => {
