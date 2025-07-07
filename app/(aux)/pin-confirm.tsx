@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
 import { Typography } from "@/components/common/text-typography";
 import { cn } from "@/lib/utils";

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ArrowDownIcon } from "@/assets";
 import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";

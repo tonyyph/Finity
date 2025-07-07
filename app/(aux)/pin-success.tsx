@@ -39,7 +39,7 @@ function SetupPinSuccess() {
             resizeMode="contain"
             source={require("@/assets/images/success-filled.png")}
           />
-          <Typography type="heading-small" weight="semibold">
+          <Typography type="heading-small" weight="bold">
             {isResetPin === "1" ? `PIN changed` : `PIN successfully set`}
           </Typography>
           <Typography weight="regular" className="text-center px-4">

@@ -25,6 +25,8 @@ import { CustomPaletteWrapper } from "@/components/common/custom-palate-wrapper"
 import { NetworkProvider } from "@/stores/core/network-provider";
 import { StoreProvider } from "@/stores/core/store-provider";
 import { LoadingProvider } from "@/stores";
+import { StatusBar } from "expo-status-bar";
+import { IS_ANDROID } from "@/lib/utils";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -105,6 +107,7 @@ export default function RootLayout() {
                     <SafeAreaProvider>
                       <GestureHandlerRootView>
                         <KeyboardProvider>
+                          {IS_ANDROID && <StatusBar style="auto" />}
                           <BottomSheetModalProvider>
                             <Stack screenOptions={{ headerShown: false }} />
                             <ToastRoot />

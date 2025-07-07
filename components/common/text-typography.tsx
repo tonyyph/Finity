@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import { exactDesign } from "@/utils";
 import React, { ReactNode } from "react";
 import {
@@ -72,11 +71,11 @@ const TEXT_STYLES: Record<TextType, TextStyle> = {
   }
 };
 
-const FONT_WEIGHTS: Record<FontWeight, TextStyle["fontWeight"]> = {
-  regular: "400",
-  medium: "500",
-  semibold: "700",
-  bold: "700"
+const FONT_FAMILY: Record<FontWeight, TextStyle["fontFamily"]> = {
+  regular: "NeueMontreal-Regular",
+  medium: "NeueMontreal-Medium",
+  semibold: "NeueMontreal-Bold",
+  bold: "NeueMontreal-Bold"
 };
 
 export const Typography: React.FC<TextProps> = ({
@@ -91,16 +90,15 @@ export const Typography: React.FC<TextProps> = ({
   const textStyle = TEXT_STYLES[type] || TEXT_STYLES["body-default"];
   return (
     <RNText
-      className={cn("font-['PP_Neue_Montreal']", className)}
+      className={className}
       allowFontScaling
       style={[
         styles.text,
         {
-          fontFamily: "PP Neue Montreal",
           fontSize: textStyle.fontSize,
           lineHeight: textStyle.lineHeight,
           letterSpacing: textStyle.letterSpacing,
-          fontWeight: FONT_WEIGHTS[weight] || "400",
+          fontFamily: FONT_FAMILY[weight] || "NeueMontreal-Medium",
           color: textColor
         },
         style

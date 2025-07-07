@@ -12,5 +12,4 @@ export * from "./menu-item";
 export * from "./resend_verification_downtime";
 export * from "./text-typography";
 export * from "./toast";
-export * from "./toolbar";
 export * from "./user-avatar";

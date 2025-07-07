@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { MenuItem } from "@/components/common";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { CircleAlert } from "@/components/common/icons";

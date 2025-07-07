@@ -7,7 +7,7 @@ export function ToastRoot() {
       extraInsets={{ top: -12 }}
       defaultStyle={{
         text: {
-          fontFamily: "PP Neue Montreal",
+          fontFamily: "NeueMontreal-Medium",
           color: "#FFFFFF",
           fontSize: 16,
           letterSpacing: 0.48,

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useColorPalette } from "@/hooks/use-color-palette";
 import { useEffect } from "react";
 import { type StyleProp, View, type ViewStyle } from "react-native";

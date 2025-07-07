@@ -3,6 +3,7 @@ import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useLogin } from "@/hooks/auth/useLogin";
 import { cn } from "@/lib/utils";
+import { TopIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { useState } from "react";
@@ -28,10 +29,11 @@ export default function LoginScreen() {
   return (
     <View className="flex-1">
       {/* Welcome */}
-      <View className=" bg-black">
+      <View className={cn("bg-black justify-end")}>
+        <TopIndicatorAvoidingView />
         <Image
           source={require("@/assets/images/logo-stack.png")}
-          className="w-full h-[220px] bg-black top-10"
+          className="w-full h-[70px] my-10"
           resizeMode="contain"
         />
       </View>

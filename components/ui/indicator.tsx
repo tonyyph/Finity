@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import { Animated, Easing, ViewStyle } from "react-native";
 
@@ -11,7 +12,7 @@ type IndicatorProps = {
   renderComponent?: ({
     index,
     count,
-    progress,
+    progress
   }: {
     index: number;
     count: number;
@@ -30,12 +31,11 @@ const Indicator: React.FC<IndicatorProps> = ({
   hidesWhenStopped = true,
   renderComponent,
   count = 1,
-  style,
+  style
 }) => {
   const [progress] = useState(new Animated.Value(0));
   const [hideAnimation] = useState(new Animated.Value(animating ? 1 : 0));
   const animationState = useRef(0);
-  const savedValue = useRef(0);
 
   useEffect(() => {
     if (animating) {
@@ -47,7 +47,7 @@ const Indicator: React.FC<IndicatorProps> = ({
     Animated.timing(hideAnimation, {
       toValue: animating ? 1 : 0,
       duration: hideAnimationDuration,
-      useNativeDriver: true,
+      useNativeDriver: true
     }).start();
   }, [animating]);
 
@@ -61,44 +61,10 @@ const Indicator: React.FC<IndicatorProps> = ({
         easing: animationEasing,
         useNativeDriver: true,
         isInteraction: interaction,
-        toValue: 1,
+        toValue: 1
       })
     ).start();
 
-    animationState.current = 1;
-  };
-
-  const stopAnimation = () => {
-    if (animationState.current !== 1) return;
-    progress.stopAnimation((value) => {
-      saveAnimation(value);
-    });
-    animationState.current = -1;
-  };
-
-  const saveAnimation = (value: number) => {
-    savedValue.current = value;
-    animationState.current = 0;
-    if (animating) {
-      resumeAnimation();
-    }
-  };
-
-  const resumeAnimation = () => {
-    if (animationState.current !== 0) return;
-
-    Animated.timing(progress, {
-      useNativeDriver: true,
-      isInteraction: interaction,
-      duration: (1 - savedValue.current) * animationDuration,
-      toValue: 1,
-    }).start(({ finished }) => {
-      if (finished) {
-        startAnimation();
-      }
-    });
-
-    savedValue.current = 0;
     animationState.current = 1;
   };
 

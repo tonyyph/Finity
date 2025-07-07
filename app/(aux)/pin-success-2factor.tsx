@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useUserAuthenticateStore } from "@/stores";

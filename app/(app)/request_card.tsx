@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useUserProfile } from "@/hooks/profile/useUserProfile";
 import { exactDesign } from "@/utils";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScrollView, Image, View } from "react-native";
 import { router } from "expo-router";
-import { Image, View } from "react-native";
+import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 
 const content = [
   {
@@ -28,6 +29,7 @@ const content = [
 function RequestCard() {
   const { handleRequestCardHolder, loading } = useCardHolder();
   const { userProfile } = useUserProfile();
+  const insets = useSafeAreaInsets();
 
   const handleConfirm = () => {
     handleRequestCardHolder({
@@ -40,24 +42,26 @@ function RequestCard() {
 
   return (
     <View className="flex-1 bg-backgroundSubtle">
-      <View className="px-4 pt-6 gap-2">
-        <Typography type="heading-small" weight="semibold">
-          {"Request a physical card"}
-        </Typography>
-        <Typography weight="regular" className="mr-6">
-          Convert your points into real value and start enjoying the rewards.
-        </Typography>
-      </View>
-      <View className="items-center py-6">
-        <Image
-          resizeMode="contain"
-          source={require("@/assets/images/OnboardCard.png")}
-          style={{ width: exactDesign(124), height: exactDesign(192) }}
-        />
-      </View>
-      <View className="p-4 gap-5">
-        {content.map((e, i) => {
-          return (
+      <ScrollView className="pb-[120px]">
+        <View className="px-4 pt-6 gap-2">
+          <Typography type="heading-small" weight="semibold">
+            {"Request a physical card"}
+          </Typography>
+          <Typography weight="regular" className="mr-6">
+            Convert your points into real value and start enjoying the rewards.
+          </Typography>
+        </View>
+
+        <View className="items-center py-6">
+          <Image
+            resizeMode="contain"
+            source={require("@/assets/images/OnboardCard.png")}
+            style={{ width: exactDesign(124), height: exactDesign(192) }}
+          />
+        </View>
+
+        <View className="p-4 gap-5">
+          {content.map((e, i) => (
             <View key={`${i}`} className="flex-row gap-3">
               <View className="items-start">
                 <Image
@@ -71,30 +75,41 @@ function RequestCard() {
                 <Typography weight="regular">{e.sub}</Typography>
               </View>
             </View>
-          );
-        })}
-      </View>
-      <View className="p-4 pt-5 flex-1">
-        <Typography weight="regular" textColor="#404040">
-          {`By proceeding, you agree to bank’s `}
-          <Typography
-            onPress={() => {
-              router.push({
-                pathname: "/web-view",
-                params: {
-                  title: "Terms and conditions",
-                  webLink: "https://www.finity.co.uk/terms-conditions/"
-                }
-              });
-            }}
-            weight="medium"
-            className="underline"
-          >
-            {`Terms and Conditions`}
+          ))}
+        </View>
+
+        <View className="p-4 pt-5">
+          <Typography weight="regular" textColor="#404040">
+            {`By proceeding, you agree to bank’s `}
+            <Typography
+              onPress={() =>
+                router.push({
+                  pathname: "/web-view",
+                  params: {
+                    title: "Terms and conditions",
+                    webLink: "https://www.finity.co.uk/terms-conditions/"
+                  }
+                })
+              }
+              weight="medium"
+              className="underline"
+            >
+              {`Terms and Conditions`}
+            </Typography>
           </Typography>
-        </Typography>
-      </View>
-      <View className="bg-white p-4">
+        </View>
+      </ScrollView>
+
+      {/* Sticky bottom button */}
+      <View
+        className="bg-white p-4 shadow-md shadow-slate-100"
+        style={{
+          position: "absolute",
+          bottom: insets.bottom - 32,
+          left: 0,
+          right: 0
+        }}
+      >
         <Button
           variant="default"
           disabled={loading}
@@ -107,8 +122,8 @@ function RequestCard() {
             {loading ? `Confirming...` : `Confirm and request card`}
           </Typography>
         </Button>
+        <BottomIndicatorAvoidingView number={0.8} />
       </View>
-      <BottomIndicatorAvoidingView />
     </View>
   );
 }

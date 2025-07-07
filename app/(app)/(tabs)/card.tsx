@@ -155,9 +155,9 @@ export default function CardScreen() {
               icon={EyeIcon}
             />
             <MenuItem
-              label={cardStatus === 4 ? `Freeze card` : `Unfreeze card`}
+              label={cardStatus === 3 ? `Unfreeze card` : `Freeze card`}
               onPress={handleFreezeCard}
-              icon={cardStatus === 4 ? FreezeIcon : UnFreezeIcon}
+              icon={cardStatus === 3 ? UnFreezeIcon : FreezeIcon}
               rightSection={
                 freezeLoading && (
                   <AnimatedSpinnerV2 size={exactDesign(24)} color={"#fb923c"} />

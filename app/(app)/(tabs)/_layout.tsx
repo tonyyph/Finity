@@ -42,7 +42,7 @@ export default function TabLayout() {
           fontSize: exactDesign(12)
         },
         headerTitleStyle: {
-          fontFamily: "PP Neue Montreal",
+          fontFamily: "NeueMontreal-Medium",
           fontSize: exactDesign(16),
           color: getColor("--foreground")
         },

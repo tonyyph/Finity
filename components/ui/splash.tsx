@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useLocalPIN } from "@/hooks/use-local-pin";
 import { useSignIn } from "@clerk/clerk-expo";
 import LottieView from "lottie-react-native";

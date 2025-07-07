@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 

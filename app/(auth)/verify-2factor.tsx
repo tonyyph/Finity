@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { CircleAlert } from "@/components/common/icons";
 import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
@@ -85,10 +86,10 @@ export default function Verify2FactorScreen() {
       <View className="flex-1 px-6 mt-6">
         <View className="z-10 mb-2 pr-4 gap-2">
           <Typography type="heading-small" weight="semibold">
-            Two-factor authentication
+            {`Two-factor authentication`}
           </Typography>
           <Typography weight="regular">
-            Enter the 6-digit verification code generated from your app.
+            {`Enter the 6-digit verification code generated from your app.`}
           </Typography>
         </View>
         <View className="flex flex-row justify-between items-center mt-8 gap-2">

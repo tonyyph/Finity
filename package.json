@@ -12,7 +12,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint",
+    "lint": "expo lint && npx tsc --noEmit",
     "tcp": "adb reverse tcp:8081 tcp:8081",
     "debug": "adb reverse tcp:9090 tcp:9090",
     "build:android-local": "eas build --platform android --profile production --local",

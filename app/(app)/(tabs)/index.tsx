@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { AlertIcon } from "@/assets";
 import { toast } from "@/components/common/toast";
 import { CardBalanceCom } from "@/components/home/card_balance";
@@ -10,7 +11,6 @@ import { RequestCardNotification } from "@/components/home/request_card_noti";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useNotification } from "@/hooks/notifications/useNotification";
 import { SCREEN_WIDTH } from "@/utils";
-import { TopIndicatorAvoidingView } from "@/utils/spacing";
 import * as Haptics from "expo-haptics";
 import { router, useFocusEffect } from "expo-router";
 import { isEmpty } from "lodash-es";
@@ -88,8 +88,6 @@ function HomeScreen() {
 
   return (
     <View className="flex-1 bg-backgroundSubtle">
-      <TopIndicatorAvoidingView />
-
       <ScrollView
         className="bg-backgroundSubtle"
         nestedScrollEnabled={true}
@@ -106,7 +104,7 @@ function HomeScreen() {
           haveNotification={notifications?.length > 0}
           onNotification={handleToNotificationCenter}
         />
-        <View style={{ paddingBottom: 20 }}>
+        <View>
           {(!cardholderId || cardStatus === 0) && !isEmpty(userData) && (
             <RequestCardNotification
               onPress={onPressCard}
@@ -116,7 +114,7 @@ function HomeScreen() {
           {cardStatus === 3 && !isEmpty(userData) && (
             <FrozenBanner onPress={handleFreezeCard} />
           )}
-          <View className="gap-2 mb-1">
+          <View className="gap-2 mt-2 mb-1">
             <CardBalanceCom value={userData?.cardBalance ?? 0} />
             <PointsBalanceCom value={userData?.pointsBalance ?? 0} />
           </View>

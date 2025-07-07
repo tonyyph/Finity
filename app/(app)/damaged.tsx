@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
 import { useSettingProfile } from "@/hooks";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
-import { useUserProfile } from "@/hooks/profile/useUserProfile";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
