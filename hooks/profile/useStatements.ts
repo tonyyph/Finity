@@ -1,6 +1,6 @@
 import { generateCardStatements, generatePointStatements } from "@/api";
 import { useLoading } from "@/stores";
-import { convertMonth } from "@/utils";
+import { convertMonth, hideLoading, showLoading } from "@/utils";
 import { AxiosError } from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -10,7 +10,7 @@ export const useStatements = () => {
   const { startLoading, stopLoading } = useLoading();
   const [error, setError] = useState("");
   const handleGeneratePointPDF = async ({ month, year }: StatementProps) => {
-    setLoading(true);
+    showLoading();
     startLoading();
 
     try {
@@ -37,6 +37,7 @@ export const useStatements = () => {
       setError((error as AxiosError).message);
       stopLoading();
     } finally {
+      hideLoading();
       setLoading(false);
     }
   };

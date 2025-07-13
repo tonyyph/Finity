@@ -10,7 +10,7 @@ import { Touch } from "@/components/ui/touch";
 import { useAnimatedKeyboard, useCardHolder } from "@/hooks";
 import { cn, IS_IOS } from "@/lib/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
-import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { router, useLocalSearchParams } from "expo-router";
 import { isEmpty } from "lodash-es";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -23,12 +23,14 @@ function SendCardScreen() {
     useCardHolder();
 
   const [enterAmount, setEnterAmount] = useState("");
+  const [focusAmount, setFocusAmount] = useState(false);
   const [cardHolderValue, setCardHolderValue] = useState<UserCardHolder>(
     {} as UserCardHolder
   );
   const [error, setError] = useState("");
   const [cardHolderError, setCardHolderError] = useState("");
   const sheetRef = useRef<BottomSheetModal>(null);
+
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
     height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value
@@ -49,6 +51,14 @@ function SendCardScreen() {
   const formatPointValue = new Intl.NumberFormat("en-US").format(
     Number(userData?.pointsBalance ?? 0)
   );
+
+  const formatAmount = (value: string) => {
+    let numericValue = value.toString().replace(/,/g, "").replace(/\D/g, "");
+    let formattedValue = new Intl.NumberFormat("en-US").format(
+      Number(numericValue)
+    );
+    return formattedValue;
+  };
 
   useEffect(() => {
     if (
@@ -135,7 +145,13 @@ function SendCardScreen() {
                 sheetRef?.current?.present();
                 Keyboard.dismiss();
               }}
-              className="flex-row justify-between items-center rounded-lg z-10 border-[1px] border-subtitle px-3"
+              className={cn(
+                "flex-row justify-between items-center rounded-lg z-10 border-[1px] border-subtitle px-3",
+                {
+                  "border-errormessage": !!cardHolderError,
+                  "border-2": !!cardHolderError
+                }
+              )}
             >
               <View className="bg-white h-[48px] justify-center">
                 <Typography>
@@ -168,10 +184,21 @@ function SendCardScreen() {
             <Typography type="body-default" weight="medium" textColor="#404040">
               {`Enter amount`}
             </Typography>
-            <View className="flex-row justify-between items-center rounded-lg border-[1px] border-subtitle px-4">
+            <View
+              className={cn(
+                "flex-row justify-between items-center rounded-lg border-[1px] border-subtitle px-4 gap-6",
+                {
+                  "border-black": !!focusAmount,
+                  "border-errormessage": !!error,
+                  "border-2": !!error || !!focusAmount
+                }
+              )}
+            >
               <TextInput
-                value={enterAmount}
-                className="flex-1 bg-white h-[72px] text-[28px] font-medium"
+                value={formatAmount(enterAmount)}
+                className="flex-1 bg-white h-[72px] text-[28px] font-[NeueMontreal-Medium]"
+                onFocus={() => setFocusAmount(true)}
+                onEndEditing={() => setFocusAmount(false)}
                 keyboardType="number-pad"
                 onChangeText={(text) => {
                   setError("");
@@ -219,16 +246,21 @@ function SendCardScreen() {
         </View>
         <Animated.View style={translateStyle} />
 
-        <BottomSheet ref={sheetRef} index={0} enableDynamicSizing>
-          <BottomSheetView className="min-h-[50%] mt-1">
-            <Header
-              title="Select a cardholder"
-              spacing={false}
-              onRightFunction={() => {
-                sheetRef.current?.close();
-              }}
-            />
-            <View className="p-4 my-3 mb-4">
+        <BottomSheet ref={sheetRef} index={0} snapPoints={["50%"]}>
+          <View className="mt-1" />
+          <Header
+            title="Select a cardholder"
+            spacing={false}
+            onRightFunction={() => {
+              sheetRef.current?.close();
+            }}
+          />
+          <View className="mb-3" />
+          <BottomSheetScrollView
+            className="min-h-[100%]"
+            showsVerticalScrollIndicator={false}
+          >
+            <View className="p-4 mb-4">
               {listCardHolder?.map((item, index) => (
                 <View key={`${index}`}>
                   <MenuItem
@@ -250,7 +282,7 @@ function SendCardScreen() {
               ))}
             </View>
             <BottomIndicatorAvoidingView />
-          </BottomSheetView>
+          </BottomSheetScrollView>
         </BottomSheet>
       </View>
     </View>

@@ -19,7 +19,7 @@ function Skeleton({
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     sv.value = withRepeat(
-      withSequence(withTiming(0.5, { duration }), withTiming(1, { duration })),
+      withSequence(withTiming(0.6, { duration }), withTiming(1, { duration })),
       -1
     );
   }, [sv]);
@@ -31,7 +31,7 @@ function Skeleton({
   return (
     <Animated.View
       style={style}
-      className={cn("rounded-md bg-slate-200 dark:bg-slate-400", className)}
+      className={cn("rounded-md bg-neutral-100 dark:bg-slate-400", className)}
       {...props}
     />
   );

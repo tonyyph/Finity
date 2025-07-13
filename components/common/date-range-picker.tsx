@@ -28,7 +28,7 @@ function SpinnerDatePicker({
 
   return (
     <View className="gap-4">
-      <Text className="mx-6 mt-2 text-center font-medium text-foreground">
+      <Text className="mx-6 mt-2 text-center font-[NeueMontreal-Medium] text-foreground">
         {title}
       </Text>
       <DateTimePicker

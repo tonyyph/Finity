@@ -39,6 +39,14 @@ function LoadCardScreen() {
     Number(userData?.pointsBalance ?? 0)
   );
 
+  const formatAmount = (value: string) => {
+    let numericValue = value.toString().replace(/,/g, "").replace(/\D/g, "");
+    let formattedValue = new Intl.NumberFormat("en-US").format(
+      Number(numericValue)
+    );
+    return formattedValue;
+  };
+
   useEffect(() => {
     if (
       (Number(enterAmount) < 100 ||
@@ -85,7 +93,7 @@ function LoadCardScreen() {
         <ProgressBar completeAnimation />
 
         <View className="flex-1">
-          <View className="p-6 gap-2">
+          <View className="p-4 gap-2">
             <Typography type="body-default" weight="medium" textColor="#404040">
               {`Points balance`}
             </Typography>
@@ -110,14 +118,23 @@ function LoadCardScreen() {
             </View>
           </View>
           {/* Enter amount */}
-          <View className="p-6 gap-2 ">
+          <View className="p-4 gap-2 ">
             <Typography type="body-default" weight="medium" textColor="#404040">
               {`Enter amount`}
             </Typography>
-            <View className="flex-row justify-between items-center rounded-lg border-[1px] border-subtitle px-4">
+            <View
+              className={cn(
+                "flex-row justify-between items-center rounded-lg border-[1px] border-subtitle px-4 gap-6",
+                {
+                  "border-black": !!focusAmount,
+                  "border-errormessage": !!error,
+                  "border-2": !!error || !!focusAmount
+                }
+              )}
+            >
               <TextInput
-                value={enterAmount}
-                className="flex-1 bg-white h-[72px] text-[28px] font-medium"
+                value={formatAmount(enterAmount)}
+                className="flex-1 bg-white h-[72px] text-[28px] font-[NeueMontreal-Medium]"
                 keyboardType="number-pad"
                 onFocus={() => setFocusAmount(true)}
                 onEndEditing={() => setFocusAmount(false)}
@@ -159,7 +176,7 @@ function LoadCardScreen() {
         </View>
         {/* Bottom */}
         <Animated.View className="justify-end">
-          <View className="px-6">
+          <View className="px-4">
             <Button
               disabled={!enterAmount}
               variant="default"

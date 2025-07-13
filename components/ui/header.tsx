@@ -2,10 +2,11 @@ import { ArrowBackIcon } from "@/assets";
 import { TopIndicatorAvoidingView } from "@/utils/spacing";
 import { XIcon } from "lucide-react-native";
 import { ReactNode } from "react";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import type { SvgProps } from "react-native-svg";
 import { Typography } from "../common/text-typography";
 import { Button } from "./button";
+import { commonStore } from "@/stores";
 
 type Props = {
   title?: string;
@@ -31,23 +32,23 @@ export const Header = ({
   renderCenterView,
   renderRightView
 }: Props) => {
+  const isLoading = commonStore.getState().isLoading;
   return (
     <View>
       {spacing && <TopIndicatorAvoidingView />}
       <View className="flex-row justify-between items-center">
         {renderLeftView ??
           (!!onBack || !!onLeftFunction ? (
-            <Button
-              className="flex-shrink ml-2"
+            <TouchableOpacity
               onPress={(value) => {
                 onBack?.(value);
                 onLeftFunction?.(value);
               }}
-              size="icon"
-              variant="ghost"
+              className="flex-shrink ml-2"
+              disabled={isLoading}
             >
               <ArrowBackIcon />
-            </Button>
+            </TouchableOpacity>
           ) : (
             <View className="flex-shrink ml-2">
               <View className="w-8 h-8" />

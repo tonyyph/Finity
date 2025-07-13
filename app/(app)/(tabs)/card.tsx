@@ -78,7 +78,7 @@ export default function CardScreen() {
     });
   };
 
-  //ACTIVE, FROZEN, DAMAGED
+  // //ACTIVE, FROZEN, DAMAGED
   if (cardStatus === 1 || cardStatus === 4 || cardStatus === 3) {
     return (
       <>

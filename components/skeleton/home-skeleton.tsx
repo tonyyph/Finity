@@ -9,9 +9,7 @@ export function HomeSkeleton() {
       <TopIndicatorAvoidingView />
       <Skeleton className="my-5 h-6 w-20 rounded-full" />
 
-      <View className="bg-slate-300 rounded-2xl p-4 my-4">
-        <Skeleton className="h-[230px] w-full rounded-xl" />
-      </View>
+      <Skeleton className="h-[240px] w-full rounded-2xl p-4 my-4" />
       {React.Children.toArray(
         [1, 2, 3].map((i) => (
           <View className="flex-row gap-2">
