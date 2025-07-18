@@ -184,13 +184,19 @@ function TransactionResultScreen() {
           <Typography type="body-default" weight="semibold">
             Recipient details
           </Typography>
-          <TransRowItem
-            title="Account holder"
-            value={destinationUserFullName.toString()}
-          />
-          <TransRowItem title="Email address" value={email.toString()} />
+          {destinationUserFullName && (
+            <TransRowItem
+              title="Account holder"
+              value={destinationUserFullName.toString()}
+            />
+          )}
+          {email && (
+            <TransRowItem title="Email address" value={email.toString()} />
+          )}
 
-          <View className="h-[1px] bg-border my-2" />
+          {(destinationUserFullName || email) && (
+            <View className="h-[1px] bg-border my-2" />
+          )}
 
           <Typography type="body-default" weight="semibold">
             Account balances

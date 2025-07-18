@@ -3,8 +3,8 @@ import { FlashList } from "@shopify/flash-list";
 import { router } from "expo-router";
 import { View } from "react-native";
 import { Typography } from "../common/text-typography";
-import { CardItem } from "../transaction/card-item";
 import { Button } from "../ui/button";
+import { CardItem } from "../transaction";
 export function CardTab({
   showAll = false,
   cardList
@@ -48,14 +48,17 @@ export function CardTab({
   return (
     <View className="flex-1">
       <FlashList
-        data={cardList}
+        data={showAll ? cardList : cardList.slice(0, 10)}
         contentContainerClassName="pt-3"
-        showsVerticalScrollIndicator={showAll}
+        showsVerticalScrollIndicator={false}
+        estimatedItemSize={96}
+        keyExtractor={(item, index) => `${item.id}-${index}`}
+        className="flex-1"
+        onEndReachedThreshold={0.1}
         renderItem={({ item, index }) => <CardItem item={item} />}
         nestedScrollEnabled={true}
         scrollEnabled={showAll}
         ListFooterComponent={Footer}
-        estimatedItemSize={64}
         ListEmptyComponent={EmptyList}
       />
     </View>

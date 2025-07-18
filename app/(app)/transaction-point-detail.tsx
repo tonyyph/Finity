@@ -9,8 +9,8 @@ import { isEmpty } from "lodash-es";
 import { useEffect } from "react";
 import { View } from "react-native";
 
-function PointReceivedScreen() {
-  const { item, transactionId } = useLocalSearchParams();
+function TransactionPointDetail() {
+  const { item, transactionId, referenceNumber } = useLocalSearchParams();
   const { getTransactionDetailInfo, transDetailInfo } = useTransaction();
   const data = JSON.parse(item as string);
 
@@ -23,8 +23,6 @@ function PointReceivedScreen() {
     switch (type) {
       case "Points Received":
         return <PointReceived />;
-      case "Adjustment":
-        return <CardLoad />;
       case "Points Sent":
         return <PointSent />;
       case "Card Load":
@@ -35,10 +33,8 @@ function PointReceivedScreen() {
         return <Refund />;
       case "Declined":
         return <Declined />;
-      case "Accrual":
-        return <CardLoad />;
       default:
-        return <CardLoad />;
+        return <OtherLoad />;
     }
   };
 
@@ -53,10 +49,6 @@ function PointReceivedScreen() {
         <Typography weight="semibold" className="mb-2">
           Sender details
         </Typography>
-        <Typography weight="regular" textColor="#404040">
-          Account holder
-        </Typography>
-        <Typography>{data?.destinationUserFullName}</Typography>
         <Typography weight="regular" textColor="#404040" className="mt-4">
           Email address
         </Typography>
@@ -96,7 +88,30 @@ function PointReceivedScreen() {
         <Typography weight="regular" textColor="#404040">
           Reference number
         </Typography>
-        <Typography className="mb-2">{transactionId.toString()}</Typography>
+        <Typography className="mb-2">{referenceNumber?.toString()}</Typography>
+        <Typography weight="regular" textColor="#404040">
+          Date and time
+        </Typography>
+        <Typography>
+          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
+        </Typography>
+      </View>
+    );
+  };
+
+  const OtherLoad = () => {
+    return (
+      <View className="bg-[#FAFAFA] border border-[#E5E5E5] px-4 py-6 rounded-2xl mt-6">
+        <Typography weight="regular" textColor="#404040">
+          {`${data?.type}`}
+        </Typography>
+        <Typography>{Math.abs(Number(data?.amount)) + " points"}</Typography>
+
+        <View className=" h-[1px] bg-[#E5E5E5] my-4" />
+        <Typography weight="regular" textColor="#404040">
+          Reference number
+        </Typography>
+        <Typography className="mb-2">{transactionId}</Typography>
         <Typography weight="regular" textColor="#404040">
           Date and time
         </Typography>
@@ -216,10 +231,14 @@ function PointReceivedScreen() {
             <Typography>{data?.destinationUserFullName}</Typography>
           </>
         )}
-        <Typography weight="regular" textColor="#404040" className="mt-4">
-          Email address
-        </Typography>
-        <Typography>{data?.source}</Typography>
+        {data?.source && (
+          <>
+            <Typography weight="regular" textColor="#404040" className="mt-4">
+              Email address
+            </Typography>
+            <Typography>{data?.source}</Typography>
+          </>
+        )}
         <View className=" h-[1px] bg-[#E5E5E5] my-4" />
         <Typography weight="regular" textColor="#404040">
           Reference number
@@ -251,4 +270,4 @@ function PointReceivedScreen() {
     </View>
   );
 }
-export default PointReceivedScreen;
+export default TransactionPointDetail;

@@ -32,7 +32,7 @@ export const useTransaction = () => {
 
       if (session?.referenceNumber) {
         router.push({
-          pathname: "/transaction_result",
+          pathname: "/transaction-result",
           params: {
             type: data?.type,
             transactionId: session.referenceNumber,
@@ -50,7 +50,7 @@ export const useTransaction = () => {
     } catch (error) {
       handleError(error);
       router.push({
-        pathname: "/transaction_result",
+        pathname: "/transaction-result",
         params: {
           type: data?.type,
           amount: data?.pointsAmount,
@@ -76,7 +76,7 @@ export const useTransaction = () => {
     } catch (error) {
       handleError(error);
       router.push({
-        pathname: "/transaction_result",
+        pathname: "/transaction-result",
         params: {
           type: data?.type,
           amount: data?.pointsAmount,
@@ -103,7 +103,7 @@ export const useTransaction = () => {
       }
       if (!!session) {
         router.push({
-          pathname: "/transaction_result",
+          pathname: "/transaction-result",
           params: {
             type,
             transactionId: transId,
@@ -149,16 +149,25 @@ export const useTransaction = () => {
 
   const handleToTransactionDetail = async ({
     transId,
-    item
+    item,
+    referenceNumber,
+    type
   }: {
     transId: number;
     item: Transaction;
+    referenceNumber?: string;
+    type: string;
   }) => {
     router.push({
-      pathname: "/point-received",
+      pathname: `${
+        type === "Card"
+          ? "/transaction-card-detail"
+          : "/transaction-point-detail"
+      }`,
       params: {
         item: JSON.stringify(item),
-        transactionId: transId
+        transactionId: transId,
+        referenceNumber: referenceNumber
       }
     });
   };

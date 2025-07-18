@@ -19,7 +19,7 @@ function StatementScreen() {
   const { type, title } = useLocalSearchParams();
   const sheetRef = useRef<BottomSheetModal>(null);
   const userProfile = userStore?.getState().userProfile;
-  const { handleGeneratePointPDF, handleGenerateCardPDF } = useStatements();
+  const { navigateToPreview } = useStatements();
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   const dateCreated = new Date(userProfile?.dateCreated || "");
@@ -50,11 +50,11 @@ function StatementScreen() {
       debounceRef.current = null;
     }, 1500);
 
-    if (type === "points") {
-      handleGeneratePointPDF({ month: value, year: yearOfFilter });
-    } else if (type === "card") {
-      handleGenerateCardPDF({ month: value, year: yearOfFilter });
-    }
+    navigateToPreview({
+      month: value,
+      year: yearOfFilter,
+      type: type.toString()
+    });
 
     sheetRef.current?.close();
   };

@@ -3,6 +3,7 @@ import { useListTransaction } from "@/hooks/cardholders/useListTransaction";
 import { cn } from "@/lib/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import { XIcon } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import {
   Animated,
@@ -13,10 +14,9 @@ import {
 } from "react-native";
 import { BottomSheet } from "../common";
 import { Typography } from "../common/text-typography";
-import { PointItem } from "../transaction";
+import { CardItem } from "../transaction";
 import { Header } from "../ui/header";
 import { FilterCardList } from "./filter-card-list";
-import { XIcon } from "lucide-react-native";
 
 export function TransactionCardTap() {
   const { cardList, fetchPaginatedCardTransactions } = useListTransaction();
@@ -149,7 +149,7 @@ export function TransactionCardTap() {
 
       <Animated.FlatList
         data={filteredData}
-        renderItem={({ item, index }) => <PointItem item={item} />}
+        renderItem={({ item, index }) => <CardItem item={item} />}
         contentContainerStyle={{
           paddingTop: 12,
           paddingRight: 10

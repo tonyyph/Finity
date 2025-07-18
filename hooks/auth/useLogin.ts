@@ -7,10 +7,12 @@ import { useSignIn } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useValidateInput } from "../commons";
+import { useLocalPIN } from "../use-local-pin";
 
 export const useLogin = () => {
   const { signIn, setActive: setActiveSignIn, isLoaded } = useSignIn();
   const { verificationPin } = useUserAuthenticateStore();
+  const { setShouldPINLocal } = useLocalPIN();
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -81,11 +83,15 @@ export const useLogin = () => {
             ? "tonyphvincent@gmail.com" //TODO: remove that mockup
             : usernameState.value === "2"
             ? "chelsea.chan+0617@finity.co.uk"
+            : usernameState.value === "3"
+            ? "chelsea.chan+0619@finity.co.uk"
             : usernameState.value,
         tempPassword:
           passwordState.value === "1"
             ? "Khaccuong@14"
             : passwordState.value === "2"
+            ? "EGQ@mkx1pmw_dct1vdp"
+            : passwordState.value === "3"
             ? "EGQ@mkx1pmw_dct1vdp"
             : passwordState.value
       });
@@ -122,13 +128,14 @@ export const useLogin = () => {
           const { data: session } = await getUserProfile();
           const { data: res } = await getPINInfo(otp);
           const { data: cardDetail } = await getCardDetail(otp);
+          setShouldPINLocal(false);
           userStore.setState({
             userProfile: session,
             pinInfo: res?.pin,
             cardDetailInfo: cardDetail
           });
         } else {
-          router.push("/success-phonenumber"); //TODO: review it
+          router.push("/success-phonenumber");
         }
       } else {
         setError("Invalid code. Please try again.");

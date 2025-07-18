@@ -1,17 +1,15 @@
 import { generateCardStatements, generatePointStatements } from "@/api";
-import { useLoading } from "@/stores";
-import { convertMonth, hideLoading, showLoading } from "@/utils";
+import { convertMonth } from "@/utils";
 import { AxiosError } from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
 
 export const useStatements = () => {
   const [loading, setLoading] = useState(false);
-  const { startLoading, stopLoading } = useLoading();
+  const [data, setData] = useState<GenerateFileResponse>();
   const [error, setError] = useState("");
   const handleGeneratePointPDF = async ({ month, year }: StatementProps) => {
-    showLoading();
-    startLoading();
+    setLoading(true);
 
     try {
       const { data: session } = await generatePointStatements({
@@ -19,32 +17,25 @@ export const useStatements = () => {
         year: year
       });
 
-      if (session) {
-        stopLoading(() => {
-          router.navigate({
-            pathname: "./preview-statements",
-            params: {
-              title: `${month} ${year}`,
-              fileContent: session?.fileContents,
-              fileDownloadName: session?.fileDownloadName
-            }
-          });
-        });
-      } else {
-        stopLoading();
-      }
+      setData(session);
+
+      router.navigate({
+        pathname: "./preview-statements",
+        params: {
+          title: `${month} ${year}`,
+          fileContent: session?.fileContents,
+          fileDownloadName: session?.fileDownloadName
+        }
+      });
     } catch (error) {
       setError((error as AxiosError).message);
-      stopLoading();
     } finally {
-      hideLoading();
       setLoading(false);
     }
   };
 
   const handleGenerateCardPDF = async ({ month, year }: StatementProps) => {
     setLoading(true);
-    startLoading();
 
     try {
       const { data: session } = await generateCardStatements({
@@ -52,32 +43,39 @@ export const useStatements = () => {
         year: year
       });
 
-      if (session) {
-        stopLoading(() => {
-          router.navigate({
-            pathname: "./preview-statements",
-            params: {
-              title: `${month} ${year}`,
-              fileContent: session.fileContents,
-              fileDownloadName: session.fileDownloadName
-            }
-          });
-        });
-      } else {
-        stopLoading();
-      }
+      router.navigate({
+        pathname: "./preview-statements",
+        params: {
+          title: `${month} ${year}`,
+          fileContent: session.fileContents,
+          fileDownloadName: session.fileDownloadName
+        }
+      });
     } catch (error) {
       setError((error as AxiosError).message);
-      stopLoading();
     } finally {
       setLoading(false);
     }
+  };
+
+  const navigateToPreview = ({ month, year, type }: StatementProps) => {
+    router.navigate({
+      pathname: "./preview-statements",
+      params: {
+        title: `${month} ${year}`,
+        month: month,
+        year: year,
+        type
+      }
+    });
   };
 
   return {
     loading: loading,
     handleGeneratePointPDF,
     handleGenerateCardPDF,
-    error
+    error,
+    data,
+    navigateToPreview
   };
 };

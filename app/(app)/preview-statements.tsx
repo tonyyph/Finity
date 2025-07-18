@@ -1,17 +1,38 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { DownloadIcon } from "@/assets/icons/DownloadIcon";
+import { PDFSkeleton } from "@/components";
 import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
+import { useStatements } from "@/hooks";
 import { copyFileToDownloadFolder, IS_IOS } from "@/lib/utils";
 import { router, useLocalSearchParams } from "expo-router";
+import { useEffect } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import RNFS from "react-native-fs";
 import Pdf from "react-native-pdf";
 import Share from "react-native-share";
 
 function PreviewStatementScreen() {
-  const { title, fileContent, fileDownloadName } = useLocalSearchParams();
-  const base64String: string = fileContent as string;
+  const { title, type, year, month } = useLocalSearchParams();
+  const { handleGenerateCardPDF, handleGeneratePointPDF, data, loading } =
+    useStatements();
 
+  useEffect(() => {
+    if (type === "card") {
+      handleGenerateCardPDF({
+        month: month?.toString(),
+        year: year?.toString()
+      });
+    } else {
+      handleGeneratePointPDF({
+        month: month?.toString(),
+        year: year?.toString()
+      });
+    }
+  }, []);
+
+  const { fileContents, fileDownloadName } = data || {};
+  const base64String = fileContents as string;
   const source = {
     uri: `data:application/pdf;base64,${base64String}`,
     cache: true
@@ -52,19 +73,23 @@ function PreviewStatementScreen() {
         icon={DownloadIcon}
         onRightFunction={onDownload}
       />
-      <ProgressBar completeAnimation />
+      <ProgressBar completeAnimation={false} />
       {/* PDF Preview */}
-      <Pdf
-        source={source}
-        trustAllCerts={false}
-        enablePaging={true}
-        enableAnnotationRendering={true}
-        enableDoubleTapZoom={true}
-        onError={(error: any) => {
-          console.log(error);
-        }}
-        style={styles.pdf}
-      />
+      {!loading ? (
+        <Pdf
+          source={source}
+          trustAllCerts={false}
+          enablePaging={true}
+          enableAnnotationRendering={true}
+          enableDoubleTapZoom={true}
+          onError={(error: any) => {
+            console.log(error);
+          }}
+          style={styles.pdf}
+        />
+      ) : (
+        <PDFSkeleton />
+      )}
       <View className="flex-[0.15]" />
     </View>
   );

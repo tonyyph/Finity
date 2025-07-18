@@ -259,6 +259,7 @@ type GenerateFileResponse = {
 type StatementProps = {
   month: string;
   year: string;
+  type?: string;
 };
 
 type UserCardHolder = {

@@ -16,7 +16,7 @@ function NotificationScreen() {
 
   const onPressNotification = (item: NotificationItem) => {
     router.push({
-      pathname: "/point-received",
+      pathname: "/transaction-point-detail",
       params: {
         item: JSON.stringify(item)
       }

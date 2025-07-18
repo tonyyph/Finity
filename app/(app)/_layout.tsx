@@ -94,7 +94,13 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="point-received"
+          name="transaction-point-detail"
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="transaction-card-detail"
           options={{
             headerShown: false
           }}
@@ -112,7 +118,7 @@ export default function AuthenticatedLayout() {
           }}
         />
         <Stack.Screen
-          name="transaction_result"
+          name="transaction-result"
           options={{
             headerShown: false
           }}

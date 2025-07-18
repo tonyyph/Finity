@@ -51,3 +51,13 @@ export const copyFileToDownloadFolder = async (filePath: string) => {
     console.error("Error copying file:", error);
   }
 };
+
+export const rate = 0.1;
+
+export function convertPointsToGBP(points: number): string {
+  const amount = points * rate;
+  return `£${amount.toFixed(2)}`;
+}
+export function convertGBPToPoints(gbp: number): string {
+  return `${Math.round(gbp / rate)} pts`;
+}

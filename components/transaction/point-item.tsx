@@ -1,8 +1,9 @@
-import { CardLoadIcon, FinityIcon } from "@/assets";
+import { CardLoadIcon, FinityIcon, ReceivedIcon, SentIcon } from "@/assets";
 import { formatDateTransaction } from "@/lib/date";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Typography } from "../common";
 import { useTransaction } from "@/hooks";
+import { convertPointsToGBP } from "@/lib/utils";
 
 export const PointItem = ({ item }: { item: Transaction }) => {
   const { handleToTransactionDetail } = useTransaction();
@@ -11,9 +12,40 @@ export const PointItem = ({ item }: { item: Transaction }) => {
     handleToTransactionDetail &&
       handleToTransactionDetail({
         item,
-        transId: item.id
+        transId: item.id,
+        referenceNumber: item.cardProviderReference ?? "",
+        type: "Point"
       });
   };
+
+  function getIconByType(type: string) {
+    const iconMap: Record<string, JSX.Element> = {
+      "Points Sent": <SentIcon />,
+      "Points Received": <ReceivedIcon />,
+      "Card Load": <CardLoadIcon />,
+      Adjustment: <FinityIcon />,
+      Accrual: <FinityIcon />
+    };
+
+    return iconMap[type] ?? <FinityIcon />;
+  }
+
+  function getDescriptionByType(
+    type: string,
+    source: string,
+    amount: number
+  ): string {
+    const descriptionMap: Record<string, string> = {
+      "Points Sent": `${source}`,
+      "Points Received": `${source}`,
+      "Card Load": `${convertPointsToGBP(Math?.abs?.(amount))}`,
+      Adjustment: "Reward points",
+      Accrual: "Reward points",
+      "Referral Bonus": `Reward points`
+    };
+
+    return descriptionMap[type] ?? "Reward points";
+  }
 
   return (
     <TouchableOpacity
@@ -22,7 +54,7 @@ export const PointItem = ({ item }: { item: Transaction }) => {
     >
       <View className="flex-1 flex-row items-start gap-4 min-h-[64px]">
         <View className="w-[40px] h-[40px] bg-[#F4F4F4] rounded-full justify-center items-center">
-          {item?.type === "Card Load" ? <CardLoadIcon /> : <FinityIcon />}
+          {getIconByType(item?.type)}
         </View>
         <View className="flex-1">
           <View className="flex-row justify-between">
@@ -41,9 +73,7 @@ export const PointItem = ({ item }: { item: Transaction }) => {
             weight="regular"
             style={styles.source}
           >
-            {!!item?.source
-              ? item?.source
-              : `£ ${Math?.abs?.(item?.amount)?.toFixed?.(2)}`}
+            {getDescriptionByType(item?.type, item?.source, item?.amount)}
           </Typography>
           <Typography textColor="#737373" weight="regular">
             {formatDateTransaction(item?.date)}
