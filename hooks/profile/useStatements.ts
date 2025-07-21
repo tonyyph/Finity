@@ -43,6 +43,8 @@ export const useStatements = () => {
         year: year
       });
 
+      setData(session);
+
       router.navigate({
         pathname: "./preview-statements",
         params: {

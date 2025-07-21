@@ -14,7 +14,7 @@ import Share from "react-native-share";
 
 function PreviewStatementScreen() {
   const { title, type, year, month } = useLocalSearchParams();
-  const { handleGenerateCardPDF, handleGeneratePointPDF, data, loading } =
+  const { handleGenerateCardPDF, handleGeneratePointPDF, data } =
     useStatements();
 
   useEffect(() => {
@@ -32,12 +32,12 @@ function PreviewStatementScreen() {
   }, []);
 
   const { fileContents, fileDownloadName } = data || {};
+
   const base64String = fileContents as string;
   const source = {
     uri: `data:application/pdf;base64,${base64String}`,
     cache: true
   };
-
   const onDownload = async () => {
     try {
       if (source.uri) {
@@ -75,21 +75,15 @@ function PreviewStatementScreen() {
       />
       <ProgressBar completeAnimation={false} />
       {/* PDF Preview */}
-      {!loading ? (
-        <Pdf
-          source={source}
-          trustAllCerts={false}
-          enablePaging={true}
-          enableAnnotationRendering={true}
-          enableDoubleTapZoom={true}
-          onError={(error: any) => {
-            console.log(error);
-          }}
-          style={styles.pdf}
-        />
-      ) : (
-        <PDFSkeleton />
-      )}
+      <Pdf
+        source={source}
+        trustAllCerts={false}
+        enablePaging={true}
+        enableAnnotationRendering={true}
+        enableDoubleTapZoom={true}
+        style={styles.pdf}
+        renderActivityIndicator={() => <View />}
+      />
       <View className="flex-[0.15]" />
     </View>
   );

@@ -20,7 +20,6 @@ function StatementScreen() {
   const sheetRef = useRef<BottomSheetModal>(null);
   const userProfile = userStore?.getState().userProfile;
   const { navigateToPreview } = useStatements();
-  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   const dateCreated = new Date(userProfile?.dateCreated || "");
   const createdYear = dateCreated.getFullYear();
@@ -45,11 +44,6 @@ function StatementScreen() {
   );
 
   const handlePress = ({ id, value }: { id: number; value: string }) => {
-    if (debounceRef.current) return;
-    debounceRef.current = setTimeout(() => {
-      debounceRef.current = null;
-    }, 1500);
-
     navigateToPreview({
       month: value,
       year: yearOfFilter,

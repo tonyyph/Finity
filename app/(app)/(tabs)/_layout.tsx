@@ -36,15 +36,14 @@ export default function TabLayout() {
           backgroundColor: getColor("--background"),
           borderColor: getColor("--border"),
           borderTopColor: getColor("--border"),
-          height: bottom ? exactDesign(100) : exactDesign(76)
+          height: bottom ? exactDesign(88) : exactDesign(68)
         },
         tabBarLabelStyle: {
-          fontSize: exactDesign(12)
-        },
-        headerTitleStyle: {
           fontFamily: "NeueMontreal-Medium",
-          fontSize: exactDesign(16),
-          color: getColor("--foreground")
+          fontWeight: "500",
+          fontSize: exactDesign(12),
+          lineHeight: exactDesign(16),
+          letterSpacing: 0.6
         },
         headerStyle: {
           backgroundColor: getColor("--background")
@@ -58,8 +57,8 @@ export default function TabLayout() {
             focused ? <FillHomeIcon /> : <HomeIcon />,
           tabBarLabel: "Home",
           headerShown: false,
-          headerTitle: `Home`,
-          headerTitleStyle: { marginLeft: 5 },
+          headerTitle: "Home",
+          headerTitleStyle: { marginLeft: 5, fontSize: 24 },
           headerTitleAlign: "center"
         }}
       />
@@ -70,8 +69,8 @@ export default function TabLayout() {
             focused ? <FillCardIcon /> : <CardIcon />,
           tabBarLabel: "Card",
           headerShown: false,
-          headerTitle: `Card`,
-          headerTitleStyle: { marginLeft: 5 },
+          headerTitle: "Card",
+          headerTitleStyle: { marginLeft: 5, fontSize: 24 },
           headerTitleAlign: "center"
         }}
       />
@@ -82,7 +81,7 @@ export default function TabLayout() {
             focused ? <FillProfileIcon /> : <ProfileIcon />,
           tabBarLabel: "Profile",
           headerShown: false,
-          headerTitle: `Profile`,
+          headerTitle: "Profile",
           headerTitleStyle: { marginLeft: 5, fontSize: 24 },
           headerTitleAlign: "left"
         }}

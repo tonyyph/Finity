@@ -54,7 +54,7 @@ export const useLogin = () => {
             : usernameState.value === "2"
             ? "chelsea.chan+0617@finity.co.uk"
             : usernameState.value === "3"
-            ? "chelsea.chan@codatech.co.uk"
+            ? "chelsea.chan+0619@finity.co.uk"
             : usernameState.value,
         password:
           passwordState.value === "1"
@@ -62,7 +62,7 @@ export const useLogin = () => {
             : passwordState.value === "2"
             ? "EGQ@mkx1pmw_dct1vdp"
             : passwordState.value === "3"
-            ? "uft1mfd!gfx6wzx7XUX"
+            ? "EGQ@mkx1pmw_dct1vdp"
             : passwordState.value
       });
 
