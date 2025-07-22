@@ -20,8 +20,8 @@ export const PointItem = ({ item }: { item: Transaction }) => {
 
   function getIconByType(type: string) {
     const iconMap: Record<string, JSX.Element> = {
-      "Points Sent": <SentIcon />,
-      "Points Received": <ReceivedIcon />,
+      "Points Sent": <ReceivedIcon />,
+      "Points Received": <SentIcon />,
       "Card Load": <CardLoadIcon />,
       Adjustment: <FinityIcon />,
       Accrual: <FinityIcon />
