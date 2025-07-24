@@ -33,11 +33,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     newArchEnabled: true,
     icon: icon,
     scheme: scheme,
-    splash: {
-      image: "./assets/images/splash-default.png",
-      resizeMode: "contain",
-      backgroundColor: "#000000"
-    },
     ios: {
       buildNumber,
       supportsTablet: true,
@@ -77,6 +72,12 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         "expo-local-authentication",
         {
           faceIDPermission: "Allow $(PRODUCT_NAME) to use Face ID."
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          backgroundColor: "#000000"
         }
       ],
       "expo-router",

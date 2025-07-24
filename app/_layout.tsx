@@ -58,7 +58,7 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
-  const [loading, setLoading] = useState(true);
+  const [isSplashFinished, setSplashFinished] = useState(false);
   const [fontsLoaded] = useFonts({
     "NeueMontreal-Regular": require("../assets/fonts/ppneuemontreal-book.otf"),
     "NeueMontreal-Medium": require("../assets/fonts/ppneuemontreal-medium.otf"),
@@ -68,60 +68,51 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (fontsLoaded) {
-      const timeOut = setTimeout(() => {
-        setLoading(false);
-        SplashScreen.hideAsync();
-      }, 3000);
-      return () => clearTimeout(timeOut);
+      SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
 
-  if (!fontsLoaded || loading) {
-    return (
+  return (
+    <>
       <ClerkProvider
         publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
         tokenCache={tokenCache}
       >
         <ClerkLoaded>
-          <SplashAnimationScreen />
+          <PersistQueryClientProvider
+            client={queryClient}
+            persistOptions={{ persister: asyncStoragePersister }}
+          >
+            <StoreProvider>
+              {!isSplashFinished ? (
+                <SplashAnimationScreen
+                  onAnimationFinish={() => setSplashFinished(true)}
+                />
+              ) : (
+                <LoadingProvider>
+                  <ThemeProvider value={DefaultTheme}>
+                    <CustomPaletteWrapper>
+                      <NetworkProvider>
+                        <SafeAreaProvider>
+                          <GestureHandlerRootView>
+                            <KeyboardProvider>
+                              {IS_ANDROID && <StatusBar style="auto" />}
+                              <BottomSheetModalProvider>
+                                <Stack screenOptions={{ headerShown: false }} />
+                                <ToastRoot />
+                              </BottomSheetModalProvider>
+                            </KeyboardProvider>
+                          </GestureHandlerRootView>
+                        </SafeAreaProvider>
+                      </NetworkProvider>
+                    </CustomPaletteWrapper>
+                  </ThemeProvider>
+                </LoadingProvider>
+              )}
+            </StoreProvider>
+          </PersistQueryClientProvider>
         </ClerkLoaded>
       </ClerkProvider>
-    );
-  }
-
-  return (
-    <ClerkProvider
-      publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
-      tokenCache={tokenCache}
-    >
-      <ClerkLoaded>
-        <PersistQueryClientProvider
-          client={queryClient}
-          persistOptions={{ persister: asyncStoragePersister }}
-        >
-          <StoreProvider>
-            <LoadingProvider>
-              <ThemeProvider value={DefaultTheme}>
-                <CustomPaletteWrapper>
-                  <NetworkProvider>
-                    <SafeAreaProvider>
-                      <GestureHandlerRootView>
-                        <KeyboardProvider>
-                          {IS_ANDROID && <StatusBar style="auto" />}
-                          <BottomSheetModalProvider>
-                            <Stack screenOptions={{ headerShown: false }} />
-                            <ToastRoot />
-                          </BottomSheetModalProvider>
-                        </KeyboardProvider>
-                      </GestureHandlerRootView>
-                    </SafeAreaProvider>
-                  </NetworkProvider>
-                </CustomPaletteWrapper>
-              </ThemeProvider>
-            </LoadingProvider>
-          </StoreProvider>
-        </PersistQueryClientProvider>
-      </ClerkLoaded>
-    </ClerkProvider>
+    </>
   );
 }

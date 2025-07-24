@@ -2,18 +2,34 @@
 import { useLocalPIN } from "@/hooks/use-local-pin";
 import { useSignIn } from "@clerk/clerk-expo";
 import LottieView from "lottie-react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal, View } from "react-native";
 
-export function SplashAnimationScreen() {
+export function SplashAnimationScreen({
+  onAnimationFinish
+}: {
+  onAnimationFinish: () => void;
+}) {
   const [loading, setLoading] = useState(true);
-  const { isLoaded } = useSignIn();
+  const animationRef = useRef<LottieView>(null);
 
   const { setShouldPINLocal } = useLocalPIN();
+  const { isLoaded } = useSignIn();
 
   useEffect(() => {
     isLoaded && setShouldPINLocal(true);
   }, []);
+
+  useEffect(() => {
+    animationRef.current?.play();
+
+    const timeout = setTimeout(() => {
+      onAnimationFinish();
+    }, 3600);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   const onCloseSplash = () => {
     setLoading(false);
     setShouldPINLocal(true);
