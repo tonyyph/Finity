@@ -32,7 +32,7 @@ export function PointsTap({
 
   const Footer = () => {
     if (showAll) return <BottomIndicatorAvoidingView />;
-    if (pointList.length < 10) return null;
+    if (pointList.length < 10 && pointList.length > 0) return null;
     return (
       <Button
         variant="outline"

@@ -5,8 +5,6 @@ import { createWithEqualityFn } from "zustand/traditional";
 
 interface UserStore {
   userProfile?: UserProfile;
-  pinInfo?: string;
-  cardDetailInfo?: CardDetailInfo;
 }
 
 const defaultValue: UserStore = {};

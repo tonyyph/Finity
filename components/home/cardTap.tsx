@@ -31,7 +31,7 @@ export function CardTab({
 
   const Footer = () => {
     if (showAll) return <BottomIndicatorAvoidingView />;
-    if (cardList.length < 10) return null;
+    if (cardList.length < 10 && cardList.length > 0) return null;
     return (
       <Button
         variant="outline"

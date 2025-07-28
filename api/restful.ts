@@ -82,11 +82,20 @@ export const getCardHolderCurrent = async () => {
   );
 };
 
-export const getPINInfo = async (verificationCode: string) => {
+export const getPINInfo = async () => {
   const token = await clerk.session?.getToken();
+  if (!token) throw new Error("No session token found");
+
+  let deviceId = await AsyncStorage.getItem("device-id");
+
+  if (!deviceId) {
+    deviceId = uuid.v4() as string;
+    await AsyncStorage.setItem("device-id", deviceId);
+  }
+
   return await axios.post<PinResponse>(
-    `${process.env.EXPO_PUBLIC_API_URL}/cards/pin`,
-    { otp: verificationCode },
+    `${process.env.EXPO_PUBLIC_API_URL}/cards/pin-mobile`,
+    { DeviceId: deviceId },
     {
       headers: {
         Accept: "application/json",
@@ -94,7 +103,9 @@ export const getPINInfo = async (verificationCode: string) => {
         "Accept-Language": "en-US,en;q=0.9",
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
-        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net",
+        "X-DeviceId": deviceId,
+        DeviceId: deviceId
       }
     }
   );
@@ -157,11 +168,19 @@ export const handleUnFreeze = async (cardHolderId: number) => {
   );
 };
 
-export const getCardDetail = async (verificationCode: string) => {
+export const getCardDetail = async () => {
   const token = await clerk.session?.getToken();
+
+  let deviceId = await AsyncStorage.getItem("device-id");
+
+  if (!deviceId) {
+    deviceId = uuid.v4() as string;
+    await AsyncStorage.setItem("device-id", deviceId);
+  }
+
   return await axios.post<CardDetailInfo>(
-    `${process.env.EXPO_PUBLIC_API_URL}/cards/details`,
-    { otp: verificationCode },
+    `${process.env.EXPO_PUBLIC_API_URL}/cards/details-mobile`,
+    { DeviceId: deviceId },
     {
       headers: {
         Accept: "application/json",
@@ -169,7 +188,9 @@ export const getCardDetail = async (verificationCode: string) => {
         "Accept-Language": "en-US,en;q=0.9",
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
-        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net"
+        Origin: "https://as-rwd-uks-rewards-api-dev.azurewebsites.net",
+        "X-DeviceId": deviceId,
+        DeviceId: deviceId
       }
     }
   );

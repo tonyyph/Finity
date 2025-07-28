@@ -1,6 +1,5 @@
-import { getCardDetail, getPINInfo, getUserProfile } from "@/api";
+import { getUserProfile } from "@/api";
 import { useUserAuthenticateStore } from "@/stores";
-import { certificationStore } from "@/stores/certificationStore";
 import { userStore } from "@/stores/userStore";
 import { validatePassword, validateUsername } from "@/utils";
 import { useSignIn } from "@clerk/clerk-expo";
@@ -77,24 +76,6 @@ export const useLogin = () => {
         }
         await setActiveSignIn({ session: result.createdSessionId });
       }
-      certificationStore.setState({
-        tempUserName:
-          usernameState.value === "1"
-            ? "tonyphvincent@gmail.com" //TODO: remove that mockup
-            : usernameState.value === "2"
-            ? "chelsea.chan+0617@finity.co.uk"
-            : usernameState.value === "3"
-            ? "chelsea.chan+0619@finity.co.uk"
-            : usernameState.value,
-        tempPassword:
-          passwordState.value === "1"
-            ? "Khaccuong@14"
-            : passwordState.value === "2"
-            ? "EGQ@mkx1pmw_dct1vdp"
-            : passwordState.value === "3"
-            ? "EGQ@mkx1pmw_dct1vdp"
-            : passwordState.value
-      });
     } catch {
       setError("Incorrect email address or password. Try again.");
     } finally {
@@ -126,13 +107,9 @@ export const useLogin = () => {
         if (type === "default") {
           await setActiveSignIn({ session: result.createdSessionId });
           const { data: session } = await getUserProfile();
-          const { data: res } = await getPINInfo(otp);
-          const { data: cardDetail } = await getCardDetail(otp);
           setShouldPINLocal(false);
           userStore.setState({
-            userProfile: session,
-            pinInfo: res?.pin,
-            cardDetailInfo: cardDetail
+            userProfile: session
           });
         } else {
           router.push("/success-phonenumber");

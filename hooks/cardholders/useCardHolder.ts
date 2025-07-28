@@ -11,15 +11,27 @@ import { useUserAuthenticateStore } from "@/stores";
 import { AxiosError } from "axios";
 import { router } from "expo-router";
 import { useLayoutEffect, useState } from "react";
+import { getPINInfo } from "./../../api/restful";
 
 export const useCardHolder = () => {
   const [data, setData] = useState<UserCardInfo>({} as UserCardInfo);
   const [listCardHolder, setListCardHolder] = useState<UserCardHolder[]>([]);
+  const [PINInfo, setPINInfo] = useState<string>("");
   const { showBottomSheetPin, setShowBottomSheetPin } =
     useUserAuthenticateStore();
   const [loading, setLoading] = useState(false);
   const [freezeLoading, setFreezeLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const getPINDetailInfo = async () => {
+    try {
+      const { data: session } = await getPINInfo();
+      setPINInfo(session.pin);
+      console.log("🚀 💯 getPINInfo 💯 session:", session);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   const fetchCardHolderCurrent = async () => {
     setLoading(true);
@@ -148,6 +160,8 @@ export const useCardHolder = () => {
     fetchCardHolderCurrent,
     handleRequestCardHolder,
     showBottomSheetPin,
-    setShowBottomSheetPin
+    getPINDetailInfo,
+    setShowBottomSheetPin,
+    PINInfo
   };
 };

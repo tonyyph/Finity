@@ -34,9 +34,6 @@ import { useCallback, useRef } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
 export default function CardScreen() {
-  const data = userStore.getState();
-  const { pinInfo } = data || {};
-
   const {
     userData,
     handleRequestCard,
@@ -47,13 +44,16 @@ export default function CardScreen() {
     freezeLoading,
     fetchCardHolderCurrent,
     showBottomSheetPin,
-    setShowBottomSheetPin
+    setShowBottomSheetPin,
+    PINInfo,
+    getPINDetailInfo
   } = useCardHolder();
 
   useFocusEffect(
     useCallback(() => {
       fetchCardHolderCurrent();
       !!showBottomSheetPin && sheetRef.current?.present();
+      !!showBottomSheetPin && getPINDetailInfo();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showBottomSheetPin])
   );
@@ -187,7 +187,7 @@ export default function CardScreen() {
               }}
             />
             <View className="flex-row items-center justify-center gap-3 mt-6 px-4">
-              {pinInfo?.split("").map((digit, index) => (
+              {PINInfo?.split("").map((digit, index) => (
                 <View
                   key={index}
                   className="bg-neutral-100 rounded-lg items-center w-[56px] h-[56px] border border-[##D4D4D4] justify-center"
