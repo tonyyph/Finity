@@ -78,7 +78,7 @@ export default function AuthenticatedLayout() {
         <Stack.Screen
           name="request_card"
           options={{
-            headerShown: true
+            headerShown: false
           }}
         />
         <Stack.Screen

@@ -20,11 +20,6 @@ export default function UnAuthenticatedWebViewScreen() {
         javaScriptEnabled={true}
         domStorageEnabled={true}
         startInLoadingState
-        renderLoading={() => (
-          <Typography className="text-center text-primary font-bold text-[18px] mt-4">
-            Loading...
-          </Typography>
-        )}
       />
     </View>
   );

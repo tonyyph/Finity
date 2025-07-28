@@ -18,6 +18,7 @@ export function SetLocalAuth() {
   useEffect(() => {
     (async () => {
       const compatible = await LocalAuthentication.hasHardwareAsync();
+
       const enrolled = await LocalAuthentication.isEnrolledAsync();
       const supportType =
         await LocalAuthentication.supportedAuthenticationTypesAsync();
@@ -26,10 +27,6 @@ export function SetLocalAuth() {
       setIsBiometricSupported(compatible && enrolled);
     })();
   }, []);
-
-  // async function handleToggleLocalAuth(enabled: boolean) {
-
-  // }
 
   async function handleToggleLocalAuth(enabled: boolean) {
     Haptics.selectionAsync();

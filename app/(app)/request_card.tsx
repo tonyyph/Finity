@@ -4,9 +4,12 @@ import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { useUserProfile } from "@/hooks/profile/useUserProfile";
 import { exactDesign } from "@/utils";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ScrollView, Image, View } from "react-native";
+import { Image, View } from "react-native";
 import { router } from "expo-router";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { IS_IOS } from "@/lib/utils";
+import { Header } from "@/components/ui/header";
+import { ScrollView } from "react-native-gesture-handler";
 
 const content = [
   {
@@ -42,7 +45,9 @@ function RequestCard() {
 
   return (
     <View className="flex-1 bg-backgroundSubtle">
-      <ScrollView className="pb-[120px]">
+      <Header onLeftFunction={router.back} />
+
+      <ScrollView className="pb-[120px] mt-6">
         <View className="px-4 pt-6 gap-2">
           <Typography type="heading-small" weight="semibold">
             {"Request a physical card"}
@@ -105,7 +110,7 @@ function RequestCard() {
         className="bg-white p-4 shadow-md shadow-slate-100"
         style={{
           position: "absolute",
-          bottom: insets.bottom - 32,
+          bottom: insets.bottom - (IS_IOS ? 32 : 0),
           left: 0,
           right: 0
         }}

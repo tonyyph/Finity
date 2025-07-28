@@ -82,7 +82,7 @@ export function CardAndPointTab() {
                   <Typography
                     weight={focused ? "bold" : "medium"}
                     textColor={color}
-                    className="px-3"
+                    className="px-3 w-40 text-center"
                   >
                     {route.title}
                   </Typography>

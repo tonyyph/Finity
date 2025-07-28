@@ -22,7 +22,7 @@ export default function OurAgreementScreen() {
               pathname: "/web-view",
               params: {
                 title: "Terms and conditions",
-                webLink:
+                pdfLink:
                   "https://www.finity.co.uk/wp-content/uploads/2025/05/20250506-Finity-Terms-Conditions_Corporate-Rewards.pdf"
               }
             });

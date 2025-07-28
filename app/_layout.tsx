@@ -1,7 +1,11 @@
+import { CustomPaletteWrapper } from "@/components/common/custom-palate-wrapper";
 import { ToastRoot } from "@/components/common/toast";
 import { SplashAnimationScreen } from "@/components/ui/splash";
 import { tokenCache } from "@/lib/cache";
 import { queryClient } from "@/lib/client";
+import { LoadingProvider } from "@/stores";
+import { NetworkProvider } from "@/stores/core/network-provider";
+import { StoreProvider } from "@/stores/core/store-provider";
 import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -21,12 +25,6 @@ import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Svg from "react-native-svg";
 import "../global.css";
-import { CustomPaletteWrapper } from "@/components/common/custom-palate-wrapper";
-import { NetworkProvider } from "@/stores/core/network-provider";
-import { StoreProvider } from "@/stores/core/store-provider";
-import { LoadingProvider } from "@/stores";
-import { StatusBar } from "expo-status-bar";
-import { IS_ANDROID } from "@/lib/utils";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -96,7 +94,6 @@ export default function RootLayout() {
                         <SafeAreaProvider>
                           <GestureHandlerRootView>
                             <KeyboardProvider>
-                              {IS_ANDROID && <StatusBar style="auto" />}
                               <BottomSheetModalProvider>
                                 <Stack screenOptions={{ headerShown: false }} />
                                 <ToastRoot />

@@ -158,25 +158,27 @@ export default function LoginScreen() {
                 </Typography>
               </Button>
               {/* Forgot password */}
-              <View className="px-4 mt-2">
+              <TouchableOpacity
+                className="px-4 mt-2"
+                onPress={() =>
+                  router.push({
+                    pathname: "/un-auth-web-view",
+                    params: {
+                      title: "Forgot password",
+                      webLink:
+                        "https://as-rwd-uks-rewards-web-dev.azurewebsites.net/account/forgot-password"
+                    }
+                  })
+                }
+              >
                 <Typography
                   type="body-default"
                   weight="medium"
                   className="text-center mt-2"
-                  onPress={() =>
-                    router.push({
-                      pathname: "/un-auth-web-view",
-                      params: {
-                        title: "Forgot password",
-                        webLink:
-                          "https://as-rwd-uks-rewards-web-dev.azurewebsites.net/account/forgot-password"
-                      }
-                    })
-                  }
                 >
                   Forgot password?
                 </Typography>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

@@ -66,7 +66,11 @@ function TransactionCardDetail() {
             <Typography>{data?.source}</Typography>
           </>
         )}
-        <Typography weight="regular" textColor="#404040" className="mt-4">
+        <Typography
+          weight="regular"
+          textColor="#404040"
+          className={data?.source && "mt-4"}
+        >
           {`Payment`}
         </Typography>
         <Typography>{`£${formatNumber({

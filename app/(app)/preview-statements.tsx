@@ -38,30 +38,40 @@ function PreviewStatementScreen() {
     uri: `data:application/pdf;base64,${base64String}`,
     cache: true
   };
+
   const onDownload = async () => {
+    if (!fileContents || !fileDownloadName) return;
+
     try {
-      if (source.uri) {
-        const fileName = fileDownloadName as string;
-        const tempPath = `${RNFS.TemporaryDirectoryPath}/${fileName}`;
-        const downloadOptions = {
-          fromUrl: source.uri,
-          toFile: tempPath
-        };
-        await RNFS.downloadFile(downloadOptions).promise;
-        const filePath = IS_IOS ? tempPath : `file://${tempPath}`;
-        if (!IS_IOS) {
-          await copyFileToDownloadFolder(filePath);
-        }
-        const shareOptions = {
-          title: "download pdf",
-          url: filePath
-        };
-        await Share.open(shareOptions);
+      // Step 1: Define path to store the PDF
+      const fileName = `${fileDownloadName}.pdf`;
+      const filePath = `${RNFS.CachesDirectoryPath}/${fileName}`; // Use CachesDirectory for temporary files
+
+      // Step 2: Write base64 content to a file
+      await RNFS.writeFile(filePath, base64String, "base64");
+
+      if (IS_IOS) {
+        // Step 3 (iOS): Open share sheet
+        await Share.open({
+          url: `file://${filePath}`,
+          type: "application/pdf",
+          failOnCancel: false,
+          title: "Chia sẻ file PDF"
+        });
       } else {
-        // console.log('error');
+        // Step 3 (Android): Copy to Download folder
+        const destPath = `${RNFS.DownloadDirectoryPath}/${fileName}`;
+        await RNFS.copyFile(filePath, destPath);
+
+        // Optional: Show share sheet on Android too
+        await Share.open({
+          url: `file://${destPath}`,
+          type: "application/pdf",
+          failOnCancel: false
+        });
       }
     } catch (error) {
-      console.log("Download error", error);
+      console.error("Failed to download or share PDF:", error);
     }
   };
 
