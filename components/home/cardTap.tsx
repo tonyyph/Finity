@@ -23,7 +23,7 @@ export function CardTab({
     return (
       <View className="pt-4 justify-center items-center gap-2">
         <Typography weight="regular" type="body-default" textColor="#737373">
-          No transactions yet.
+          {`No transactions yet.`}
         </Typography>
       </View>
     );

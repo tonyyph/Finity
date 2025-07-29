@@ -148,7 +148,7 @@ export default function CardScreen() {
               )}
             </View>
           </View>
-          <View className={`gap-[${exactDesign(12)}] p-[${exactDesign(16)}]`}>
+          <View className={`gap-1 px-4 py-1`}>
             <MenuItem
               label={`View PIN`}
               onPress={handleViewPIN}

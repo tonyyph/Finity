@@ -65,7 +65,7 @@ export const CardItem = ({ item }: { item: Transaction }) => {
   return (
     <TouchableOpacity
       onPress={handleToTransDetail}
-      className="flex-1 flex-row justify-between items-start py-3 px-4 active:bg-subtitle rounded-lg"
+      className="flex-1 flex-row justify-between items-start py-3 active:bg-subtitle rounded-lg"
     >
       <View className="flex-1 flex-row items-start gap-4 min-h-[64px]">
         <View className="w-[40px] h-[40px] bg-[#F4F4F4] rounded-full justify-center items-center">

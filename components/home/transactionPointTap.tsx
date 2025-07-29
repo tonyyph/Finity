@@ -66,7 +66,7 @@ export function TransactionPointTap() {
 
   const HeaderTab = () => (
     <View>
-      <View className="flex-row items-center gap-3 px-4 py-4 bg-white">
+      <View className="flex-row items-center gap-3 py-4 bg-white">
         <View className="border flex-1 border-border rounded-lg relative">
           <TextInput
             className="flex-1 h-[48px] px-4 rounded-lg bg-subtle border border-border pl-10 pr-4"
@@ -144,7 +144,7 @@ export function TransactionPointTap() {
   });
 
   return (
-    <View className="flex-1 relative">
+    <View className="flex-1 relative px-4">
       {HeaderTab()}
 
       <Animated.FlatList
@@ -176,7 +176,7 @@ export function TransactionPointTap() {
             position: "absolute",
             zIndex: 10,
             right: 4,
-            top: 4,
+            top: 88,
             width: 8,
             borderRadius: 8,
             backgroundColor: "#D4D4D4",
