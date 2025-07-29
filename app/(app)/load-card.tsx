@@ -141,6 +141,7 @@ function LoadCardScreen() {
                 onChangeText={(text) => {
                   setEnterAmount(text);
                 }}
+                selectionColor={"#525252"}
               />
               <Typography type="body-large" weight="medium" textColor="#737373">
                 {`points`}
