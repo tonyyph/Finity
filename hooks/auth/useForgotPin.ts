@@ -60,17 +60,12 @@ export const useForgotPin = () => {
             : passwordState.value
       });
 
-      console.log("result", result);
-
       if (result?.status === "complete") {
-        console.log("2222", 2222);
         return true;
       } else {
-        console.log("1111", 1111);
         return false;
       }
     } catch (_) {
-      console.log("3333", 3333);
       return false;
     }
   };
