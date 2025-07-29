@@ -31,19 +31,21 @@ export function CardTab({
 
   const Footer = () => {
     if (showAll) return <BottomIndicatorAvoidingView />;
-    if (cardList.length < 10 && cardList.length > 0) return null;
-    return (
-      <Button
-        variant="outline"
-        size={"lg"}
-        className="rounded-full h-[48px] mt-4"
-        onPress={handleSeeMore}
-      >
-        <Typography type="body-default" weight="medium" textColor="black">
-          {`See more`}
-        </Typography>
-      </Button>
-    );
+    if (cardList.length < 10 || cardList.length === 0) return null;
+    if (cardList.length >= 10) {
+      return (
+        <Button
+          variant="outline"
+          size={"lg"}
+          className="rounded-full h-[48px] mt-4"
+          onPress={handleSeeMore}
+        >
+          <Typography type="body-default" weight="medium" textColor="black">
+            {`See more`}
+          </Typography>
+        </Button>
+      );
+    }
   };
   return (
     <View className="flex-1">

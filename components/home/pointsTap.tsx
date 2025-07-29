@@ -33,18 +33,20 @@ export function PointsTap({
   const Footer = () => {
     if (showAll) return <BottomIndicatorAvoidingView />;
     if (pointList.length < 10 && pointList.length > 0) return null;
-    return (
-      <Button
-        variant="outline"
-        size={"lg"}
-        className="rounded-full h-[48px] mt-4"
-        onPress={handleSeeMore}
-      >
-        <Typography type="body-default" weight="medium" textColor="black">
-          {`See more`}
-        </Typography>
-      </Button>
-    );
+    if (pointList.length >= 10) {
+      return (
+        <Button
+          variant="outline"
+          size={"lg"}
+          className="rounded-full h-[48px] mt-4"
+          onPress={handleSeeMore}
+        >
+          <Typography type="body-default" weight="medium" textColor="black">
+            {`See more`}
+          </Typography>
+        </Button>
+      );
+    }
   };
   return (
     <View className="flex-1">
