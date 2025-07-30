@@ -53,7 +53,7 @@ export function CardTab({
         data={showAll ? cardList : cardList.slice(0, 10)}
         contentContainerClassName="pt-3"
         showsVerticalScrollIndicator={false}
-        estimatedItemSize={96}
+        estimatedItemSize={86}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         className="flex-1"
         onEndReachedThreshold={0.1}

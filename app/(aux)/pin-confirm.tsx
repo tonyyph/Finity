@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
+import { CircleAlert } from "@/components/common/icons";
+import { Keypad } from "@/components/common/keypad";
 import { Typography } from "@/components/common/text-typography";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 
 export default function ConfirmPINScreen() {
   const { pin, isResetPin } = useLocalSearchParams();
@@ -15,14 +16,16 @@ export default function ConfirmPINScreen() {
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
 
-  const handlePress = (num: string) => {
-    if (confirmPin.length < 4) {
-      setConfirmPin((prev) => prev + num);
+  const handleKeyPress = (key: string) => {
+    if (key === "back") {
+      setConfirmPin((prev) => prev.slice(0, -1));
+    } else if (key === ".") {
+      setConfirmPin((prev) => prev.slice(0, -1));
+    } else {
+      if (confirmPin.length < 4) {
+        setConfirmPin((prev) => prev + key);
+      }
     }
-  };
-
-  const handleDelete = () => {
-    setConfirmPin((prev) => prev.slice(0, -1));
   };
 
   useEffect(() => {
@@ -80,73 +83,8 @@ export default function ConfirmPINScreen() {
         )}
       </View>
 
-      {/* Button */}
-      <View className="justify-end flex-1 mx-5">
-        <View className="py-4 gap-3">
-          <View className="flex-row justify-between">
-            {["1", "2", "3"].map((num) => (
-              <TouchableOpacity
-                key={num}
-                onPress={() => handlePress(num)}
-                className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-              >
-                <Typography type="heading-medium" weight="medium">
-                  {num}
-                </Typography>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View className="flex-row justify-between">
-            {["4", "5", "6"].map((num) => (
-              <TouchableOpacity
-                key={num}
-                onPress={() => handlePress(num)}
-                className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-              >
-                <Typography type="heading-medium" weight="medium">
-                  {num}
-                </Typography>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View className="flex-row justify-between">
-            {["7", "8", "9"].map((num) => (
-              <TouchableOpacity
-                key={num}
-                onPress={() => handlePress(num)}
-                className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-              >
-                <Typography type="heading-medium" weight="medium">
-                  {num}
-                </Typography>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View className="flex-row justify-between">
-            <TouchableOpacity
-              disabled
-              className="h-[72px] opacity-0 w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-            >
-              <Typography type="heading-medium" weight="medium">
-                0
-              </Typography>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handlePress("0")}
-              className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-            >
-              <Typography type="heading-medium" weight="medium">
-                0
-              </Typography>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleDelete}
-              className="h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center"
-            >
-              <RemoveNumpad />
-            </TouchableOpacity>
-          </View>
-        </View>
+      <View className={`flex-1`}>
+        <Keypad onKeyPress={handleKeyPress} />
       </View>
       <BottomIndicatorAvoidingView number={2.5} />
     </View>

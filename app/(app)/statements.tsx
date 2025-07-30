@@ -2,6 +2,7 @@ import { GlobalProgressBar } from "@/components/common";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { MenuItem } from "@/components/common/menu-item";
 import { Typography } from "@/components/common/text-typography";
+import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
 import { Separator } from "@/components/ui/separator";
 import { Touch } from "@/components/ui/touch";
@@ -12,6 +13,7 @@ import { userStore } from "@/stores/userStore";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { router, useLocalSearchParams } from "expo-router";
+import { XIcon } from "lucide-react-native";
 import { useRef, useState } from "react";
 import { FlatList, Image, Keyboard, View } from "react-native";
 
@@ -114,13 +116,22 @@ function StatementScreen() {
 
         {/* Bottom Sheet for Year Filter */}
         <BottomSheet ref={sheetRef} index={0} snapPoints={["30%"]}>
-          <BottomSheetView className="min-h-[50%] mt-1">
-            <Header
-              title="Filter by year"
-              spacing={false}
-              onRightFunction={() => sheetRef.current?.close()}
-            />
-            <View className="p-4 my-3 mb-10">
+          <BottomSheetView className="min-h-[50%]">
+            <View className="flex-row justify-between gap-3 p-3 items-center">
+              <View className="h-[24px] w-[24px]" />
+              <Typography type="body-large" weight="semibold">
+                {`Filter by year`}
+              </Typography>
+              <Button
+                className="flex-shrink items-center"
+                size="icon"
+                variant="ghost"
+                onPress={() => sheetRef.current?.close()}
+              >
+                <XIcon className="h-[24px] w-[24px] text-black" />
+              </Button>
+            </View>
+            <View className="p-4 my-3 mb-[64px]">
               {validYears.map((item, index) => (
                 <View key={`${index}-${item.value}`}>
                   <MenuItem

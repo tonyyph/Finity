@@ -5,6 +5,8 @@ import { createJSONStorage, persist } from "zustand/middleware";
 interface UserAuthenticateStore {
   _reset: () => void;
   isLoggedIn: boolean;
+  isForgotPin: boolean;
+  setIsForgotPin: (isForgotPin: boolean) => void;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
   verificationPin: string;
   setVerificationPin: (verificationPin: string) => void;
@@ -20,6 +22,7 @@ interface UserAuthenticateStore {
 
 const defaultValue = {
   isLoggedIn: false,
+  isForgotPin: false,
   verificationPin: "",
   shouldPINLocal: false,
   pinInfo: "",
@@ -32,6 +35,8 @@ export const useUserAuthenticateStore = create<UserAuthenticateStore>()(
     (set) => ({
       _reset: () => set({ ...defaultValue }),
       isLoggedIn: false,
+      isForgotPin: false,
+      setIsForgotPin: (isForgotPin) => set({ isForgotPin }),
       setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
       verificationPin: "",
       setVerificationPin: (verificationPin) => set({ verificationPin }),

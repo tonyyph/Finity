@@ -17,6 +17,8 @@ import { Typography } from "../common/text-typography";
 import { CardItem } from "../transaction";
 import { Header } from "../ui/header";
 import { FilterCardList } from "./filter-card-list";
+import { ListSkeleton } from "../common/list-skeleton";
+import { Button } from "../ui/button";
 
 export function TransactionCardTap() {
   const { cardList, fetchPaginatedCardTransactions, loading } =
@@ -42,6 +44,7 @@ export function TransactionCardTap() {
       take: 20
     });
   }, [fetchPaginatedCardTransactions, searchText, selectedFilterTypes]);
+
   useEffect(() => {
     let newData = [...cardList];
 
@@ -113,7 +116,7 @@ export function TransactionCardTap() {
           onPress={() => {
             setSelectedFilterTypes([]);
           }}
-          className="px-4 py-3 bg-[#525252] self-start items-center mx-4 mb-2 rounded-full flex-row gap-[2px]"
+          className="px-4 py-3 bg-[#525252] self-start items-center mb-4 mt-2 rounded-full flex-row gap-[2px]"
         >
           <Typography type="body-small" weight="regular" textColor="white">
             Clear filter
@@ -124,24 +127,21 @@ export function TransactionCardTap() {
     </View>
   );
 
-  const EmptyList = () => {
-    if (loading) return;
-    return (
-      <View className="pt-4 justify-center items-center">
-        <Typography
-          weight="regular"
-          type="body-default"
-          textColor="#737373"
-          className="text-center"
-        >
-          {selectedFilterTypes.length > 0
-            ? `No results found.
+  const EmptyList = () => (
+    <View className="pt-4 justify-center items-center">
+      <Typography
+        weight="regular"
+        type="body-default"
+        textColor="#737373"
+        className="text-center"
+      >
+        {selectedFilterTypes.length > 0
+          ? `No results found.
 Try changing your filter.`
-            : `No transactions yet.`}
-        </Typography>
-      </View>
-    );
-  };
+          : `No transactions yet.`}
+      </Typography>
+    </View>
+  );
 
   const Footer = () => {
     return <BottomIndicatorAvoidingView number={4} />;
@@ -198,14 +198,22 @@ Try changing your filter.`
         />
       )}
       <BottomSheet ref={sheetRef} index={0} snapPoints={["40%"]}>
-        <BottomSheetView className="min-h-[100%] mt-1">
-          <Header
-            title="Filter transactions"
-            spacing={false}
-            onRightFunction={() => {
-              sheetRef.current?.close();
-            }}
-          />
+        <BottomSheetView className="min-h-[100%]">
+          <View className="flex-row justify-between gap-3 p-3 items-center">
+            <View className="h-[24px] w-[24px]" />
+            <Typography type="body-large" weight="semibold">
+              {`Filter transactions`}
+            </Typography>
+            <Button
+              className="flex-shrink items-center"
+              size="icon"
+              variant="ghost"
+              onPress={() => sheetRef.current?.close()}
+            >
+              <XIcon className="h-[24px] w-[24px] text-black" />
+            </Button>
+          </View>
+
           <FilterCardList
             onChange={(selected) => setSelectedFilterTypes(selected)}
             selectedFilterTypes={selectedFilterTypes}

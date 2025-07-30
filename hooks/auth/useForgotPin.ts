@@ -64,7 +64,10 @@ export const useForgotPin = () => {
       });
 
       if (result.status === "needs_second_factor") {
-        router.push("/pin-verify-2factor");
+        router.push({
+          pathname: "/verify-2factor",
+          params: { isResetPin: "1", type: "setup" }
+        });
       } else {
         if (!verificationPin) {
           router.push({
@@ -107,10 +110,6 @@ export const useForgotPin = () => {
           const { data: session } = await getUserProfile();
           userStore.setState({
             userProfile: session
-          });
-          router.push({
-            pathname: "/pin-success-2factor",
-            params: { isResetPin: "1" }
           });
         }
       } else {

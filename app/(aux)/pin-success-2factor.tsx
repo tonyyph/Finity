@@ -7,12 +7,11 @@ import {
   TopIndicatorAvoidingView
 } from "@/utils/spacing";
 import { useAuth } from "@clerk/clerk-expo";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { useCallback, useEffect } from "react";
 import { Image, View } from "react-native";
 
 function PINTwoFactorAuthenticationSuccess() {
-  const { isResetPin } = useLocalSearchParams();
   const { setStoreUserId } = useUserAuthenticateStore();
   const { userId } = useAuth();
 
@@ -25,9 +24,9 @@ function PINTwoFactorAuthenticationSuccess() {
   const handleSetupPin = useCallback(() => {
     router.push({
       pathname: "/pin-verify",
-      params: { isResetPin, type: "setup" }
+      params: { isResetPin: "1", type: "setup" }
     });
-  }, [isResetPin]);
+  }, []);
 
   return (
     <View className="flex-1 bg-background">

@@ -86,13 +86,13 @@ export default function Verify2FactorScreen() {
   return (
     <View className="bg-background flex-1">
       <Header onBack={router.back} title="" />
-      <View className="flex-1 px-6 mt-6">
-        <View className="z-10 mb-2 pr-4 gap-2">
+      <View className="flex-1 px-6 pt-8">
+        <View className="z-10 mb-2 gap-2">
           <Typography type="heading-small" weight="semibold">
             {`Two-factor authentication`}
           </Typography>
           <Typography weight="regular">
-            {`Enter the 6-digit verification code generated from your app.`}
+            {`Enter the 6-digit verification code generated from\nyour app.`}
           </Typography>
         </View>
         <View className="flex flex-row justify-between items-center mt-8 gap-2">

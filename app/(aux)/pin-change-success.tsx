@@ -26,7 +26,7 @@ function ChangePinSuccess() {
             source={require("@/assets/images/success-filled.png")}
           />
           <Typography type="heading-small" weight="semibold">
-            {`PIN changed`}{" "}
+            {`PIN changed`}
           </Typography>
           <Typography weight="regular" className="text-center px-6">
             {`Remember to keep your new PIN private and update it regularly.`}

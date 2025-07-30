@@ -72,7 +72,7 @@ function RequestCard() {
                 <Image
                   source={e.icons}
                   resizeMode="contain"
-                  className="w-6 h-6"
+                  className="h-[24px] w-[24px]"
                 />
               </View>
               <View className="flex-1 gap-1">

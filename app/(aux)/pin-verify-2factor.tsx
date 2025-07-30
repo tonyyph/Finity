@@ -6,7 +6,7 @@ import { Header } from "@/components/ui/header";
 import { colors } from "@/constants/Colors";
 import { useAnimatedKeyboard } from "@/hooks";
 import { useForgotPin } from "@/hooks/auth/useForgotPin";
-import { cn } from "@/lib/utils";
+import { cn, IS_IOS } from "@/lib/utils";
 import { exactDesign } from "@/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { router } from "expo-router";
@@ -30,7 +30,7 @@ export default function PINVerify2FactorScreen() {
 
   const { keyboardHeight } = useAnimatedKeyboard(0);
   const translateStyle = useAnimatedStyle(() => ({
-    height: keyboardHeight.value
+    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value
   }));
 
   const otpString = otp.join("");
@@ -83,13 +83,13 @@ export default function PINVerify2FactorScreen() {
   return (
     <View className="bg-background flex-1">
       <Header onBack={router.back} title="" />
-      <View className="flex-1 px-6 mt-6">
-        <View className="z-10 mb-2 pr-4 gap-2">
+      <View className="flex-1 px-6 pt-8">
+        <View className="z-10 mb-2 gap-2">
           <Typography type="heading-small" weight="semibold">
-            Two-factor authentication
+            {`Two-factor authentication`}
           </Typography>
           <Typography weight="regular">
-            Enter the 6-digit verification code generated from your app.
+            {`Enter the 6-digit verification code generated from\nyour app.`}
           </Typography>
         </View>
         <View className="flex flex-row justify-between items-center mt-8 gap-2">

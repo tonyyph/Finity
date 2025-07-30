@@ -81,6 +81,7 @@ export default function ProfileScreen() {
       </Typography>
       <ScrollView
         contentContainerClassName="pb-4 px-4 gap-4"
+        showsVerticalScrollIndicator={false}
         className="bg-background"
       >
         <ProfileCard />

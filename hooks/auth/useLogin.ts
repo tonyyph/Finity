@@ -64,7 +64,7 @@ export const useLogin = () => {
       });
 
       if (result.status === "needs_second_factor") {
-        router.push("/(auth)/verify-2factor");
+        router.push("/verify-2factor");
       } else {
         if (!verificationPin) {
           router.push({

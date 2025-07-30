@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FaceIDIcon } from "@/assets";
 import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
@@ -10,26 +9,18 @@ import {
 } from "@/utils/spacing";
 import { BlurView } from "expo-blur";
 import * as LocalAuthentication from "expo-local-authentication";
-import { router } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Image,
-  Platform,
-  StyleSheet,
-  TouchableOpacity,
-  View
-} from "react-native";
-import { CircleAlert, RemoveNumpad } from "../common/icons";
+import { Image, Platform, StyleSheet, View } from "react-native";
+import { CircleAlert } from "../common/icons";
+import { Keypad } from "../common/keypad";
 import { LoadingScreen } from "../common/loading";
 import { Typography } from "../common/text-typography";
-import { useAuth } from "@clerk/clerk-expo";
 
 type AuthLocalProps = {
   onAuthenticated?: () => void;
 };
 
 export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
-  const { signOut } = useAuth();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { bioStatus } = useBiometrics();
   const [authInProgress, setAuthInProgress] = useState(bioStatus);
@@ -37,7 +28,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
   const [loading, setLoading] = useState(false);
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
-  const { verificationPin, setVerificationPin } = useUserAuthenticateStore();
+  const { verificationPin } = useUserAuthenticateStore();
 
   const userProfile = userStore.getState().userProfile;
   const handleAuthenticate = useCallback(async () => {
@@ -71,16 +62,17 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
     bioStatus && handleAuthenticate();
   }, [handleAuthenticate, bioStatus]);
 
-  const handlePress = (num: string) => {
-    if (confirmPin.length < 4) {
-      setConfirmPin((prev) => prev + num);
+  const handleKeyPress = (key: string) => {
+    if (key === "back") {
+      setConfirmPin((prev) => prev.slice(0, -1));
+    } else if (key === ".") {
+      handleAuthenticate();
+    } else {
+      if (confirmPin.length < 4) {
+        setConfirmPin((prev) => prev + key);
+      }
     }
   };
-
-  const handleDelete = () => {
-    setConfirmPin((prev) => prev.slice(0, -1));
-  };
-
   useEffect(() => {
     if (confirmPin?.length === 4) {
       if (confirmPin === verificationPin) {
@@ -88,7 +80,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
         timeoutRef.current = setTimeout(() => {
           setLoading(false);
           onAuthenticated?.();
-        }, 2000);
+        }, 3000);
       } else {
         setWrongPin(true);
       }
@@ -110,22 +102,11 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
     };
   }, []);
 
-  const onPressForgotPin = async () => {
-    try {
-      await signOut();
-
-      setVerificationPin("");
-      router.replace({
-        pathname: "/pin-forgot"
-      });
-    } catch (error) {}
-  };
-
   if (authInProgress) {
     return (
       <View className="absolute top-0 right-0 bottom-0 left-0 z-50 flex-1 p-8 gap-4 bg-background">
         <BlurView
-          intensity={Platform.OS === "ios" ? 60 : 100}
+          intensity={Platform.OS === "ios" ? 50 : 100}
           tint="dark"
           style={StyleSheet.absoluteFill}
         />
@@ -136,15 +117,15 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
   if (loading) return <LoadingScreen loading={loading} />;
 
   return (
-    <View className="absolute top-0 right-0 bottom-0 left-0 z-50 flex-1 p-8 gap-4 bg-background">
-      <TopIndicatorAvoidingView number={1.5} />
+    <View className="absolute top-0 right-0 bottom-0 left-0 z-50 flex-1 gap-4 bg-background">
+      <TopIndicatorAvoidingView />
       <View className="flex-1">
         {/* Welcome */}
         <View className="z-10">
-          <View className="gap-14 items-center">
+          <View className="items-center">
             <Image
               source={require("@/assets/images/logo.png")}
-              className="w-[152px] h-[40px]"
+              className="w-[152px] h-[40px] my-[56px]"
               resizeMode="contain"
             />
             <Typography weight="regular">
@@ -154,7 +135,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
         </View>
 
         {/* PIN container */}
-        <View className="flex-row h-7 inline-flex justify-center items-center gap-14 mt-8">
+        <View className="flex-row h-7 inline-flex justify-center items-center gap-14 mt-10">
           {[...Array(4)].map((_, i) => (
             <View
               key={i}
@@ -175,86 +156,12 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
         )}
       </View>
 
-      {/* Button */}
-      <View className="justify-end flex-1 mx-5">
-        <View className="py-4 gap-3">
-          <View className="flex-row justify-between">
-            {["1", "2", "3"].map((num) => (
-              <TouchableOpacity
-                key={num}
-                onPress={() => handlePress(num)}
-                className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-              >
-                <Typography type="heading-medium" weight="medium">
-                  {num}
-                </Typography>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View className="flex-row justify-between">
-            {["4", "5", "6"].map((num) => (
-              <TouchableOpacity
-                key={num}
-                onPress={() => handlePress(num)}
-                className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-              >
-                <Typography type="heading-medium" weight="medium">
-                  {num}
-                </Typography>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View className="flex-row justify-between">
-            {["7", "8", "9"].map((num) => (
-              <TouchableOpacity
-                key={num}
-                onPress={() => handlePress(num)}
-                className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-              >
-                <Typography type="heading-medium" weight="medium">
-                  {num}
-                </Typography>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View className="flex-row justify-between">
-            <TouchableOpacity
-              onPress={handleAuthenticate}
-              disabled={!bioStatus}
-              className={cn(
-                "h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center",
-                !bioStatus && "opacity-0"
-              )}
-            >
-              <FaceIDIcon />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handlePress("0")}
-              className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-            >
-              <Typography type="heading-medium" weight="medium">
-                0
-              </Typography>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleDelete}
-              className="h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center"
-            >
-              <RemoveNumpad />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-      {/* Forgot PIN */}
-      <View className="px-4 mt-2">
-        <Typography
-          type="body-default"
-          weight="medium"
-          className="text-center mt-2"
-          onPress={onPressForgotPin}
-        >
-          {`Forgot PIN?`}
-        </Typography>
+      <View className={`flex-1`}>
+        <Keypad
+          onKeyPress={handleKeyPress}
+          showForgotPin
+          allowBiometric={bioStatus}
+        />
       </View>
       <BottomIndicatorAvoidingView number={2} />
     </View>

@@ -5,21 +5,21 @@ import {
   BottomIndicatorAvoidingView,
   TopIndicatorAvoidingView
 } from "@/utils/spacing";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { isEmpty } from "lodash-es";
 import { useCallback } from "react";
 import { Image, View } from "react-native";
 
 function TwoFactorAuthenticationSuccess() {
-  const { isResetPin } = useLocalSearchParams();
-  const { setIsLoggedIn, verificationPin } = useUserAuthenticateStore();
+  const { setIsLoggedIn, verificationPin, isForgotPin } =
+    useUserAuthenticateStore();
 
   const handleSetupPin = useCallback(() => {
     router.push({
       pathname: "/pin-verify",
-      params: { isResetPin, type: "setup" }
+      params: { isResetPin: isForgotPin ? "1" : "0", type: "setup" }
     });
-  }, [isResetPin]);
+  }, [isForgotPin]);
 
   const handleContinue = useCallback(() => {
     router.replace("/(app)/(tabs)");
@@ -40,7 +40,7 @@ function TwoFactorAuthenticationSuccess() {
             Verification success
           </Typography>
           <Typography weight="regular" className="text-center">
-            {isResetPin === "1"
+            {isForgotPin
               ? `Two-factor authentication verified. Tap ‘Continue’ to set up your new PIN.`
               : `Two-factor authentication verified. `}
           </Typography>
@@ -55,7 +55,7 @@ function TwoFactorAuthenticationSuccess() {
             }
           >
             <Typography type="body-default" weight="medium" textColor="white">
-              {isResetPin === "1" || !isEmpty(verificationPin)
+              {isForgotPin || !isEmpty(verificationPin)
                 ? `Continue`
                 : `Set up PIN`}
             </Typography>

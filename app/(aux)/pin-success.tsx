@@ -12,28 +12,31 @@ import { Image, View } from "react-native";
 
 function SetupPinSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { setIsLoggedIn, setShouldPINLocal } = useUserAuthenticateStore();
+  const { setIsLoggedIn, setShouldPINLocal, setIsForgotPin } =
+    useUserAuthenticateStore();
   const { bioStatus, isBiometricSupported, supportType } = useBiometrics();
 
   const handleContinue = useCallback(() => {
     setIsLoggedIn(true);
     setShouldPINLocal(false);
+    setIsForgotPin(false);
     router.replace("/(app)/(tabs)");
-  }, [setIsLoggedIn, setShouldPINLocal]);
+  }, [setIsLoggedIn, setShouldPINLocal, setIsForgotPin]);
 
   const handleSetupBiometrics = useCallback(() => {
     setIsLoggedIn(true);
     setShouldPINLocal(false);
+    setIsForgotPin(false);
     router.replace({
       pathname: "/biometrics",
       params: { typeAuthentication: supportType, firstFA: "1" }
     });
-  }, [setIsLoggedIn, supportType, setShouldPINLocal]);
+  }, [setIsLoggedIn, supportType, setShouldPINLocal, setIsForgotPin]);
 
   return (
     <View className="flex-1 bg-background">
       <View className="flex-1">
-        <TopIndicatorAvoidingView number={2.5} />
+        <TopIndicatorAvoidingView number={4} />
 
         <View className="flex-1 px-4 gap-4 items-center">
           <Image

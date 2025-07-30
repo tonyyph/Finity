@@ -1,6 +1,6 @@
 import { changeHomeAddress } from "@/api";
-import { FaceIDIcon } from "@/assets";
-import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
+import { CircleAlert } from "@/components/common/icons";
+import { Keypad } from "@/components/common/keypad";
 import { Typography } from "@/components/common/text-typography";
 import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
@@ -17,7 +17,7 @@ import * as LocalAuthentication from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
 import LottieView from "lottie-react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 
 function PinVerificationScreen() {
   const {
@@ -114,16 +114,17 @@ function PinVerificationScreen() {
     bioStatus && handleAuthenticate();
   }, [handleAuthenticate, bioStatus]);
 
-  const handlePress = (num: string) => {
-    if (confirmPin.length < 4) {
-      setConfirmPin((prev) => prev + num);
+  const handleKeyPress = (key: string) => {
+    if (key === "back") {
+      setConfirmPin((prev) => prev.slice(0, -1));
+    } else if (key === ".") {
+      handleAuthenticate();
+    } else {
+      if (confirmPin.length < 4) {
+        setConfirmPin((prev) => prev + key);
+      }
     }
   };
-
-  const handleDelete = () => {
-    setConfirmPin((prev) => prev.slice(0, -1));
-  };
-
   useEffect(() => {
     if (confirmPin?.length === 4) {
       if (confirmPin === verificationPin) {
@@ -168,7 +169,7 @@ function PinVerificationScreen() {
     );
   }
 
-  if (loading)
+  if (loading) {
     return (
       <View className="flex-1 bg-white items-center justify-center">
         <LottieView
@@ -181,6 +182,7 @@ function PinVerificationScreen() {
         />
       </View>
     );
+  }
 
   return (
     <View className="flex-1 bg-white">
@@ -189,9 +191,9 @@ function PinVerificationScreen() {
       <View className="flex-1">
         <View className="flex-1 flex-col justify-between mx-5">
           <TopIndicatorAvoidingView number={2.5} />
-          <View className="flex-1">
+          <View className=" py-8">
             {/* PIN container */}
-            <View className="flex-row h-7 inline-flex justify-center items-center gap-14 mt-8">
+            <View className="flex-row h-7 inline-flex justify-center items-center gap-14">
               {[...Array(4)].map((_, i) => (
                 <View
                   key={i}
@@ -216,94 +218,16 @@ function PinVerificationScreen() {
             )}
           </View>
 
-          {/* Button */}
-          <View className="justify-end flex-1 mx-5">
-            <View className="py-4 gap-3">
-              <View className="flex-row justify-between">
-                {["1", "2", "3"].map((num) => (
-                  <TouchableOpacity
-                    key={num}
-                    onPress={() => handlePress(num)}
-                    className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-                  >
-                    <Typography type="heading-medium" weight="medium">
-                      {num}
-                    </Typography>
-                  </TouchableOpacity>
-                ))}
-              </View>
-              <View className="flex-row justify-between">
-                {["4", "5", "6"].map((num) => (
-                  <TouchableOpacity
-                    key={num}
-                    onPress={() => handlePress(num)}
-                    className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-                  >
-                    <Typography type="heading-medium" weight="medium">
-                      {num}
-                    </Typography>
-                  </TouchableOpacity>
-                ))}
-              </View>
-              <View className="flex-row justify-between">
-                {["7", "8", "9"].map((num) => (
-                  <TouchableOpacity
-                    key={num}
-                    onPress={() => handlePress(num)}
-                    className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-                  >
-                    <Typography type="heading-medium" weight="medium">
-                      {num}
-                    </Typography>
-                  </TouchableOpacity>
-                ))}
-              </View>
-              <View className="flex-row justify-between">
-                <TouchableOpacity
-                  onPress={handleAuthenticate}
-                  disabled={!bioStatus}
-                  className={cn(
-                    "h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center",
-                    !bioStatus && "opacity-0"
-                  )}
-                >
-                  <FaceIDIcon />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => handlePress("0")}
-                  className="h-[72px] w-[72px] p-4 bg-backgroundSubtle rounded-[120px] flex-col justify-center items-center inline-flex"
-                >
-                  <Typography type="heading-medium" weight="medium">
-                    0
-                  </Typography>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={handleDelete}
-                  className="h-[72px] w-[72px] bg-backgroundSubtle rounded-[120px] justify-center items-center"
-                >
-                  <RemoveNumpad />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-          {/* Forgot PIN */}
-          <View className="px-4 mt-2">
-            <Typography
-              type="body-default"
-              weight="medium"
-              className="text-center mt-2"
-              onPress={() =>
-                router.navigate({
-                  pathname: "/pin-forgot"
-                })
-              }
-            >
-              {`Forgot PIN?`}
-            </Typography>
+          <View className={`flex-1`}>
+            <Keypad
+              onKeyPress={handleKeyPress}
+              showForgotPin
+              allowBiometric={bioStatus}
+            />
           </View>
         </View>
       </View>
-      <BottomIndicatorAvoidingView number={4} />
+      <BottomIndicatorAvoidingView number={2.5} />
     </View>
   );
 }

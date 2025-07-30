@@ -11,12 +11,15 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { BottomSheet } from "../common";
+import { BottomSheet, LoadingScreen } from "../common";
 import { Typography } from "../common/text-typography";
 import { PointItem } from "../transaction";
 import { Header } from "../ui/header";
 import { FilterPointList } from "./filter-point-list";
 import { XIcon } from "lucide-react-native";
+import { HomeSkeleton } from "../skeleton";
+import { ListSkeleton } from "../common/list-skeleton";
+import { Button } from "../ui/button";
 
 export function TransactionPointTap() {
   const { pointList, fetchPaginatedPointTransactions, loading } =
@@ -114,7 +117,7 @@ export function TransactionPointTap() {
           onPress={() => {
             setSelectedFilterTypes([]);
           }}
-          className="px-4 py-3 bg-[#525252] self-start items-center mx-4 mb-2 rounded-full flex-row gap-[2px]"
+          className="px-4 py-3 bg-[#525252] self-start items-center mb-4 mt-2 rounded-full flex-row gap-[2px]"
         >
           <Typography type="body-small" weight="regular" textColor="white">
             Clear filter
@@ -125,24 +128,21 @@ export function TransactionPointTap() {
     </View>
   );
 
-  const EmptyList = () => {
-    if (loading) return;
-    return (
-      <View className="pt-4 justify-center items-center">
-        <Typography
-          weight="regular"
-          type="body-default"
-          textColor="#737373"
-          className="text-center"
-        >
-          {selectedFilterTypes.length > 0
-            ? `No results found.
+  const EmptyList = () => (
+    <View className="pt-4 justify-center items-center">
+      <Typography
+        weight="regular"
+        type="body-default"
+        textColor="#737373"
+        className="text-center"
+      >
+        {selectedFilterTypes.length > 0
+          ? `No results found.
 Try changing your filter.`
-            : `No transactions yet.`}
-        </Typography>
-      </View>
-    );
-  };
+          : `No transactions yet.`}
+      </Typography>
+    </View>
+  );
 
   const Footer = () => {
     return <BottomIndicatorAvoidingView number={4} />;
@@ -159,7 +159,6 @@ Try changing your filter.`
   return (
     <View className="flex-1 relative px-4">
       {HeaderTab()}
-
       <Animated.FlatList
         data={filteredData}
         renderItem={({ item, index }) => <PointItem item={item} />}
@@ -199,14 +198,21 @@ Try changing your filter.`
         />
       )}
       <BottomSheet ref={sheetRef} index={0} snapPoints={["50%"]}>
-        <BottomSheetView className="min-h-[100%] mt-1">
-          <Header
-            title="Filter transactions"
-            spacing={false}
-            onRightFunction={() => {
-              sheetRef.current?.close();
-            }}
-          />
+        <BottomSheetView className="min-h-[100%]">
+          <View className="flex-row justify-between gap-3 p-3 items-center">
+            <View className="h-[24px] w-[24px]" />
+            <Typography type="body-large" weight="semibold">
+              {`Filter transactions`}
+            </Typography>
+            <Button
+              className="flex-shrink items-center"
+              size="icon"
+              variant="ghost"
+              onPress={() => sheetRef.current?.close()}
+            >
+              <XIcon className="h-[24px] w-[24px] text-black" />
+            </Button>
+          </View>
           <FilterPointList
             onChange={(selected) => setSelectedFilterTypes(selected)}
             selectedFilterTypes={selectedFilterTypes}

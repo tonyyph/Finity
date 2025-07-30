@@ -36,7 +36,7 @@ export const Header = ({
   return (
     <View>
       {spacing && <TopIndicatorAvoidingView />}
-      <View className="flex-row justify-between items-center">
+      <View className="flex-row justify-between items-center px-3 gap-2 py-1">
         {renderLeftView ??
           (!!onBack || !!onLeftFunction ? (
             <TouchableOpacity
@@ -44,14 +44,14 @@ export const Header = ({
                 onBack?.(value);
                 onLeftFunction?.(value);
               }}
-              className="flex-shrink ml-2"
+              className="flex-shrink"
               disabled={isLoading}
             >
               <ArrowBackIcon />
             </TouchableOpacity>
           ) : (
-            <View className="flex-shrink ml-2">
-              <View className="w-8 h-8" />
+            <View className="flex-shrink">
+              <View className="w-[32px] h-[32px]" />
             </View>
           ))}
         {renderCenterView ?? (
@@ -62,23 +62,23 @@ export const Header = ({
         {renderRightView ??
           (!!onRightFunction ? (
             <Button
-              className="flex-shrink items-center mr-2"
+              className="flex-shrink items-center"
               size="icon"
               variant="ghost"
               onPress={onRightFunction}
             >
               {Icon ? (
-                <Icon className="h-8 w-8 text-foreground" />
+                <Icon className="w-[32px] h-[32px] text-foreground" />
               ) : (
-                <XIcon className="h-8 w-8 text-foreground" />
+                <XIcon className="w-[32px] h-[32px] text-foreground" />
               )}
             </Button>
           ) : (
-            <View className="flex-shrink mr-2">
+            <View className="flex-shrink">
               {Icon ? (
-                <Icon className="h-8 w-8 color-transparent" />
+                <Icon className="w-[32px] h-[32px] color-transparent" />
               ) : (
-                <XIcon className="h-8 w-8 color-transparent" />
+                <XIcon className="w-[32px] h-[32px] color-transparent" />
               )}
             </View>
           ))}

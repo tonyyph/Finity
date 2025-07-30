@@ -43,7 +43,7 @@ function ReviewTransactionScreen() {
   const LoadCardInfo = () => {
     return (
       <View className="flex-1 pt-4">
-        <View className="px-4 gap-2">
+        <View className="px-6 gap-2">
           <View className="bg-neutral-100 px-5 py-4 items-start justify-center gap-1 rounded-xl">
             <Typography type="body-large" weight="semibold">
               {`Load`}
@@ -84,7 +84,7 @@ function ReviewTransactionScreen() {
   const SendPointInfo = () => {
     return (
       <View className="flex-1 pt-4">
-        <View className="px-4 gap-2">
+        <View className="px-6 gap-2">
           <View className="bg-neutral-100 px-5 py-4 items-start justify-center gap-1 rounded-xl">
             <Typography type="body-large" weight="semibold">
               {`Send`}
@@ -92,7 +92,7 @@ function ReviewTransactionScreen() {
             <Typography>{`${amount} points`}</Typography>
           </View>
           <View
-            className="bg-white rounded-full self-center absolute p-[6px] top-[50%] z-10"
+            className="bg-white rounded-full self-center p-[6px] z-10"
             style={styles.arrowStyle}
           >
             <ArrowDownIcon />
@@ -120,7 +120,7 @@ function ReviewTransactionScreen() {
           <Button
             variant="default"
             size={"lg"}
-            className="rounded-full bg-primary h-[48px]"
+            className="rounded-full bg-primary h-12"
             loading={loading}
             disabled={loading}
             onPress={
@@ -148,7 +148,7 @@ export default ReviewTransactionScreen;
 const styles = StyleSheet.create({
   arrowStyle: {
     position: "absolute",
-    top: "50%",
+    top: "46%",
     transform: [{ translateY: -20 }],
     backgroundColor: "#ffffff"
   }

@@ -7,7 +7,7 @@ export default function AuxiliaryLayout() {
   const { getColor } = useColorPalette();
 
   return (
-    <View className="flex-1 bg-red-200">
+    <View className="flex-1 ">
       <Stack
         screenOptions={{
           headerShown: true,
@@ -47,10 +47,9 @@ export default function AuxiliaryLayout() {
           }}
         />
         <Stack.Screen
-          name="pin-confirm"
+          name="pin-forgot"
           options={{
-            headerLeft: () => <BackButton />,
-            headerShown: true
+            headerShown: false
           }}
         />
         <Stack.Screen
@@ -95,6 +94,7 @@ export default function AuxiliaryLayout() {
             headerShown: false
           }}
         />
+
         <Stack.Screen
           name="pin-verify"
           options={{
@@ -103,9 +103,10 @@ export default function AuxiliaryLayout() {
           }}
         />
         <Stack.Screen
-          name="pin-forgot"
+          name="pin-confirm"
           options={{
-            headerShown: false
+            headerLeft: () => <BackButton />,
+            headerShown: true
           }}
         />
         <Stack.Screen

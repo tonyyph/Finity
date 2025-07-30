@@ -1,6 +1,6 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "@/utils";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { TabBar, TabBarItem, TabView } from "react-native-tab-view";
 import { Typography } from "../common/text-typography";
 import TransactionCardTap from "./transactionCardTap";
@@ -30,7 +30,7 @@ export function TransactionTab({ initTab }: { initTab?: number }) {
   };
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 mt-2">
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -75,8 +75,10 @@ const styles = StyleSheet.create({
   indicatorContainerStyle: { backgroundColor: "white" },
   indicatorStyle: {
     backgroundColor: "black",
+    width: Dimensions.get("window").width / 2 - 32,
     height: 4,
-    borderRadius: 100
+    borderRadius: 100,
+    marginHorizontal: 16
   },
   containerStyle: {
     borderBottomWidth: 1,

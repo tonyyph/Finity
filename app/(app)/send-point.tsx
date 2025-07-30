@@ -13,6 +13,7 @@ import { BottomIndicatorAvoidingView } from "@/utils/spacing";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { router, useLocalSearchParams } from "expo-router";
 import { isEmpty } from "lodash-es";
+import { XIcon } from "lucide-react-native";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Image, Keyboard, TextInput, View } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
@@ -248,14 +249,20 @@ function SendCardScreen() {
         <Animated.View style={translateStyle} />
 
         <BottomSheet ref={sheetRef} index={0} snapPoints={["50%"]}>
-          <View className="mt-1" />
-          <Header
-            title="Select a cardholder"
-            spacing={false}
-            onRightFunction={() => {
-              sheetRef.current?.close();
-            }}
-          />
+          <View className="flex-row justify-between gap-3 p-3 items-center">
+            <View className="h-[24px] w-[24px]" />
+            <Typography type="body-large" weight="semibold">
+              {`Select a cardholder`}
+            </Typography>
+            <Button
+              className="flex-shrink items-center"
+              size="icon"
+              variant="ghost"
+              onPress={() => sheetRef.current?.close()}
+            >
+              <XIcon className="h-[24px] w-[24px] text-black" />
+            </Button>
+          </View>
           <View className="mb-3" />
           <BottomSheetScrollView
             className="min-h-[100%]"

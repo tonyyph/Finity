@@ -27,17 +27,17 @@ export function CardAndPointTab() {
     cardList.length === 0
       ? SCREEN_HEIGHT / 2
       : cardList.length > 10
-      ? 10 * 102
-      : cardList.length * 108 > SCREEN_HEIGHT / 2
-      ? cardList.length * 108
+      ? 90 * 11
+      : (cardList.length + 1) * 84 > SCREEN_HEIGHT / 2
+      ? (cardList.length + 1) * 84
       : SCREEN_HEIGHT / 2;
   const pointTapHeight =
     pointList.length === 0
       ? SCREEN_HEIGHT / 2
       : pointList.length > 10
-      ? 102 * 10
-      : 108 * pointList.length > SCREEN_HEIGHT / 2
-      ? 108 * pointList.length
+      ? 90 * 11
+      : (pointList.length + 1) * 84 > SCREEN_HEIGHT / 2
+      ? (pointList.length + 1) * 84
       : SCREEN_HEIGHT / 2;
   const [index, setIndex] = useState<number>(0);
 

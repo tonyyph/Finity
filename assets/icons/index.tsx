@@ -31,3 +31,4 @@ export * from "./RefundIcon";
 export * from "./SearchIcon";
 export * from "./SentIcon";
 export * from "./ArrowDownIcon";
+export * from "./BiometricIcon";

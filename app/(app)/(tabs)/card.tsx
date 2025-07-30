@@ -28,7 +28,7 @@ import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BlurView } from "expo-blur";
 import { router, useFocusEffect } from "expo-router";
 import { isEmpty } from "lodash-es";
-import { EyeIcon, TriangleAlertIcon } from "lucide-react-native";
+import { EyeIcon, TriangleAlertIcon, XIcon } from "lucide-react-native";
 import { useCallback, useRef } from "react";
 import { Image, StyleSheet, View } from "react-native";
 
@@ -178,13 +178,20 @@ export default function CardScreen() {
           snapPoints={["40%"]}
         >
           <BottomSheetView>
-            <Header
-              title="View PIN"
-              spacing={false}
-              onRightFunction={() => {
-                sheetRef.current?.close();
-              }}
-            />
+            <View className="flex-row justify-between gap-3 p-3 items-center">
+              <View className="h-[24px] w-[24px]" />
+              <Typography type="body-large" weight="semibold">
+                {`View PIN`}
+              </Typography>
+              <Button
+                className="flex-shrink items-center"
+                size="icon"
+                variant="ghost"
+                onPress={() => sheetRef.current?.close()}
+              >
+                <XIcon className="h-[24px] w-[24px] text-black" />
+              </Button>
+            </View>
             <View className="flex-row items-center justify-center gap-3 mt-6 px-4">
               {PINInfo?.split("").map((digit, index) => (
                 <View
