@@ -9,7 +9,11 @@ import { StoreProvider } from "@/stores/core/store-provider";
 import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider
+} from "@react-navigation/native";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { useFonts } from "expo-font";
@@ -25,6 +29,8 @@ import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Svg from "react-native-svg";
 import "../global.css";
+import { StatusBar } from "expo-status-bar";
+import { IS_ANDROID } from "@/lib/utils";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -96,6 +102,7 @@ export default function RootLayout() {
                             <KeyboardProvider>
                               <BottomSheetModalProvider>
                                 <Stack screenOptions={{ headerShown: false }} />
+                                {IS_ANDROID && <StatusBar style="dark" />}
                                 <ToastRoot />
                               </BottomSheetModalProvider>
                             </KeyboardProvider>

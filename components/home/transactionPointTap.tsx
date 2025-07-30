@@ -19,7 +19,9 @@ import { FilterPointList } from "./filter-point-list";
 import { XIcon } from "lucide-react-native";
 
 export function TransactionPointTap() {
-  const { pointList, fetchPaginatedPointTransactions } = useListTransaction();
+  const { pointList, fetchPaginatedPointTransactions, loading } =
+    useListTransaction();
+
   const scrollY = useRef(new Animated.Value(0)).current;
   const sheetRef = useRef<BottomSheetModal>(null);
   const [selectedFilterTypes, setSelectedFilterTypes] = useState<string[]>([]);
@@ -66,7 +68,7 @@ export function TransactionPointTap() {
 
   const HeaderTab = () => (
     <View>
-      <View className="flex-row items-center gap-3 py-4 bg-white">
+      <View className="flex-row items-center gap-3 pt-6 pb-2 bg-white">
         <View className="border flex-1 border-border rounded-lg relative">
           <TextInput
             className="flex-1 h-[48px] px-4 rounded-lg bg-subtle border border-border pl-10 pr-4"
@@ -123,13 +125,24 @@ export function TransactionPointTap() {
     </View>
   );
 
-  const EmptyList = () => (
-    <View className="pt-4 justify-center items-center">
-      <Typography weight="regular" type="body-default" textColor="#737373">
-        No transactions yet.
-      </Typography>
-    </View>
-  );
+  const EmptyList = () => {
+    if (loading) return;
+    return (
+      <View className="pt-4 justify-center items-center">
+        <Typography
+          weight="regular"
+          type="body-default"
+          textColor="#737373"
+          className="text-center"
+        >
+          {selectedFilterTypes.length > 0
+            ? `No results found.
+Try changing your filter.`
+            : `No transactions yet.`}
+        </Typography>
+      </View>
+    );
+  };
 
   const Footer = () => {
     return <BottomIndicatorAvoidingView number={4} />;

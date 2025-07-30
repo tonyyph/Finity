@@ -48,7 +48,7 @@ export function CardTab({
     }
   };
   return (
-    <View className="flex-1">
+    <View className="flex-1 px-4">
       <FlashList
         data={showAll ? cardList : cardList.slice(0, 10)}
         contentContainerClassName="pt-3"

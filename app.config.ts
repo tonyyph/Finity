@@ -67,17 +67,16 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       output: "static",
       favicon: "./assets/images/favicon.png"
     },
+    splash: {
+      image: "./assets/images/blank_logo.png", // must be a real image file
+      resizeMode: "contain",
+      backgroundColor: "#000000" // or any neutral color
+    },
     plugins: [
       [
         "expo-local-authentication",
         {
           faceIDPermission: "Allow $(PRODUCT_NAME) to use Face ID."
-        }
-      ],
-      [
-        "expo-splash-screen",
-        {
-          backgroundColor: "#000000"
         }
       ],
       "expo-router",

@@ -49,7 +49,7 @@ export function PointsTap({
     }
   };
   return (
-    <View className="flex-1">
+    <View className="flex-1 px-4">
       <FlashList
         data={showAll ? pointList : pointList.slice(0, 10)}
         contentContainerClassName="pt-3"

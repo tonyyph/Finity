@@ -2,7 +2,7 @@ import { useListTransaction } from "@/hooks";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "@/utils";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { TabBar, TabBarItem, TabView } from "react-native-tab-view";
 import { Typography } from "../common/text-typography";
 import CardTab from "./cardTap";
@@ -27,7 +27,7 @@ export function CardAndPointTab() {
     cardList.length === 0
       ? SCREEN_HEIGHT / 2
       : cardList.length > 10
-      ? 10 * 104
+      ? 10 * 102
       : cardList.length * 108 > SCREEN_HEIGHT / 2
       ? cardList.length * 108
       : SCREEN_HEIGHT / 2;
@@ -35,7 +35,7 @@ export function CardAndPointTab() {
     pointList.length === 0
       ? SCREEN_HEIGHT / 2
       : pointList.length > 10
-      ? 104 * 10
+      ? 102 * 10
       : 108 * pointList.length > SCREEN_HEIGHT / 2
       ? 108 * pointList.length
       : SCREEN_HEIGHT / 2;
@@ -60,7 +60,7 @@ export function CardAndPointTab() {
   };
 
   return (
-    <View className="flex-1 px-4 bg-white shadow-md shadow-slate-200">
+    <View className="flex-1 bg-white shadow-md shadow-slate-200">
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -101,11 +101,16 @@ export function CardAndPointTab() {
 export default CardAndPointTab;
 
 const styles = StyleSheet.create({
-  indicatorContainerStyle: { backgroundColor: "white" },
+  indicatorContainerStyle: {
+    backgroundColor: "white",
+    borderBottomColor: "transparent"
+  },
   indicatorStyle: {
     backgroundColor: "black",
+    width: Dimensions.get("window").width / 2 - 32,
     height: 4,
-    borderRadius: 100
+    borderRadius: 100,
+    marginHorizontal: 16
   },
   containerStyle: {
     borderBottomWidth: 1,
