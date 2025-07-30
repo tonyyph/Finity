@@ -51,7 +51,9 @@ export default function ConfirmPINScreen() {
               Confirm your PIN code
             </Typography>
             <Typography weight="regular">
-              Re-enter your PIN for confirmation.
+              {isResetPin
+                ? `Please confirm your PIN code.`
+                : `Re-enter your PIN for confirmation.`}
             </Typography>
           </View>
         </View>

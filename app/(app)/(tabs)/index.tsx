@@ -116,7 +116,6 @@ function HomeScreen() {
           </View>
           <View className="h-4" />
           <CardButtonGroup
-            hasIssuedCard={hasIssuedCard}
             onLoadCard={onLoadCard}
             onSendPoints={onSendPoints}
           />

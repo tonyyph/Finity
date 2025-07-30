@@ -1,7 +1,7 @@
 import { CircleAlert } from "@/components/common/icons";
 import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import { useAnimatedKeyboard, useForgotPin } from "@/hooks";
+import { useAnimatedKeyboard, useForgotPin, useLogin } from "@/hooks";
 import { cn, IS_IOS } from "@/lib/utils";
 import {
   BottomIndicatorAvoidingView,
@@ -27,12 +27,8 @@ export default function ForgotPINScreen() {
     height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value
   }));
 
-  const {
-    onSubmitForgotPIN,
-    usernameState,
-    passwordState,
-    isLoading: loading
-  } = useForgotPin();
+  const { onSubmitForgotPIN, usernameState, passwordState, isLoading } =
+    useForgotPin();
 
   const onPressSecurePassword = () => {
     setSecurePassword((prev) => !prev);
@@ -164,9 +160,11 @@ export default function ForgotPINScreen() {
             <Button
               variant="default"
               size={"lg"}
-              disabled={!usernameState.value || !passwordState.value || loading}
+              disabled={
+                !usernameState.value || !passwordState.value || isLoading
+              }
               className="mt-8 rounded-full bg-primary h-[48px]"
-              loading={loading}
+              loading={isLoading}
               onPress={onSubmitForgotPIN}
             >
               <Typography
@@ -178,7 +176,7 @@ export default function ForgotPINScreen() {
                     : "white"
                 }
               >
-                {loading ? `Continuing...` : `Continue`}
+                {isLoading ? `Continuing...` : `Continue`}
               </Typography>
             </Button>
           </View>

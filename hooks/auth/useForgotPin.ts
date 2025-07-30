@@ -1,14 +1,17 @@
+import { getUserProfile } from "@/api";
+import { useUserAuthenticateStore } from "@/stores";
+import { userStore } from "@/stores/userStore";
 import { validatePassword, validateUsername } from "@/utils";
 import { useSignIn } from "@clerk/clerk-expo";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useValidateInput } from "../commons";
-import { useLocalPIN } from "../use-local-pin";
 
 export const useForgotPin = () => {
   const { signIn, setActive: setActiveSignIn, isLoaded } = useSignIn();
-  const { setShouldPINLocal } = useLocalPIN();
-
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+  const { verificationPin } = useUserAuthenticateStore();
 
   const usernameState = useValidateInput({
     defaultValue: "",
@@ -25,6 +28,7 @@ export const useForgotPin = () => {
 
   const onSubmitForgotPIN = async () => {
     setLoading(true);
+    if (!isLoaded) return;
     const setError = (error: string = "Invalid password") => {
       passwordState.setState((prev) => ({ ...prev, error }));
     };
@@ -39,9 +43,8 @@ export const useForgotPin = () => {
       setLoading(false);
       return;
     }
-
     try {
-      const result = await signIn?.create({
+      const result = await signIn.create({
         identifier:
           usernameState.value === "1"
             ? "tonyphvincent@gmail.com" //TODO: remove that mockup
@@ -60,13 +63,63 @@ export const useForgotPin = () => {
             : passwordState.value
       });
 
-      if (result?.status === "complete") {
-        return true;
+      if (result.status === "needs_second_factor") {
+        router.push("/pin-verify-2factor");
       } else {
-        return false;
+        if (!verificationPin) {
+          router.push({
+            pathname: "/pin-verify",
+            params: { isResetPin: "1", type: "setup" }
+          });
+        }
+        await setActiveSignIn({ session: result.createdSessionId });
       }
-    } catch (_) {
-      return false;
+    } catch {
+      setError("Incorrect email address or password. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyTOTP = async ({
+    otp,
+    type = "default"
+  }: {
+    otp: string;
+    type?: string;
+  }) => {
+    if (!isLoaded) return;
+    try {
+      setLoading(true);
+      if (!signIn) {
+        setError("Sign-in session not initialized. Please try again.");
+        return;
+      }
+
+      const result = await signIn.attemptSecondFactor({
+        strategy: "totp",
+        code: otp
+      });
+
+      if (result.status === "complete") {
+        if (type === "default") {
+          await setActiveSignIn({ session: result.createdSessionId });
+          const { data: session } = await getUserProfile();
+          userStore.setState({
+            userProfile: session
+          });
+          router.push({
+            pathname: "/pin-success-2factor",
+            params: { isResetPin: "1" }
+          });
+        }
+      } else {
+        setError("Invalid code. Please try again.");
+      }
+    } catch (err: any) {
+      setError(err?.errors?.[0]?.longMessage ?? err.message ?? "Unknown error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,6 +128,7 @@ export const useForgotPin = () => {
     cookieAccessState,
     cookieRefreshState,
     passwordState,
+    handleVerifyTOTP,
     error,
     setError,
     isLoading: loading,

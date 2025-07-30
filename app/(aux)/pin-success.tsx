@@ -2,7 +2,10 @@ import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useBiometrics } from "@/hooks";
 import { useUserAuthenticateStore } from "@/stores";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
 import { Image, View } from "react-native";
@@ -30,7 +33,9 @@ function SetupPinSuccess() {
   return (
     <View className="flex-1 bg-background">
       <View className="flex-1">
-        <View className="flex-1 px-4 gap-4 items-center mt-40">
+        <TopIndicatorAvoidingView number={2.5} />
+
+        <View className="flex-1 px-4 gap-4 items-center">
           <Image
             className="w-16 h-16"
             resizeMode="contain"
