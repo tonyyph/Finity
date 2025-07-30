@@ -6,6 +6,7 @@ import { Header } from "@/components/ui/header";
 import { colors } from "@/constants/Colors";
 import { useAnimatedKeyboard } from "@/hooks";
 import { useLogin } from "@/hooks/auth";
+import { useLocalPIN } from "@/hooks/use-local-pin";
 import { cn, IS_IOS } from "@/lib/utils";
 import { exactDesign } from "@/utils";
 import { BottomIndicatorAvoidingView } from "@/utils/spacing";
@@ -21,10 +22,12 @@ export default function Verify2FactorScreen() {
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const inputsRef = useRef<(TextInput | null)[]>([]);
   const [indexCursor, setIndexCursor] = useState<number>(0);
+  const { setShouldPINLocal } = useLocalPIN();
 
   useEffect(() => {
     if (inputsRef.current[0]) {
       inputsRef.current[0]?.focus();
+      setShouldPINLocal(false);
     }
   }, []);
 

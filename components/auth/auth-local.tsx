@@ -22,12 +22,14 @@ import {
 import { CircleAlert, RemoveNumpad } from "../common/icons";
 import { LoadingScreen } from "../common/loading";
 import { Typography } from "../common/text-typography";
+import { useAuth } from "@clerk/clerk-expo";
 
 type AuthLocalProps = {
   onAuthenticated?: () => void;
 };
 
 export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
+  const { signOut } = useAuth();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { bioStatus } = useBiometrics();
   const [authInProgress, setAuthInProgress] = useState(bioStatus);
@@ -35,7 +37,8 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
   const [loading, setLoading] = useState(false);
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
-  const { verificationPin } = useUserAuthenticateStore();
+  const { verificationPin, setVerificationPin } = useUserAuthenticateStore();
+
   const userProfile = userStore.getState().userProfile;
   const handleAuthenticate = useCallback(async () => {
     setAuthInProgress(true);
@@ -106,6 +109,17 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
       }
     };
   }, []);
+
+  const onPressForgotPin = async () => {
+    try {
+      await signOut();
+
+      setVerificationPin("");
+      router.replace({
+        pathname: "/pin-forgot"
+      });
+    } catch (error) {}
+  };
 
   if (authInProgress) {
     return (
@@ -237,11 +251,7 @@ export function AuthLocal({ onAuthenticated }: AuthLocalProps) {
           type="body-default"
           weight="medium"
           className="text-center mt-2"
-          onPress={() =>
-            router.navigate({
-              pathname: "/pin-forgot"
-            })
-          }
+          onPress={onPressForgotPin}
         >
           {`Forgot PIN?`}
         </Typography>

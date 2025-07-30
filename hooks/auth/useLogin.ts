@@ -6,12 +6,10 @@ import { useSignIn } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useValidateInput } from "../commons";
-import { useLocalPIN } from "../use-local-pin";
 
 export const useLogin = () => {
   const { signIn, setActive: setActiveSignIn, isLoaded } = useSignIn();
   const { verificationPin } = useUserAuthenticateStore();
-  const { setShouldPINLocal } = useLocalPIN();
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -107,7 +105,6 @@ export const useLogin = () => {
         if (type === "default") {
           await setActiveSignIn({ session: result.createdSessionId });
           const { data: session } = await getUserProfile();
-          setShouldPINLocal(false);
           userStore.setState({
             userProfile: session
           });

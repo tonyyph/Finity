@@ -19,7 +19,6 @@ import { Header } from "@/components/ui/header";
 import AnimatedSpinnerV2 from "@/components/ui/spinnerIndicator";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { cn, IS_ANDROID } from "@/lib/utils";
-import { userStore } from "@/stores/userStore";
 import { exactDesign } from "@/utils";
 import {
   BottomIndicatorAvoidingView,

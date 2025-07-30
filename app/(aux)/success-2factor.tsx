@@ -6,12 +6,13 @@ import {
   TopIndicatorAvoidingView
 } from "@/utils/spacing";
 import { router, useLocalSearchParams } from "expo-router";
+import { isEmpty } from "lodash-es";
 import { useCallback } from "react";
 import { Image, View } from "react-native";
 
 function TwoFactorAuthenticationSuccess() {
   const { isResetPin } = useLocalSearchParams();
-  const { isFirst2FA, setIsLoggedIn } = useUserAuthenticateStore();
+  const { setIsLoggedIn, verificationPin } = useUserAuthenticateStore();
 
   const handleSetupPin = useCallback(() => {
     router.push({
@@ -49,10 +50,14 @@ function TwoFactorAuthenticationSuccess() {
             variant="default"
             size={"lg"}
             className="rounded-full bg-primary h-[48px]"
-            onPress={!isFirst2FA ? handleContinue : handleSetupPin}
+            onPress={
+              !isEmpty(verificationPin) ? handleContinue : handleSetupPin
+            }
           >
             <Typography type="body-default" weight="medium" textColor="white">
-              {isResetPin === "1" || !isFirst2FA ? `Continue` : `Set up PIN`}
+              {isResetPin === "1" || !isEmpty(verificationPin)
+                ? `Continue`
+                : `Set up PIN`}
             </Typography>
           </Button>
         </View>

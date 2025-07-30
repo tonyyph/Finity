@@ -105,9 +105,7 @@ export default function AuxiliaryLayout() {
         <Stack.Screen
           name="pin-forgot"
           options={{
-            headerLeft: () => <BackButton />,
-            headerTitle: ``,
-            headerShown: true
+            headerShown: false
           }}
         />
         <Stack.Screen

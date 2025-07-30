@@ -6,8 +6,6 @@ interface UserAuthenticateStore {
   _reset: () => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
-  isFirst2FA: boolean;
-  setIsFirst2FA: (isFirst2FA: boolean) => void;
   verificationPin: string;
   setVerificationPin: (verificationPin: string) => void;
   shouldPINLocal: boolean;
@@ -22,7 +20,6 @@ interface UserAuthenticateStore {
 
 const defaultValue = {
   isLoggedIn: false,
-  isFirst2FA: true,
   verificationPin: "",
   shouldPINLocal: false,
   pinInfo: "",
@@ -36,8 +33,6 @@ export const useUserAuthenticateStore = create<UserAuthenticateStore>()(
       _reset: () => set({ ...defaultValue }),
       isLoggedIn: false,
       setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
-      isFirst2FA: true,
-      setIsFirst2FA: (isFirst2FA) => set({ isFirst2FA }),
       verificationPin: "",
       setVerificationPin: (verificationPin) => set({ verificationPin }),
       shouldPINLocal: false,

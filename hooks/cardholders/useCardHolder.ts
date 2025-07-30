@@ -27,7 +27,6 @@ export const useCardHolder = () => {
     try {
       const { data: session } = await getPINInfo();
       setPINInfo(session.pin);
-      console.log("🚀 💯 getPINInfo 💯 session:", session);
     } catch (error) {
       console.log("error", error);
     }

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLocalPIN } from "@/hooks/use-local-pin";
+import { useUserAuthenticateStore } from "@/stores";
 import { useSignIn } from "@clerk/clerk-expo";
+import { isEmpty } from "lodash-es";
 import LottieView from "lottie-react-native";
 import { useEffect, useRef, useState } from "react";
 import { Modal, View } from "react-native";
@@ -13,11 +14,12 @@ export function SplashAnimationScreen({
   const [loading, setLoading] = useState(true);
   const animationRef = useRef<LottieView>(null);
 
-  const { setShouldPINLocal } = useLocalPIN();
+  const { setShouldPINLocal, verificationPin } = useUserAuthenticateStore();
+
   const { isLoaded } = useSignIn();
 
   useEffect(() => {
-    isLoaded && setShouldPINLocal(true);
+    isLoaded && setShouldPINLocal(!isEmpty(verificationPin));
   }, []);
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export function SplashAnimationScreen({
 
   const onCloseSplash = () => {
     setLoading(false);
-    setShouldPINLocal(true);
+    setShouldPINLocal(!isEmpty(verificationPin));
   };
 
   return (

@@ -3,7 +3,10 @@ import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
 import { useAnimatedKeyboard, useForgotPin } from "@/hooks";
 import { cn, IS_IOS } from "@/lib/utils";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import {
+  BottomIndicatorAvoidingView,
+  TopIndicatorAvoidingView
+} from "@/utils/spacing";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { useState } from "react";
 import {
@@ -38,6 +41,7 @@ export default function ForgotPINScreen() {
   return (
     <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
       <View className="bg-background flex-1">
+        <TopIndicatorAvoidingView />
         <View className="flex-1 gap-4 px-6 pt-8">
           <View className="flex-1">
             {/* Welcome */}

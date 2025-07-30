@@ -7,6 +7,7 @@ import { useNetwork } from "@/stores/core/network-provider";
 import { exactDesign } from "@/utils";
 import { useUser } from "@clerk/clerk-expo";
 import { Redirect, Stack } from "expo-router";
+import { isEmpty } from "lodash-es";
 import { View } from "react-native";
 
 export default function AuthenticatedLayout() {
@@ -14,7 +15,7 @@ export default function AuthenticatedLayout() {
   const { shouldPINLocal, setShouldPINLocal } = useLocalPIN();
   const { isConnected } = useNetwork();
 
-  const { isLoggedIn, isFirst2FA } = useUserAuthenticateStore();
+  const { isLoggedIn, verificationPin } = useUserAuthenticateStore();
 
   const { isSignedIn, isLoaded } = useUser();
 
@@ -22,7 +23,7 @@ export default function AuthenticatedLayout() {
     return <Redirect href={"/login"} />;
   }
 
-  if ((!isLoggedIn || isFirst2FA) && isLoaded) {
+  if ((!isLoggedIn || isEmpty(verificationPin)) && isLoaded) {
     return <Redirect href={"/success-2factor"} />;
   }
 
