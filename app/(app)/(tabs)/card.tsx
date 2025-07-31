@@ -44,15 +44,13 @@ export default function CardScreen() {
     fetchCardHolderCurrent,
     showBottomSheetPin,
     setShowBottomSheetPin,
-    PINInfo,
-    getPINDetailInfo
+    PINInfo
   } = useCardHolder();
 
   useFocusEffect(
     useCallback(() => {
       fetchCardHolderCurrent();
       !!showBottomSheetPin && sheetRef.current?.present();
-      !!showBottomSheetPin && getPINDetailInfo();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showBottomSheetPin])
   );

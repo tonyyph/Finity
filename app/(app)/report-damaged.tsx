@@ -33,7 +33,7 @@ export const ReportLostOrDamagedScreen = () => {
       <Header onBack={router.back} title="Report lost or damaged" />
       <ProgressBar completeAnimation={true} />
       <View className="flex-1 pt-4">
-        <View className="flex-1 px-6 gap-3">
+        <View className="flex-1 px-6 gap-4">
           <TouchableOpacity
             onPress={handleReportType.bind(null, "lost")}
             className={cn(
@@ -61,7 +61,7 @@ export const ReportLostOrDamagedScreen = () => {
             )}
           >
             <Radio selected={reportType === "damaged" ? true : false} />
-            <View className="gap-1 flex-1 pr-3">
+            <View className="gap-1 flex-1">
               <Typography weight="semibold">Damaged card</Typography>
               <Typography textColor="#404040" weight="regular">
                 You can continue using your existing card until the new one

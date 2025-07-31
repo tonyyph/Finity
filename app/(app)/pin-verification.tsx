@@ -4,6 +4,7 @@ import { Keypad } from "@/components/common/keypad";
 import { Typography } from "@/components/common/text-typography";
 import { Header } from "@/components/ui/header";
 import { ProgressBar } from "@/components/ui/progress";
+import { useCardHolder } from "@/hooks";
 import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
 import { cn } from "@/lib/utils";
 import { useUserAuthenticateStore } from "@/stores";
@@ -38,7 +39,7 @@ function PinVerificationScreen() {
   const [loading, setLoading] = useState(false);
   const [wrongPin, setWrongPin] = useState(false);
   const [confirmPin, setConfirmPin] = useState<string>("");
-
+  const { getPINDetailInfo } = useCardHolder();
   const { verificationPin, setShowBottomSheetPin } = useUserAuthenticateStore();
   const { bioStatus } = useBiometrics();
   const [authInProgress, setAuthInProgress] = useState(bioStatus);
@@ -83,11 +84,14 @@ function PinVerificationScreen() {
     }, 2000);
   }, [addressLine1, addressLine2, city, postCode, userProfileJson]);
 
-  const onVerifyViewPIN = useCallback(() => {
-    setShowBottomSheetPin(true);
-    timeoutRef.current = setTimeout(() => {
+  const onVerifyViewPIN = useCallback(async () => {
+    setLoading(true);
+    timeoutRef.current = setTimeout(async () => {
+      await getPINDetailInfo();
+      setShowBottomSheetPin(true);
+      setLoading(false);
       router.dismiss();
-    }, 1000);
+    }, 2000);
   }, [setShowBottomSheetPin]);
 
   const handleAuthenticate = useCallback(async () => {

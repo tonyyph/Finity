@@ -196,7 +196,7 @@ function SendCardScreen() {
               )}
             >
               <TextInput
-                value={formatAmount(enterAmount)}
+                value={!!enterAmount ? formatAmount(enterAmount) : ""}
                 className="flex-1 bg-white h-[72px] text-[28px] font-[NeueMontreal-Medium]"
                 onFocus={() => setFocusAmount(true)}
                 onEndEditing={() => setFocusAmount(false)}

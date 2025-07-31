@@ -16,8 +16,7 @@ import { getPINInfo } from "./../../api/restful";
 export const useCardHolder = () => {
   const [data, setData] = useState<UserCardInfo>({} as UserCardInfo);
   const [listCardHolder, setListCardHolder] = useState<UserCardHolder[]>([]);
-  const [PINInfo, setPINInfo] = useState<string>("");
-  const { showBottomSheetPin, setShowBottomSheetPin } =
+  const { showBottomSheetPin, setShowBottomSheetPin, setPinInfo, pinInfo } =
     useUserAuthenticateStore();
   const [loading, setLoading] = useState(false);
   const [freezeLoading, setFreezeLoading] = useState(false);
@@ -26,7 +25,7 @@ export const useCardHolder = () => {
   const getPINDetailInfo = async () => {
     try {
       const { data: session } = await getPINInfo();
-      setPINInfo(session.pin);
+      setPinInfo(session.pin);
     } catch (error) {
       console.log("error", error);
     }
@@ -161,6 +160,6 @@ export const useCardHolder = () => {
     showBottomSheetPin,
     getPINDetailInfo,
     setShowBottomSheetPin,
-    PINInfo
+    PINInfo: pinInfo
   };
 };
