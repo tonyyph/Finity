@@ -15,7 +15,6 @@ import { MenuItem } from "@/components/common/menu-item";
 import { Typography } from "@/components/common/text-typography";
 import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
 import { Button } from "@/components/ui/button";
-import { Header } from "@/components/ui/header";
 import AnimatedSpinnerV2 from "@/components/ui/spinnerIndicator";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
 import { cn, IS_ANDROID } from "@/lib/utils";
@@ -61,7 +60,8 @@ export default function CardScreen() {
     pointsBalance,
     cardStatus,
     last4Digits,
-    hasIssuedCard
+    hasIssuedCard,
+    publicToken
   } = userData || {};
 
   const sheetRef = useRef<BottomSheetModal>(null);

@@ -28,7 +28,7 @@ export const TopIndicatorAvoidingView = memoFC(({ number = 1 }) => {
         {
           height:
             Platform.OS === "android"
-              ? (STATUS_BAR_HEIGHT - 6) * number
+              ? (STATUS_BAR_HEIGHT + 12) * number
               : top * number
         }
       ]}

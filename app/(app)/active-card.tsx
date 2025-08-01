@@ -16,7 +16,7 @@ import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 function ActiveCardScreen() {
   const [loading, setLoading] = useState<boolean>();
-  const { handleActivateCard, error } = useCardHolder();
+  const { handleActivateCard, error, userData } = useCardHolder();
   const inputRefs = [
     useRef<TextInput>(null),
     useRef<TextInput>(null),
@@ -127,6 +127,11 @@ function ActiveCardScreen() {
               <Typography type="body-small" weight="medium" textColor="#D9323D">
                 Incorrect last 4-digits. Try again.
               </Typography>
+            </View>
+          )}
+          {userData?.publicToken && __DEV__ && (
+            <View className="bg-neutral-100 border border-[#E5E5E5] rounded-2xl p-4 m-4">
+              <Typography textColor="black">{`Testing Public Token: ${userData?.publicToken}`}</Typography>
             </View>
           )}
         </View>

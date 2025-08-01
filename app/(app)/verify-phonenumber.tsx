@@ -142,7 +142,7 @@ export default function VerifyPhoneNumberCodeScreen() {
           </View>
         )}
         <ResendVerificationDowntime />
-        {verificationCode !== "000000" && (
+        {verificationCode && __DEV__ && (
           <Typography
             type="body-small"
             textColor="#737373"
