@@ -46,7 +46,7 @@ export default function ProfileScreen() {
 
     toastShownRef.current = true;
     toast.success(
-      `Copied version to clipboard ${Application.nativeApplicationVersion}`,
+      `Copied version to clipboard ${Application.nativeApplicationVersion} - internal test 1.0.32`,
       {
         icon: <AlertIcon />,
         duration: 3000,

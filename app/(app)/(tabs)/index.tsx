@@ -36,7 +36,7 @@ function HomeScreen() {
 
     toastShownRef.current = true;
     toast.error(
-      hasIssuedCard
+      hasIssuedCard || !cardholderId
         ? `You must activate your new card before you can load it`
         : `You cannot load your card while it is frozen`,
       {
