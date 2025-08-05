@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 import { forwardRef } from "react";
 import { Pressable, View } from "react-native";
 import type { SvgProps } from "react-native-svg";

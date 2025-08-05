@@ -1,4 +1,4 @@
-import { TopIndicatorAvoidingView } from "@/utils/spacing";
+import { TopIndicatorAvoidingView } from "@/utils";
 import React from "react";
 import { View } from "react-native";
 import { Skeleton } from "../ui/skeleton";

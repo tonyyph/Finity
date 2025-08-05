@@ -1,15 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { CircleAlert } from "@/components/common/icons";
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { Header } from "@/components/ui/header";
-import { colors } from "@/constants/Colors";
-import { useAnimatedKeyboard } from "@/hooks";
-import { useLogin } from "@/hooks/auth";
-import { useLocalPIN } from "@/hooks/use-local-pin";
-import { cn, IS_IOS } from "@/lib/utils";
-import { exactDesign } from "@/utils";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { CircleAlert, Button, Typography, Header } from "@/components";
+import { colors } from "@/constants";
+import { useAnimatedKeyboard, useLogin, useLocalPIN } from "@/hooks";
+import { cn, IS_IOS } from "@/lib";
+import { exactDesign, BottomIndicatorAvoidingView } from "@/utils";
 import { router } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Keyboard, TextInput, View } from "react-native";

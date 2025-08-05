@@ -1,5 +1,5 @@
-import { BackButton } from "@/components/common/back-button";
-import { useColorPalette } from "@/hooks/use-color-palette";
+import { BackButton } from "@/components";
+import { useColorPalette } from "@/hooks";
 import { useAuth } from "@clerk/clerk-expo";
 import { Redirect, Stack } from "expo-router";
 import { View } from "react-native";

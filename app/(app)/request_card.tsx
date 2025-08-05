@@ -1,14 +1,10 @@
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
-import { useUserProfile } from "@/hooks/profile/useUserProfile";
-import { exactDesign } from "@/utils";
+import { Typography, Button, Header } from "@/components";
+import { useCardHolder, useUserProfile } from "@/hooks";
+import { exactDesign, BottomIndicatorAvoidingView } from "@/utils";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image, View } from "react-native";
 import { router } from "expo-router";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
-import { IS_IOS } from "@/lib/utils";
-import { Header } from "@/components/ui/header";
+import { IS_IOS } from "@/lib";
 import { ScrollView } from "react-native-gesture-handler";
 
 const content = [

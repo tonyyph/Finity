@@ -1,14 +1,12 @@
-import { formatDateShort } from "@/lib/date";
-import { cn, sleep } from "@/lib/utils";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { cn, sleep, formatDateShort } from "@/lib";
+import { BottomIndicatorAvoidingView } from "@/utils";
 import { type BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Haptics from "expo-haptics";
 import { ArrowRightIcon } from "lucide-react-native";
 import { useRef, useState } from "react";
 import { Keyboard, View } from "react-native";
-import { Button } from "../ui/button";
-import { Text } from "../ui/text";
+import { Button, Text } from "../ui";
 import { BottomSheet } from "./bottom-sheet";
 
 function SpinnerDatePicker({

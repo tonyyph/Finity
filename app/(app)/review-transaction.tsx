@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ArrowDownIcon } from "@/assets";
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { Header } from "@/components/ui/header";
-import { ProgressBar } from "@/components/ui/progress";
+import {
+  Typography,
+  ArrowDownIcon,
+  Header,
+  Button,
+  ProgressBar
+} from "@/components";
 import { useTransaction } from "@/hooks";
-import { formatNumber } from "@/utils";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { formatNumber, BottomIndicatorAvoidingView } from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";

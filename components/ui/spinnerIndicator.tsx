@@ -10,7 +10,7 @@ interface MaterialIndicatorProps {
   style?: object;
 }
 
-const AnimatedSpinnerV2: React.FC<MaterialIndicatorProps> = ({
+export const AnimatedSpinnerV2: React.FC<MaterialIndicatorProps> = ({
   trackWidth,
   color = "rgb(0, 0, 0)",
   size = 40,

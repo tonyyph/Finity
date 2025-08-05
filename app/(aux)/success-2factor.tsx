@@ -1,10 +1,6 @@
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
+import { Typography, Button } from "@/components";
 import { useUserAuthenticateStore } from "@/stores";
-import {
-  BottomIndicatorAvoidingView,
-  TopIndicatorAvoidingView
-} from "@/utils/spacing";
+import { BottomIndicatorAvoidingView, TopIndicatorAvoidingView } from "@/utils";
 import { router } from "expo-router";
 import { isEmpty } from "lodash-es";
 import { useCallback } from "react";

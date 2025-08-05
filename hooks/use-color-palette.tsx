@@ -1,5 +1,5 @@
-import { type ColorKey, themeVariables } from "@/lib/theme";
-import { useUserSettingsStore } from "@/stores/user-settings/store";
+import { type ColorKey, themeVariables } from "@/lib";
+import { useUserSettingsStore } from "@/stores";
 
 type GetColorOptions = {
   alpha?: number;

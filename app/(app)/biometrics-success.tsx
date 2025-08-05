@@ -1,9 +1,6 @@
 import { Typography } from "@/components/common/text-typography";
 import { Button } from "@/components/ui/button";
-import {
-  BottomIndicatorAvoidingView,
-  TopIndicatorAvoidingView
-} from "@/utils/spacing";
+import { BottomIndicatorAvoidingView, TopIndicatorAvoidingView } from "@/utils";
 import { AuthenticationType } from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";
 import { find } from "lodash-es";

@@ -1,9 +1,7 @@
-import { AuthLocal } from "@/components/auth/auth-local";
-import { BackButton } from "@/components/common/back-button";
-import { useColorPalette } from "@/hooks/use-color-palette";
-import { useLocalPIN } from "@/hooks/use-local-pin";
+import { AuthLocal, BackButton } from "@/components";
+import { useColorPalette, useLocalPIN } from "@/hooks";
 import { useUserAuthenticateStore } from "@/stores";
-import { useNetwork } from "@/stores/core/network-provider";
+import { useNetwork } from "@/stores";
 import { exactDesign } from "@/utils";
 import { useUser } from "@clerk/clerk-expo";
 import { Redirect, Stack } from "expo-router";

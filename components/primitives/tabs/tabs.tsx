@@ -1,81 +1,81 @@
-import * as Slot from '@/components/primitives/slot'
+import * as Slot from "@/components/primitives/slot";
 import type {
   ComponentPropsWithAsChild,
   SlottableViewProps,
-  ViewRef,
-} from '@/components/primitives/types'
-import * as React from 'react'
-import { type GestureResponderEvent, Pressable, View } from 'react-native'
-import type { TabsContentProps, TabsRootProps } from './types'
+  ViewRef
+} from "@/components/primitives/types";
+import * as React from "react";
+import { type GestureResponderEvent, Pressable, View } from "react-native";
+import type { TabsContentProps, TabsRootProps } from "./types";
 
 interface RootContext extends TabsRootProps {
-  nativeID: string
+  nativeID: string;
 }
 
-const TabsContext = React.createContext<RootContext | null>(null)
+const TabsContext = React.createContext<RootContext | null>(null);
 
 const Root = React.forwardRef<ViewRef, SlottableViewProps & TabsRootProps>(
   ({ asChild, value, onValueChange, ...viewProps }, ref) => {
-    const nativeID = React.useId()
-    const Component = asChild ? Slot.View : View
+    const nativeID = React.useId();
+    const Component = asChild ? Slot.View : View;
     return (
       <TabsContext.Provider
         value={{
           value,
           onValueChange,
-          nativeID,
+          nativeID
         }}
       >
         <Component ref={ref} {...viewProps} />
       </TabsContext.Provider>
-    )
-  },
-)
+    );
+  }
+);
 
-Root.displayName = 'RootNativeTabs'
+Root.displayName = "RootNativeTabs";
 
 function useRootContext() {
-  const context = React.useContext(TabsContext)
+  const context = React.useContext(TabsContext);
   if (!context) {
     throw new Error(
-      'Tabs compound components cannot be rendered outside the Tabs component',
-    )
+      "Tabs compound components cannot be rendered outside the Tabs component"
+    );
   }
-  return context
+  return context;
 }
 
 const List = React.forwardRef<ViewRef, SlottableViewProps>(
   ({ asChild, ...props }, ref) => {
-    const Component = asChild ? Slot.View : View
-    return <Component ref={ref} role="tablist" {...props} />
-  },
-)
+    const Component = asChild ? Slot.View : View;
+    return <Component ref={ref} role="tablist" {...props} />;
+  }
+);
 
-List.displayName = 'ListNativeTabs'
+List.displayName = "ListNativeTabs";
 
-const TriggerContext = React.createContext<{ value: string } | null>(null)
+const TriggerContext = React.createContext<{ value: string } | null>(null);
 
 const Trigger = React.forwardRef<
   React.ElementRef<typeof Pressable>,
   ComponentPropsWithAsChild<typeof Pressable> & {
-    value: string
+    value: string;
   }
 >(
   (
     { asChild, onPress: onPressProp, disabled, value: tabValue, ...props },
-    ref,
+    ref
   ) => {
-    const { onValueChange, value: rootValue, nativeID } = useRootContext()
+    const { onValueChange, value: rootValue, nativeID } = useRootContext();
 
     function onPress(ev: GestureResponderEvent) {
       if (disabled) {
-        return
+        return;
       }
-      onValueChange(tabValue)
-      onPressProp?.(ev)
+      onValueChange(tabValue);
+      onPressProp?.(ev);
     }
 
-    const Component = asChild ? Slot.Pressable : Pressable
+    const Component = asChild ? Slot.Pressable : Pressable;
     return (
       <TriggerContext.Provider value={{ value: tabValue }}>
         <Component
@@ -87,41 +87,41 @@ const Trigger = React.forwardRef<
           onPress={onPress}
           accessibilityState={{
             selected: rootValue === tabValue,
-            disabled: !!disabled,
+            disabled: !!disabled
           }}
           disabled={!!disabled}
           {...props}
         />
       </TriggerContext.Provider>
-    )
-  },
-)
+    );
+  }
+);
 
-Trigger.displayName = 'TriggerNativeTabs'
+Trigger.displayName = "TriggerNativeTabs";
 
 function useTriggerContext() {
-  const context = React.useContext(TriggerContext)
+  const context = React.useContext(TriggerContext);
   if (!context) {
     throw new Error(
-      'Tabs.Trigger compound components cannot be rendered outside the Tabs.Trigger component',
-    )
+      "Tabs.Trigger compound components cannot be rendered outside the Tabs.Trigger component"
+    );
   }
-  return context
+  return context;
 }
 
 const Content = React.forwardRef<
   ViewRef,
   SlottableViewProps & TabsContentProps
 >(({ asChild, forceMount, value: tabValue, ...props }, ref) => {
-  const { value: rootValue, nativeID } = useRootContext()
+  const { value: rootValue, nativeID } = useRootContext();
 
   if (!forceMount) {
     if (rootValue !== tabValue) {
-      return null
+      return null;
     }
   }
 
-  const Component = asChild ? Slot.View : View
+  const Component = asChild ? Slot.View : View;
   return (
     <Component
       ref={ref}
@@ -130,9 +130,9 @@ const Content = React.forwardRef<
       role="tabpanel"
       {...props}
     />
-  )
-})
+  );
+});
 
-Content.displayName = 'ContentNativeTabs'
+Content.displayName = "ContentNativeTabs";
 
-export { Content, List, Root, Trigger, useRootContext, useTriggerContext }
+export { Content, List, Root, Trigger, useRootContext, useTriggerContext };

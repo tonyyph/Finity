@@ -1,8 +1,6 @@
-import { TransHisSkeleton } from "@/components";
-import { Typography } from "@/components/common/text-typography";
-import { Header } from "@/components/ui/header";
+import { TransHisSkeleton, Typography, Header } from "@/components";
 import { useTransaction } from "@/hooks";
-import { formatDateTransactionDetails } from "@/lib/date";
+import { formatDateTransactionDetails } from "@/lib";
 import { formatNumber } from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
 import { isEmpty } from "lodash-es";

@@ -1,5 +1,4 @@
-import { Separator } from "@/components/ui/separator";
-import { Text } from "@/components/ui/text";
+import { Separator, Text } from "@/components";
 import * as Linking from "expo-linking";
 import { ScrollView, View } from "react-native";
 

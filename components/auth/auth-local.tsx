@@ -1,20 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
-import { cn } from "@/lib/utils";
-import { useUserAuthenticateStore } from "@/stores";
-import { userStore } from "@/stores/userStore";
-import {
-  BottomIndicatorAvoidingView,
-  TopIndicatorAvoidingView
-} from "@/utils/spacing";
+import { useBiometrics } from "@/hooks";
+import { cn } from "@/lib";
+import { useUserAuthenticateStore, userStore } from "@/stores";
+import { BottomIndicatorAvoidingView, TopIndicatorAvoidingView } from "@/utils";
 import { BlurView } from "expo-blur";
 import * as LocalAuthentication from "expo-local-authentication";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Image, Platform, StyleSheet, View } from "react-native";
-import { CircleAlert } from "../common/icons";
-import { Keypad } from "../common/keypad";
-import { LoadingScreen } from "../common/loading";
-import { Typography } from "../common/text-typography";
+import { CircleAlert, Keypad, LoadingScreen, Typography } from "../common";
 
 type AuthLocalProps = {
   onAuthenticated?: () => void;

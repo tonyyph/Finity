@@ -14,7 +14,7 @@ type Props = {
   content?: string;
 };
 
-const Tooltip: React.FC<TouchableOpacityProps & Props> = (props) => {
+export const Tooltip: React.FC<TouchableOpacityProps & Props> = (props) => {
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   let timeout: any = null;
 

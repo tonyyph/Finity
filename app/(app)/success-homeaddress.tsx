@@ -1,11 +1,7 @@
 import { getUserProfile } from "@/api";
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { userStore } from "@/stores/userStore";
-import {
-  BottomIndicatorAvoidingView,
-  TopIndicatorAvoidingView
-} from "@/utils/spacing";
+import { Typography, Button } from "@/components";
+import { userStore } from "@/stores";
+import { BottomIndicatorAvoidingView, TopIndicatorAvoidingView } from "@/utils";
 import { router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";

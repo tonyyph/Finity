@@ -1,15 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { AlertIcon } from "@/assets";
-import { toast } from "@/components/common/toast";
-import { CardBalanceCom } from "@/components/home/card_balance";
-import { CardButtonGroup } from "@/components/home/card_button";
-import { CardAndPointTab } from "@/components/home/card_point_tab";
-import { FrozenBanner } from "@/components/home/frozen_banner";
-import { HomeHeader } from "@/components/home/header";
-import { PointsBalanceCom } from "@/components/home/points_balance";
-import { RequestCardNotification } from "@/components/home/request_card_noti";
-import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
-import { useNotification } from "@/hooks/notifications/useNotification";
+import {
+  AlertIcon,
+  CardAndPointTab,
+  CardBalanceCom,
+  CardButtonGroup,
+  FrozenBanner,
+  HomeHeader,
+  PointsBalanceCom,
+  RequestCardNotification,
+  toast
+} from "@/components";
+import { useCardHolder, useNotification } from "@/hooks";
 import { SCREEN_WIDTH } from "@/utils";
 import * as Haptics from "expo-haptics";
 import { router, useFocusEffect } from "expo-router";

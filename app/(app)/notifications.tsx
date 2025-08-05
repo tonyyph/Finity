@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { BottomIndicatorAvoidingView } from "@/utils";
 import { Link, useNavigation } from "expo-router";
 import { EllipsisIcon } from "lucide-react-native";
 import { useEffect } from "react";

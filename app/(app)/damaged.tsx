@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
 import { useSettingProfile } from "@/hooks";
 import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { BottomIndicatorAvoidingView } from "@/utils";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { TouchableOpacity, View } from "react-native";

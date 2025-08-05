@@ -1,10 +1,5 @@
-import { CircleAlertX } from "@/components/common/icons";
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import {
-  BottomIndicatorAvoidingView,
-  TopIndicatorAvoidingView
-} from "@/utils/spacing";
+import { CircleAlertX, Typography, Button } from "@/components";
+import { BottomIndicatorAvoidingView, TopIndicatorAvoidingView } from "@/utils";
 import { router } from "expo-router";
 import { View } from "react-native";
 

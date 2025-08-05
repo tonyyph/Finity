@@ -4,3 +4,8 @@ export * from "./cardholders";
 export * from "./commons";
 export * from "./notifications";
 export * from "./profile";
+export * from "./use-color-palette";
+export * from "./use-local-pin";
+export * from "./use-user-metadata";
+export * from "./useColorScheme";
+export * from "./useThemeColor";

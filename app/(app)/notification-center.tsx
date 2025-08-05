@@ -6,7 +6,7 @@ import {
   NotificationItem,
   useNotification
 } from "@/hooks/notifications/useNotification";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 import { FlashList } from "@shopify/flash-list";
 import { router } from "expo-router";
 import { Image, TouchableOpacity, View } from "react-native";

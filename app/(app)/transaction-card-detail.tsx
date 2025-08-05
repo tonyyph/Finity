@@ -1,6 +1,5 @@
-import { Typography } from "@/components/common/text-typography";
-import { Header } from "@/components/ui/header";
-import { formatDateTransactionDetails } from "@/lib/date";
+import { Typography, Header } from "@/components";
+import { formatDateTransactionDetails } from "@/lib";
 import { formatNumber } from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
 import { View } from "react-native";

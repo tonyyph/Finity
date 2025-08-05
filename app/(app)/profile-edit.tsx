@@ -1,11 +1,9 @@
-import { ProfileItem } from "@/components/profile/profile-item";
-import { Header } from "@/components/ui/header";
-import { ProgressBar } from "@/components/ui/progress";
-import { useSettingProfile } from "@/hooks";
-import { formatDateString } from "@/lib/date";
+import { ProfileItem, Header, ProgressBar } from "@/components";
+import { formatDateString } from "@/lib";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback } from "react";
 import { ScrollView, View } from "react-native";
+import { useSettingProfile } from "@/hooks";
 
 export default function EditProfileScreen() {
   const {

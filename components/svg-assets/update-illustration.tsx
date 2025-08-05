@@ -1,6 +1,6 @@
-import Svg, { type SvgProps, G, Path, Defs, ClipPath } from 'react-native-svg'
+import Svg, { type SvgProps, G, Path, Defs, ClipPath } from "react-native-svg";
 
-const UpdateIllustration = (props: SvgProps) => (
+export const UpdateIllustration = (props: SvgProps) => (
   <Svg width={800} height={766} viewBox="0 0 800 766" fill="none" {...props}>
     <G fill="currentColor" clipPath="url(#a)">
       <Path d="M363.532 150.069a1.735 1.735 0 0 0-1.255.48 1.746 1.746 0 0 0-.432 1.902c.082.216.206.413.365.58 0 0 2.141 2.26 4.964 4.899 2.823 2.638 6.278 5.656 9.282 7.326 1.88 1.048 3.081 3.77 1.989 6.266-1.093 2.496-4.68 5.295-13.459 5.468a1.753 1.753 0 0 0-1.574 2.459 1.758 1.758 0 0 0 1.643 1.051c9.523-.187 14.78-3.397 16.606-7.571 1.826-4.173.021-8.783-3.498-10.741-2.394-1.332-5.851-4.264-8.59-6.824-2.74-2.56-4.813-4.748-4.813-4.748a1.751 1.751 0 0 0-1.227-.547h-.001Z" />
@@ -40,5 +40,5 @@ const UpdateIllustration = (props: SvgProps) => (
       </ClipPath>
     </Defs>
   </Svg>
-)
-export default UpdateIllustration
+);
+export default UpdateIllustration;

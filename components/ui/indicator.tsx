@@ -22,7 +22,7 @@ type IndicatorProps = {
   style?: ViewStyle;
 };
 
-const Indicator: React.FC<IndicatorProps> = ({
+export const Indicator: React.FC<IndicatorProps> = ({
   animationEasing = Easing.linear,
   animationDuration = 2000,
   hideAnimationDuration = 200,

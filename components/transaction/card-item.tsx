@@ -1,15 +1,14 @@
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import {
+  Typography,
   CardLoadIcon,
   FinityIcon,
   ReceivedIcon,
   RefundIcon,
   SentIcon
-} from "@/assets";
-import { formatDateTransaction } from "@/lib/date";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Typography } from "../common";
+} from "../common";
 import { useTransaction } from "@/hooks";
-import { convertGBPToPoints } from "@/lib/utils";
+import { convertGBPToPoints, formatDateTransaction } from "@/lib";
 
 export const CardItem = ({ item }: { item: Transaction }) => {
   const { handleToTransactionDetail } = useTransaction();

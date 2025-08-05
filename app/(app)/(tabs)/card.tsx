@@ -1,28 +1,31 @@
 import {
   CardLost,
   FinityLogo,
-  FreezeIcon,
   MasterCard,
   OnboardCard,
-  SmartChip,
-  UnFreezeIcon
+  SmartChip
 } from "@/assets";
-import { ArrowRightIcon } from "@/assets/icons/ArrowRightIcon";
-import { FrozenIcon } from "@/assets/icons/FrozenIcon";
-import { DowntimeMessage } from "@/components";
-import { BottomSheet } from "@/components/common/bottom-sheet";
-import { MenuItem } from "@/components/common/menu-item";
-import { Typography } from "@/components/common/text-typography";
-import { HomeSkeleton } from "@/components/skeleton/home-skeleton";
-import { Button } from "@/components/ui/button";
-import AnimatedSpinnerV2 from "@/components/ui/spinnerIndicator";
-import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
-import { cn, IS_ANDROID } from "@/lib/utils";
-import { exactDesign } from "@/utils";
 import {
+  AnimatedSpinnerV2,
+  ArrowRightIcon,
+  BottomSheet,
+  Button,
+  DowntimeMessage,
+  FreezeIcon,
+  FrozenIcon,
+  HomeSkeleton,
+  MenuItem,
+  Typography,
+  UnFreezeIcon
+} from "@/components";
+import { useCardHolder } from "@/hooks";
+import { cn, IS_ANDROID } from "@/lib";
+import {
+  exactDesign,
   BottomIndicatorAvoidingView,
   TopIndicatorAvoidingView
-} from "@/utils/spacing";
+} from "@/utils";
+
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { BlurView } from "expo-blur";
 import { router, useFocusEffect } from "expo-router";
@@ -60,8 +63,7 @@ export default function CardScreen() {
     pointsBalance,
     cardStatus,
     last4Digits,
-    hasIssuedCard,
-    publicToken
+    hasIssuedCard
   } = userData || {};
 
   const sheetRef = useRef<BottomSheetModal>(null);

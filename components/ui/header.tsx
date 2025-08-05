@@ -1,5 +1,5 @@
 import { ArrowBackIcon } from "@/assets";
-import { TopIndicatorAvoidingView } from "@/utils/spacing";
+import { TopIndicatorAvoidingView } from "@/utils";
 import { XIcon } from "lucide-react-native";
 import { ReactNode } from "react";
 import { TouchableOpacity, View } from "react-native";

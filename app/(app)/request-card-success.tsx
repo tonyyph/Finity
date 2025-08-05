@@ -1,10 +1,5 @@
-import { LoadingScreen } from "@/components/common/loading";
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import {
-  BottomIndicatorAvoidingView,
-  TopIndicatorAvoidingView
-} from "@/utils/spacing";
+import { LoadingScreen, Button, Typography } from "@/components";
+import { BottomIndicatorAvoidingView, TopIndicatorAvoidingView } from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";

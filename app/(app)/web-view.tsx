@@ -1,5 +1,4 @@
-import { Header } from "@/components/ui/header";
-import { ProgressBar } from "@/components/ui/progress";
+import { Header, ProgressBar } from "@/components";
 import { router, useLocalSearchParams } from "expo-router";
 import { Dimensions, StyleSheet, View } from "react-native";
 import Pdf from "react-native-pdf";

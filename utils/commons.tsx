@@ -1,4 +1,4 @@
-import { commonStore } from "@/stores/commonStore";
+import { commonStore } from "@/stores";
 import { ComponentType, memo, MemoExoticComponent } from "react";
 import fastCompare from "react-fast-compare";
 import { Dimensions, Platform, PixelRatio } from "react-native";

@@ -1,7 +1,6 @@
-import { useColorPalette } from "@/hooks/use-color-palette";
-import { formatDateTimeShort } from "@/lib/date";
-import { sleep } from "@/lib/utils";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { useColorPalette } from "@/hooks";
+import { formatDateTimeShort, sleep } from "@/lib";
+import { BottomIndicatorAvoidingView } from "@/utils";
 import { type BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Haptics from "expo-haptics";

@@ -1,4 +1,4 @@
-import { useUserSettingsStore } from "@/stores/user-settings/store";
+import { useUserSettingsStore } from "@/stores";
 import * as LocalAuthentication from "expo-local-authentication";
 import { useEffect, useState } from "react";
 

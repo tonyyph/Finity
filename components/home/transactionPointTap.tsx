@@ -1,8 +1,8 @@
-import { FilterTransactionIcon, SearchIcon } from "@/assets";
-import { useListTransaction } from "@/hooks/cardholders/useListTransaction";
-import { cn } from "@/lib/utils";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { useListTransaction } from "@/hooks";
+import { cn } from "@/lib";
+import { BottomIndicatorAvoidingView } from "@/utils";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import { XIcon } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import {
   Animated,
@@ -11,19 +11,18 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { BottomSheet, LoadingScreen } from "../common";
-import { Typography } from "../common/text-typography";
+import {
+  BottomSheet,
+  FilterTransactionIcon,
+  SearchIcon,
+  Typography
+} from "../common";
 import { PointItem } from "../transaction";
-import { Header } from "../ui/header";
+import { Button } from "../ui";
 import { FilterPointList } from "./filter-point-list";
-import { XIcon } from "lucide-react-native";
-import { HomeSkeleton } from "../skeleton";
-import { ListSkeleton } from "../common/list-skeleton";
-import { Button } from "../ui/button";
 
 export function TransactionPointTap() {
-  const { pointList, fetchPaginatedPointTransactions, loading } =
-    useListTransaction();
+  const { pointList, fetchPaginatedPointTransactions } = useListTransaction();
 
   const scrollY = useRef(new Animated.Value(0)).current;
   const sheetRef = useRef<BottomSheetModal>(null);

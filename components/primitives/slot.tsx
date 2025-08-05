@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react";
 import {
   type PressableStateCallbackType,
   type Image as RNImage,
@@ -11,19 +11,19 @@ import {
   type View as RNView,
   type ViewProps as RNViewProps,
   type StyleProp,
-  StyleSheet,
-} from 'react-native'
+  StyleSheet
+} from "react-native";
 
 const Pressable = React.forwardRef<
   React.ElementRef<typeof RNPressable>,
   RNPressableProps
 >((props, forwardedRef) => {
-  const { children, ...pressableSlotProps } = props
+  const { children, ...pressableSlotProps } = props;
 
   if (!React.isValidElement(children)) {
     // biome-ignore lint/suspicious/noConsoleLog: <explanation>
-    console.log('Slot.Pressable - Invalid asChild element', children)
-    return null
+    console.log("Slot.Pressable - Invalid asChild element", children);
+    return null;
   }
 
   return React.cloneElement<
@@ -35,20 +35,20 @@ const Pressable = React.forwardRef<
       ? // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         composeRefs(forwardedRef, (children as any).ref)
       : // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-        (children as any).ref,
-  })
-})
+        (children as any).ref
+  });
+});
 
-Pressable.displayName = 'SlotPressable'
+Pressable.displayName = "SlotPressable";
 
 const View = React.forwardRef<React.ElementRef<typeof RNView>, RNViewProps>(
   (props, forwardedRef) => {
-    const { children, ...viewSlotProps } = props
+    const { children, ...viewSlotProps } = props;
 
     if (!React.isValidElement(children)) {
       // biome-ignore lint/suspicious/noConsoleLog: <explanation>
-      console.log('Slot.View - Invalid asChild element', children)
-      return null
+      console.log("Slot.View - Invalid asChild element", children);
+      return null;
     }
 
     return React.cloneElement<
@@ -60,53 +60,54 @@ const View = React.forwardRef<React.ElementRef<typeof RNView>, RNViewProps>(
         ? // biome-ignore lint/suspicious/noExplicitAny: <explanation>
           composeRefs(forwardedRef, (children as any).ref)
         : // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-          (children as any).ref,
-    })
-  },
-)
+          (children as any).ref
+    });
+  }
+);
 
-View.displayName = 'SlotView'
+View.displayName = "SlotView";
 
-const Text = React.forwardRef<React.ElementRef<typeof RNText>, RNTextProps>(
-  (props, forwardedRef) => {
-    const { children, ...textSlotProps } = props
+const TextPrimitive = React.forwardRef<
+  React.ElementRef<typeof RNText>,
+  RNTextProps
+>((props, forwardedRef) => {
+  const { children, ...textSlotProps } = props;
 
-    if (!React.isValidElement(children)) {
-      // biome-ignore lint/suspicious/noConsoleLog: <explanation>
-      console.log('Slot.Text - Invalid asChild element', children)
-      return null
-    }
+  if (!React.isValidElement(children)) {
+    // biome-ignore lint/suspicious/noConsoleLog: <explanation>
+    console.log("Slot.Text - Invalid asChild element", children);
+    return null;
+  }
 
-    return React.cloneElement<
-      React.ComponentPropsWithoutRef<typeof RNText>,
-      React.ElementRef<typeof RNText>
-    >(isTextChildren(children) ? <></> : children, {
-      ...mergeProps(textSlotProps, children.props),
-      ref: forwardedRef
-        ? // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-          composeRefs(forwardedRef, (children as any).ref)
-        : // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-          (children as any).ref,
-    })
-  },
-)
+  return React.cloneElement<
+    React.ComponentPropsWithoutRef<typeof RNText>,
+    React.ElementRef<typeof RNText>
+  >(isTextChildren(children) ? <></> : children, {
+    ...mergeProps(textSlotProps, children.props),
+    ref: forwardedRef
+      ? // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        composeRefs(forwardedRef, (children as any).ref)
+      : // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        (children as any).ref
+  });
+});
 
-Text.displayName = 'SlotText'
+TextPrimitive.displayName = "SlotText";
 
 type ImageSlotProps = RNImageProps & {
-  children?: React.ReactNode
-}
+  children?: React.ReactNode;
+};
 
 const Image = React.forwardRef<
   React.ElementRef<typeof RNImage>,
   ImageSlotProps
 >((props, forwardedRef) => {
-  const { children, ...imageSlotProps } = props
+  const { children, ...imageSlotProps } = props;
 
   if (!React.isValidElement(children)) {
     // biome-ignore lint/suspicious/noConsoleLog: <explanation>
-    console.log('Slot.Image - Invalid asChild element', children)
-    return null
+    console.log("Slot.Image - Invalid asChild element", children);
+    return null;
   }
 
   return React.cloneElement<
@@ -118,13 +119,13 @@ const Image = React.forwardRef<
       ? // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         composeRefs(forwardedRef, (children as any).ref)
       : // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-        (children as any).ref,
-  })
-})
+        (children as any).ref
+  });
+});
 
-Image.displayName = 'SlotImage'
+Image.displayName = "SlotImage";
 
-export { Image, Pressable, Text, View }
+export { Image, Pressable, TextPrimitive, View };
 
 // This project uses code from WorkOS/Radix Primitives.
 // The code is licensed under the MIT License.
@@ -133,86 +134,86 @@ export { Image, Pressable, Text, View }
 function composeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
   return (node: T) =>
     refs.forEach((ref) => {
-      if (typeof ref === 'function') {
-        ref(node)
+      if (typeof ref === "function") {
+        ref(node);
       } else if (ref != null) {
-        ;(ref as React.MutableRefObject<T>).current = node
+        (ref as React.MutableRefObject<T>).current = node;
       }
-    })
+    });
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-type AnyProps = Record<string, any>
+type AnyProps = Record<string, any>;
 
 function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
   // all child props should override
-  const overrideProps = { ...childProps }
+  const overrideProps = { ...childProps };
 
   for (const propName in childProps) {
-    const slotPropValue = slotProps[propName]
-    const childPropValue = childProps[propName]
+    const slotPropValue = slotProps[propName];
+    const childPropValue = childProps[propName];
 
-    const isHandler = /^on[A-Z]/.test(propName)
+    const isHandler = /^on[A-Z]/.test(propName);
     if (isHandler) {
       // if the handler exists on both, we compose them
       if (slotPropValue && childPropValue) {
         overrideProps[propName] = (...args: unknown[]) => {
-          childPropValue(...args)
-          slotPropValue(...args)
-        }
+          childPropValue(...args);
+          slotPropValue(...args);
+        };
       }
       // but if it exists only on the slot, we use only this one
       else if (slotPropValue) {
-        overrideProps[propName] = slotPropValue
+        overrideProps[propName] = slotPropValue;
       }
     }
     // if it's `style`, we merge them
-    else if (propName === 'style') {
-      overrideProps[propName] = combineStyles(slotPropValue, childPropValue)
-    } else if (propName === 'className') {
+    else if (propName === "style") {
+      overrideProps[propName] = combineStyles(slotPropValue, childPropValue);
+    } else if (propName === "className") {
       overrideProps[propName] = [slotPropValue, childPropValue]
         .filter(Boolean)
-        .join(' ')
+        .join(" ");
     }
   }
 
-  return { ...slotProps, ...overrideProps }
+  return { ...slotProps, ...overrideProps };
 }
 
-type PressableStyle = RNPressableProps['style']
-type ImageStyle = StyleProp<RNImageStyle>
-type Style = PressableStyle | ImageStyle
+type PressableStyle = RNPressableProps["style"];
+type ImageStyle = StyleProp<RNImageStyle>;
+type Style = PressableStyle | ImageStyle;
 
 function combineStyles(slotStyle?: Style, childValue?: Style) {
-  if (typeof slotStyle === 'function' && typeof childValue === 'function') {
+  if (typeof slotStyle === "function" && typeof childValue === "function") {
     return (state: PressableStateCallbackType) => {
-      return StyleSheet.flatten([slotStyle(state), childValue(state)])
-    }
+      return StyleSheet.flatten([slotStyle(state), childValue(state)]);
+    };
   }
-  if (typeof slotStyle === 'function') {
+  if (typeof slotStyle === "function") {
     return (state: PressableStateCallbackType) => {
       return childValue
         ? StyleSheet.flatten([slotStyle(state), childValue])
-        : slotStyle(state)
-    }
+        : slotStyle(state);
+    };
   }
-  if (typeof childValue === 'function') {
+  if (typeof childValue === "function") {
     return (state: PressableStateCallbackType) => {
       return slotStyle
         ? StyleSheet.flatten([slotStyle, childValue(state)])
-        : childValue(state)
-    }
+        : childValue(state);
+    };
   }
 
-  return StyleSheet.flatten([slotStyle, childValue].filter(Boolean))
+  return StyleSheet.flatten([slotStyle, childValue].filter(Boolean));
 }
 
 export function isTextChildren(
   children:
     | React.ReactNode
-    | ((state: PressableStateCallbackType) => React.ReactNode),
+    | ((state: PressableStateCallbackType) => React.ReactNode)
 ) {
   return Array.isArray(children)
-    ? children.every((child) => typeof child === 'string')
-    : typeof children === 'string'
+    ? children.every((child) => typeof child === "string")
+    : typeof children === "string";
 }

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 import { useEffect, useState } from "react";
 import { Typography } from "./text-typography";
 import { Touch } from "../ui/touch";

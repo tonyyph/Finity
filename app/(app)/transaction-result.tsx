@@ -1,13 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { LoadingScreen } from "@/components/common/loading";
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { formatDateNow, formatDateTransactionDetails } from "@/lib/date";
-import { formatNumber } from "@/utils";
+import { LoadingScreen, Typography, Button } from "@/components";
+import { formatDateNow, formatDateTransactionDetails } from "@/lib";
 import {
   BottomIndicatorAvoidingView,
-  TopIndicatorAvoidingView
-} from "@/utils/spacing";
+  TopIndicatorAvoidingView,
+  formatNumber
+} from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";

@@ -1,8 +1,7 @@
-import { userStore } from "@/stores/userStore";
+import { userStore } from "@/stores";
 import { useUser } from "@clerk/clerk-expo";
 import { View } from "react-native";
-import { Typography } from "../common/text-typography";
-import { UserAvatar } from "../common/user-avatar";
+import { Typography, UserAvatar } from "../common";
 
 export function ProfileCard() {
   const userProfile = userStore.getState().userProfile;

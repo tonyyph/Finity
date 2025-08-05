@@ -1,10 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { CircleAlert } from "@/components/common/icons";
-import { Keypad } from "@/components/common/keypad";
-import { Typography } from "@/components/common/text-typography";
-import { cn } from "@/lib/utils";
+import { CircleAlert, Typography, Keypad } from "@/components";
+import { cn } from "@/lib";
 import { useUserAuthenticateStore } from "@/stores";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { BottomIndicatorAvoidingView } from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { View } from "react-native";

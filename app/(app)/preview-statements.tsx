@@ -1,10 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { DownloadIcon } from "@/assets/icons/DownloadIcon";
-import { PDFSkeleton } from "@/components";
-import { Header } from "@/components/ui/header";
-import { ProgressBar } from "@/components/ui/progress";
+import { DownloadIcon, Header, ProgressBar } from "@/components";
 import { useStatements } from "@/hooks";
-import { copyFileToDownloadFolder, IS_IOS } from "@/lib/utils";
+import { IS_IOS } from "@/lib";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";

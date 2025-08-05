@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { TextType, Typography } from "./text-typography";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 
 type UserAvatarProps = {
   user?: {

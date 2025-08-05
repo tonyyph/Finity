@@ -1,13 +1,10 @@
-import { CircleAlert, RemoveNumpad } from "@/components/common/icons";
-import { Keypad } from "@/components/common/keypad";
-import { Typography } from "@/components/common/text-typography";
-import { Header } from "@/components/ui/header";
-import { cn } from "@/lib/utils";
+import { CircleAlert, Header, Keypad, Typography } from "@/components";
+import { cn } from "@/lib";
 import { useUserAuthenticateStore } from "@/stores";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { BottomIndicatorAvoidingView } from "@/utils";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 
 export default function VerifyPINChangeScreen() {
   const { verificationPin } = useUserAuthenticateStore();

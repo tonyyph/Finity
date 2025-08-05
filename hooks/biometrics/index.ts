@@ -1,1 +1,1 @@
-export * from "./useBiometrics";
+export * from './useBiometrics'

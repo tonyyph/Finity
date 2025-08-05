@@ -1,5 +1,5 @@
 import { changePhoneNumber, sendMobileVerificationCode } from "@/api";
-import { userStore } from "@/stores/userStore";
+import { userStore } from "@/stores";
 import { AxiosError } from "axios";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";

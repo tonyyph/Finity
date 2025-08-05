@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib";
 import * as ProgressPrimitive from "@rn-primitives/progress";
 import * as React from "react";
 import {

@@ -8,7 +8,7 @@ import {
 import { useAuth } from "@clerk/clerk-expo";
 import { useUserAuthenticateStore } from "../user-authenticate";
 import { useResetAllStores } from "./use-reset-all-stores";
-import { clearAsyncStorage } from "@/lib/utils";
+import { clearAsyncStorage } from "@/lib";
 import { StoreIntervalUpdate } from "./store-interval-update";
 
 export type StoreProviderProps = {

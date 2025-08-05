@@ -1,12 +1,7 @@
-import { CircleAlert } from "@/components/common/icons";
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { useAnimatedKeyboard, useForgotPin, useLogin } from "@/hooks";
-import { cn, IS_IOS } from "@/lib/utils";
-import {
-  BottomIndicatorAvoidingView,
-  TopIndicatorAvoidingView
-} from "@/utils/spacing";
+import { CircleAlert, Button, Typography } from "@/components";
+import { useAnimatedKeyboard, useForgotPin } from "@/hooks";
+import { cn, IS_IOS } from "@/lib";
+import { BottomIndicatorAvoidingView, TopIndicatorAvoidingView } from "@/utils";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { useState } from "react";
 import {

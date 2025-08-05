@@ -1,19 +1,14 @@
-import { CustomPaletteWrapper } from "@/components/common/custom-palate-wrapper";
-import { ToastRoot } from "@/components/common/toast";
-import { SplashAnimationScreen } from "@/components/ui/splash";
-import { tokenCache } from "@/lib/cache";
-import { queryClient } from "@/lib/client";
-import { LoadingProvider } from "@/stores";
-import { NetworkProvider } from "@/stores/core/network-provider";
-import { StoreProvider } from "@/stores/core/store-provider";
+import {
+  CustomPaletteWrapper,
+  ToastRoot,
+  SplashAnimationScreen
+} from "@/components";
+import { tokenCache, IS_ANDROID, queryClient } from "@/lib";
+import { LoadingProvider, NetworkProvider, StoreProvider } from "@/stores";
 import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider
-} from "@react-navigation/native";
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { useFonts } from "expo-font";
@@ -28,11 +23,9 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Svg from "react-native-svg";
-import "../global.css";
 import { StatusBar } from "expo-status-bar";
-import { IS_ANDROID } from "@/lib/utils";
+import "../global.css";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 const asyncStoragePersister = createAsyncStoragePersister({

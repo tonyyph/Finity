@@ -1,15 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { MenuItem } from "@/components/common";
-import { BottomSheet } from "@/components/common/bottom-sheet";
-import { CircleAlert } from "@/components/common/icons";
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { Header } from "@/components/ui/header";
-import { ProgressBar } from "@/components/ui/progress";
-import { Touch } from "@/components/ui/touch";
+import {
+  MenuItem,
+  BottomSheet,
+  CircleAlert,
+  Typography,
+  Button,
+  Header,
+  ProgressBar,
+  Touch
+} from "@/components";
 import { useAnimatedKeyboard, useCardHolder } from "@/hooks";
-import { cn, IS_IOS } from "@/lib/utils";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { cn, IS_IOS } from "@/lib";
+import { BottomIndicatorAvoidingView } from "@/utils";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { router, useLocalSearchParams } from "expo-router";
 import { isEmpty } from "lodash-es";

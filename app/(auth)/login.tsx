@@ -1,9 +1,7 @@
-import { CircleAlert } from "@/components/common/icons";
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { useLogin } from "@/hooks/auth/useLogin";
-import { cn } from "@/lib/utils";
-import { TopIndicatorAvoidingView } from "@/utils/spacing";
+import { CircleAlert, Typography, Button } from "@/components";
+import { useLogin } from "@/hooks";
+import { cn } from "@/lib";
+import { TopIndicatorAvoidingView } from "@/utils";
 import { router } from "expo-router";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { useState } from "react";

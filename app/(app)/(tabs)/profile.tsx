@@ -1,27 +1,29 @@
+import { LogoMark } from "@/assets";
 import {
+  BottomSheet,
+  MenuItem,
+  toast,
+  Typography,
+  LogOutIcon,
+  OneUserIcon,
+  OurAgreementIcon,
+  ProtectIcon,
   AlertIcon,
   ArrowRightIcon,
   BellIcon,
   CashOutIcon,
   HelpIcon,
-  LogoMark,
-  LogOutIcon,
-  OneUserIcon,
-  OurAgreementIcon,
-  ProtectIcon,
-  TermIcon
-} from "@/assets";
-import { BottomSheet, MenuItem, toast, Typography } from "@/components/common";
-import { ProfileCard } from "@/components/profile/profile-card";
-import { SetLocalAuth } from "@/components/profile/set-local-auth";
-import { Button } from "@/components/ui/button";
-import { Header } from "@/components/ui/header";
-import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
-import { Text } from "@/components/ui/text";
-import { useUserSettingsStore } from "@/stores/user-settings/store";
-import { SCREEN_WIDTH } from "@/utils";
-import { TopIndicatorAvoidingView } from "@/utils/spacing";
+  TermIcon,
+  ProfileCard,
+  SetLocalAuth,
+  Button,
+  Header,
+  Separator,
+  Switch,
+  Text
+} from "@/components";
+import { useUserSettingsStore } from "@/stores";
+import { SCREEN_WIDTH, TopIndicatorAvoidingView } from "@/utils";
 import { useAuth } from "@clerk/clerk-expo";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import * as Application from "expo-application";

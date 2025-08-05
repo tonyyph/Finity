@@ -1,7 +1,7 @@
 import { Keypad } from "@/components/common/keypad";
 import { Typography } from "@/components/common/text-typography";
-import { cn } from "@/lib/utils";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { cn } from "@/lib";
+import { BottomIndicatorAvoidingView } from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { View } from "react-native";

@@ -1,5 +1,5 @@
 import { getUserProfile } from "@/api";
-import { userStore } from "@/stores/userStore";
+import { userStore } from "@/stores";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 

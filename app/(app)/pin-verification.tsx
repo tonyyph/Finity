@@ -1,18 +1,15 @@
 import { changeHomeAddress } from "@/api";
-import { CircleAlert } from "@/components/common/icons";
-import { Keypad } from "@/components/common/keypad";
-import { Typography } from "@/components/common/text-typography";
-import { Header } from "@/components/ui/header";
-import { ProgressBar } from "@/components/ui/progress";
-import { useCardHolder } from "@/hooks";
-import { useBiometrics } from "@/hooks/biometrics/useBiometrics";
-import { cn } from "@/lib/utils";
-import { useUserAuthenticateStore } from "@/stores";
-import { userStore } from "@/stores/userStore";
 import {
-  BottomIndicatorAvoidingView,
-  TopIndicatorAvoidingView
-} from "@/utils/spacing";
+  CircleAlert,
+  Keypad,
+  Typography,
+  Header,
+  ProgressBar
+} from "@/components";
+import { useCardHolder, useBiometrics } from "@/hooks";
+import { cn } from "@/lib";
+import { useUserAuthenticateStore, userStore } from "@/stores";
+import { BottomIndicatorAvoidingView, TopIndicatorAvoidingView } from "@/utils";
 import { BlurView } from "expo-blur";
 import * as LocalAuthentication from "expo-local-authentication";
 import { router, useLocalSearchParams } from "expo-router";

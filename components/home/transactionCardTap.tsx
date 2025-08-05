@@ -1,7 +1,6 @@
-import { FilterTransactionIcon, SearchIcon } from "@/assets";
-import { useListTransaction } from "@/hooks/cardholders/useListTransaction";
-import { cn } from "@/lib/utils";
-import { BottomIndicatorAvoidingView } from "@/utils/spacing";
+import { useListTransaction } from "@/hooks";
+import { cn } from "@/lib";
+import { BottomIndicatorAvoidingView } from "@/utils";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { XIcon } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
@@ -12,17 +11,18 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { BottomSheet } from "../common";
-import { Typography } from "../common/text-typography";
+import {
+  BottomSheet,
+  Typography,
+  FilterTransactionIcon,
+  SearchIcon
+} from "../common";
 import { CardItem } from "../transaction";
-import { Header } from "../ui/header";
-import { FilterCardList } from "./filter-card-list";
-import { ListSkeleton } from "../common/list-skeleton";
 import { Button } from "../ui/button";
+import { FilterCardList } from "./filter-card-list";
 
 export function TransactionCardTap() {
-  const { cardList, fetchPaginatedCardTransactions, loading } =
-    useListTransaction();
+  const { cardList, fetchPaginatedCardTransactions } = useListTransaction();
   const scrollY = useRef(new Animated.Value(0)).current;
   const sheetRef = useRef<BottomSheetModal>(null);
   const [selectedFilterTypes, setSelectedFilterTypes] = useState<string[]>([]);

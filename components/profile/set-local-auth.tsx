@@ -1,10 +1,8 @@
-import { FaceIDIcon } from "@/assets/icons/FaceIDIcon";
-import { useUserSettingsStore } from "@/stores/user-settings/store";
+import { useUserSettingsStore } from "@/stores";
 import * as LocalAuthentication from "expo-local-authentication";
 import { useEffect, useState } from "react";
-import { MenuItem } from "../common/menu-item";
-import { toast } from "../common/toast";
-import { Switch } from "../ui/switch";
+import { MenuItem, toast, FaceIDIcon } from "../common";
+import { Switch } from "../ui";
 import { router } from "expo-router";
 import * as Haptics from "expo-haptics";
 

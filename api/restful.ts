@@ -1,4 +1,4 @@
-import { clerk } from "@/lib/client";
+import { clerk } from "@/lib";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import uuid from "react-native-uuid";

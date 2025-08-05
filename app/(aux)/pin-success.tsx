@@ -1,11 +1,7 @@
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
+import { Typography, Button } from "@/components";
 import { useBiometrics } from "@/hooks";
 import { useUserAuthenticateStore } from "@/stores";
-import {
-  BottomIndicatorAvoidingView,
-  TopIndicatorAvoidingView
-} from "@/utils/spacing";
+import { BottomIndicatorAvoidingView, TopIndicatorAvoidingView } from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
 import { useCallback } from "react";
 import { Image, View } from "react-native";

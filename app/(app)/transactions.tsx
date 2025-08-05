@@ -1,6 +1,4 @@
-import TransactionTab from "@/components/home/transaction_tab";
-import { Header } from "@/components/ui/header";
-import { ProgressBar } from "@/components/ui/progress";
+import { TransactionTab, Header, ProgressBar } from "@/components";
 import { router, useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
 
