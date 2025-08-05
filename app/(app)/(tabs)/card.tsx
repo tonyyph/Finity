@@ -50,7 +50,6 @@ export default function CardScreen() {
     useCallback(() => {
       fetchCardHolderCurrent();
       !!showBottomSheetPin && sheetRef.current?.present();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showBottomSheetPin])
   );
 
@@ -60,8 +59,7 @@ export default function CardScreen() {
     pointsBalance,
     cardStatus,
     last4Digits,
-    hasIssuedCard,
-    publicToken
+    hasIssuedCard
   } = userData || {};
 
   const sheetRef = useRef<BottomSheetModal>(null);

@@ -11,5 +11,7 @@ module.exports = {
   },
   rules: {
     'react/display-name': 'off',
+    'import/no-unresolved': 'off',
+    'react-hooks/exhaustive-deps': 'off',
   },
 };

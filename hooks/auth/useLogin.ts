@@ -45,22 +45,8 @@ export const useLogin = () => {
     }
     try {
       const result = await signIn.create({
-        identifier:
-          usernameState.value === "1"
-            ? "tonyphvincent@gmail.com" //TODO: remove that mockup
-            : usernameState.value === "2"
-            ? "chelsea.chan+0617@finity.co.uk"
-            : usernameState.value === "3"
-            ? "chelsea.chan+0619@finity.co.uk"
-            : usernameState.value,
-        password:
-          passwordState.value === "1"
-            ? "Khaccuong@14"
-            : passwordState.value === "2"
-            ? "EGQ@mkx1pmw_dct1vdp"
-            : passwordState.value === "3"
-            ? "EGQ@mkx1pmw_dct1vdp"
-            : passwordState.value
+        identifier: usernameState.value,
+        password: passwordState.value
       });
 
       if (result.status === "needs_second_factor") {

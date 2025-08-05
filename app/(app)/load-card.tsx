@@ -16,7 +16,6 @@ import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 function LoadCardScreen() {
   const { isReset } = useLocalSearchParams();
-
   const [enterAmount, setEnterAmount] = useState("");
   const [error, setError] = useState("");
   const [focusAmount, setFocusAmount] = useState(false);
@@ -39,7 +38,7 @@ function LoadCardScreen() {
     Number(userData?.pointsBalance ?? 0)
   );
 
-  const formatAmount = (value: string) => {
+  const formatAmount = (value: string): string => {
     let numericValue = value.toString().replace(/,/g, "").replace(/\D/g, "");
     let formattedValue = new Intl.NumberFormat("en-US").format(
       Number(numericValue)
@@ -47,14 +46,17 @@ function LoadCardScreen() {
     return formattedValue;
   };
 
+  const parseAmount = (value: string): number => {
+    const numericValue = value.replace(/,/g, "").trim();
+    return Number(numericValue);
+  };
+
   useEffect(() => {
-    if (
-      (Number(enterAmount) < 100 ||
-        Number(enterAmount) > userData?.pointsBalance) &&
-      !!enterAmount
-    ) {
+    const amount = parseAmount(enterAmount);
+
+    if ((amount < 100 || amount > userData?.pointsBalance) && !!enterAmount) {
       setError(
-        Number(enterAmount) < 100
+        amount < 100
           ? "The minimum amount to load is 100 points"
           : "Amount exceeds your balance"
       );
@@ -64,21 +66,21 @@ function LoadCardScreen() {
   }, [enterAmount, userData]);
 
   const handleContinue = () => {
-    if (enterAmount?.includes(",")) {
-      setError("Invalid amount");
-      return;
-    }
-    if (
-      Number(enterAmount) < 100 ||
-      Number(enterAmount) > userData?.pointsBalance
-    ) {
-      return;
+    const amount = parseAmount(enterAmount);
+
+    if ((amount < 100 || amount > userData?.pointsBalance) && !!enterAmount) {
+      setError(
+        amount < 100
+          ? "The minimum amount to load is 100 points"
+          : "Amount exceeds your balance"
+      );
     } else {
+      Keyboard.dismiss();
       router.push({
         pathname: "/pin-verification",
         params: {
           type: "load-card",
-          amount: Number(enterAmount),
+          amount: amount,
           pointsBalance: userData?.pointsBalance,
           cardHolderName: "Amber Green"
         }
@@ -133,10 +135,11 @@ function LoadCardScreen() {
               )}
             >
               <TextInput
-                value={formatAmount(enterAmount)}
+                value={!!enterAmount ? formatAmount(enterAmount) : ""}
                 className="flex-1 bg-white h-[72px] text-[28px] font-[NeueMontreal-Medium]"
                 keyboardType="number-pad"
                 onFocus={() => setFocusAmount(true)}
+                onBlur={() => setFocusAmount(false)}
                 onEndEditing={() => setFocusAmount(false)}
                 onChangeText={(text) => {
                   setEnterAmount(text);

@@ -22,7 +22,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import LottieView from "lottie-react-native";
 import { cssInterop } from "nativewind";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import "react-native-reanimated";
@@ -31,6 +31,9 @@ import Svg from "react-native-svg";
 import "../global.css";
 import { StatusBar } from "expo-status-bar";
 import { IS_ANDROID } from "@/lib/utils";
+import * as Updates from "expo-updates";
+import { AppState } from "react-native";
+import { UpdateLoader } from "@/components/common/update-loader";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -69,12 +72,36 @@ export default function RootLayout() {
     "NeueMontreal-SemiBold": require("../assets/fonts/ppneuemontreal-semibolditalic.otf"),
     "NeueMontreal-Bold": require("../assets/fonts/ppneuemontreal-bold.otf")
   });
+  const [updating, setUpdating] = useState<boolean>(false);
+
+  const checkAndForceUpdates = useCallback(async () => {
+    if (__DEV__) {
+      return;
+    }
+    setUpdating(true);
+    try {
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync();
+        await Updates.reloadAsync();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setUpdating(false);
+  }, []);
 
   useEffect(() => {
     if (fontsLoaded) {
+      checkAndForceUpdates();
+
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <>
@@ -100,11 +127,17 @@ export default function RootLayout() {
                         <SafeAreaProvider>
                           <GestureHandlerRootView>
                             <KeyboardProvider>
-                              <BottomSheetModalProvider>
-                                <Stack screenOptions={{ headerShown: false }} />
-                                {IS_ANDROID && <StatusBar style="dark" />}
-                                <ToastRoot />
-                              </BottomSheetModalProvider>
+                              {updating ? (
+                                <UpdateLoader />
+                              ) : (
+                                <BottomSheetModalProvider>
+                                  <Stack
+                                    screenOptions={{ headerShown: false }}
+                                  />
+                                  {IS_ANDROID && <StatusBar style="dark" />}
+                                  <ToastRoot />
+                                </BottomSheetModalProvider>
+                              )}
                             </KeyboardProvider>
                           </GestureHandlerRootView>
                         </SafeAreaProvider>

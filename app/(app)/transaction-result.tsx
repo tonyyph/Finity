@@ -205,7 +205,7 @@ function TransactionResultScreen() {
           <TransRowItem
             title="Card"
             value={`£${formatNumber({
-              value: Number(cardBalance?.toString().replace(/,/g, "")) * 0.1
+              value: cardBalance?.toString()
             })}`}
           />
         </View>
