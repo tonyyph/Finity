@@ -1,6 +1,6 @@
-import { ArrowBackIcon } from "@/assets";
+import { ArrowBackIcon } from "./icons";
 import { useRouter } from "expo-router";
-import { Button } from "../ui/button";
+import { Button } from "../ui";
 
 export function BackButton() {
   const router = useRouter();

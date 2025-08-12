@@ -1,10 +1,9 @@
-import { ArrowBackIcon } from "@/assets";
+import { ArrowBackIcon, Typography } from "../common";
 import { TopIndicatorAvoidingView } from "@/utils";
 import { XIcon } from "lucide-react-native";
 import { ReactNode } from "react";
 import { TouchableOpacity, View } from "react-native";
 import type { SvgProps } from "react-native-svg";
-import { Typography } from "../common/text-typography";
 import { Button } from "./button";
 import { commonStore } from "@/stores";
 

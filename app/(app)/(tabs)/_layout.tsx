@@ -1,11 +1,13 @@
-import { CardIcon } from "@/assets/icons/CardIcon";
-import { FillCardIcon } from "@/assets/icons/FillCardIcon";
-import { FillHomeIcon } from "@/assets/icons/FillHomeIcon";
-import { FillProfileIcon } from "@/assets/icons/FillProfileIcon";
-import { HomeIcon } from "@/assets/icons/HomeIcon";
-import { ProfileIcon } from "@/assets/icons/ProfileIcon";
-import { colors } from "@/constants/Colors";
-import { useColorPalette } from "@/hooks/use-color-palette";
+import {
+  CardIcon,
+  FillCardIcon,
+  FillHomeIcon,
+  FillProfileIcon,
+  HomeIcon,
+  ProfileIcon
+} from "@/components";
+import { colors } from "@/constants";
+import { useColorPalette } from "@/hooks";
 import { useUserAuthenticateStore } from "@/stores";
 import { exactDesign } from "@/utils";
 import { useAuth } from "@clerk/clerk-expo";

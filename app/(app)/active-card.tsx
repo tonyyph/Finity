@@ -1,14 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { CircleAlert } from "@/components/common/icons";
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { Header } from "@/components/ui/header";
-import { colors } from "@/constants/Colors";
+import { CircleAlert, Typography, Button, Header } from "@/components";
+import { colors } from "@/constants";
 import { useAnimatedKeyboard } from "@/hooks";
-import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
+import { useCardHolder } from "@/hooks";
 import { IS_IOS } from "@/lib";
-import { exactDesign } from "@/utils";
-import { BottomIndicatorAvoidingView } from "@/utils";
+import { exactDesign, BottomIndicatorAvoidingView } from "@/utils";
 import { router } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Keyboard, TextInput, View } from "react-native";

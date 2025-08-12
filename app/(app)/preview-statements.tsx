@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { DownloadIcon, Header, ProgressBar } from "@/components";
 import { useStatements } from "@/hooks";
 import { IS_IOS } from "@/lib";

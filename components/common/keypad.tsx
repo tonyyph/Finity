@@ -1,4 +1,4 @@
-import { BiometricIcon } from "@/assets";
+import { BiometricIcon } from "@/components";
 import { cn } from "@/lib";
 import { router } from "expo-router";
 import React from "react";

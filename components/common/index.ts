@@ -7,7 +7,6 @@ export * from "./date-range-picker";
 export * from "./down-time-message";
 export * from "./footer-gradient";
 export * from "./global-progress";
-export * from "./icon";
 export * from "./icons";
 export * from "./keypad";
 export * from "./list-skeleton";

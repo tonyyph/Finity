@@ -1,9 +1,5 @@
-import { ClockIcon, HouseIcon } from "@/assets";
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { Header } from "@/components/ui/header";
-import { useSettingProfile } from "@/hooks";
-import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
+import { ClockIcon, HouseIcon, Typography, Button, Header } from "@/components";
+import { useSettingProfile, useCardHolder } from "@/hooks";
 import { BottomIndicatorAvoidingView } from "@/utils";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useUserAuthenticateStore } from "@/stores";
 import { useSignIn } from "@clerk/clerk-expo";
 import { isEmpty } from "lodash-es";

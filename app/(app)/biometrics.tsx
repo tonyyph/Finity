@@ -1,7 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { Header } from "@/components/ui/header";
+import { Typography, Button, Header } from "@/components";
 import { useUserSettingsStore } from "@/stores";
 import { BottomIndicatorAvoidingView } from "@/utils";
 import { BlurView } from "expo-blur";

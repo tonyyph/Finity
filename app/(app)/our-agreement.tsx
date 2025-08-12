@@ -1,9 +1,11 @@
-import { ArrowRightIcon } from "@/assets/icons/ArrowRightIcon";
-import { ProtectIcon } from "@/assets/icons/ProtectIcon";
-import { TermIcon } from "@/assets/icons/TermIcon";
-import { MenuItem } from "@/components/common/menu-item";
-import { Header } from "@/components/ui/header";
-import { ProgressBar } from "@/components/ui/progress";
+import {
+  MenuItem,
+  ArrowRightIcon,
+  ProtectIcon,
+  TermIcon,
+  Header,
+  ProgressBar
+} from "@/components";
 import { router } from "expo-router";
 import { View } from "react-native";
 

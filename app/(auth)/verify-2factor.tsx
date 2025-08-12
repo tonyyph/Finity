@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { CircleAlert, Button, Typography, Header } from "@/components";
 import { colors } from "@/constants";
 import { useAnimatedKeyboard, useLogin, useLocalPIN } from "@/hooks";

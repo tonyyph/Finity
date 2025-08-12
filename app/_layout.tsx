@@ -1,7 +1,8 @@
 import {
   CustomPaletteWrapper,
   ToastRoot,
-  SplashAnimationScreen
+  SplashAnimationScreen,
+  UpdateLoader
 } from "@/components";
 import { tokenCache, IS_ANDROID, queryClient } from "@/lib";
 import { LoadingProvider, NetworkProvider, StoreProvider } from "@/stores";
@@ -26,7 +27,6 @@ import Svg from "react-native-svg";
 import { StatusBar } from "expo-status-bar";
 import "../global.css";
 import * as Updates from "expo-updates";
-import { UpdateLoader } from "@/components/common/update-loader";
 
 SplashScreen.preventAutoHideAsync();
 
