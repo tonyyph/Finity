@@ -55,7 +55,7 @@ function SendCardScreen() {
     Number(userData?.pointsBalance ?? 0)
   );
 
-  const formatAmount = (value: string) => {
+  const formatAmount = (value: string): string => {
     let numericValue = value.toString().replace(/,/g, "").replace(/\D/g, "");
     let formattedValue = new Intl.NumberFormat("en-US").format(
       Number(numericValue)
@@ -63,51 +63,56 @@ function SendCardScreen() {
     return formattedValue;
   };
 
+  const parseAmount = (value: string): number => {
+    const numericValue = value.replace(/,/g, "").trim();
+    return Number(numericValue);
+  };
+
   useEffect(() => {
-    if (
-      (Number(enterAmount) < 1 ||
-        Number(enterAmount) > userData?.pointsBalance) &&
-      !!enterAmount
-    ) {
+    const amount = parseAmount(enterAmount);
+
+    if ((amount < 1 || amount > userData?.pointsBalance) && !!enterAmount) {
       setError(
-        Number(enterAmount) < 1
+        amount < 1
           ? "The minimum amount to send is 1 point"
           : "Amount exceeds your balance"
       );
+    } else {
+      setError("");
     }
   }, [enterAmount, userData]);
 
   const handleContinue = () => {
-    if (enterAmount?.includes(",")) {
-      setError("Amount must be a whole number");
-    }
+    const amount = parseAmount(enterAmount);
+
     if (isEmpty(cardHolderValue)) {
       setCardHolderError("You must select a cardholder");
     }
+
     if (cardHolderValue?.status === 0) {
       setCardHolderError("Cardholder must verify account to receive points");
     }
-    if (
-      Number(enterAmount) < 1 ||
-      Number(enterAmount) > userData?.pointsBalance
-    ) {
+
+    if ((amount < 1 || amount > userData?.pointsBalance) && !!enterAmount) {
       setError(
-        Number(enterAmount) < 1
+        amount < 1
           ? "The minimum amount to send is 1 point"
           : "Amount exceeds your balance"
       );
     }
+
     if (
-      Number(enterAmount) >= 1 &&
-      Number(enterAmount) <= userData?.pointsBalance &&
+      amount >= 1 &&
+      amount <= userData?.pointsBalance &&
       !isEmpty(cardHolderValue) &&
       cardHolderValue?.status !== 0
     ) {
+      Keyboard.dismiss();
       router.push({
         pathname: "/pin-verification",
         params: {
           type: "send-points",
-          amount: Number(enterAmount),
+          amount: amount,
           cardHolderName: isEmptyString(cardHolderValue?.name ?? "")
             ? cardHolderValue?.email
             : cardHolderValue?.name,

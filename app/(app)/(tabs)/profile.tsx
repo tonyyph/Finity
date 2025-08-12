@@ -27,6 +27,7 @@ import { SCREEN_WIDTH, TopIndicatorAvoidingView } from "@/utils";
 import { useAuth } from "@clerk/clerk-expo";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import * as Application from "expo-application";
+import * as Updates from "expo-updates";
 import * as Notifications from "expo-notifications";
 import { Link, router } from "expo-router";
 import LottieView from "lottie-react-native";
@@ -48,7 +49,9 @@ export default function ProfileScreen() {
 
     toastShownRef.current = true;
     toast.success(
-      `Copied version to clipboard ${Application.nativeApplicationVersion} - internal test 1.0.32`,
+      `Copied version to clipboard ${Application.nativeApplicationVersion} - ${
+        Updates.updateId ?? "Embedded"
+      }`,
       {
         icon: <AlertIcon />,
         duration: 3000,

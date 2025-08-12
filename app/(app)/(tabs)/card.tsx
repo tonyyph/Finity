@@ -53,7 +53,6 @@ export default function CardScreen() {
     useCallback(() => {
       fetchCardHolderCurrent();
       !!showBottomSheetPin && sheetRef.current?.present();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showBottomSheetPin])
   );
 
