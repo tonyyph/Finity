@@ -82,7 +82,8 @@ function LoadCardScreen() {
           type: "load-card",
           amount: amount,
           pointsBalance: userData?.pointsBalance,
-          cardHolderName: "Amber Green"
+          cardHolderName: "",
+          cardBalance: userData?.cardBalance
         }
       });
     }
