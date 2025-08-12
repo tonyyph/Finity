@@ -5,7 +5,7 @@
   "scripts": {
     "all": "watchman watch-del-all && rm -rf yarn.lock && rm -rf node_modules/",
     "setup": "npx expo install",
-    "prebuild": "npx expo prebuild --clean",
+    "prebuild": "npx expo prebuild --clean --no-install",
     "start": "expo start -c",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android",

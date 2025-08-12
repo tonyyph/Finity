@@ -1,7 +1,6 @@
 import { TouchableOpacity, View } from "react-native";
-import { Typography } from "../common/text-typography";
-import { Separator } from "../ui/separator";
-import { Skeleton } from "../ui/skeleton";
+import { Typography } from "../common";
+import { Separator, Skeleton } from "../ui";
 
 type ProfileItemProps = {
   title: string;
