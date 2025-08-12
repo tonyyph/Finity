@@ -28,7 +28,8 @@ function ReviewTransactionScreen() {
     await loadCard({
       totalPointsBalance: (Number(pointsBalance) - Number(amount)).toString(),
       pointsAmount: amount.toString(),
-      type: type.toString()
+      type: type.toString(),
+      cardBalance: cardBalance?.toString()
     });
   };
 

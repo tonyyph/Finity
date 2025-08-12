@@ -8,6 +8,7 @@ type LoadCardCustomRequest = {
   totalPointsBalance?: string;
   pointsAmount: string;
   type?: string | undefined;
+  cardBalance: string;
 };
 export const useTransaction = () => {
   const [loading, setLoading] = useState(false);
@@ -34,7 +35,8 @@ export const useTransaction = () => {
             totalPointsBalance: data.totalPointsBalance,
             totalCardBalance: formatNumber({
               value:
-                Number(data.pointsAmount?.toString().replace(/,/g, "")) * 0.1
+                Number(data.pointsAmount?.toString().replace(/,/g, "")) * 0.1 +
+                Number(data.cardBalance?.toString().replace(/,/g, ""))
             }),
             success: "true"
           }
