@@ -5,9 +5,9 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Haptics from "expo-haptics";
 import { ArrowRightIcon } from "lucide-react-native";
 import { useRef, useState } from "react";
-import { Keyboard, View } from "react-native";
-import { Button, Text } from "../ui";
+import { Keyboard, Text, View } from "react-native";
 import { BottomSheet } from "./bottom-sheet";
+import { Button } from "../ui/button";
 
 function SpinnerDatePicker({
   value,

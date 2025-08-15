@@ -1,9 +1,8 @@
-import { BiometricIcon } from "@/components";
 import { cn } from "@/lib";
 import { router } from "expo-router";
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
-import { RemoveNumpad } from "./icons";
+import { RemoveNumpad, BiometricIcon } from "./icons";
 import { Typography } from "./text-typography";
 import { useAuth } from "@clerk/clerk-expo";
 import { useUserAuthenticateStore, useUserSettingsStore } from "@/stores";

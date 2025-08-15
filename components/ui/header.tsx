@@ -1,4 +1,3 @@
-import { ArrowBackIcon, Typography } from "../common";
 import { TopIndicatorAvoidingView } from "@/utils";
 import { XIcon } from "lucide-react-native";
 import { ReactNode } from "react";
@@ -6,6 +5,7 @@ import { TouchableOpacity, View } from "react-native";
 import type { SvgProps } from "react-native-svg";
 import { Button } from "./button";
 import { commonStore } from "@/stores";
+import { ArrowBackIcon, Typography } from "../common";
 
 type Props = {
   title?: string;

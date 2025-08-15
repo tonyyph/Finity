@@ -1,4 +1,4 @@
-import { memoFC } from "@/utils";
+import { memoFC } from "./commons";
 import { Platform, StatusBar, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 

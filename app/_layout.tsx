@@ -66,6 +66,8 @@ export default function RootLayout() {
   });
   const [updating, setUpdating] = useState<boolean>(false);
 
+  console.log("🚀 💯 RootLayout 💯 updating:", updating);
+
   const checkAndForceUpdates = useCallback(async () => {
     if (__DEV__) {
       return;
