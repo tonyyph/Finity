@@ -27,8 +27,10 @@ function PinVerificationScreen() {
     postCode,
     cardHolderName,
     cardHolderId,
-    pointsBalance
+    pointsBalance,
+    cardBalance
   } = useLocalSearchParams();
+
   const userProfileJson = userStore?.getState().userProfile;
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -52,7 +54,8 @@ function PinVerificationScreen() {
           amount: amount,
           pointsBalance: pointsBalance,
           cardHolderName: cardHolderName,
-          cardHolderId: cardHolderId
+          cardHolderId: cardHolderId,
+          cardBalance: cardBalance
         }
       });
     }, 3000);

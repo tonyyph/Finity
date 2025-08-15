@@ -8,27 +8,28 @@ import {
 import { useTransaction } from "@/hooks";
 import { formatNumber, BottomIndicatorAvoidingView } from "@/utils";
 import { router, useLocalSearchParams } from "expo-router";
-import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 
 function ReviewTransactionScreen() {
-  const { type, amount, cardHolderName, cardHolderId, pointsBalance } =
-    useLocalSearchParams();
+  const {
+    type,
+    amount,
+    cardHolderName,
+    cardHolderId,
+    pointsBalance,
+    cardBalance
+  } = useLocalSearchParams();
 
   const isLoadCard = type === "load-card";
 
-  const { loadCard, loading, sendPoints, getCardDetailInfo, latestBalance } =
-    useTransaction();
-
-  useEffect(() => {
-    isLoadCard && getCardDetailInfo();
-  }, []);
+  const { loadCard, loading, sendPoints } = useTransaction();
 
   const handleConfirmLoadCard = async () => {
     await loadCard({
       totalPointsBalance: (Number(pointsBalance) - Number(amount)).toString(),
       pointsAmount: amount.toString(),
-      type: type.toString()
+      type: type.toString(),
+      cardBalance: cardBalance?.toString()
     });
   };
 
@@ -73,7 +74,7 @@ function ReviewTransactionScreen() {
             {`Card balance after load: £${formatNumber({
               value:
                 Number(amount?.toString().replace(/,/g, "")) * 0.1 +
-                latestBalance
+                Number(cardBalance?.toString().replace(/,/g, ""))
             })}`}
           </Typography>
         </View>
