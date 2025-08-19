@@ -1,14 +1,12 @@
-import { memoFC } from "@/utils";
-import Svg, { Path, SvgProps } from "react-native-svg";
+import {scale, tw} from '@/utils'
+import {View} from 'react-native'
+import Svg, {Path, SvgProps} from 'react-native-svg'
 
-export const CheckBoxIcon = memoFC(
-  ({ size = 24, style, ...props }: SvgProps & IconProps = {}) => {
-    return (
-      <Svg width={24} height={24} fill="none" {...props} viewBox="0 0 24 24">
-        <Path
-          fill="#FF885D"
-          d="M0 4a4 4 0 0 1 4-4h16a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4Z"
-        />
+export const CheckBoxIcon = ({size = scale(24), style, ...props}: SvgProps & IconProps = {}) => {
+  return (
+    <View style={[{width: size, height: size}, style]}>
+      <Svg style={tw`aspect-square`} width="100%" height="100%" fill="none" viewBox="0 0 24 24" {...props}>
+        <Path fill="#FF885D" d="M0 4a4 4 0 0 1 4-4h16a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4Z" />
         <Path
           fill="#fff"
           fillRule="evenodd"
@@ -16,6 +14,6 @@ export const CheckBoxIcon = memoFC(
           clipRule="evenodd"
         />
       </Svg>
-    );
-  }
-);
+    </View>
+  )
+}

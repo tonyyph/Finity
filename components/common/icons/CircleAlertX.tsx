@@ -1,10 +1,11 @@
-import { memoFC } from "@/utils";
-import Svg, { Path, SvgProps } from "react-native-svg";
+import {memoFC, scale, tw} from '@/utils'
+import {View} from 'react-native'
+import Svg, {Path, SvgProps} from 'react-native-svg'
 
-export const CircleAlertX = memoFC(
-  ({ size = 24, style, ...props }: SvgProps & IconProps = {}) => {
-    return (
-      <Svg width={80} height={80} fill="none" {...props}>
+export const CircleAlertX = memoFC(({size = scale(24), style, ...props}: SvgProps & IconProps = {}) => {
+  return (
+    <View style={[{width: size, height: size}, style]}>
+      <Svg style={tw`aspect-square`} width="100%" height="100%" fill="none" viewBox="0 0 80 80" {...props}>
         <Path
           fill="#D9323D"
           d="M69.333 40C69.333 56.2 56.2 69.332 40 69.332S10.666 56.2 10.666 39.999C10.666 23.8 23.8 10.666 40 10.666c16.2 0 29.333 13.133 29.333 29.333Z"
@@ -16,6 +17,6 @@ export const CircleAlertX = memoFC(
           clipRule="evenodd"
         />
       </Svg>
-    );
-  }
-);
+    </View>
+  )
+})

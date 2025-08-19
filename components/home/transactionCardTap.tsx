@@ -1,79 +1,66 @@
-import { useListTransaction } from "@/hooks";
-import { cn } from "@/lib";
-import { BottomIndicatorAvoidingView } from "@/utils";
-import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { XIcon } from "lucide-react-native";
-import { useEffect, useRef, useState } from "react";
-import {
-  Animated,
-  Keyboard,
-  TextInput,
-  TouchableOpacity,
-  View
-} from "react-native";
-import {
-  BottomSheet,
-  Typography,
-  FilterTransactionIcon,
-  SearchIcon
-} from "../common";
-import { CardItem } from "../transaction";
-import { Button } from "../ui/button";
-import { FilterCardList } from "./filter-card-list";
+import {useListTransaction} from '@/hooks'
+import {BottomIndicatorAvoidingView, scale, tw} from '@/utils'
+import {BottomSheetModal, BottomSheetView} from '@gorhom/bottom-sheet'
+import {XIcon} from 'lucide-react-native'
+import {useEffect, useRef, useState} from 'react'
+import {Animated, Keyboard, TextInput, TouchableOpacity, View} from 'react-native'
+import {BottomSheet, FilterTransactionIcon, SearchIcon, Typography} from '../common'
+import {CardItem} from '../transaction'
+import {FilterCardList} from './filter-card-list'
 
 export function TransactionCardTap() {
-  const { cardList, fetchPaginatedCardTransactions } = useListTransaction();
-  const scrollY = useRef(new Animated.Value(0)).current;
-  const sheetRef = useRef<BottomSheetModal>(null);
-  const [selectedFilterTypes, setSelectedFilterTypes] = useState<string[]>([]);
-  const [page, setPage] = useState(0);
-  const [isFetchingMore, setIsFetchingMore] = useState(false);
+  const {cardList, fetchPaginatedCardTransactions} = useListTransaction()
+  const scrollY = useRef(new Animated.Value(0)).current
+  const sheetRef = useRef<BottomSheetModal>(null)
+  const [selectedFilterTypes, setSelectedFilterTypes] = useState<string[]>([])
+  const [page, setPage] = useState(0)
+  const [isFetchingMore, setIsFetchingMore] = useState(false)
 
-  const [listHeight, setListHeight] = useState(1);
-  const [contentHeight, setContentHeight] = useState(1);
+  const [listHeight, setListHeight] = useState(1)
+  const [contentHeight, setContentHeight] = useState(1)
 
-  const [searchText, setSearchText] = useState("");
-  const [filteredData, setFilteredData] = useState(cardList);
+  const [searchText, setSearchText] = useState('')
+  const [filteredData, setFilteredData] = useState(cardList)
   useEffect(() => {
-    setPage(0);
+    setPage(0)
 
     fetchPaginatedCardTransactions({
       searchText,
       types: selectedFilterTypes,
       cursor: 0,
-      take: 20
-    });
-  }, [fetchPaginatedCardTransactions, searchText, selectedFilterTypes]);
+      take: 20,
+    })
+  }, [fetchPaginatedCardTransactions, searchText, selectedFilterTypes])
 
   useEffect(() => {
-    let newData = [...cardList];
+    let newData = [...cardList]
 
-    setFilteredData(newData);
-  }, [searchText, cardList, selectedFilterTypes]);
+    setFilteredData(newData)
+  }, [searchText, cardList, selectedFilterTypes])
 
   const handleLoadMore = () => {
-    if (isFetchingMore) return;
+    if (isFetchingMore) return
 
-    setIsFetchingMore(true);
-    const nextPage = page + 1;
+    setIsFetchingMore(true)
+    const nextPage = page + 1
 
     fetchPaginatedCardTransactions({
       searchText,
       types: selectedFilterTypes,
       cursor: 0,
-      take: 20 + nextPage * 20
+      take: 20 + nextPage * 20,
     }).finally(() => {
-      setPage(nextPage);
-      setIsFetchingMore(false);
-    });
-  };
+      setPage(nextPage)
+      setIsFetchingMore(false)
+    })
+  }
 
   const HeaderTab = () => (
     <View>
-      <View className="flex-row items-center gap-3 pt-6 pb-2 bg-white">
-        <View className="border flex-1 border-border rounded-lg relative">
+      <View style={tw`flex-row items-center gap-sp12 pt-sp24 pb-sp8 bg-white`}>
+        <View style={tw`border flex-1 border-subtitle rounded-br8 relative`}>
           <TextInput
-            className="flex-1 h-[48px] px-4 rounded-lg bg-subtle border border-border pl-10 pr-4"
+            style={tw`flex-1 h-h48 px-sp16 rounded-br8 bg-subtle border border-subtitle pl-sp40 pr-sp16`}
             placeholder="Search transaction"
             placeholderTextColor="#737373"
             autoCorrect={false}
@@ -83,28 +70,20 @@ export function TransactionCardTap() {
             onSubmitEditing={Keyboard.dismiss}
             returnKeyType="search"
           />
-          <View className="absolute top-3.5 left-2">
+          <View style={tw`absolute top-3.5 left-2`}>
             <SearchIcon />
           </View>
         </View>
         <TouchableOpacity
           onPress={() => {
-            sheetRef?.current?.present();
-            Keyboard.dismiss();
+            sheetRef?.current?.present()
+            Keyboard.dismiss()
           }}
-          className={cn(
-            "p-[10px] rounded-full",
-            selectedFilterTypes.length > 0 && "bg-[#E5E5E5]"
-          )}
-        >
+          style={tw.style('p-sp10 rounded-full', selectedFilterTypes.length > 0 && 'bg-[#E5E5E5]')}>
           <FilterTransactionIcon />
           {selectedFilterTypes.length > 0 && (
-            <View className="rounded-full justify-center w-[20px] h-[20px] items-center bg-[#000000] absolute left-[34px] top-[-6px]">
-              <Typography
-                type="body-extraSmall"
-                weight="medium"
-                textColor="white"
-              >
+            <View style={tw`rounded-full justify-center w-w20 h-h20 items-center bg-[#000000] absolute left-[34px] top-[-6px]`}>
+              <Typography type="bsm" weight="medium" textColor="white">
                 {selectedFilterTypes.length}
               </Typography>
             </View>
@@ -114,68 +93,59 @@ export function TransactionCardTap() {
       {selectedFilterTypes.length > 0 && (
         <TouchableOpacity
           onPress={() => {
-            setSelectedFilterTypes([]);
+            setSelectedFilterTypes([])
           }}
-          className="px-4 py-3 bg-[#525252] self-start items-center mb-4 mt-2 rounded-full flex-row gap-[2px]"
-        >
-          <Typography type="body-small" weight="regular" textColor="white">
+          style={tw`px-sp16 py-sp12 bg-[#525252] self-start items-center mb-sp16 mt-sp8 rounded-full flex-row gap-sp2`}>
+          <Typography type="bs" weight="regular" textColor="white">
             Clear filter
           </Typography>
-          <XIcon color={"white"} size={16} />
+          <XIcon color={'white'} size={scale(16)} />
         </TouchableOpacity>
       )}
     </View>
-  );
+  )
 
   const EmptyList = () => (
-    <View className="pt-4 justify-center items-center">
-      <Typography
-        weight="regular"
-        type="body-default"
-        textColor="#737373"
-        className="text-center"
-      >
+    <View style={tw`pt-sp16 justify-center items-center`}>
+      <Typography weight="regular" type="bd" textColor="#737373" style={tw`text-center`}>
         {selectedFilterTypes.length > 0
           ? `No results found.
 Try changing your filter.`
           : `No transactions yet.`}
       </Typography>
     </View>
-  );
+  )
 
   const Footer = () => {
-    return <BottomIndicatorAvoidingView number={4} />;
-  };
+    return <BottomIndicatorAvoidingView number={4} />
+  }
 
-  const indicatorHeight = 100;
-  const maxScroll = contentHeight - listHeight;
+  const indicatorHeight = 100
+  const maxScroll = contentHeight - listHeight
   const indicatorTranslateY = scrollY.interpolate({
     inputRange: [0, maxScroll > 0 ? maxScroll : 1],
     outputRange: [0, listHeight - indicatorHeight],
-    extrapolate: "clamp"
-  });
+    extrapolate: 'clamp',
+  })
 
   return (
-    <View className="flex-1 relative px-4">
+    <View style={tw`flex-1 relative px-sp16`}>
       {HeaderTab()}
 
       <Animated.FlatList
         data={filteredData}
-        renderItem={({ item, index }) => <CardItem item={item} />}
+        renderItem={({item, index}) => <CardItem item={item} />}
         contentContainerStyle={{
           paddingTop: 12,
-          paddingRight: 10
+          paddingRight: 10,
         }}
         showsVerticalScrollIndicator={false}
-        onLayout={(e) => setListHeight(e.nativeEvent.layout.height)}
+        onLayout={e => setListHeight(e.nativeEvent.layout.height)}
         onContentSizeChange={(_, h) => setContentHeight(h)}
         scrollEventThrottle={16}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5} // Load more when 50% from bottom
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: false }
-        )}
+        onScroll={Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {useNativeDriver: false})}
         ListFooterComponent={Footer}
         ListEmptyComponent={EmptyList}
       />
@@ -185,43 +155,35 @@ Try changing your filter.`
       {contentHeight > 960 && (
         <Animated.View
           style={{
-            position: "absolute",
+            position: 'absolute',
             zIndex: 10,
             right: 4,
             top: 88,
             width: 8,
             borderRadius: 8,
-            backgroundColor: "#D4D4D4",
+            backgroundColor: '#D4D4D4',
             height: indicatorHeight,
-            transform: [{ translateY: indicatorTranslateY }]
+            transform: [{translateY: indicatorTranslateY}],
           }}
         />
       )}
-      <BottomSheet ref={sheetRef} index={0} snapPoints={["40%"]}>
-        <BottomSheetView className="min-h-[100%]">
-          <View className="flex-row justify-between gap-3 p-3 items-center">
-            <View className="h-[24px] w-[24px]" />
-            <Typography type="body-large" weight="semibold">
+      <BottomSheet ref={sheetRef} index={0} snapPoints={['40%']}>
+        <BottomSheetView style={tw`min-h-[100%]`}>
+          <View style={tw`flex-row justify-between gap-sp12 p-sp12 items-center`}>
+            <View style={tw`h-h24 w-w24`} />
+            <Typography type="bl" weight="semibold">
               {`Filter transactions`}
             </Typography>
-            <Button
-              className="flex-shrink items-center"
-              size="icon"
-              variant="ghost"
-              onPress={() => sheetRef.current?.close()}
-            >
-              <XIcon className="h-[24px] w-[24px] text-black" />
-            </Button>
+            <TouchableOpacity style={tw`flex-shrink items-center`} onPress={() => sheetRef.current?.close()}>
+              <XIcon style={tw`h-h24 w-w24 text-black`} />
+            </TouchableOpacity>
           </View>
 
-          <FilterCardList
-            onChange={(selected) => setSelectedFilterTypes(selected)}
-            selectedFilterTypes={selectedFilterTypes}
-          />
+          <FilterCardList onChange={selected => setSelectedFilterTypes(selected)} selectedFilterTypes={selectedFilterTypes} />
         </BottomSheetView>
       </BottomSheet>
     </View>
-  );
+  )
 }
 
-export default TransactionCardTap;
+export default TransactionCardTap

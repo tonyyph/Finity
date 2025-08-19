@@ -1,10 +1,11 @@
-import { memoFC } from "@/utils";
-import Svg, { Path, SvgProps } from "react-native-svg";
+import {memoFC, scale, tw} from '@/utils'
+import {View} from 'react-native'
+import Svg, {Path, SvgProps} from 'react-native-svg'
 
-export const Biometrics = memoFC(
-  ({ size = 24, style, ...props }: SvgProps & IconProps = {}) => {
-    return (
-      <Svg width={40} height={40} fill="none" {...props}>
+export const Biometrics = memoFC(({size = scale(40), style, ...props}: SvgProps & IconProps = {}) => {
+  return (
+    <View style={[{width: size, height: size}, style]}>
+      <Svg style={tw`aspect-square`} width={'100%'} height={'100%'} fill="none" viewBox="0 0 40 40" {...props}>
         <Path
           fill="#000"
           fillRule="evenodd"
@@ -12,6 +13,6 @@ export const Biometrics = memoFC(
           clipRule="evenodd"
         />
       </Svg>
-    );
-  }
-);
+    </View>
+  )
+})

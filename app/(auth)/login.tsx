@@ -1,179 +1,109 @@
-import { CircleAlert, Typography, Button } from "@/components";
-import { useLogin } from "@/hooks";
-import { cn } from "@/lib";
-import { TopIndicatorAvoidingView } from "@/utils";
-import { router } from "expo-router";
-import { EyeIcon, EyeOffIcon } from "lucide-react-native";
-import { useState } from "react";
-import {
-  Image,
-  Keyboard,
-  TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View
-} from "react-native";
+import {Button, CircleAlert, Typography} from '@/components'
+import {useLogin} from '@/hooks'
+import {TopIndicatorAvoidingView, tw} from '@/utils'
+import {router} from 'expo-router'
+import {EyeIcon, EyeOffIcon} from 'lucide-react-native'
+import {useState} from 'react'
+import {Image, Keyboard, TextInput, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native'
 
 export default function LoginScreen() {
-  const [securePassword, setSecurePassword] = useState(true);
-  const [focusUsername, setFocusUsername] = useState(false);
-  const [focusPassword, setFocusPassword] = useState(false);
-  const { onLogin, usernameState, passwordState, isLoading } = useLogin();
+  const [securePassword, setSecurePassword] = useState(true)
+  const [focusUsername, setFocusUsername] = useState(false)
+  const [focusPassword, setFocusPassword] = useState(false)
+  const {onLogin, usernameState, passwordState, isLoading} = useLogin()
 
   const onPressSecurePassword = () => {
-    setSecurePassword((prev) => !prev);
-  };
+    setSecurePassword(prev => !prev)
+  }
+
+  const onPressForgotPassword = () => {
+    router.push({
+      pathname: '/un-auth-web-view',
+      params: {
+        title: 'Forgot password',
+        webLink: 'https://as-rwd-uks-rewards-web-dev.azurewebsites.net/account/forgot-password',
+      },
+    })
+  }
 
   return (
-    <View className="flex-1">
+    <View style={tw`flex-1`}>
       {/* Welcome */}
-      <View className={cn("bg-black justify-end")}>
+      <View style={tw`bg-black justify-end`}>
         <TopIndicatorAvoidingView />
-        <Image
-          source={require("@/assets/images/logo-stack.png")}
-          className="w-full h-[70px] my-10"
-          resizeMode="contain"
-        />
+        <Image source={require('@/assets/images/logo-stack.png')} style={tw`w-full h-h70 my-sp40`} resizeMode="contain" />
       </View>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View className="bg-black z-10 gap-4 flex-1 justify-center">
+        <View style={tw`bg-black z-10 flex-1 justify-center`}>
           {/* Input Field */}
-          <View className="flex-1 rounded-t-[18px] z-20 bg-orange-400">
-            <View className="flex-1 flex-col gap-3 bg-white top-2 p-4 pt-6 rounded-t-[24px]">
+          <View style={tw`flex-1 z-20 bg-orange-primary rounded-t-br24`}>
+            <View style={tw`flex-1 flex-col gap-sp20 bg-white top-sp8 p-sp16 pt-sp24 rounded-t-br24`}>
               {/* Username Field */}
-              <View className="gap-1">
-                <Typography
-                  type="body-default"
-                  weight="medium"
-                  textColor="#404040"
-                >
+              <View>
+                <Typography type="bd" weight="medium" textColor="#404040">
                   Email
                 </Typography>
-                <View className="rounded-lg relative">
+                <View style={tw`rounded-br8 relative mt-sp2 mb-sp8`}>
                   <TextInput
-                    className={cn(
-                      "px-3 rounded-lg bg-background border-2 border-border h-[48px]",
-                      {
-                        "border-black": !!focusUsername,
-                        "border-errormessage":
-                          !!passwordState.error || !!usernameState.error,
-                        "border-2": !!passwordState.error
-                      }
+                    style={tw.style(
+                      `px-sp12 rounded-br8 bg-white text-bd leading-bs font-rg border-bw1 border-subtitle h-h48`,
+                      !!focusUsername && `border-bw2 border-black`,
+                      (!!passwordState.error || !!usernameState.error) && `border-errormessage border-bw2`,
                     )}
                     onFocus={() => setFocusUsername(true)}
                     onEndEditing={() => setFocusUsername(false)}
                     placeholder={`Enter email address`}
-                    placeholderTextColor={"gray"}
+                    placeholderTextColor={'gray'}
                     autoCapitalize="none"
                     value={usernameState.value}
                     onChangeText={usernameState.onChangeText}
                   />
                 </View>
                 {!!usernameState.error && (
-                  <View className=" flex flex-row items-center mt-2">
-                    <CircleAlert className="top-1" />
-                    <Typography
-                      type="body-small"
-                      weight="medium"
-                      textColor="#D9323D"
-                    >
-                      {usernameState.error?.charAt(0).toUpperCase() +
-                        usernameState.error?.slice(1)}{" "}
+                  <View style={tw`flex flex-row items-center`}>
+                    <CircleAlert style={tw`mr-sp4`} />
+                    <Typography type="bs" weight="medium" textColor="#D9323D">
+                      {usernameState.error?.charAt(0).toUpperCase() + usernameState.error?.slice(1)}{' '}
                     </Typography>
                   </View>
                 )}
               </View>
               {/* Password Field */}
-              <View className="mt-4 gap-1">
-                <Typography
-                  type="body-default"
-                  weight="medium"
-                  textColor="#404040"
-                >
-                  Password
-                </Typography>
-                <View className="rounded-lg relative">
+              <View>
+                <Typography textColor="#404040">Password</Typography>
+                <View style={tw`rounded-br8 relative mt-sp2 mb-sp8`}>
                   <TextInput
-                    className={cn(
-                      "px-3 rounded-lg bg-background border-2 border-border h-[48px]",
-                      {
-                        "border-black": !!focusPassword,
-                        "border-errormessage": !!passwordState.error,
-                        "border-2": !!passwordState.error
-                      }
+                    style={tw.style(
+                      `px-sp12 rounded-br8 bg-white border-bw1 text-bd leading-bs font-rg border-subtitle h-h48`,
+                      !!focusPassword && `border-bw2 border-black`,
+                      (!!passwordState.error || !!usernameState.error) && `border-errormessage border-bw2`,
                     )}
                     onFocus={() => setFocusPassword(true)}
                     onEndEditing={() => setFocusPassword(false)}
                     placeholder={`Enter password`}
-                    placeholderTextColor={"gray"}
+                    placeholderTextColor={'gray'}
                     secureTextEntry={securePassword}
                     value={passwordState.value}
                     onChangeText={passwordState.onChangeText}
                   />
-                  <TouchableOpacity
-                    onPress={onPressSecurePassword}
-                    className="absolute top-[14px] right-4"
-                  >
-                    {securePassword ? (
-                      <EyeOffIcon className="size-6 text-[#525252]" />
-                    ) : (
-                      <EyeIcon className="size-6 text-[#525252]" />
-                    )}
+                  <TouchableOpacity onPress={onPressSecurePassword} style={tw`absolute top-sp12 right-sp16`}>
+                    {securePassword ? <EyeOffIcon style={tw`h-h24 w-w24 text-[#525252]`} /> : <EyeIcon style={tw`h-h24 w-w24 text-[#525252]`} />}
                   </TouchableOpacity>
                 </View>
                 {!!passwordState.error && (
-                  <View
-                    className={cn(
-                      "flex flex-row items-center mt-4",
-                      !!usernameState.error && "mt-2"
-                    )}
-                  >
-                    <CircleAlert className="top-1" />
-                    <Typography
-                      type="body-small"
-                      weight="medium"
-                      textColor="#D9323D"
-                    >
+                  <View style={tw.style(`flex flex-row items-center`, !usernameState.error && 'mt-sp12')}>
+                    <CircleAlert style={tw`mr-sp4`} />
+                    <Typography type="bs" weight="medium" textColor="#D9323D">
                       {passwordState.error}
                     </Typography>
                   </View>
                 )}
               </View>
               {/* Login Button */}
-              <Button
-                variant="default"
-                size={"lg"}
-                className="mt-8 rounded-full bg-primary h-[48px]"
-                loading={isLoading}
-                onPress={onLogin}
-              >
-                <Typography
-                  type="body-default"
-                  weight="medium"
-                  textColor="white"
-                >
-                  {isLoading ? `Signing in...` : `Sign in`}
-                </Typography>
-              </Button>
+              <Button.Primary title="Sign in" loadingTitle="Signing in..." isLoading={isLoading} onPress={onLogin} style={tw`mt-sp20 h-h48`} />
               {/* Forgot password */}
-              <TouchableOpacity
-                className="px-4 mt-2"
-                onPress={() =>
-                  router.push({
-                    pathname: "/un-auth-web-view",
-                    params: {
-                      title: "Forgot password",
-                      webLink:
-                        "https://as-rwd-uks-rewards-web-dev.azurewebsites.net/account/forgot-password"
-                    }
-                  })
-                }
-              >
-                <Typography
-                  type="body-default"
-                  weight="medium"
-                  className="text-center mt-2"
-                >
+              <TouchableOpacity style={tw`px-sp16 mt-sp8`} onPress={onPressForgotPassword}>
+                <Typography type="bd" weight="medium" style={tw`text-center my-sp4`}>
                   Forgot password?
                 </Typography>
               </TouchableOpacity>
@@ -182,5 +112,5 @@ export default function LoginScreen() {
         </View>
       </TouchableWithoutFeedback>
     </View>
-  );
+  )
 }

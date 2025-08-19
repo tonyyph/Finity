@@ -1,58 +1,43 @@
-import { ProfileItem, Header, ProgressBar } from "@/components";
-import { formatDateString } from "@/lib";
-import { router, useFocusEffect } from "expo-router";
-import { useCallback } from "react";
-import { ScrollView, View } from "react-native";
-import { useSettingProfile } from "@/hooks";
+import {ProfileItem, Header, ProgressBar} from '@/components'
+import {formatDateString} from '@/lib'
+import {router, useFocusEffect} from 'expo-router'
+import {useCallback} from 'react'
+import {ScrollView, View} from 'react-native'
+import {useSettingProfile} from '@/hooks'
+import {tw} from '@/utils'
 
 export default function EditProfileScreen() {
-  const {
-    settingProfile: userProfile,
-    loading,
-    fetchSettingProfile
-  } = useSettingProfile();
+  const {settingProfile: userProfile, loading, fetchSettingProfile} = useSettingProfile()
 
   useFocusEffect(
     useCallback(() => {
-      fetchSettingProfile();
-    }, [fetchSettingProfile])
-  );
+      fetchSettingProfile()
+    }, [fetchSettingProfile]),
+  )
   const onPressEditMobileNumber = () => {
-    router.push("/(app)/edit-phonenumber");
-  };
+    router.push('/(app)/edit-phonenumber')
+  }
   const onEditHomeAddress = () => {
-    router.push("/(app)/edit-homeaddress");
-  };
+    router.push('/(app)/edit-homeaddress')
+  }
 
   return (
-    <View className="flex-1 bg-background">
+    <View style={tw`flex-1 bg-white`}>
       <Header onBack={router.back} title="Personal information" />
       <ProgressBar completeAnimation={!loading} />
-      <ScrollView className="bg-background" contentContainerClassName="p-6">
+      <ScrollView style={tw`bg-white`} contentContainerStyle={tw`p-sp24`}>
+        <ProfileItem title={'Full Name'} loading={loading} value={userProfile?.firstName + ' ' + userProfile?.lastName} />
+        <ProfileItem title={'Email address'} loading={loading} value={userProfile?.email} />
         <ProfileItem
-          title={"Full Name"}
-          loading={loading}
-          value={userProfile?.firstName + " " + userProfile?.lastName}
-        />
-        <ProfileItem
-          title={"Email address"}
-          loading={loading}
-          value={userProfile?.email}
-        />
-        <ProfileItem
-          title={"Phone number"}
+          title={'Phone number'}
           value={`+44 ${userProfile?.mobileNumber}`}
           loading={loading}
           onPress={onPressEditMobileNumber}
           canEdit={true}
         />
+        <ProfileItem title={'Date of birth'} loading={loading} value={formatDateString(userProfile?.dateOfBirth)} />
         <ProfileItem
-          title={"Date of birth"}
-          loading={loading}
-          value={formatDateString(userProfile?.dateOfBirth)}
-        />
-        <ProfileItem
-          title={"Home address"}
+          title={'Home address'}
           loadingMultiple={loading}
           value={userProfile?.addressLine1}
           value0={userProfile?.addressLine2}
@@ -62,15 +47,15 @@ export default function EditProfileScreen() {
           canEdit={true}
         />
 
-        <View className="mt-4" />
+        <View style={tw`mt-sp16`} />
         <ProfileItem
-          title={""}
-          topicTitle={"Business information"}
+          title={''}
+          topicTitle={'Business information'}
           loading={loading}
-          value={userProfile?.business?.name ?? "TOMATO LIMITED"}
+          value={userProfile?.business?.name ?? 'TOMATO LIMITED'}
           showDivider={false}
         />
       </ScrollView>
     </View>
-  );
+  )
 }

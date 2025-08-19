@@ -1,39 +1,36 @@
-const colors = require("tailwindcss/colors");
-const { hairlineWidth } = require("nativewind/theme");
-
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: "class",
   content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
-  presets: [require("nativewind/preset")],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
-    fontSize: {
-      'heading-large': ['34px', { lineHeight: '40px', letterSpacing: '1.8%' }],
-      'heading-medium': ['28px', { lineHeight: '34px', letterSpacing: '2.5%' }],
-      'heading-small': ['24px', { lineHeight: '30px', letterSpacing: '2.5%' }],
-      'heading-extraSmall': ['20px', { lineHeight: '25px', letterSpacing: '2.0%' }],
-      'body-large': ['18px', { lineHeight: '24px', letterSpacing: '2.0%' }],
-      'body-default': ['16px', { lineHeight: '22px', letterSpacing: '3.0%' }],
-      'body-small': ['14px', { lineHeight: '20px', letterSpacing: '1.8%' }],
-    },
     extend: {
       fontFamily: {
-        regular: ["NeueMontreal-Regular"],
-        medium: ["NeueMontreal-Medium"],
-        bold: ["NeueMontreal-Bold"],
+        'primary-700': ['NeueMontreal-Bold'],
+        'primary-500': ['NeueMontreal-Medium'],
+        'primary-400': ['NeueMontreal-Regular']
       },
-      fontWeight: {
-        thin: "100",
-        normal: "400",
-        medium: "500",
-        semibold: "600",
+      spacing: {
+        space1: '40px',
+        space2: '32px',
+        space22: '24px',
+        space21: '20px',
+        space3: '16px',
+        space31: '12px',
+        space32: '10px',
+        space4: '8px',
+        space41: '6px',
+        space5: '4px',
+        space51: '2px',
+      },
+      borderRadius: {
+        radius1: '40px',
+        radius2: '16px',
+        radius3: '8px',
+        radius4: '4px',
+        radius5: '2px',
+      },
+      boxShadow: {
+        elevation1: '0px 4px 6px 0px rgba(0, 0, 0, 0.09)',
+        elevation2: '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
       },
       colors: {
         gray: {
@@ -58,6 +55,7 @@ module.exports = {
           800: "#7f7f7f",
           900: "#6d6d6d",
         },
+        border: "#A3A3A3",
         disabled: "#A3A3A3",
         tertiary: "#737373",
         backgroundSubtle: "#FAFAFA",
@@ -76,58 +74,40 @@ module.exports = {
         errormessage: "#D9323D",
         "orange-primary": "#FF885D",
         pin: "#f9f9f9",
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        amount: {
-          positive: colors.green[600],
-          negative: colors.red[500],
-        },
-      },
-      borderWidth: {
-        hairline: hairlineWidth(),
-      },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        primary: "#0A0A0A",
+        background: "#FAFAFA",
+        transparent: "transparent",
+        whiteSubtle: "#FAFAFA",
+        // input: "hsl(var(--input))",
+        // ring: "hsl(var(--ring))",
+        // background: "hsl(var(--background))",
+        // foreground: "hsl(var(--foreground))",
+        // primary: {
+        //   DEFAULT: "hsl(var(--primary))",
+        //   foreground: "hsl(var(--primary-foreground))",
+        // },
+        // destructive: {
+        //   DEFAULT: "hsl(var(--destructive))",
+        //   foreground: "hsl(var(--destructive-foreground))",
+        // },
+        // muted: {
+        //   DEFAULT: "hsl(var(--muted))",
+        //   foreground: "hsl(var(--muted-foreground))",
+        // },
+        // accent: {
+        //   DEFAULT: "hsl(var(--accent))",
+        //   foreground: "hsl(var(--accent-foreground))",
+        // },
+        // popover: {
+        //   DEFAULT: "hsl(var(--popover))",
+        //   foreground: "hsl(var(--popover-foreground))",
+        // },
+        // card: {
+        //   DEFAULT: "hsl(var(--card))",
+        //   foreground: "hsl(var(--card-foreground))",
+        // },
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [],
 };

@@ -1,24 +1,23 @@
-import { TopIndicatorAvoidingView } from "@/utils";
-import { XIcon } from "lucide-react-native";
-import { ReactNode } from "react";
-import { TouchableOpacity, View } from "react-native";
-import type { SvgProps } from "react-native-svg";
-import { Button } from "./button";
-import { commonStore } from "@/stores";
-import { ArrowBackIcon, Typography } from "../common";
+import {commonStore} from '@/stores'
+import {TopIndicatorAvoidingView, tw} from '@/utils'
+import {XIcon} from 'lucide-react-native'
+import {ReactNode} from 'react'
+import {TouchableOpacity, View} from 'react-native'
+import {ArrowBackIcon, Typography} from '../common'
+import {Button} from './button'
 
 type Props = {
-  title?: string;
-  spacing?: boolean;
-  onLeftFunction?: (params?: any) => void;
-  renderLeftView?: ReactNode;
-  renderCenterView?: ReactNode;
-  onBack?: (params?: any) => void;
-  onRightFunction?: (params?: any) => void;
-  children?: ReactNode;
-  icon?: React.ComponentType<SvgProps>;
-  renderRightView?: ReactNode;
-};
+  title?: string
+  spacing?: boolean
+  onLeftFunction?: (params?: any) => void
+  renderLeftView?: ReactNode
+  renderCenterView?: ReactNode
+  onBack?: (params?: any) => void
+  onRightFunction?: (params?: any) => void
+  children?: ReactNode
+  icon?: any
+  renderRightView?: ReactNode
+}
 
 export const Header = ({
   title,
@@ -29,59 +28,45 @@ export const Header = ({
   icon: Icon,
   renderLeftView,
   renderCenterView,
-  renderRightView
+  renderRightView,
 }: Props) => {
-  const isLoading = commonStore.getState().isLoading;
+  const isLoading = commonStore.getState().isLoading
   return (
     <View>
       {spacing && <TopIndicatorAvoidingView />}
-      <View className="flex-row justify-between items-center px-3 gap-2 py-1">
+      <View style={tw`flex-row justify-between items-center px-sp12 gap-sp8 py-sp4 h-h56`}>
         {renderLeftView ??
           (!!onBack || !!onLeftFunction ? (
             <TouchableOpacity
-              onPress={(value) => {
-                onBack?.(value);
-                onLeftFunction?.(value);
+              onPress={value => {
+                onBack?.(value)
+                onLeftFunction?.(value)
               }}
-              className="flex-shrink"
-              disabled={isLoading}
-            >
+              style={tw`flex-shrink w-w32 h-h32 items-center justify-center`}
+              disabled={isLoading}>
               <ArrowBackIcon />
             </TouchableOpacity>
           ) : (
-            <View className="flex-shrink">
-              <View className="w-[32px] h-[32px]" />
+            <View style={tw`flex-shrink`}>
+              <View style={tw`w-w32 h-h32`} />
             </View>
           ))}
         {renderCenterView ?? (
-          <Typography weight="semibold" type="body-large">
+          <Typography weight="semibold" type="bl">
             {title}
           </Typography>
         )}
         {renderRightView ??
           (!!onRightFunction ? (
-            <Button
-              className="flex-shrink items-center"
-              size="icon"
-              variant="ghost"
-              onPress={onRightFunction}
-            >
-              {Icon ? (
-                <Icon className="w-[32px] h-[32px] text-foreground" />
-              ) : (
-                <XIcon className="w-[32px] h-[32px] text-foreground" />
-              )}
-            </Button>
+            <Button.Icon style={tw`flex-shrink items-center`} onPress={onRightFunction}>
+              {Icon ? <Icon style={tw`w-w32 h-h32 text-black`} /> : <XIcon style={tw`w-w32 h-h32 text-black`} />}
+            </Button.Icon>
           ) : (
-            <View className="flex-shrink">
-              {Icon ? (
-                <Icon className="w-[32px] h-[32px] color-transparent" />
-              ) : (
-                <XIcon className="w-[32px] h-[32px] color-transparent" />
-              )}
+            <View style={tw`flex-shrink`}>
+              <XIcon style={tw`w-w32 h-h32 text-transparent`} />
             </View>
           ))}
       </View>
     </View>
-  );
-};
+  )
+}

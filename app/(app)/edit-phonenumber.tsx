@@ -1,126 +1,107 @@
-import { CircleAlert } from "@/components/common";
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { Header } from "@/components/ui/header";
-import { useAnimatedKeyboard } from "@/hooks";
-import { cn, IS_IOS } from "@/lib";
-import { BottomIndicatorAvoidingView } from "@/utils";
-import { router } from "expo-router";
-import { useCallback, useState } from "react";
-import { TextInput, View } from "react-native";
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import {CircleAlert} from '@/components/common'
+import {Typography} from '@/components/common/text-typography'
+import {Button} from '@/components/ui/button'
+import {Header} from '@/components/ui/header'
+import {useAnimatedKeyboard} from '@/hooks'
+import {IS_IOS} from '@/lib'
+import {BottomIndicatorAvoidingView, tw} from '@/utils'
+import {router} from 'expo-router'
+import {useCallback, useState} from 'react'
+import {TextInput, View} from 'react-native'
+import Animated, {useAnimatedStyle} from 'react-native-reanimated'
 
 const EditPhoneNumberScreen = () => {
-  const [loading, setLoading] = useState<boolean>();
-  const [isShowError, setIsShowError] = useState<boolean>(false);
-  const [isFirstTry, setIsFirstTry] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>()
+  const [isShowError, setIsShowError] = useState<boolean>(false)
+  const [isFirstTry, setIsFirstTry] = useState<boolean>(false)
 
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [focusMobileNumber, setFocusMobileNumber] = useState<boolean>(false);
+  const [phoneNumber, setPhoneNumber] = useState<string>('')
+  const [focusMobileNumber, setFocusMobileNumber] = useState<boolean>(false)
 
-  const { keyboardHeight } = useAnimatedKeyboard(0);
+  const {keyboardHeight} = useAnimatedKeyboard(0)
   const translateStyle = useAnimatedStyle(() => ({
-    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value
-  }));
+    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value,
+  }))
 
   const handleConfirm = useCallback(() => {
     if (!phoneNumber || phoneNumber.length !== 10) {
-      setIsShowError(true);
-      setIsFirstTry(true);
-      return;
+      setIsShowError(true)
+      setIsFirstTry(true)
+      return
     }
-    setLoading(true);
+    setLoading(true)
     setTimeout(() => {
-      setLoading(false);
+      setLoading(false)
       router.push({
-        pathname: "/(app)/verify-phonenumber",
+        pathname: '/(app)/verify-phonenumber',
         params: {
           phoneNumber: `+44${phoneNumber}`,
-          rawPhoneNumber: phoneNumber
-        }
-      });
-    }, 2000);
-  }, [phoneNumber]);
+          rawPhoneNumber: phoneNumber,
+        },
+      })
+    }, 2000)
+  }, [phoneNumber])
 
   return (
-    <View className="flex-1 bg-background">
+    <View style={tw`flex-1 bg-white`}>
       <Header onBack={router.back} title="" />
-      <View className="flex-1">
-        <View className="flex-1 px-6 gap-3 pt-6">
-          <Typography type="heading-medium" weight="semibold">
+      <View style={tw`flex-1`}>
+        <View style={tw`flex-1 px-sp16 gap-sp12 pt-sp24`}>
+          <Typography type="hm" weight="semibold">
             Edit mobile number
           </Typography>
-          <Typography
-            type="body-default"
-            weight="regular"
-            className="mr-4 my-2"
-          >
-            Enter your updated mobile number, and we’ll send a verification code
-            to verify your identity.
+          <Typography type="bd" weight="regular" style={tw`mr-sp16 my-sp8`}>
+            Enter your updated mobile number, and we’ll send a verification code to verify your identity.
           </Typography>
           <Typography textColor="#404040">New mobile number</Typography>
-          <View className="flex-row gap-3">
-            <View className="w-[56px] h-[48px] bg-neutral-100 items-center border border-border justify-center rounded-lg">
+          <View style={tw`flex-row gap-sp12`}>
+            <View style={tw`w-w56 h-h48 bg-neutral-100 items-center border border-subtitle justify-center rounded-br8`}>
               <Typography weight="regular" textColor="#404040">
                 +44
               </Typography>
             </View>
             <TextInput
-              className={cn(
-                "px-3 rounded-lg bg-background flex-1 border border-border h-[48px]",
-                {
-                  "border-black border-2": !!focusMobileNumber
-                }
-              )}
+              style={tw.style('px-sp12 rounded-br8 bg-white flex-1 border border-subtitle h-h48', {
+                'border-black border-bw2': !!focusMobileNumber,
+              })}
               onFocus={() => setFocusMobileNumber(true)}
               onEndEditing={() => setFocusMobileNumber(false)}
               placeholder={`Enter your new mobile number.`}
-              placeholderTextColor={"#A3A3A3"}
+              placeholderTextColor={'#A3A3A3'}
               keyboardType="number-pad"
               maxLength={12}
               autoCapitalize="none"
               value={phoneNumber}
-              onChangeText={(text) => {
-                setIsShowError(text?.length !== 10);
-                setPhoneNumber(text);
+              onChangeText={text => {
+                setIsShowError(text?.length !== 10)
+                setPhoneNumber(text)
               }}
             />
-            <View className="w-2" />
+            <View style={tw`w-w4`} />
           </View>
           {isFirstTry && isShowError && (
-            <View className={cn("flex-row items-center")}>
-              <CircleAlert className="top-1" />
-              <Typography type="body-small" weight="medium" textColor="#D9323D">
+            <View style={tw`flex-row items-center`}>
+              <CircleAlert style={tw`mr-sp4`} />
+              <Typography type="bs" weight="medium" textColor="#D9323D">
                 {`Please enter a valid 10-digit phone number`}
               </Typography>
             </View>
           )}
         </View>
-        <View key={1} className="justify-end flex-1">
-          <View className="px-6 gap-6">
-            <Button
-              variant="default"
-              size={"lg"}
-              disabled={loading || phoneNumber?.length === 0}
-              className="rounded-full bg-primary h-[48px]"
-              loading={loading}
-              onPress={handleConfirm}
-            >
-              <Typography
-                type="body-default"
-                weight="medium"
-                textColor={phoneNumber?.length === 0 ? "#A3A3A3" : "white"}
-              >
-                {loading ? `Sending...` : `Send code`}
-              </Typography>
-            </Button>
-          </View>
-          <BottomIndicatorAvoidingView />
+        <View key={1} style={tw`justify-end flex-1 px-sp16 py-sp12`}>
+          <Button.Primary
+            title={`Send code`}
+            disabled={phoneNumber?.length === 0}
+            loadingTitle="Sending..."
+            isLoading={loading}
+            onPress={handleConfirm}
+          />
         </View>
+        <BottomIndicatorAvoidingView />
       </View>
       <Animated.View style={translateStyle} />
     </View>
-  );
-};
+  )
+}
 
-export default EditPhoneNumberScreen;
+export default EditPhoneNumberScreen

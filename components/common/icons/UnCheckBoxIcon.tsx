@@ -1,10 +1,11 @@
-import { memoFC } from "@/utils";
-import Svg, { Mask, Path, SvgProps } from "react-native-svg";
+import {memoFC, scale} from '@/utils'
+import {View} from 'react-native'
+import Svg, {Mask, Path, SvgProps} from 'react-native-svg'
 
-export const UnCheckBoxIcon = memoFC(
-  ({ size = 24, style, ...props }: SvgProps & IconProps = {}) => {
-    return (
-      <Svg width={24} height={24} fill="none" {...props} viewBox="0 0 24 24">
+export const UnCheckBoxIcon = memoFC(({size = scale(24), style, ...props}: SvgProps & IconProps = {}) => {
+  return (
+    <View style={[{width: size, height: size}, style]}>
+      <Svg width="100%" height="100%" fill="none" {...props} viewBox="0 0 24 24">
         <Mask id="a" fill="#fff">
           <Path d="M0 4a4 4 0 0 1 4-4h16a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4Z" />
         </Mask>
@@ -14,6 +15,6 @@ export const UnCheckBoxIcon = memoFC(
           mask="url(#a)"
         />
       </Svg>
-    );
-  }
-);
+    </View>
+  )
+})

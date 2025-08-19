@@ -1,40 +1,23 @@
-import { cn } from "@/lib";
-import { useEffect } from "react";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming
-} from "react-native-reanimated";
+import {tw} from '@/utils'
+import {useEffect} from 'react'
+import Animated, {useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming} from 'react-native-reanimated'
+import {Style} from 'twrnc'
 
-const duration = 1000;
+const duration = 1000
 
-function Skeleton({
-  className,
-  ...props
-}: Omit<React.ComponentPropsWithoutRef<typeof Animated.View>, "style">) {
-  const sv = useSharedValue(1);
+function Skeleton({customStyle, ...props}: Omit<React.ComponentPropsWithoutRef<typeof Animated.View>, 'customStyle'> & {customStyle?: Style}) {
+  const sv = useSharedValue(1)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    sv.value = withRepeat(
-      withSequence(withTiming(0.6, { duration }), withTiming(1, { duration })),
-      -1
-    );
-  }, [sv]);
+    sv.value = withRepeat(withSequence(withTiming(0.6, {duration}), withTiming(1, {duration})), -1)
+  }, [sv])
 
   const style = useAnimatedStyle(() => ({
-    opacity: sv.value
-  }));
+    opacity: sv.value,
+  }))
 
-  return (
-    <Animated.View
-      style={style}
-      className={cn("rounded-md bg-neutral-100 dark:bg-slate-200", className)}
-      {...props}
-    />
-  );
+  return <Animated.View style={tw.style(`rounded-md bg-neutral-100 dark:bg-slate-200`, style, customStyle)} {...props} />
 }
 
-export { Skeleton };
+export {Skeleton}

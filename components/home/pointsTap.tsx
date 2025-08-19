@@ -1,70 +1,57 @@
-import { BottomIndicatorAvoidingView } from "@/utils";
-import { FlashList } from "@shopify/flash-list";
-import { router } from "expo-router";
-import { View } from "react-native";
-import { Typography } from "../common/text-typography";
-import { PointItem } from "../transaction";
-import { Button } from "../ui/button";
+import {BottomIndicatorAvoidingView, tw} from '@/utils'
+import {FlashList} from '@shopify/flash-list'
+import {router} from 'expo-router'
+import {View} from 'react-native'
+import {Typography} from '../common/text-typography'
+import {PointItem} from '../transaction'
+import {Button} from '../ui/button'
 
-export function PointsTap({
-  showAll = false,
-  pointList
-}: {
-  showAll?: boolean;
-  pointList: Transaction[];
-}) {
+export function PointsTap({showAll = false, pointList}: {showAll?: boolean; pointList: Transaction[]}) {
   const handleSeeMore = () => {
     router.push({
-      pathname: "/transactions",
-      params: { initTab: "1" }
-    });
-  };
+      pathname: '/transactions',
+      params: {initTab: '1'},
+    })
+  }
 
   const EmptyList = () => {
     return (
-      <View className="pt-4 justify-center items-center">
-        <Typography weight="regular" type="body-default" textColor="#737373">
+      <View style={tw`pt-sp16 justify-center items-center`}>
+        <Typography weight="regular" type="bd" textColor="#737373">
           No transactions yet.
         </Typography>
       </View>
-    );
-  };
+    )
+  }
 
   const Footer = () => {
-    if (showAll) return <BottomIndicatorAvoidingView />;
-    if (pointList.length < 10 && pointList.length > 0) return null;
+    if (showAll) return <BottomIndicatorAvoidingView />
+    if (pointList.length < 10 && pointList.length > 0) return null
     if (pointList.length >= 10) {
       return (
-        <Button
-          variant="outline"
-          size={"lg"}
-          className="rounded-full h-[48px] mt-4"
-          onPress={handleSeeMore}
-        >
-          <Typography type="body-default" weight="medium" textColor="black">
-            {`See more`}
-          </Typography>
-        </Button>
-      );
+        <View style={tw`mt-sp16`}>
+          <Button.Secondary title={`See more`} onPress={handleSeeMore} />
+        </View>
+      )
     }
-  };
+  }
   return (
-    <View className="flex-1 px-4">
+    <View style={tw`flex-1 px-sp16`}>
       <FlashList
         data={showAll ? pointList : pointList.slice(0, 10)}
-        contentContainerClassName="pt-3"
+        contentContainerStyle={tw`pt-sp12`}
         showsVerticalScrollIndicator={false}
         estimatedItemSize={86}
         keyExtractor={(item, index) => `${item.id}-${index}`}
-        className="flex-1"
+        style={tw`flex-1`}
         onEndReachedThreshold={0.1}
-        renderItem={({ item, index }) => <PointItem item={item} />}
+        renderItem={({item, index}) => <PointItem item={item} />}
         nestedScrollEnabled={true}
         scrollEnabled={showAll}
         ListFooterComponent={Footer}
         ListEmptyComponent={EmptyList}
       />
     </View>
-  );
+  )
 }
-export default PointsTap;
+export default PointsTap

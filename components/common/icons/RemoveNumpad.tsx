@@ -1,10 +1,11 @@
-import { memoFC } from "@/utils";
-import Svg, { Path, SvgProps } from "react-native-svg";
+import {memoFC, scale, tw} from '@/utils'
+import {View} from 'react-native'
+import Svg, {Path, SvgProps} from 'react-native-svg'
 
-export const RemoveNumpad = memoFC(
-  ({ size = 24, style, ...props }: SvgProps & IconProps = {}) => {
-    return (
-      <Svg width={40} height={40} fill="none" {...props}>
+export const RemoveNumpad = memoFC(({size = scale(40), style, ...props}: SvgProps & IconProps = {}) => {
+  return (
+    <View style={[{width: size, height: size}, style]}>
+      <Svg style={tw`aspect-square`} width={'100%'} height={'100%'} fill="none" {...props} viewBox="0 0 40 40">
         <Path
           fill="#0A0A0A"
           d="M19.018 16.906a.938.938 0 0 1 1.326-1.325l3.093 3.093 3.094-3.093a.937.937 0 0 1 1.326 1.325L24.763 20l3.094 3.094a.937.937 0 0 1-1.326 1.325l-3.093-3.093-3.094 3.093a.937.937 0 1 1-1.326-1.325L22.112 20l-3.094-3.094Z"
@@ -16,6 +17,6 @@ export const RemoveNumpad = memoFC(
           clipRule="evenodd"
         />
       </Svg>
-    );
-  }
-);
+    </View>
+  )
+})

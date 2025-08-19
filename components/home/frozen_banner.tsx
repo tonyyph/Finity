@@ -1,39 +1,33 @@
-import { Image, View } from "react-native";
-import { Typography } from "../common/text-typography";
-import { Touch } from "../ui/touch";
-import { FrozenCard } from "@/assets";
+import {Image, View} from 'react-native'
+import {Typography} from '../common/text-typography'
+import {Touch} from '../ui/touch'
+import {FrozenCard} from '@/assets'
+import {tw} from '@/utils'
 
 type Props = {
-  title?: string;
-  subTitle?: string;
-  onPress?: (params?: any) => void;
-};
+  title?: string
+  subTitle?: string
+  onPress?: (params?: any) => void
+}
 
-export function FrozenBanner({
-  title = "Card is frozen",
-  subTitle = "You cannot load your card while it is frozen.",
-  onPress
-}: Props) {
+export function FrozenBanner({title = 'Card is frozen', subTitle = 'You cannot load your card while it is frozen.', onPress}: Props) {
   return (
-    <Touch
-      onPress={onPress}
-      className="mx-4 mb-4 rounded-xl p-3 flex-row bg-teal-200"
-    >
-      <Image source={FrozenCard} className="w-[64px] h-[100px]" />
-      <View className="pl-4 gap-1 flex-auto">
-        <View className="mr-4">
-          <Typography weight="semibold" type="body-default">
+    <Touch onPress={onPress} style={tw`mx-sp16 my-sp8 rounded-br12 p-sp12 flex-row bg-teal-200`}>
+      <Image source={FrozenCard} style={tw`w-w64 h-h100`} />
+      <View style={tw`pl-sp16 gap-sp4 flex-auto`}>
+        <View style={tw`mr-sp16`}>
+          <Typography weight="semibold" type="bd">
             {title}
           </Typography>
-          <Typography weight="regular" type="body-small">
+          <Typography weight="regular" type="bs">
             {subTitle}
           </Typography>
         </View>
-        <Typography type="body-small" className="mt-2 self-start border-b">
-          {"Unfreeze card"}
+        <Typography type="bs" style={tw`mt-sp8 self-start border-b`}>
+          {'Unfreeze card'}
         </Typography>
       </View>
     </Touch>
-  );
+  )
 }
-export default FrozenBanner;
+export default FrozenBanner

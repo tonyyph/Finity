@@ -1,36 +1,30 @@
-import { CircleAlertX, Typography, Button } from "@/components";
-import { BottomIndicatorAvoidingView, TopIndicatorAvoidingView } from "@/utils";
-import { router } from "expo-router";
-import { View } from "react-native";
+import {Button, CircleAlertX, Typography} from '@/components'
+import {BottomIndicatorAvoidingView, TopIndicatorAvoidingView, tw} from '@/utils'
+import {router} from 'expo-router'
+import {View} from 'react-native'
 
 export default function SomethingWentWrong() {
   return (
-    <View className="flex-1 bg-background px-4">
+    <View style={tw`flex-1 bg-white px-sp16`}>
       <TopIndicatorAvoidingView />
-      <View className=" flex-1 bg-background items-center">
+      <View style={tw` flex-1 bg-white items-center`}>
         <CircleAlertX />
-        <Typography type="heading-small" weight="semibold" className="mt-4">
+        <Typography type="hs" weight="semibold" style={tw`mt-sp16`}>
           Something went wrong
         </Typography>
-        <Typography weight="regular" className="text-center mt-4">
-          An unexpected error occurred while processing your request. Please try
-          again.
+        <Typography weight="regular" style={tw`text-center mt-sp16`}>
+          An unexpected error occurred while processing your request. Please try again.
         </Typography>
       </View>
 
-      <Button
-        variant="default"
-        size={"lg"}
-        className="rounded-full bg-primary h-[48px]"
+      <Button.Primary
+        title={'Try again'}
         onPress={() => {
-          router.back();
+          router.back()
         }}
-      >
-        <Typography type="body-default" weight="medium" textColor="white">
-          Try again
-        </Typography>
-      </Button>
+      />
+
       <BottomIndicatorAvoidingView />
     </View>
-  );
+  )
 }

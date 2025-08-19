@@ -1,20 +1,16 @@
-import { ArrowBackIcon } from "./icons";
-import { useRouter } from "expo-router";
-import { Button } from "../ui/button";
+import {ArrowBackIcon} from './icons'
+import {useRouter} from 'expo-router'
+import {Button} from '../ui/button'
+import {tw} from '@/utils'
 
 export function BackButton() {
-  const router = useRouter();
+  const router = useRouter()
   if (!router.canGoBack) {
-    return null;
+    return null
   }
   return (
-    <Button
-      size="icon"
-      variant="ghost"
-      onPress={router.back}
-      className="right-3"
-    >
+    <Button.Icon onPress={router.back} style={tw`right-sp12`}>
       <ArrowBackIcon />
-    </Button>
-  );
+    </Button.Icon>
+  )
 }

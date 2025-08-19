@@ -1,158 +1,137 @@
-import { Typography, Button, Header } from "@/components";
-import { useUserSettingsStore } from "@/stores";
-import { BottomIndicatorAvoidingView } from "@/utils";
-import { BlurView } from "expo-blur";
-import * as LocalAuthentication from "expo-local-authentication";
-import { router, useLocalSearchParams } from "expo-router";
-import { find } from "lodash-es";
-import { useCallback, useEffect, useState } from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import {Button, Header, Typography} from '@/components'
+import {useUserSettingsStore} from '@/stores'
+import {BottomIndicatorAvoidingView, tw} from '@/utils'
+import {BlurView} from 'expo-blur'
+import * as LocalAuthentication from 'expo-local-authentication'
+import {router, useLocalSearchParams} from 'expo-router'
+import {find} from 'lodash-es'
+import {useCallback, useEffect, useState} from 'react'
+import {Platform, StyleSheet, View} from 'react-native'
 
 interface AuthenticationProps {
-  authenticationType: LocalAuthentication.AuthenticationType;
-  title: string;
-  subTitle: string;
-  subTitle2: string;
-  submit: string;
+  authenticationType: LocalAuthentication.AuthenticationType
+  title: string
+  subTitle: string
+  subTitle2: string
+  submit: string
 }
 
 const authentication: AuthenticationProps[] = [
   {
-    authenticationType:
-      LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
+    authenticationType: LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
     title: `Setup Face ID`,
     subTitle: `Use Face ID for fast, secure access to your account and approve transactions.`,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup Face ID"
+    submit: 'Setup Face ID',
   },
   {
     authenticationType: LocalAuthentication.AuthenticationType.FINGERPRINT,
     title: `Setup Touch ID`,
     subTitle: `Use Touch ID for fast, secure access to your account and approve transactions. `,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup Touch ID"
-  }
-];
+    submit: 'Setup Touch ID',
+  },
+]
 
 const authenticationAndroid: AuthenticationProps[] = [
   {
-    authenticationType:
-      LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
+    authenticationType: LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
     title: `Setup biometric authentication`,
     subTitle: `Use your face recognition for secure access to your account and easy transaction approvals.`,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup biometrics"
+    submit: 'Setup biometrics',
   },
   {
     authenticationType: LocalAuthentication.AuthenticationType.FINGERPRINT,
     title: `Setup biometric authentication`,
     subTitle: `Use your fingerprint for secure access to your account and easy transaction approvals.`,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup biometrics"
+    submit: 'Setup biometrics',
   },
   {
     authenticationType: LocalAuthentication.AuthenticationType.IRIS,
     title: `Setup biometric authentication`,
     subTitle: `Use your fingerprint or face recognition for secure access to your account and easy transaction approvals..`,
     subTitle2: `You can enable it now or later in settings.`,
-    submit: "Setup biometrics"
-  }
-];
+    submit: 'Setup biometrics',
+  },
+]
 
 function Biometrics() {
-  const { typeAuthentication, firstFA = "0" } = useLocalSearchParams();
-  const { setEnabledLocalAuth } = useUserSettingsStore();
+  const {typeAuthentication, firstFA = '0'} = useLocalSearchParams()
+  const {setEnabledLocalAuth} = useUserSettingsStore()
 
-  const [authenticationType, setAuthenticationType] =
-    useState<AuthenticationProps>();
-  const [authInProgress, setAuthInProgress] = useState(false);
+  const [authenticationType, setAuthenticationType] = useState<AuthenticationProps>()
+  const [authInProgress, setAuthInProgress] = useState(false)
 
   useEffect(() => {
     setAuthenticationType(
-      find(
-        Platform.OS === "ios" ? authentication : authenticationAndroid,
-        (au) => String(au.authenticationType) === String(typeAuthentication)
-      )
-    );
-  }, [typeAuthentication]);
+      find(Platform.OS === 'ios' ? authentication : authenticationAndroid, au => String(au.authenticationType) === String(typeAuthentication)),
+    )
+  }, [typeAuthentication])
 
   const handleAuthenticate = useCallback(async () => {
-    setAuthInProgress(true);
+    setAuthInProgress(true)
     const result = await LocalAuthentication.authenticateAsync({
-      promptMessage: "Authenticate with biometrics",
+      promptMessage: 'Authenticate with biometrics',
       disableDeviceFallback: true, // This only works on Android
-      cancelLabel: "Cancel",
-      fallbackLabel: "" // iOS only – setting empty label hides the fallback button
-    });
+      cancelLabel: 'Cancel',
+      fallbackLabel: '', // iOS only – setting empty label hides the fallback button
+    })
 
     if (result.success) {
-      setEnabledLocalAuth(true);
-      setAuthInProgress(false);
+      setEnabledLocalAuth(true)
+      setAuthInProgress(false)
       router.replace({
-        pathname: "/(app)/biometrics-success",
+        pathname: '/(app)/biometrics-success',
         params: {
           typeAuthentication: authenticationType?.authenticationType,
-          firstFA: firstFA
-        }
-      });
+          firstFA: firstFA,
+        },
+      })
     } else {
-      if (!!result?.error && result?.error === "user_cancel") {
-        setAuthInProgress(false);
+      if (!!result?.error && result?.error === 'user_cancel') {
+        setAuthInProgress(false)
       }
     }
-  }, [authenticationType]);
+  }, [authenticationType])
 
   if (authInProgress) {
-    return (
-      <BlurView
-        intensity={Platform.OS === "ios" ? 60 : 100}
-        tint="dark"
-        style={StyleSheet.absoluteFill}
-      />
-    );
+    return <BlurView intensity={Platform.OS === 'ios' ? 60 : 100} tint="dark" style={StyleSheet.absoluteFill} />
   }
 
   return (
-    <View className="flex-1 bg-white">
-      <Header {...(!(firstFA === "1") && { onBack: router.back })} title="" />
-      <View className="flex-1 px-4 gap-3 mt-10">
-        <Typography type="heading-small" weight="semibold">
+    <View style={tw`flex-1 bg-white`}>
+      <Header {...(!(firstFA === '1') && {onBack: router.back})} title="" />
+      <View style={tw`flex-1 px-sp16 gap-sp12 mt-sp40`}>
+        <Typography type="hs" weight="semibold">
           {`${authenticationType?.title}`}
         </Typography>
-        <Typography weight="regular" className="mr-4">
+        <Typography weight="regular" style={tw`mr-sp16`}>
           {`${authenticationType?.subTitle}`}
         </Typography>
-        <Typography weight="regular" className="mt-4">
+        <Typography weight="regular" style={tw`mt-sp16`}>
           {`${authenticationType?.subTitle2}`}
         </Typography>
       </View>
-      <View className="px-6 gap-6 mb-6">
-        <Button
-          variant="default"
-          size={"lg"}
-          className="rounded-full bg-primary h-[48px]"
-          onPress={handleAuthenticate}
-        >
-          <Typography type="body-default" textColor="white">
-            {`${authenticationType?.submit}`}
-          </Typography>
-        </Button>
+      <View style={tw`px-sp16 py-sp12 gap-sp24 mb-sp12`}>
+        <Button.Primary title={`${authenticationType?.submit}`} onPress={handleAuthenticate} />
+
         <Typography
-          type="body-default"
-          className="text-center"
+          type="bd"
+          style={tw`text-center`}
           onPress={() => {
-            if (firstFA === "0") {
-              router.back();
+            if (firstFA === '0') {
+              router.back()
             } else {
-              router.replace("/(app)/(tabs)");
+              router.replace('/(app)/(tabs)')
             }
-          }}
-        >
+          }}>
           {`Not now`}
         </Typography>
       </View>
       <BottomIndicatorAvoidingView />
     </View>
-  );
+  )
 }
-export default Biometrics;
+export default Biometrics

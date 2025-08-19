@@ -7,126 +7,103 @@ import {
   HomeHeader,
   PointsBalanceCom,
   RequestCardNotification,
-  toast
-} from "@/components";
-import { useCardHolder, useNotification } from "@/hooks";
-import { SCREEN_WIDTH } from "@/utils";
-import * as Haptics from "expo-haptics";
-import { router, useFocusEffect } from "expo-router";
-import { isEmpty } from "lodash-es";
-import { useCallback, useRef, useState } from "react";
-import { RefreshControl, ScrollView, View } from "react-native";
+  toast,
+} from '@/components'
+import {useCardHolder, useNotification} from '@/hooks'
+import {SCREEN_WIDTH, tw} from '@/utils'
+import * as Haptics from 'expo-haptics'
+import {router, useFocusEffect} from 'expo-router'
+import {isEmpty} from 'lodash-es'
+import {useCallback, useRef, useState} from 'react'
+import {RefreshControl, ScrollView, View} from 'react-native'
 
 function HomeScreen() {
-  const { userData, handleFreezeCard, fetchCardHolderCurrent } =
-    useCardHolder();
-  const { notifications } = useNotification();
-  const { cardholderId, cardStatus, hasIssuedCard } = userData || {};
-  const toastShownRef = useRef(false);
-  const [refreshing, setRefreshing] = useState(false);
+  const {userData, handleFreezeCard, fetchCardHolderCurrent} = useCardHolder()
+  const {notifications} = useNotification()
+  const {cardholderId, cardStatus, hasIssuedCard} = userData || {}
+  const toastShownRef = useRef(false)
+  const [refreshing, setRefreshing] = useState(false)
 
   useFocusEffect(
     useCallback(() => {
-      fetchCardHolderCurrent();
-    }, [])
-  );
+      fetchCardHolderCurrent()
+    }, []),
+  )
 
   async function handleShowToastError() {
-    if (toastShownRef.current) return;
+    if (toastShownRef.current) return
 
-    toastShownRef.current = true;
+    toastShownRef.current = true
     toast.error(
-      hasIssuedCard || !cardholderId
-        ? `You must activate your new card before you can load it`
-        : `You cannot load your card while it is frozen`,
+      hasIssuedCard || !cardholderId ? `You must activate your new card before you can load it` : `You cannot load your card while it is frozen`,
       {
         icon: <AlertIcon />,
         duration: 3000,
-        width: SCREEN_WIDTH - 28
-      }
-    );
+        width: SCREEN_WIDTH - 28,
+      },
+    )
 
     setTimeout(() => {
-      toastShownRef.current = false;
-    }, 3000);
+      toastShownRef.current = false
+    }, 3000)
   }
 
   const onLoadCard = () => {
-    Haptics.selectionAsync();
+    Haptics.selectionAsync()
     if (cardStatus === 4 || cardStatus === 1) {
-      router.navigate({ pathname: "/(app)/load-card" });
+      router.navigate({pathname: '/(app)/load-card'})
     } else {
-      handleShowToastError();
+      handleShowToastError()
     }
-  };
+  }
 
   const onSendPoints = () => {
-    router.navigate({ pathname: "/(app)/send-point" });
-  };
+    router.navigate({pathname: '/(app)/send-point'})
+  }
 
   const onPressCard = () => {
     if (!cardholderId) {
-      router.navigate({ pathname: "/request_card" });
+      router.navigate({pathname: '/request_card'})
     } else if (cardStatus === 0) {
-      router.navigate({ pathname: "/active-card" });
+      router.navigate({pathname: '/active-card'})
     }
-  };
+  }
 
   const handleToNotificationCenter = () => {
-    router.navigate({ pathname: "/notification-center" });
-  };
+    router.navigate({pathname: '/notification-center'})
+  }
 
   const onRefresh = async () => {
-    setRefreshing(true);
-    await fetchCardHolderCurrent();
-    setRefreshing(false);
-  };
+    setRefreshing(true)
+    await fetchCardHolderCurrent()
+    setRefreshing(false)
+  }
 
   return (
-    <View className="flex-1 bg-backgroundSubtle">
+    <View style={tw`flex-1 bg-subtle`}>
       <ScrollView
-        className="bg-backgroundSubtle"
+        style={tw`bg-subtle`}
         nestedScrollEnabled={true}
         showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            tintColor={"#FF885D"}
-            onRefresh={onRefresh}
-          />
-        }
-      >
-        <HomeHeader
-          haveNotification={notifications?.length > 0}
-          onNotification={handleToNotificationCenter}
-        />
+        refreshControl={<RefreshControl refreshing={refreshing} tintColor={'#FF885D'} onRefresh={onRefresh} />}>
+        <HomeHeader haveNotification={notifications?.length > 0} onNotification={handleToNotificationCenter} />
         <View>
-          {(!cardholderId || cardStatus === 0) && !isEmpty(userData) && (
-            <RequestCardNotification
-              onPress={onPressCard}
-              requested={!cardholderId}
-            />
-          )}
-          {cardStatus === 3 && !isEmpty(userData) && (
-            <FrozenBanner onPress={handleFreezeCard} />
-          )}
-          <View className="gap-2 mt-2 mb-1">
+          {(!cardholderId || cardStatus === 0) && !isEmpty(userData) && <RequestCardNotification onPress={onPressCard} requested={!cardholderId} />}
+          {cardStatus === 3 && !isEmpty(userData) && <FrozenBanner onPress={handleFreezeCard} />}
+          <View style={tw`gap-sp8 mt-sp8`}>
             <CardBalanceCom value={userData?.cardBalance ?? 0} />
             <PointsBalanceCom value={userData?.pointsBalance ?? 0} />
           </View>
-          <View className="h-4" />
-          <CardButtonGroup
-            onLoadCard={onLoadCard}
-            onSendPoints={onSendPoints}
-          />
-          <View className="h-2" key={"Transaction Bar"} />
-          <View className="flex-1 opacity-100">
+          <View style={tw`h-h16`} />
+          <CardButtonGroup onLoadCard={onLoadCard} onSendPoints={onSendPoints} />
+          <View style={tw`h-h16`} key={'Transaction Bar'} />
+          <View style={tw`flex-1 opacity-100`}>
             <CardAndPointTab />
           </View>
         </View>
       </ScrollView>
     </View>
-  );
+  )
 }
 
-export default HomeScreen;
+export default HomeScreen

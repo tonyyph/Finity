@@ -1,14 +1,18 @@
-import { FC } from "react";
-import Svg, { Path, SvgProps } from "react-native-svg";
-export const HelpIcon: FC<SvgProps> = (props) => {
+import {scale, tw} from '@/utils'
+import {View} from 'react-native'
+import Svg, {Path, SvgProps} from 'react-native-svg'
+
+export const HelpIcon = ({size = scale(24), style, ...props}: SvgProps & IconProps = {}) => {
   return (
-    <Svg width={24} height={24} fill="none" {...props}>
-      <Path
-        fill="#525252"
-        fillRule="evenodd"
-        d="M12 4.227a7.773 7.773 0 1 0 0 15.546 7.773 7.773 0 0 0 0-15.546ZM2.5 12a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0ZM12 8.006c-.7 0-1.296.583-1.296 1.336a.864.864 0 1 1-1.727 0c0-1.677 1.338-3.064 3.023-3.064s3.023 1.387 3.023 3.064c0 1.377-.903 2.56-2.16 2.937v.73a.864.864 0 0 1-1.728 0V11.97l.001-.43c.001-.476.388-.863.864-.863.7 0 1.296-.583 1.296-1.336 0-.753-.596-1.336-1.296-1.336Zm0 7.448c.476 0 .863.387.863.864v.038a.864.864 0 1 1-1.728 0v-.038c0-.477.387-.864.864-.864Z"
-        clipRule="evenodd"
-      />
-    </Svg>
-  );
-};
+    <View style={[{width: size, height: size}, style]}>
+      <Svg style={tw`aspect-square`} width="100%" height="100%" fill="none" viewBox="0 0 24 24" {...props}>
+        <Path
+          fill="#525252"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M12 4.227a7.773 7.773 0 1 0 0 15.546 7.773 7.773 0 0 0 0-15.546ZM2.5 12a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0ZM12 8.006c-.7 0-1.296.583-1.296 1.336a.864.864 0 1 1-1.727 0c0-1.677 1.338-3.064 3.023-3.064s3.023 1.387 3.023 3.064c0 1.377-.903 2.56-2.16 2.937v.73a.864.864 0 0 1-1.728 0V11.97l.001-.43c.001-.476.388-.863.864-.863.7 0 1.296-.583 1.296-1.336 0-.753-.596-1.336-1.296-1.336Zm0 7.448c.476 0 .863.387.863.864v.038a.864.864 0 1 1-1.728 0v-.038c0-.477.387-.864.864-.864Z"
+        />
+      </Svg>
+    </View>
+  )
+}

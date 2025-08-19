@@ -1,69 +1,56 @@
-import { BottomIndicatorAvoidingView } from "@/utils";
-import { FlashList } from "@shopify/flash-list";
-import { router } from "expo-router";
-import { View } from "react-native";
-import { Typography } from "../common/text-typography";
-import { Button } from "../ui/button";
-import { CardItem } from "../transaction";
-export function CardTab({
-  showAll = false,
-  cardList
-}: {
-  showAll?: boolean;
-  cardList: Transaction[];
-}) {
+import {BottomIndicatorAvoidingView, scale, tw} from '@/utils'
+import {FlashList} from '@shopify/flash-list'
+import {router} from 'expo-router'
+import {View} from 'react-native'
+import {Typography} from '../common/text-typography'
+import {CardItem} from '../transaction'
+import {Button} from '../ui/button'
+export function CardTab({showAll = false, cardList}: {showAll?: boolean; cardList: Transaction[]}) {
   const handleSeeMore = () => {
     router.push({
-      pathname: "/transactions",
-      params: { initTab: "0" }
-    });
-  };
+      pathname: '/transactions',
+      params: {initTab: '0'},
+    })
+  }
 
   const EmptyList = () => {
     return (
-      <View className="pt-4 justify-center items-center gap-2">
-        <Typography weight="regular" type="body-default" textColor="#737373">
+      <View style={tw`pt-sp16 justify-center items-center gap-sp8`}>
+        <Typography weight="regular" type="bd" textColor="#737373">
           {`No transactions yet.`}
         </Typography>
       </View>
-    );
-  };
+    )
+  }
 
   const Footer = () => {
-    if (showAll) return <BottomIndicatorAvoidingView />;
-    if (cardList.length < 10 || cardList.length === 0) return null;
+    if (showAll) return <BottomIndicatorAvoidingView />
+    if (cardList.length < 10 || cardList.length === 0) return null
     if (cardList.length >= 10) {
       return (
-        <Button
-          variant="outline"
-          size={"lg"}
-          className="rounded-full h-[48px] mt-4"
-          onPress={handleSeeMore}
-        >
-          <Typography type="body-default" weight="medium" textColor="black">
-            {`See more`}
-          </Typography>
-        </Button>
-      );
+        <View style={tw`mt-sp16`}>
+          <Button.Secondary title={`See more`} onPress={handleSeeMore} />
+        </View>
+      )
     }
-  };
+  }
   return (
-    <View className="flex-1 px-4">
+    <View style={tw`flex-1 px-sp16`}>
       <FlashList
         data={showAll ? cardList : cardList.slice(0, 10)}
-        contentContainerClassName="pt-3"
+        contentContainerStyle={tw`pt-sp12`}
         showsVerticalScrollIndicator={false}
-        estimatedItemSize={86}
+        estimatedItemSize={scale(86)}
         keyExtractor={(item, index) => `${item.id}-${index}`}
-        className="flex-1"
+        style={tw`flex-1`}
         onEndReachedThreshold={0.1}
-        renderItem={({ item, index }) => <CardItem item={item} />}
+        renderItem={({item, index}) => <CardItem item={item} />}
         nestedScrollEnabled={true}
         scrollEnabled={showAll}
         ListFooterComponent={Footer}
         ListEmptyComponent={EmptyList}
       />
     </View>
-  );
+  )
 }
-export default CardTab;
+export default CardTab

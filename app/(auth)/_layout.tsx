@@ -1,61 +1,61 @@
-import { BackButton } from "@/components";
-import { useColorPalette } from "@/hooks";
-import { useAuth } from "@clerk/clerk-expo";
-import { Redirect, Stack } from "expo-router";
-import { View } from "react-native";
+import {BackButton} from '@/components'
+import {useColorPalette} from '@/hooks'
+import {tw} from '@/utils'
+import {useAuth} from '@clerk/clerk-expo'
+import {Redirect, Stack} from 'expo-router'
+import {View} from 'react-native'
 
 export default function UnAuthenticatedLayout() {
-  const { getColor } = useColorPalette();
+  const {getColor} = useColorPalette()
 
-  const { isSignedIn } = useAuth();
+  const {isSignedIn} = useAuth()
 
   if (isSignedIn) {
-    return <Redirect href={"/"} />;
+    return <Redirect href={'/'} />
   }
 
   return (
-    <View className="flex-1">
+    <View style={tw`flex-1`}>
       <Stack
         screenOptions={{
           headerStyle: {
-            backgroundColor: getColor("--background")
+            backgroundColor: getColor('--background'),
           },
           headerShadowVisible: false,
           headerLeft: () => <BackButton />,
-          headerTitle: ""
-        }}
-      >
+          headerTitle: '',
+        }}>
         <Stack.Screen
           name="login"
           options={{
             headerLeft: () => null,
-            headerShown: false
+            headerShown: false,
           }}
         />
 
         <Stack.Screen
           name="verify-2factor"
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen
           name="access-denied"
           options={{
             headerStyle: {
-              backgroundColor: getColor("--background")
-            }
+              backgroundColor: getColor('--background'),
+            },
           }}
         />
         <Stack.Screen
           name="page-not-found"
           options={{
             headerStyle: {
-              backgroundColor: getColor("--background")
-            }
+              backgroundColor: getColor('--background'),
+            },
           }}
         />
       </Stack>
     </View>
-  );
+  )
 }

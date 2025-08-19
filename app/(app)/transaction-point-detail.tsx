@@ -1,224 +1,203 @@
-import { TransHisSkeleton, Typography, Header } from "@/components";
-import { useTransaction } from "@/hooks";
-import { formatDateTransactionDetails } from "@/lib";
-import { formatNumber } from "@/utils";
-import { router, useLocalSearchParams } from "expo-router";
-import { isEmpty } from "lodash-es";
-import { useEffect } from "react";
-import { View } from "react-native";
+import {TransHisSkeleton, Typography, Header} from '@/components'
+import {useTransaction} from '@/hooks'
+import {formatDateTransactionDetails} from '@/lib'
+import {formatNumber, tw} from '@/utils'
+import {router, useLocalSearchParams} from 'expo-router'
+import {isEmpty} from 'lodash-es'
+import {useEffect} from 'react'
+import {View} from 'react-native'
 
 function TransactionPointDetail() {
-  const { item, transactionId, referenceNumber } = useLocalSearchParams();
-  const { getTransactionDetailInfo, transDetailInfo } = useTransaction();
-  const data = JSON.parse(item as string);
+  const {item, transactionId, referenceNumber} = useLocalSearchParams()
+  const {getTransactionDetailInfo, transDetailInfo} = useTransaction()
+  const data = JSON.parse(item as string)
 
   useEffect(() => {
-    getTransactionDetailInfo({ transId: Number(transactionId as string) });
+    getTransactionDetailInfo({transId: Number(transactionId as string)})
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   const renderContent = (type: string) => {
     switch (type) {
-      case "Points Received":
-        return <PointReceived />;
-      case "Points Sent":
-        return <PointSent />;
-      case "Card Load":
-        return <CardLoad />;
-      case "Payment":
-        return <Payment />;
-      case "Refund":
-        return <Refund />;
-      case "Declined":
-        return <Declined />;
+      case 'Points Received':
+        return <PointReceived />
+      case 'Points Sent':
+        return <PointSent />
+      case 'Card Load':
+        return <CardLoad />
+      case 'Payment':
+        return <Payment />
+      case 'Refund':
+        return <Refund />
+      case 'Declined':
+        return <Declined />
       default:
-        return <OtherLoad />;
+        return <OtherLoad />
     }
-  };
+  }
 
   const PointReceived = () => {
     return (
-      <View className="bg-[#FAFAFA] border border-[#E5E5E5] px-4 py-6 rounded-2xl mt-6">
+      <View style={tw`bg-[#FAFAFA] border border-[#E5E5E5] px-sp16 py-sp24 rounded-br12 mt-sp24`}>
         <Typography weight="regular" textColor="#404040">
           {data?.type}
         </Typography>
-        <Typography>{Math.abs(Number(data?.amount)) + " points"}</Typography>
-        <View className=" h-[1px] bg-[#E5E5E5] my-4" />
-        <Typography weight="semibold" className="mb-2">
+        <Typography>{Math.abs(Number(data?.amount)) + ' points'}</Typography>
+        <View style={tw` h-h1 bg-[#E5E5E5] my-sp16`} />
+        <Typography weight="semibold" style={tw`mb-sp8`}>
           Sender details
         </Typography>
-        <Typography weight="regular" textColor="#404040" className="mt-4">
+        <Typography weight="regular" textColor="#404040" style={tw`mt-sp16`}>
           Email address
         </Typography>
         <Typography>{data?.source}</Typography>
-        <View className=" h-[1px] bg-[#E5E5E5] my-4" />
+        <View style={tw` h-h1 bg-[#E5E5E5] my-sp16`} />
         <Typography weight="regular" textColor="#404040">
           Reference number
         </Typography>
-        <Typography className="mb-2">{transactionId.toString()}</Typography>
+        <Typography style={tw`mb-sp8`}>{transactionId.toString()}</Typography>
         <Typography weight="regular" textColor="#404040">
           Date and time
         </Typography>
-        <Typography>
-          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
-        </Typography>
+        <Typography>{formatDateTransactionDetails(transDetailInfo?.dateTransacted)}</Typography>
       </View>
-    );
-  };
+    )
+  }
   const CardLoad = () => {
     return (
-      <View className="bg-[#FAFAFA] border border-[#E5E5E5] px-4 py-6 rounded-2xl mt-6">
+      <View style={tw`bg-[#FAFAFA] border border-[#E5E5E5] px-sp16 py-sp24 rounded-br12 mt-sp24`}>
         <Typography weight="regular" textColor="#404040">
           {`You loaded`}
         </Typography>
-        <Typography>{Math.abs(Number(data?.amount)) + " points"}</Typography>
-        <Typography weight="regular" textColor="#404040" className="mt-4">
+        <Typography>{Math.abs(Number(data?.amount)) + ' points'}</Typography>
+        <Typography weight="regular" textColor="#404040" style={tw`mt-sp16`}>
           {`Amount equivalent`}
         </Typography>
         <Typography>{`£${formatNumber({
-          value:
-            Number(
-              Math.abs(Number(data?.amount)).toString().replace(/,/g, "")
-            ) * 0.1
+          value: Number(Math.abs(Number(data?.amount)).toString().replace(/,/g, '')) * 0.1,
         })}`}</Typography>
 
-        <View className=" h-[1px] bg-[#E5E5E5] my-4" />
+        <View style={tw` h-h1 bg-[#E5E5E5] my-sp16`} />
         <Typography weight="regular" textColor="#404040">
           Reference number
         </Typography>
-        <Typography className="mb-2">{referenceNumber?.toString()}</Typography>
+        <Typography style={tw`mb-sp8`}>{referenceNumber?.toString()}</Typography>
         <Typography weight="regular" textColor="#404040">
           Date and time
         </Typography>
-        <Typography>
-          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
-        </Typography>
+        <Typography>{formatDateTransactionDetails(transDetailInfo?.dateTransacted)}</Typography>
       </View>
-    );
-  };
+    )
+  }
 
   const OtherLoad = () => {
     return (
-      <View className="bg-[#FAFAFA] border border-[#E5E5E5] px-4 py-6 rounded-2xl mt-6">
+      <View style={tw`bg-[#FAFAFA] border border-[#E5E5E5] px-sp16 py-sp24 rounded-br12 mt-sp24`}>
         <Typography weight="regular" textColor="#404040">
           {`${data?.type}`}
         </Typography>
-        <Typography>{Math.abs(Number(data?.amount)) + " points"}</Typography>
+        <Typography>{Math.abs(Number(data?.amount)) + ' points'}</Typography>
 
-        <View className=" h-[1px] bg-[#E5E5E5] my-4" />
+        <View style={tw`h-h1 bg-[#E5E5E5] my-sp16`} />
         <Typography weight="regular" textColor="#404040">
           Reference number
         </Typography>
-        <Typography className="mb-2">{transactionId}</Typography>
+        <Typography style={tw`mb-sp8`}>{transactionId}</Typography>
         <Typography weight="regular" textColor="#404040">
           Date and time
         </Typography>
-        <Typography>
-          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
-        </Typography>
+        <Typography>{formatDateTransactionDetails(transDetailInfo?.dateTransacted)}</Typography>
       </View>
-    );
-  };
+    )
+  }
 
   const Payment = () => {
     return (
-      <View className="bg-[#FAFAFA] border border-[#E5E5E5] px-4 py-6 rounded-2xl mt-6">
+      <View style={tw`bg-[#FAFAFA] border border-[#E5E5E5] px-sp16 py-sp24 rounded-br12 mt-sp24`}>
         <Typography weight="regular" textColor="#404040">
           {`Merchant name`}
         </Typography>
         <Typography>{transDetailInfo?.merchantName}</Typography>
-        <Typography weight="regular" textColor="#404040" className="mt-4">
+        <Typography weight="regular" textColor="#404040" style={tw`mt-sp16`}>
           {`Payment`}
         </Typography>
         <Typography>{`£${formatNumber({
-          value:
-            Number(
-              Math.abs(Number(data?.amount)).toString().replace(/,/g, "")
-            ) * 0.1
+          value: Number(Math.abs(Number(data?.amount)).toString().replace(/,/g, '')) * 0.1,
         })}`}</Typography>
 
-        <View className=" h-[1px] bg-[#E5E5E5] my-4" />
+        <View style={tw` h-h1 bg-[#E5E5E5] my-sp16`} />
         <Typography weight="regular" textColor="#404040">
           Reference number
         </Typography>
-        <Typography className="mb-2">{transactionId.toString()}</Typography>
+        <Typography style={tw`mb-sp8`}>{transactionId.toString()}</Typography>
         <Typography weight="regular" textColor="#404040">
           Date and time
         </Typography>
-        <Typography>
-          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
-        </Typography>
+        <Typography>{formatDateTransactionDetails(transDetailInfo?.dateTransacted)}</Typography>
       </View>
-    );
-  };
+    )
+  }
 
   const Declined = () => {
     return (
-      <View className="bg-[#FAFAFA] border border-[#E5E5E5] px-4 py-6 rounded-2xl mt-6">
+      <View style={tw`bg-[#FAFAFA] border border-[#E5E5E5] px-sp16 py-sp24 rounded-br12 mt-sp24`}>
         <Typography weight="regular" textColor="#404040">
           {`Merchant name`}
         </Typography>
         <Typography>{transDetailInfo?.merchantName}</Typography>
-        <Typography weight="regular" textColor="#404040" className="mt-4">
+        <Typography weight="regular" textColor="#404040" style={tw`mt-sp16`}>
           {`Payment`}
         </Typography>
         <Typography>{`Declined`}</Typography>
 
-        <View className=" h-[1px] bg-[#E5E5E5] my-4" />
+        <View style={tw` h-h1 bg-[#E5E5E5] my-sp16`} />
         <Typography weight="regular" textColor="#404040">
           Reference number
         </Typography>
-        <Typography className="mb-2">{transactionId.toString()}</Typography>
+        <Typography style={tw`mb-sp8`}>{transactionId.toString()}</Typography>
         <Typography weight="regular" textColor="#404040">
           Date and time
         </Typography>
-        <Typography>
-          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
-        </Typography>
+        <Typography>{formatDateTransactionDetails(transDetailInfo?.dateTransacted)}</Typography>
       </View>
-    );
-  };
+    )
+  }
 
   const Refund = () => {
     return (
-      <View className="bg-[#FAFAFA] border border-[#E5E5E5] px-4 py-6 rounded-2xl mt-6">
+      <View style={tw`bg-[#FAFAFA] border border-[#E5E5E5] px-sp16 py-sp24 rounded-br12 mt-sp24`}>
         <Typography weight="regular" textColor="#404040">
           {`Merchant name`}
         </Typography>
         <Typography>{transDetailInfo?.merchantName}</Typography>
-        <Typography weight="regular" textColor="#404040" className="mt-4">
+        <Typography weight="regular" textColor="#404040" style={tw`mt-sp16`}>
           {`Refund`}
         </Typography>
         <Typography>{`£${formatNumber({
-          value:
-            Number(
-              Math.abs(Number(data?.amount)).toString().replace(/,/g, "")
-            ) * 0.1
+          value: Number(Math.abs(Number(data?.amount)).toString().replace(/,/g, '')) * 0.1,
         })}`}</Typography>
 
-        <View className=" h-[1px] bg-[#E5E5E5] my-4" />
+        <View style={tw` h-h1 bg-[#E5E5E5] my-sp16`} />
         <Typography weight="regular" textColor="#404040">
           Reference number
         </Typography>
-        <Typography className="mb-2">{transactionId.toString()}</Typography>
+        <Typography style={tw`mb-sp8`}>{transactionId.toString()}</Typography>
         <Typography weight="regular" textColor="#404040">
           Date and time
         </Typography>
-        <Typography>
-          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
-        </Typography>
+        <Typography>{formatDateTransactionDetails(transDetailInfo?.dateTransacted)}</Typography>
       </View>
-    );
-  };
+    )
+  }
   const PointSent = () => {
     return (
-      <View className="bg-[#FAFAFA] border border-[#E5E5E5] px-4 py-6 rounded-2xl mt-6">
+      <View style={tw`bg-[#FAFAFA] border border-[#E5E5E5] px-sp16 py-sp24 rounded-br12 mt-sp24`}>
         <Typography weight="regular" textColor="#404040">
           {`You sent`}
         </Typography>
-        <Typography>{Math.abs(Number(data?.amount)) + " points"}</Typography>
-        <View className=" h-[1px] bg-[#E5E5E5] my-4" />
-        <Typography weight="semibold" className="mb-2">
+        <Typography>{Math.abs(Number(data?.amount)) + ' points'}</Typography>
+        <View style={tw` h-h1 bg-[#E5E5E5] my-sp16`} />
+        <Typography weight="semibold" style={tw`mb-sp8`}>
           Recipient details
         </Typography>
         {data?.destinationUserFullName && (
@@ -231,41 +210,35 @@ function TransactionPointDetail() {
         )}
         {data?.source && (
           <>
-            <Typography weight="regular" textColor="#404040" className="mt-4">
+            <Typography weight="regular" textColor="#404040" style={tw`mt-sp16`}>
               Email address
             </Typography>
             <Typography>{data?.source}</Typography>
           </>
         )}
-        <View className=" h-[1px] bg-[#E5E5E5] my-4" />
+        <View style={tw` h-h1 bg-[#E5E5E5] my-sp16`} />
         <Typography weight="regular" textColor="#404040">
           Reference number
         </Typography>
-        <Typography className="mb-2">{transactionId?.toString()}</Typography>
+        <Typography style={tw`mb-sp8`}>{transactionId?.toString()}</Typography>
         <Typography weight="regular" textColor="#404040">
           Date and time
         </Typography>
-        <Typography>
-          {formatDateTransactionDetails(transDetailInfo?.dateTransacted)}
-        </Typography>
+        <Typography>{formatDateTransactionDetails(transDetailInfo?.dateTransacted)}</Typography>
       </View>
-    );
-  };
+    )
+  }
 
   return (
-    <View className="flex-1 bg-white">
+    <View style={tw`flex-1 bg-white`}>
       <Header onRightFunction={router.back} title="" />
-      <View className="flex-1 bg-white mx-4 mt-4">
-        <Typography type="heading-small" weight="semibold" className="mx-2">
+      <View style={tw`flex-1 bg-white mx-sp16 mt-sp16`}>
+        <Typography type="hs" weight="semibold" style={tw`mx-2`}>
           Transaction details
         </Typography>
-        {!isEmpty(transDetailInfo) ? (
-          renderContent(data?.type)
-        ) : (
-          <TransHisSkeleton />
-        )}
+        {!isEmpty(transDetailInfo) ? renderContent(data?.type) : <TransHisSkeleton />}
       </View>
     </View>
-  );
+  )
 }
-export default TransactionPointDetail;
+export default TransactionPointDetail

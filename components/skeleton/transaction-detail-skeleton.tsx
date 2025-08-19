@@ -1,10 +1,11 @@
-import { View } from "react-native";
-import { Skeleton } from "../ui/skeleton";
+import {View} from 'react-native'
+import {Skeleton} from '../ui/skeleton'
+import {tw} from '@/utils'
 
 export function TransHisSkeleton() {
   return (
-    <View className="flex-1">
-      <Skeleton className="bg-[#F5F5F5] h-[300px] border border-[#E5E5E5] px-4 py-6 rounded-2xl mt-6" />
+    <View style={tw`flex-1`}>
+      <Skeleton style={tw`bg-[#F5F5F5] h-h300 border border-[#E5E5E5] px-sp16 py-sp24 rounded-br12 mt-sp24`} />
     </View>
-  );
+  )
 }

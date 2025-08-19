@@ -1,60 +1,47 @@
-import { Typography, Button } from "@/components";
-import { useUserAuthenticateStore } from "@/stores";
-import { BottomIndicatorAvoidingView, TopIndicatorAvoidingView } from "@/utils";
-import { useAuth } from "@clerk/clerk-expo";
-import { router } from "expo-router";
-import { useCallback, useEffect } from "react";
-import { Image, View } from "react-native";
+import {Button, Typography} from '@/components'
+import {useUserAuthenticateStore} from '@/stores'
+import {BottomIndicatorAvoidingView, TopIndicatorAvoidingView, tw} from '@/utils'
+import {useAuth} from '@clerk/clerk-expo'
+import {router} from 'expo-router'
+import {useCallback, useEffect} from 'react'
+import {Image, View} from 'react-native'
 
 function PINTwoFactorAuthenticationSuccess() {
-  const { setStoreUserId } = useUserAuthenticateStore();
-  const { userId } = useAuth();
+  const {setStoreUserId} = useUserAuthenticateStore()
+  const {userId} = useAuth()
 
   useEffect(() => {
     if (userId) {
-      !!userId && setStoreUserId(userId);
+      !!userId && setStoreUserId(userId)
     }
-  }, [userId]);
+  }, [userId])
 
   const handleSetupPin = useCallback(() => {
     router.push({
-      pathname: "/pin-verify",
-      params: { isResetPin: "1", type: "setup" }
-    });
-  }, []);
+      pathname: '/pin-verify',
+      params: {isResetPin: '1', type: 'setup'},
+    })
+  }, [])
 
   return (
-    <View className="flex-1 bg-background">
-      <View className="flex-1 justify-between">
-        <View className="px-4 gap-3 items-center">
+    <View style={tw`flex-1 bg-white`}>
+      <View style={tw`flex-1 justify-between`}>
+        <View style={tw`px-sp16 gap-sp12 items-center`}>
           <TopIndicatorAvoidingView number={3} />
-          <Image
-            className="w-16 h-16"
-            resizeMode="contain"
-            source={require("@/assets/images/success-filled.png")}
-          />
-          <Typography type="heading-small" weight="semibold">
+          <Image style={tw`w-16 h-16`} resizeMode="contain" source={require('@/assets/images/success-filled.png')} />
+          <Typography type="hs" weight="semibold">
             Verification success
           </Typography>
-          <Typography weight="regular" className="text-center">
+          <Typography weight="regular" style={tw`text-center`}>
             {`Two-factor authentication verified. Tap ‘Continue’ to set up your new PIN.`}
           </Typography>
         </View>
-        <View className="px-4 gap-6">
-          <Button
-            variant="default"
-            size={"lg"}
-            className="rounded-full bg-primary h-[48px]"
-            onPress={handleSetupPin}
-          >
-            <Typography type="body-default" weight="medium" textColor="white">
-              {`Continue`}
-            </Typography>
-          </Button>
+        <View style={tw`px-sp16`}>
+          <Button.Primary title={`Continue`} onPress={handleSetupPin} />
         </View>
       </View>
       <BottomIndicatorAvoidingView />
     </View>
-  );
+  )
 }
-export default PINTwoFactorAuthenticationSuccess;
+export default PINTwoFactorAuthenticationSuccess

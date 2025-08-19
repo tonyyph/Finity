@@ -1,92 +1,71 @@
-import { Typography, Button, Header, ProgressBar, Radio } from "@/components";
-import { cn } from "@/lib";
-import { BottomIndicatorAvoidingView } from "@/utils";
-import { router } from "expo-router";
-import { useCallback, useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import {Button, Header, ProgressBar, Radio, Typography} from '@/components'
+import {BottomIndicatorAvoidingView, tw} from '@/utils'
+import {router} from 'expo-router'
+import {useCallback, useState} from 'react'
+import {TouchableOpacity, View} from 'react-native'
 
 export const ReportLostOrDamagedScreen = () => {
-  const [reportType, setReportType] = useState<string>("");
+  const [reportType, setReportType] = useState<string>('')
 
   const handleContinue = useCallback(() => {
-    if (reportType === "lost") {
+    if (reportType === 'lost') {
       router.push({
-        pathname: "/lost"
-      });
+        pathname: '/lost',
+      })
     } else {
       router.push({
-        pathname: "/damaged"
-      });
+        pathname: '/damaged',
+      })
     }
-  }, [reportType]);
+  }, [reportType])
 
   const handleReportType = (type: string) => {
-    setReportType(type);
-  };
+    setReportType(type)
+  }
 
   return (
-    <View className="flex-1 bg-background">
+    <View style={tw`flex-1 bg-white`}>
       <Header onBack={router.back} title="Report lost or damaged" />
       <ProgressBar completeAnimation={true} />
-      <View className="flex-1 pt-4">
-        <View className="flex-1 px-6 gap-4">
+      <View style={tw`flex-1 pt-sp16`}>
+        <View style={tw`flex-1 px-sp24 gap-sp12`}>
           <TouchableOpacity
-            onPress={handleReportType.bind(null, "lost")}
-            className={cn(
-              "py-3 px-4 border border-[#D4D4D4] rounded-xl gap-3 flex-row",
-              reportType === "lost" &&
-                "border-[2px] border-[#FF885D] bg-[#FFF2ED]"
-            )}
-          >
-            <Radio selected={reportType === "lost" ? true : false} />
-            <View className="gap-1 flex-1">
+            onPress={handleReportType.bind(null, 'lost')}
+            style={tw.style(
+              `py-sp16 px-sp16 border border-[#D4D4D4] rounded-br12 gap-sp12 flex-row`,
+              reportType === 'lost' && 'border-bw2 border-[#FF885D] bg-[#FFF2ED]',
+            )}>
+            <Radio selected={reportType === 'lost' ? true : false} />
+            <View style={tw`gap-sp4 flex-1`}>
               <Typography weight="semibold">Lost or stolen</Typography>
               <Typography textColor="#404040" weight="regular">
-                Your current card will be immediately deactivated, and we’ll
-                send you a new one.
+                Your current card will be immediately deactivated, and we’ll send you a new one.
               </Typography>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={handleReportType.bind(null, "damaged")}
-            className={cn(
-              "py-3 px-4 border border-[#D4D4D4] rounded-xl gap-3 flex-row",
-              reportType === "damaged" &&
-                "border-[2px] border-[#FF885D] bg-[#FFF2ED]"
-            )}
-          >
-            <Radio selected={reportType === "damaged" ? true : false} />
-            <View className="gap-1 flex-1">
+            onPress={handleReportType.bind(null, 'damaged')}
+            style={tw.style(
+              `py-sp16 px-sp16 border border-[#D4D4D4] rounded-br12 gap-sp12 flex-row`,
+              reportType === 'damaged' && 'border-bw2 border-[#FF885D] bg-[#FFF2ED]',
+            )}>
+            <Radio selected={reportType === 'damaged' ? true : false} />
+            <View style={tw`gap-sp4 flex-1`}>
               <Typography weight="semibold">Damaged card</Typography>
               <Typography textColor="#404040" weight="regular">
-                You can continue using your existing card until the new one
-                arrives.
+                You can continue using your existing card until the new one arrives.
               </Typography>
             </View>
           </TouchableOpacity>
         </View>
-        <View className="px-6 gap-6">
-          <Button
-            variant="default"
-            size={"lg"}
-            disabled={!reportType}
-            className="rounded-full bg-primary h-[48px]"
-            onPress={handleContinue}
-          >
-            <Typography
-              type="body-default"
-              weight="medium"
-              textColor={!reportType ? "#A3A3A3" : "white"}
-            >
-              {`Continue`}
-            </Typography>
-          </Button>
+        <View style={tw`px-sp16`}>
+          <Button.Primary disabled={!reportType} title={'Continue'} onPress={handleContinue} />
         </View>
         <BottomIndicatorAvoidingView />
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default ReportLostOrDamagedScreen;
+export default ReportLostOrDamagedScreen

@@ -1,184 +1,124 @@
-import { CircleAlert, Button, Typography } from "@/components";
-import { useAnimatedKeyboard, useForgotPin } from "@/hooks";
-import { cn, IS_IOS } from "@/lib";
-import { BottomIndicatorAvoidingView, TopIndicatorAvoidingView } from "@/utils";
-import { EyeIcon, EyeOffIcon } from "lucide-react-native";
-import { useState } from "react";
-import {
-  Keyboard,
-  TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View
-} from "react-native";
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import {Button, CircleAlert, Typography} from '@/components'
+import {useAnimatedKeyboard, useForgotPin} from '@/hooks'
+import {IS_IOS} from '@/lib'
+import {BottomIndicatorAvoidingView, TopIndicatorAvoidingView, tw} from '@/utils'
+import {EyeIcon, EyeOffIcon} from 'lucide-react-native'
+import {useState} from 'react'
+import {Keyboard, TextInput, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native'
+import Animated, {useAnimatedStyle} from 'react-native-reanimated'
 
 export default function ForgotPINScreen() {
-  const [securePassword, setSecurePassword] = useState(true);
-  const [focusUsername, setFocusUsername] = useState(false);
-  const [focusPassword, setFocusPassword] = useState(false);
-  const { keyboardHeight } = useAnimatedKeyboard(0);
+  const [securePassword, setSecurePassword] = useState(true)
+  const [focusUsername, setFocusUsername] = useState(false)
+  const [focusPassword, setFocusPassword] = useState(false)
+  const {keyboardHeight} = useAnimatedKeyboard(0)
   const translateStyle = useAnimatedStyle(() => ({
-    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value
-  }));
+    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value,
+  }))
 
-  const { onSubmitForgotPIN, usernameState, passwordState, isLoading } =
-    useForgotPin();
+  const {onSubmitForgotPIN, usernameState, passwordState, isLoading} = useForgotPin()
 
   const onPressSecurePassword = () => {
-    setSecurePassword((prev) => !prev);
-  };
+    setSecurePassword(prev => !prev)
+  }
 
   return (
-    <TouchableWithoutFeedback className="flex-1" onPress={Keyboard.dismiss}>
-      <View className="bg-background flex-1">
+    <TouchableWithoutFeedback style={tw`flex-1`} onPress={Keyboard.dismiss}>
+      <View style={tw`bg-white flex-1`}>
         <TopIndicatorAvoidingView />
-        <View className="flex-1 gap-4 px-6 pt-8">
-          <View className="flex-1">
+        <View style={tw`flex-1 gap-sp16 px-sp16 pt-sp32`}>
+          <View style={tw`flex-1`}>
             {/* Welcome */}
-            <View className="z-10 mb-2">
-              <View className="gap-2">
-                <Typography type="heading-small" weight="semibold">
+            <View style={tw`z-10 mb-sp8`}>
+              <View style={tw`gap-sp8`}>
+                <Typography type="hs" weight="semibold">
                   Forgot PIN
                 </Typography>
-                <Typography weight="regular">
-                  Enter your credentials to verify your identity and reset your
-                </Typography>
+                <Typography weight="regular">Enter your credentials to verify your identity and reset your</Typography>
               </View>
             </View>
 
-            <View className="flex-1 gap-3 bg-white pt-6">
+            <View style={tw`flex-1 gap-sp12 bg-white pt-sp24`}>
               {/* Username Field */}
-              <View className="gap-1">
-                <Typography
-                  type="body-default"
-                  weight="medium"
-                  textColor="#404040"
-                >
+              <View style={tw`gap-sp4`}>
+                <Typography type="bd" weight="medium" textColor="#404040">
                   Email
                 </Typography>
-                <View className="rounded-lg relative">
+                <View style={tw`rounded-br8 relative`}>
                   <TextInput
-                    className={cn(
-                      "px-3 rounded-lg bg-background border-2 border-border h-[48px]",
-                      {
-                        "border-black": !!focusUsername,
-                        "border-errormessage": !!passwordState.error,
-                        "border-2": !!passwordState.error
-                      }
-                    )}
+                    style={tw.style('px-sp12 rounded-br8 bg-white border-bw2 border-subtitle h-h48', {
+                      'border-black': !!focusUsername,
+                      'border-errormessage': !!passwordState.error,
+                      'border-bw2': !!passwordState.error,
+                    })}
                     onFocus={() => setFocusUsername(true)}
                     onEndEditing={() => setFocusUsername(false)}
                     placeholder={`Enter your email address`}
-                    placeholderTextColor={"gray"}
+                    placeholderTextColor={'gray'}
                     autoCapitalize="none"
                     value={usernameState.value}
                     onChangeText={usernameState.onChangeText}
                   />
                 </View>
                 {!!usernameState.error && (
-                  <View className=" flex flex-row items-center mt-2">
-                    <CircleAlert className="top-1" />
-                    <Typography
-                      type="body-small"
-                      weight="medium"
-                      textColor="#D9323D"
-                    >
-                      {usernameState.error?.charAt(0).toUpperCase() +
-                        usernameState.error?.slice(1)}{" "}
+                  <View style={tw` flex flex-row items-center mt-sp8`}>
+                    <CircleAlert style={tw`mr-sp4`} />
+                    <Typography type="bs" weight="medium" textColor="#D9323D">
+                      {usernameState.error?.charAt(0).toUpperCase() + usernameState.error?.slice(1)}{' '}
                     </Typography>
                   </View>
                 )}
               </View>
               {/* Password Field */}
-              <View className="mt-4 gap-1">
-                <Typography
-                  type="body-default"
-                  weight="medium"
-                  textColor="#404040"
-                >
+              <View style={tw`mt-sp16 gap-sp4`}>
+                <Typography type="bd" weight="medium" textColor="#404040">
                   Password
                 </Typography>
-                <View className="rounded-lg relative">
+                <View style={tw`rounded-br8 relative`}>
                   <TextInput
-                    className={cn(
-                      "px-3 rounded-lg bg-background border-2 border-border h-[48px]",
-                      {
-                        "border-black": !!focusPassword,
-                        "border-errormessage": !!passwordState.error,
-                        "border-2": !!passwordState.error
-                      }
-                    )}
+                    style={tw.style('px-sp12 rounded-br8 bg-white border-bw2 border-subtitle h-h48', {
+                      'border-black': !!focusPassword,
+                      'border-errormessage': !!passwordState.error,
+                      'border-bw2': !!passwordState.error,
+                    })}
                     onFocus={() => setFocusPassword(true)}
                     onEndEditing={() => setFocusPassword(false)}
                     placeholder={`Enter your password`}
-                    placeholderTextColor={"gray"}
+                    placeholderTextColor={'gray'}
                     secureTextEntry={securePassword}
                     value={passwordState.value}
                     onChangeText={passwordState.onChangeText}
                   />
 
-                  <TouchableOpacity
-                    onPress={onPressSecurePassword}
-                    className="absolute top-[14px] right-4"
-                  >
-                    {securePassword ? (
-                      <EyeOffIcon className="size-6 text-[#525252]" />
-                    ) : (
-                      <EyeIcon className="size-6 text-[#525252]" />
-                    )}
+                  <TouchableOpacity onPress={onPressSecurePassword} style={tw`absolute top-sp16 right-sp16`}>
+                    {securePassword ? <EyeOffIcon style={tw`h-h24 w-w24 text-[#525252]`} /> : <EyeIcon style={tw`h-h24 w-w24 text-[#525252]`} />}
                   </TouchableOpacity>
                 </View>
                 {!!passwordState.error && (
-                  <View
-                    className={cn(
-                      "flex flex-row items-center mt-4",
-                      !!usernameState.error && "mt-2"
-                    )}
-                  >
-                    <CircleAlert className="top-1" />
-                    <Typography
-                      type="body-small"
-                      weight="medium"
-                      textColor="#D9323D"
-                    >
-                      {passwordState.error?.charAt(0).toUpperCase() +
-                        passwordState.error?.slice(1)}
+                  <View style={tw.style('flex flex-row items-center mt-sp16', !!usernameState.error && 'mt-sp8')}>
+                    <CircleAlert style={tw`mr-sp4`} />
+                    <Typography type="bs" weight="medium" textColor="#D9323D">
+                      {passwordState.error?.charAt(0).toUpperCase() + passwordState.error?.slice(1)}
                     </Typography>
                   </View>
                 )}
               </View>
             </View>
           </View>
-          <View className="justify-end">
+          <View style={tw`justify-end mt-sp32`}>
             {/* Submit Button */}
-            <Button
-              variant="default"
-              size={"lg"}
-              disabled={
-                !usernameState.value || !passwordState.value || isLoading
-              }
-              className="mt-8 rounded-full bg-primary h-[48px]"
-              loading={isLoading}
+            <Button.Primary
+              title={`Continue`}
+              loadingTitle="Continuing..."
+              disabled={!usernameState.value || !passwordState.value}
+              isLoading={isLoading}
               onPress={onSubmitForgotPIN}
-            >
-              <Typography
-                type="body-default"
-                weight="medium"
-                textColor={
-                  !usernameState.value || !passwordState.value
-                    ? "#A3A3A3"
-                    : "white"
-                }
-              >
-                {isLoading ? `Continuing...` : `Continue`}
-              </Typography>
-            </Button>
+            />
           </View>
         </View>
         <BottomIndicatorAvoidingView />
         <Animated.View style={translateStyle} />
       </View>
     </TouchableWithoutFeedback>
-  );
+  )
 }

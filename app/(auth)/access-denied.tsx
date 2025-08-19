@@ -1,61 +1,55 @@
-import { CircleAlertX, Typography, Button } from "@/components";
-import { BottomIndicatorAvoidingView } from "@/utils";
-import { router, useNavigation } from "expo-router";
-import { useEffect } from "react";
-import { View } from "react-native";
+import {Button, CircleAlertX, Typography} from '@/components'
+import {BottomIndicatorAvoidingView, tw} from '@/utils'
+import {router, useNavigation} from 'expo-router'
+import {useEffect} from 'react'
+import {View} from 'react-native'
 
 export default function AccessDenied() {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => <View />
-    });
-  }, [navigation]);
+      headerLeft: () => <View />,
+    })
+  }, [navigation])
 
   return (
-    <View className="flex-1 bg-background px-4">
-      <View className=" flex-1 bg-background items-center">
+    <View style={tw`flex-1 bg-white px-sp16`}>
+      <View style={tw` flex-1 bg-white items-center`}>
         <CircleAlertX />
-        <Typography type="heading-small" weight="semibold" className="mt-4">
+        <Typography type="hs" weight="semibold" style={tw`mt-sp16`}>
           Access Denied
         </Typography>
-        <Typography weight="regular" className="text-center mt-4">
+        <Typography weight="regular" style={tw`text-center mt-sp16`}>
           Your account has been deactivated by the administrator.
         </Typography>
-        <Typography weight="regular" className="text-center mt-4">
-          Need help? Contact us at{" "}
+        <Typography weight="regular" style={tw`text-center mt-sp16`}>
+          Need help? Contact us at{' '}
           <Typography
             weight="regular"
-            className="text-center mt-4 underline"
+            style={tw`text-center mt-sp16 underline`}
             onPress={() => {
               router.push({
-                pathname: "/un-auth-web-view",
+                pathname: '/un-auth-web-view',
                 params: {
-                  title: "",
-                  webLink: "https://support.finity.co.uk"
-                }
-              });
-            }}
-          >
+                  title: '',
+                  webLink: 'https://support.finity.co.uk',
+                },
+              })
+            }}>
             support.finity.co.uk
           </Typography>
         </Typography>
       </View>
 
-      <Button
-        variant="default"
-        size={"lg"}
-        className="rounded-full bg-primary h-[48px]"
+      <Button.Primary
+        title={`Close`}
         onPress={() => {
-          router.back();
+          router.back()
         }}
-      >
-        <Typography type="body-default" weight="medium" textColor="white">
-          Close
-        </Typography>
-      </Button>
+      />
+
       <BottomIndicatorAvoidingView />
     </View>
-  );
+  )
 }

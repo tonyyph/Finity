@@ -1,62 +1,46 @@
-import { cn } from "@/lib";
-import { forwardRef } from "react";
-import { Pressable, View } from "react-native";
-import type { SvgProps } from "react-native-svg";
-import { Typography } from "./text-typography";
-import { UserAvatar } from "./user-avatar";
+import {tw} from '@/utils'
+import {forwardRef} from 'react'
+import {Pressable, View} from 'react-native'
+import {Style} from 'twrnc'
+import {Typography} from './text-typography'
+import {UserAvatar} from './user-avatar'
 
 type MenuItemProps = {
-  label: string;
-  subLabel?: string;
-  icon?: React.ComponentType<SvgProps>;
-  rightSection?: React.ReactNode;
-  onPress?: () => void;
-  className?: string;
-  disabled?: boolean;
-  showUserAvatar?: boolean;
-};
+  label: string
+  subLabel?: string
+  icon?: any
+  rightSection?: React.ReactNode
+  onPress?: () => void
+  style?: Style
+  disabled?: boolean
+  showUserAvatar?: boolean
+}
 
 export const MenuItem = forwardRef(function (
-  {
-    label,
-    subLabel,
-    icon: Icon,
-    rightSection,
-    onPress,
-    className,
-    disabled,
-    showUserAvatar
-  }: MenuItemProps,
-  ref: React.ForwardedRef<React.ElementRef<typeof Pressable>>
+  {label, subLabel, icon: Icon, rightSection, onPress, style, disabled, showUserAvatar}: MenuItemProps,
+  ref: React.ForwardedRef<React.ElementRef<typeof Pressable>>,
 ) {
   return (
     <Pressable
       onPress={onPress}
       ref={ref}
       disabled={disabled}
-      className={cn(
-        "flex min-h-[48px] flex-row items-center justify-between rounded-lg px-3 py-[10px] active:bg-subtitle",
-        disabled && "opacity-50",
-        className
-      )}
-    >
-      <View className="flex flex-row items-center gap-3">
+      style={tw.style(
+        `flex min-h-h48 flex-row items-center justify-between rounded-br8 px-sp12 py-[10px] active:bg-subtitle`,
+        disabled && 'opacity-50',
+        style,
+      )}>
+      <View style={tw`flex flex-row items-center gap-sp12`}>
         {Icon && (
-          <View className="flex items-center justify-center bg-neutral-100 w-[40px] h-[40px] rounded-full">
-            <Icon className="w-[24px] h-[24px] self-center text-[#525252]" />
+          <View style={tw`flex items-center justify-center bg-neutral-100 w-w40 h-h40 rounded-full`}>
+            <Icon style={tw`w-w24 h-h24 self-center text-[#525252]`} />
           </View>
         )}
-        {showUserAvatar && (
-          <UserAvatar
-            fullName={label}
-            className="w-[40px] h-[40px] rounded-full"
-            textType="body-default"
-          />
-        )}
-        <View className="gap-1">
-          <Typography type="body-default">{label}</Typography>
+        {showUserAvatar && <UserAvatar fullName={label} style={tw`w-w40 h-h40 rounded-full`} textType="bd" />}
+        <View style={tw`gap-sp4`}>
+          <Typography type="bd">{label}</Typography>
           {!!subLabel && (
-            <Typography type="body-small" weight="regular" textColor="#737373">
+            <Typography type="bs" weight="regular" textColor="#737373">
               {subLabel}
             </Typography>
           )}
@@ -64,7 +48,7 @@ export const MenuItem = forwardRef(function (
       </View>
       {rightSection}
     </Pressable>
-  );
-});
+  )
+})
 
-MenuItem.displayName = "MenuItem";
+MenuItem.displayName = 'MenuItem'

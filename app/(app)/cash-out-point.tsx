@@ -1,70 +1,58 @@
-import { Typography } from "@/components/common/text-typography";
-import { Button } from "@/components/ui/button";
-import { Header } from "@/components/ui/header";
-import { ProgressBar } from "@/components/ui/progress";
-import { useCardHolder } from "@/hooks/cardholders/useCardHolder";
-import { router } from "expo-router";
-import { Linking, TextInput, View } from "react-native";
+import {Typography} from '@/components/common/text-typography'
+import {Button} from '@/components/ui/button'
+import {Header} from '@/components/ui/header'
+import {ProgressBar} from '@/components/ui/progress'
+import {useCardHolder} from '@/hooks/cardholders/useCardHolder'
+import {formatNumber, tw} from '@/utils'
+import {router} from 'expo-router'
+import {Linking, TextInput, View} from 'react-native'
 
 export default function CashOutPointScreen() {
-  const { userData, loading } = useCardHolder();
-
-  const formatPointValue = new Intl.NumberFormat("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(Number(userData?.pointsBalance ?? 0));
+  const {userData, loading} = useCardHolder()
 
   const handleSendEmail = async () => {
-    const email = "support@finity.co.uk";
-    const subject = "Request cash out";
-    const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+    const email = 'support@finity.co.uk'
+    const subject = 'Request cash out'
+    const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}`
 
-    const canOpen = await Linking.canOpenURL(mailtoUrl);
+    const canOpen = await Linking.canOpenURL(mailtoUrl)
     if (canOpen) {
-      Linking.openURL(mailtoUrl);
+      Linking.openURL(mailtoUrl)
     } else {
       router.push({
-        pathname: "/web-view",
+        pathname: '/web-view',
         params: {
-          title: "",
-          webLink: "https://support.finity.co.uk/en/"
-        }
-      });
+          title: '',
+          webLink: 'https://support.finity.co.uk/en/',
+        },
+      })
     }
-  };
+  }
 
   return (
-    <View className="flex-1 bg-background">
+    <View style={tw`flex-1 bg-white`}>
       <Header onBack={router.back} title="Cash out points" />
 
       <ProgressBar completeAnimation={!loading} />
-      <View className="m-6 gap-4">
+      <View style={tw`p-sp24 gap-sp16`}>
         <Typography weight="regular">
           {`You may cash out your points at a rate of `}
           <Typography>1 point = £0.001.</Typography>
         </Typography>
-        <View className="gap-1">
-          <Typography type="body-default" weight="medium" textColor="#404040">
+        <View style={tw`gap-sp4`}>
+          <Typography type="bd" weight="medium" textColor="#404040">
             {`Points balance`}
           </Typography>
           <TextInput
             editable={false}
-            value={formatPointValue}
-            className="bg-neutral-100  rounded-lg h-[48px] border-[1px] border-subtitle px-3 text-[18px] font-bold color-[#404040]"
+            value={`${formatNumber({value: Number(userData?.pointsBalance ?? 0), decimalCount: 0})}`}
+            style={tw`bg-neutral-100 rounded-br8 h-h48 border-bw1 border-subtitle px-sp12 text-bl font-bold text-[#404040]`}
           />
         </View>
-        <Button
-          disabled={loading}
-          variant="default"
-          size={"lg"}
-          className="rounded-full bg-primary h-[48px] mt-4"
-          onPress={handleSendEmail}
-        >
-          <Typography type="body-default" weight="medium" textColor="white">
-            {`Request cash out`}
-          </Typography>
-        </Button>
+        <View style={tw`justify-end py-sp12`}>
+          <Button.Primary title={`Request cash out`} disabled={loading} onPress={handleSendEmail} />
+        </View>
       </View>
     </View>
-  );
+  )
 }

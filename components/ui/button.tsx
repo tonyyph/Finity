@@ -1,107 +1,132 @@
-import { TextClassContext } from "@/components/ui/text";
-import { colors } from "@/constants/Colors";
-import { cn } from "@/lib";
-import { type VariantProps, cva } from "class-variance-authority";
-import * as React from "react";
-import { Pressable } from "react-native";
-import AnimatedSpinnerV2 from "./spinnerIndicator";
+import {useMemoFunc} from '@/hooks'
+import {memoFC, scale, tw} from '@/utils'
+import {GestureResponderEvent, Pressable, PressableProps} from 'react-native'
+import {Style} from 'twrnc'
+import {Typography} from '../common'
+import AnimatedSpinnerV2 from './spinnerIndicator'
 
-const buttonVariants = cva(
-  "group flex flex-row items-center justify-center gap-2 rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary web:hover:opacity-90 active:opacity-90",
-        destructive: "bg-destructive web:hover:opacity-90 active:opacity-90",
-        "destructive-outline":
-          "border border-destructive web:hover:opacity-90 active:opacity-90",
-        outline:
-          "border border-[#D4D4D4] bg-background web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
-        secondary: "bg-secondary web:hover:opacity-80 active:opacity-80",
-        ghost:
-          "web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
-        link: "web:underline-offset-4 web:hover:underline web:focus:underline "
-      },
-      size: {
-        default: "h-10 native:h-12 native:px-5 px-4 native:py-3 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-1 native:h-14 rounded-md px-8",
-        icon: "h-10 w-10"
+interface ButtonBase extends Omit<PressableProps, 'style' | 'children'> {
+  title?: string
+  outline?: boolean
+  size?: 'XS' | 'SM' | 'Base' | 'L'
+  borderWidth?: number
+  borderColor?: ColorName
+  style?: Style
+  fullWidth?: boolean
+  children?: React.ReactNode
+  isLoading?: boolean
+  loadingTitle?: string | React.ReactNode
+  doNothing?: boolean
+  applyNetworkShowing?: boolean
+}
+
+type Props = ButtonBase & ButtonStyle
+
+export const ButtonComponent = memoFC(
+  ({
+    borderWidth = scale(1),
+    borderColor,
+    fullWidth = true,
+    disabled,
+    children,
+    doNothing,
+    isLoading,
+    title,
+    loadingTitle = title,
+    backgroundColor,
+    textColor,
+    size = 'L',
+    disableBackgroundColor,
+    applyNetworkShowing = true,
+    disableTextColor,
+    isPrimary = false,
+    loadingBackgroundColor,
+    ...rest
+  }: Props) => {
+    const onPress = useMemoFunc((e: GestureResponderEvent) => {
+      // if (!isConnected && applyNetworkShowing) {
+      //   return EventRegister.emit('screen_set_error_message', {
+      //     title: 'Connection failed',
+      //     message: `A network error occurred. Please check\n your network settings.`,
+      //     singleButton: true,
+      //     confirmText: 'OK',
+      //     onConfirm: () => {
+      //       EventRegister.emit('clear_error_message', {})
+      //       isConnected && rest.onPress?.(e)
+      //     },
+      //   })
+      // }
+
+      if (doNothing || isLoading) {
+        return
       }
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default"
-    }
-  }
-);
 
-const buttonTextVariants = cva(
-  "web:whitespace-nowrap font-semibold native:text-base text-foreground text-sm web:transition-colors",
-  {
-    variants: {
-      variant: {
-        default: "text-primary-foreground",
-        destructive: "text-destructive-foreground",
-        "destructive-outline": "text-destructive",
-        outline: "group-active:text-accent-foreground",
-        secondary:
-          "text-secondary-foreground group-active:text-secondary-foreground",
-        ghost: "group-active:text-accent-foreground",
-        link: "text-primary group-active:underline"
-      },
-      size: {
-        default: "",
-        sm: "",
-        lg: "native:text-[18px]",
-        icon: ""
-      }
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default"
-    }
-  }
-);
+      // isConnected && rest.onPress?.(e)
+      rest.onPress?.(e)
+    })
 
-type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
-  VariantProps<typeof buttonVariants> & {
-    loading?: boolean;
-    title?: string;
-    children?: React.ReactNode;
-  };
-
-const Button = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
-  ButtonProps
->(({ className, variant, size, loading, ...props }, ref) => {
-  return (
-    <TextClassContext.Provider
-      value={cn(
-        props.disabled && "web:pointer-events-none",
-        buttonTextVariants({ variant, size })
-      )}
-    >
+    return (
       <Pressable
-        style={[
-          props.disabled && { backgroundColor: colors.border2 },
-          loading && { backgroundColor: colors.neutral }
-        ]}
-        className={cn(
-          props.disabled && "web:pointer-events-none ",
-          buttonVariants({ variant, size, className })
+        {...rest}
+        onPress={onPress}
+        disabled={disabled}
+        style={tw.style(
+          'flex-row justify-center items-center gap-sp4 h-h48 rounded-full',
+          {
+            backgroundColor: tw.color(disabled && isPrimary ? disableBackgroundColor : isLoading ? loadingBackgroundColor : backgroundColor),
+            color: tw.color(textColor),
+            borderColor: tw.color(disabled ? disableBackgroundColor : backgroundColor),
+          },
+          rest.style,
+        )}>
+        {title ? (
+          <>
+            {isLoading && <AnimatedSpinnerV2 size={scale(16)} color={'#FF885D'} />}
+            <Typography type="bd" textColor={tw.color(disabled && isPrimary ? disableTextColor : textColor)} weight="medium">
+              {isLoading ? loadingTitle : title}
+            </Typography>
+          </>
+        ) : (
+          children
         )}
-        ref={ref}
-        role="button"
-        {...props}
-      >
-        {loading && <AnimatedSpinnerV2 size={16} color={"#fb923c"} />}
-        {props?.children}
       </Pressable>
-    </TextClassContext.Provider>
-  );
-});
-Button.displayName = "Button";
+    )
+  },
+)
 
-export { Button, buttonTextVariants, buttonVariants };
-export type { ButtonProps };
+export const Button = {
+  Primary: (props: Partial<ButtonStyle> & ButtonBase) => (
+    <ButtonComponent
+      {...props}
+      backgroundColor="primary"
+      disableBackgroundColor="border2"
+      loadingBackgroundColor="neutral"
+      disableTextColor="disabled"
+      textColor="white"
+      isPrimary
+    />
+  ),
+  Secondary: (props: Partial<ButtonStyle> & ButtonBase) => (
+    <ButtonComponent
+      {...props}
+      backgroundColor="white"
+      style={tw`border border-subtitle flex-1`}
+      disableBackgroundColor="border2"
+      loadingBackgroundColor="neutral"
+      disableTextColor="disabled"
+      textColor="black"
+      isPrimary
+    />
+  ),
+
+  Icon: (props: Partial<ButtonStyle> & ButtonBase) => (
+    <ButtonComponent
+      {...props}
+      backgroundColor="white"
+      loadingBackgroundColor="neutral"
+      disableBackgroundColor="transparent"
+      textColor="white"
+      disableTextColor="neutral-300"
+    />
+  ),
+} as const
