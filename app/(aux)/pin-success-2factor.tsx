@@ -28,7 +28,7 @@ function PINTwoFactorAuthenticationSuccess() {
       <View style={tw`flex-1 justify-between`}>
         <View style={tw`px-sp16 gap-sp12 items-center`}>
           <TopIndicatorAvoidingView number={3} />
-          <Image style={tw`w-16 h-16`} resizeMode="contain" source={require('@/assets/images/success-filled.png')} />
+          <Image style={tw`w-w64 h-h64`} resizeMode="contain" source={require('@/assets/images/success-filled.png')} />
           <Typography type="hs" weight="semibold">
             Verification success
           </Typography>

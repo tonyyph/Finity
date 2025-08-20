@@ -37,6 +37,8 @@ const customConfig = {
       height: {
         h1: `${scale(1)}px`,
         h2: `${scale(2)}px`,
+        h3: `${scale(3)}px`,
+        h9: `${scale(9)}px`,
         h10: `${scale(10)}px`,
         h12: `${scale(12)}px`,
         h14: `${scale(14)}px`,
@@ -72,8 +74,10 @@ const customConfig = {
         h300: `${scale(300)}px`,
       },
       width: {
+        w1: `${scale(1)}px`,
         w4: `${scale(4)}px`,
         w8: `${scale(8)}px`,
+        w9: `${scale(9)}px`,
         w10: `${scale(10)}px`,
         w12: `${scale(12)}px`,
         w14: `${scale(14)}px`,

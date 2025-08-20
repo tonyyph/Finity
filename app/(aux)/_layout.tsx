@@ -74,13 +74,6 @@ export default function AuxiliaryLayout() {
           }}
         />
         <Stack.Screen
-          name="pin-verify-2factor"
-          options={{
-            headerLeft: () => <BackButton />,
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
           name="pin-success"
           options={{
             headerShown: false,

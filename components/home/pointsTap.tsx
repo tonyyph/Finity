@@ -30,7 +30,7 @@ export function PointsTap({showAll = false, pointList}: {showAll?: boolean; poin
     if (pointList.length >= 10) {
       return (
         <View style={tw`mt-sp16`}>
-          <Button.Secondary title={`See more`} onPress={handleSeeMore} />
+          <Button.Secondary style={tw`border border-border2 flex-1`} title={`See more`} onPress={handleSeeMore} />
         </View>
       )
     }

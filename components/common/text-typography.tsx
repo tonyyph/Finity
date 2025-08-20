@@ -31,7 +31,7 @@ export const Typography: React.FC<TextProps> = ({type = 'bd', weight = 'medium',
         `text-${type} leading-${type}`,
         {
           fontFamily: FONT_FAMILY[weight] || 'NeueMontreal-Medium',
-          letterSpacing: 0.48,
+          letterSpacing: 0.4,
           color: textColor,
         },
         style,

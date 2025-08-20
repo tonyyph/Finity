@@ -28,7 +28,7 @@ function NotificationScreen() {
       activeOpacity={0.2}
       style={tw.style('flex-row items-start p-sp8 mt-sp8 rounded-br8', !item.read && 'bg-white')}>
       <View style={tw`mx-1`}>
-        <View style={tw.style('w-3 h-3 bg-border2 rounded-full mt-[6px] mr-2', !item.read && 'bg-[#FF885D]')} />
+        <View style={tw.style('w-w9 h-h9 bg-border2 rounded-full mt-sp6 mr-sp8', !item.read && 'bg-[#FF885D]')} />
       </View>
       <View style={tw`flex-1 gap-sp4`}>
         <View style={tw`flex flex-row items-center justify-between`}>

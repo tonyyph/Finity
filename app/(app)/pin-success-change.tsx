@@ -14,7 +14,7 @@ function PINChangeSuccess() {
       <TopIndicatorAvoidingView />
       <View style={tw`flex-1`}>
         <View style={tw`flex-1 px-sp16 gap-sp16 items-center mt-40`}>
-          <Image style={tw`w-16 h-16`} resizeMode="contain" source={require('@/assets/images/success-filled.png')} />
+          <Image style={tw`w-w64 h-h64`} resizeMode="contain" source={require('@/assets/images/success-filled.png')} />
           <Typography type="hs" weight="semibold">
             {`PIN created successfully!`}
           </Typography>

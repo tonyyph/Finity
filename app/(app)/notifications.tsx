@@ -11,8 +11,8 @@ export default function NotificationsScreen() {
     navigation.setOptions({
       headerRight: () => (
         <Link href={'/'} asChild>
-          <TouchableOpacity style={tw`h-10`}>
-            <EllipsisIcon style={tw`size-6 text-black`} />
+          <TouchableOpacity style={tw`h-h40`}>
+            <EllipsisIcon style={tw`w-w24 h-h24 text-black`} />
           </TouchableOpacity>
         </Link>
       ),
@@ -21,8 +21,8 @@ export default function NotificationsScreen() {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={tw`bg-white`} contentContainerStyle={tw`p-sp24`}>
-      <Text style={tw`text-black text-base font-bold px-sp16 mb-6`}>Today, April 22</Text>
-      <Text style={tw`text-black text-base font-bold px-sp16 mb-6`}>Yesterday, April 21</Text>
+      <Text style={tw`text-black text-base font-bold px-sp16 mb-sp24`}>Today, April 22</Text>
+      <Text style={tw`text-black text-base font-bold px-sp16 mb-sp24`}>Yesterday, April 21</Text>
       <BottomIndicatorAvoidingView />
     </ScrollView>
   )

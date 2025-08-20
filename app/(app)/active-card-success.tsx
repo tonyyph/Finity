@@ -58,7 +58,7 @@ function ActiveCardSuccessScreen() {
       <LoadingScreen loading={loading} />
 
       <View style={tw` flex-1 bg-white items-center mt-28`}>
-        <Image style={tw`w-16 h-16`} resizeMode="contain" source={localType?.icon} />
+        <Image style={tw`w-w64 h-h64`} resizeMode="contain" source={localType?.icon} />
         <Typography type="hs" weight="semibold" style={tw`mt-sp16`}>
           {localType?.title}
         </Typography>

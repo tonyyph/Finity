@@ -104,7 +104,7 @@ function TransactionResultScreen() {
   const TransactionCardDetail = () => {
     return (
       <View style={tw` flex-1 bg-subtle justify-start items-center`}>
-        <Image style={tw`w-16 h-16`} resizeMode="contain" source={localType?.icon} />
+        <Image style={tw`w-w64 h-h64`} resizeMode="contain" source={localType?.icon} />
         <Typography type="hs" weight="semibold" style={tw`mt-sp16`}>
           {localType?.title}
         </Typography>
@@ -135,7 +135,7 @@ function TransactionResultScreen() {
   const TransactionPointDetail = () => {
     return (
       <View style={tw` flex-1 bg-subtle justify-start items-center`}>
-        <Image style={tw`w-16 h-16`} resizeMode="contain" source={localType?.icon} />
+        <Image style={tw`w-w64 h-h64`} resizeMode="contain" source={localType?.icon} />
         <Typography type="hs" weight="semibold" style={tw`mt-sp16`}>
           {localType?.title}
         </Typography>
@@ -183,7 +183,8 @@ function TransactionResultScreen() {
           isLoading={loading}
           onPress={transType === 'load-card' ? handleLoadCardAgain : handleSendPointAgain}
         />
-        <Button.Secondary title={localType?.secondaryButton} onPress={handleReturnHome} />
+
+        <Button.Secondary style={tw`border border-border2`} title={localType?.secondaryButton} onPress={handleReturnHome} />
       </View>
     )
   }
@@ -194,7 +195,7 @@ function TransactionResultScreen() {
         <LoadingScreen loading={loading} />
         <TopIndicatorAvoidingView number={1.5} />
         <View style={tw`flex-1 justify-start items-center`}>
-          <Image style={tw`w-16 h-16`} resizeMode="contain" source={localType?.icon} />
+          <Image style={tw`w-w64 h-h64`} resizeMode="contain" source={localType?.icon} />
           <Typography type="hs" weight="semibold" style={tw`mt-sp16`}>
             {localType?.title}
           </Typography>

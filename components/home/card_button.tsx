@@ -11,8 +11,8 @@ type Props = {
 export const CardButtonGroup = ({onLoadCard, onSendPoints, hasIssuedCard}: Props) => {
   return (
     <View style={tw`flex-row gap-sp8 px-sp16`}>
-      <Button.Primary style={tw`justify-center items-center flex-1`} title={'Load card'} onPress={onLoadCard} />
-      <Button.Secondary style={tw`justify-center items-center flex-1`} title={'Send points'} onPress={onSendPoints} />
+      <Button.Primary style={tw`justify-center items-center border border-border2 flex-1`} title={'Load card'} onPress={onLoadCard} />
+      <Button.Secondary style={tw`justify-center items-center border border-border2 flex-1`} title={'Send points'} onPress={onSendPoints} />
     </View>
   )
 }

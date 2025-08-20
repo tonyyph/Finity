@@ -29,7 +29,7 @@ export function CardTab({showAll = false, cardList}: {showAll?: boolean; cardLis
     if (cardList.length >= 10) {
       return (
         <View style={tw`mt-sp16`}>
-          <Button.Secondary title={`See more`} onPress={handleSeeMore} />
+          <Button.Secondary style={tw`border border-border2 flex-1`} title={`See more`} onPress={handleSeeMore} />
         </View>
       )
     }

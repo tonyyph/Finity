@@ -38,7 +38,7 @@ function ReviewTransactionScreen() {
             </Typography>
             <Typography>{`${amount} points`}</Typography>
           </View>
-          <View style={tw.style(`bg-white rounded-full self-center absolute p-[6px] top-[50%] z-10`, styles.arrowStyle)}>
+          <View style={tw.style(`bg-white rounded-full self-center absolute p-sp6 top-[50%] z-10`, styles.arrowStyle)}>
             <ArrowDownIcon />
           </View>
           <View style={tw`bg-neutral-100 px-sp20 py-sp16 items-start justify-center gap-sp4 rounded-br12`}>
@@ -114,7 +114,7 @@ export default ReviewTransactionScreen
 const styles = StyleSheet.create({
   arrowStyle: {
     position: 'absolute',
-    top: '46%',
+    top: '50%',
     transform: [{translateY: -20}],
     backgroundColor: '#ffffff',
   },
