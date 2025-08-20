@@ -1,5 +1,4 @@
 import {tw} from '@/utils'
-import {isSmallScreen} from '@/utils/scales'
 import * as SwitchPrimitives from '@rn-primitives/switch'
 import * as React from 'react'
 import {Platform} from 'react-native'
@@ -30,22 +29,22 @@ SwitchWeb.displayName = 'SwitchWeb'
 
 const SwitchNative = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>>(
   ({className, ...props}, ref) => {
-    const translateX = useDerivedValue(() => (props.checked ? (isSmallScreen ? 14 : 20) : 0))
+    const translateX = useDerivedValue(() => (props.checked ? 18 : 0))
     const animatedThumbStyle = useAnimatedStyle(() => ({
       transform: [{translateX: withTiming(translateX.value, {duration: 200})}],
     }))
     return (
-      <Animated.View style={tw.style('h-h24 w-w42 rounded-full', props.disabled && 'opacity-50')}>
+      <Animated.View style={tw.style('h-[25px] w-[42px] rounded-full', props.disabled && 'opacity-50')}>
         <SwitchPrimitives.Root
           style={tw.style(
-            'h-h24 w-w42 shrink-0 flex-row items-center rounded-full bg-red-200 border-bw2 border-transparent',
+            'h-[25px] w-[42px] shrink-0 flex-row items-center rounded-full bg-red-200 border-bw2 border-transparent',
             props.checked ? 'bg-[#FF885D]' : 'bg-[#D7DEDE]',
             className,
           )}
           {...props}
           ref={ref}>
           <Animated.View style={animatedThumbStyle}>
-            <SwitchPrimitives.Thumb style={tw`h-h20 w-w20 rounded-full bg-white`} />
+            <SwitchPrimitives.Thumb style={tw`h-[21px] w-[21px] rounded-full bg-white`} />
           </Animated.View>
         </SwitchPrimitives.Root>
       </Animated.View>
