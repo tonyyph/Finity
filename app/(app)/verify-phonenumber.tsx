@@ -5,7 +5,7 @@ import {IS_IOS} from '@/lib'
 import {exactDesign, BottomIndicatorAvoidingView, tw} from '@/utils'
 import {router, useLocalSearchParams} from 'expo-router'
 import {useCallback, useEffect, useRef, useState} from 'react'
-import {Keyboard, TextInput, View} from 'react-native'
+import {Keyboard, TextInput, TouchableWithoutFeedback, View} from 'react-native'
 import Animated, {useAnimatedStyle} from 'react-native-reanimated'
 
 export default function VerifyPhoneNumberCodeScreen() {
@@ -25,7 +25,7 @@ export default function VerifyPhoneNumberCodeScreen() {
 
   const {keyboardHeight} = useAnimatedKeyboard(0)
   const translateStyle = useAnimatedStyle(() => ({
-    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value,
+    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value - 12,
   }))
 
   const otpString = otp.join('')
@@ -72,76 +72,78 @@ export default function VerifyPhoneNumberCodeScreen() {
   }
 
   return (
-    <View style={tw`bg-white flex-1`}>
-      <Header onBack={router.back} title="" />
-      <View style={tw`flex-1 gap-sp12 mt-6 px-sp16`}>
-        <View style={tw`z-10 my-sp12 gap-sp8`}>
-          <Typography type="hs" weight="semibold">
-            Verify mobile number
-          </Typography>
-          <Typography weight="regular">
-            {`To continue, verify your number by entering the verification code sent to ${phoneNumber
-              .toString()
-              ?.replace(/^\+44(\d{4})(\d{3})(\d{3})$/, '$1 $2 $3')}.`}
-          </Typography>
-        </View>
-        <View style={tw`flex flex-row justify-between items-center mt-sp16 gap-sp8`}>
-          {otp.map((digit, index) => (
-            <View style={tw` flex flex-row items-center mt-sp12 gap-sp16`} key={index}>
-              {index === 3 && <View style={tw`w-[8px] h-h1 bg-[#A3A3A3]`} />}
-              <TextInput
-                editable={!loading}
-                autoFocus={index === 0}
-                style={tw.style(
-                  `text-[20px] text-black text-center w-14 h-14 rounded-br8 bg-white border`,
-                  {borderColor: colors.border},
-                  indexCursor === index && {
-                    borderWidth: exactDesign(2),
-                    borderColor: colors.black,
-                  },
-                  !!error && {
-                    borderWidth: exactDesign(2),
-                    borderColor: colors.errormessage,
-                  },
-                )}
-                keyboardType="number-pad"
-                maxLength={1}
-                ref={el => (inputsRef.current[index] = el)}
-                value={digit}
-                onChangeText={text => handleChange(text, index)}
-                onKeyPress={e => handleKeyPress(e, index)}
-                onFocus={() => setIndexCursor(index)}
-              />
-            </View>
-          ))}
-        </View>
-
-        {!!error && (
-          <View style={tw`flex flex-row items-center`}>
-            <CircleAlert style={tw`mr-sp4`} />
-            <Typography type="bs" weight="medium" textColor="#D9323D" style={tw`flex-1`}>
-              {`Incorrect verification code. Try again.`}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={tw`bg-white flex-1`}>
+        <Header onBack={router.back} title="" />
+        <View style={tw`flex-1 gap-sp12 mt-6 px-sp16`}>
+          <View style={tw`z-10 my-sp12 gap-sp8`}>
+            <Typography type="hs" weight="semibold">
+              Verify mobile number
+            </Typography>
+            <Typography weight="regular">
+              {`To continue, verify your number by entering the verification code sent to ${phoneNumber
+                .toString()
+                ?.replace(/^\+44(\d{4})(\d{3})(\d{3})$/, '$1 $2 $3')}.`}
             </Typography>
           </View>
-        )}
-        <ResendVerificationDowntime />
-        {verificationCode && __DEV__ && (
-          <Typography type="bs" textColor="#737373" style={tw`self-center mt-6`}>
-            {`(Testing Verification code: ${verificationCode})`}
-          </Typography>
-        )}
+          <View style={tw`flex flex-row justify-between items-center mt-sp16 gap-sp8`}>
+            {otp.map((digit, index) => (
+              <View style={tw` flex flex-row items-center mt-sp12 gap-sp16`} key={index}>
+                {index === 3 && <View style={tw`w-[8px] h-h1 bg-[#A3A3A3]`} />}
+                <TextInput
+                  editable={!loading}
+                  autoFocus={index === 0}
+                  style={tw.style(
+                    `text-[20px] text-black text-center w-14 h-14 rounded-br8 bg-white border`,
+                    {borderColor: colors.border},
+                    indexCursor === index && {
+                      borderWidth: exactDesign(2),
+                      borderColor: colors.black,
+                    },
+                    !!error && {
+                      borderWidth: exactDesign(2),
+                      borderColor: colors.errormessage,
+                    },
+                  )}
+                  keyboardType="number-pad"
+                  maxLength={1}
+                  ref={el => (inputsRef.current[index] = el)}
+                  value={digit}
+                  onChangeText={text => handleChange(text, index)}
+                  onKeyPress={e => handleKeyPress(e, index)}
+                  onFocus={() => setIndexCursor(index)}
+                />
+              </View>
+            ))}
+          </View>
+
+          {!!error && (
+            <View style={tw`flex flex-row items-center`}>
+              <CircleAlert style={tw`mr-sp4`} />
+              <Typography type="bs" weight="medium" textColor="#D9323D" style={tw`flex-1`}>
+                {`Incorrect verification code. Try again.`}
+              </Typography>
+            </View>
+          )}
+          <ResendVerificationDowntime />
+          {verificationCode && __DEV__ && (
+            <Typography type="bs" textColor="#737373" style={tw`self-center mt-6`}>
+              {`(Testing Verification code: ${verificationCode})`}
+            </Typography>
+          )}
+        </View>
+        <View key={1} style={tw`justify-end flex-1 px-sp16`}>
+          <Button.Primary
+            title={`Verify`}
+            loadingTitle="Verifying..."
+            disabled={otpString.length !== 6}
+            isLoading={loading}
+            onPress={handleVerifyChangePNOTP}
+          />
+        </View>
+        <BottomIndicatorAvoidingView />
+        <Animated.View style={translateStyle} />
       </View>
-      <View key={1} style={tw`justify-end flex-1 px-sp16`}>
-        <Button.Primary
-          title={`Verify`}
-          loadingTitle="Verifying..."
-          disabled={otpString.length !== 6}
-          isLoading={loading}
-          onPress={handleVerifyChangePNOTP}
-        />
-      </View>
-      <BottomIndicatorAvoidingView />
-      <Animated.View style={translateStyle} />
-    </View>
+    </TouchableWithoutFeedback>
   )
 }

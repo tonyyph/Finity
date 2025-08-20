@@ -14,7 +14,7 @@ function ActiveCardScreen() {
   const inputRefs = [useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null), useRef<TextInput>(null)]
   const {keyboardHeight} = useAnimatedKeyboard(0)
   const translateStyle = useAnimatedStyle(() => ({
-    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value,
+    height: IS_IOS ? (keyboardHeight.value * 13) / 14 : keyboardHeight.value - 12,
   }))
 
   const [cardNumber, setCardNumber] = useState(['', '', '', ''])

@@ -60,7 +60,7 @@ function BiometricsSuccess() {
     <View style={tw`flex-1 bg-white`}>
       <TopIndicatorAvoidingView />
       <View style={tw`flex-1`}>
-        <View style={tw`flex-1 px-sp16 gap-sp12 items-center mt-40`}>
+        <View style={tw`flex-1 px-sp16 gap-sp12 items-center mt-sp128`}>
           <Image style={tw`w-w64 h-h64`} resizeMode="contain" source={require('@/assets/images/success-filled.png')} />
           <Typography type="hs" weight="semibold">
             {`${authenticationType?.title}`}

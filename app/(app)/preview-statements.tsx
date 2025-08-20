@@ -85,7 +85,7 @@ function PreviewStatementScreen() {
         style={styles.pdf}
         renderActivityIndicator={() => <View />}
       />
-      <View style={tw`flex-[0.15]`} />
+      <View style={tw`flex-0.15`} />
     </View>
   )
 }
