@@ -1,4 +1,5 @@
 import {tw} from '@/utils'
+import {isSmallScreen} from '@/utils/scales'
 import * as SwitchPrimitives from '@rn-primitives/switch'
 import * as React from 'react'
 import {Platform} from 'react-native'
@@ -29,7 +30,7 @@ SwitchWeb.displayName = 'SwitchWeb'
 
 const SwitchNative = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>>(
   ({className, ...props}, ref) => {
-    const translateX = useDerivedValue(() => (props.checked ? 14 : 0))
+    const translateX = useDerivedValue(() => (props.checked ? (isSmallScreen ? 14 : 20) : 0))
     const animatedThumbStyle = useAnimatedStyle(() => ({
       transform: [{translateX: withTiming(translateX.value, {duration: 200})}],
     }))

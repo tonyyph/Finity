@@ -75,8 +75,8 @@ export default function CardScreen() {
               </View>
             </View>
           )}
-          <View style={tw`bg-neutral-100 border border-[#E5E5E5] items-center justify-center p-sp16 rounded-br16 m-sp16`}>
-            <View style={tw.style(`bg-white w-full h-h240 border border-subtitle rounded-br12 flex-row`, styles.shadow)}>
+          <View style={tw`bg-neutral-100 border border-[#E5E5E5] h-h240 items-center justify-center p-sp16 rounded-br16 m-sp16`}>
+            <View style={tw.style(`bg-white w-full h-h208 border border-border2 rounded-br12 flex-row`, styles.shadow)}>
               <View style={tw`justify-between flex-1 items-start px-sp24 pt-sp8 pb-sp24`}>
                 <View style={tw`h-h48`} />
                 <Image resizeMode="contain" source={SmartChip} style={tw`w-w44 h-h32 mx-sp16`} />

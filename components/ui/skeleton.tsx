@@ -17,7 +17,7 @@ function Skeleton({customStyle, ...props}: Omit<React.ComponentPropsWithoutRef<t
     opacity: sv.value,
   }))
 
-  return <Animated.View style={tw.style(`rounded-md bg-neutral-100 dark:bg-slate-200`, style, customStyle)} {...props} />
+  return <Animated.View style={tw.style(`rounded-md bg-neutral dark:bg-slate-200`, style, customStyle)} {...props} />
 }
 
 export {Skeleton}

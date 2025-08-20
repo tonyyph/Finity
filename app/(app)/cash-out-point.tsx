@@ -46,7 +46,7 @@ export default function CashOutPointScreen() {
           <TextInput
             editable={false}
             value={`${formatNumber({value: Number(userData?.pointsBalance ?? 0), decimalCount: 0})}`}
-            style={tw`bg-neutral-100 rounded-br8 h-h48 border-bw1 border-subtitle px-sp12 text-bl font-bold text-[#404040]`}
+            style={tw`bg-neutral-100 rounded-br8 h-h48 border-bw1 border-border2 px-sp12 text-bl font-bold text-[#404040]`}
           />
         </View>
         <View style={tw`justify-end py-sp12`}>

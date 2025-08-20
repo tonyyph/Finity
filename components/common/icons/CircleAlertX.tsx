@@ -2,7 +2,7 @@ import {memoFC, scale, tw} from '@/utils'
 import {View} from 'react-native'
 import Svg, {Path, SvgProps} from 'react-native-svg'
 
-export const CircleAlertX = memoFC(({size = scale(24), style, ...props}: SvgProps & IconProps = {}) => {
+export const CircleAlertX = memoFC(({size = scale(80), style, ...props}: SvgProps & IconProps = {}) => {
   return (
     <View style={[{width: size, height: size}, style]}>
       <Svg style={tw`aspect-square`} width="100%" height="100%" fill="none" viewBox="0 0 80 80" {...props}>

@@ -232,7 +232,7 @@ function TransactionPointDetail() {
   return (
     <View style={tw`flex-1 bg-white`}>
       <Header onRightFunction={router.back} title="" />
-      <View style={tw`flex-1 bg-white mx-sp16 mt-sp16`}>
+      <View style={tw`flex-1 bg-white mx-sp16`}>
         <Typography type="hs" weight="semibold" style={tw`mx-2`}>
           Transaction details
         </Typography>

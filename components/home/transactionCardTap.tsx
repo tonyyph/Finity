@@ -58,9 +58,9 @@ export function TransactionCardTap() {
   const HeaderTab = () => (
     <View>
       <View style={tw`flex-row items-center gap-sp12 pt-sp24 pb-sp8 bg-white`}>
-        <View style={tw`border flex-1 border-subtitle rounded-br8 relative`}>
+        <View style={tw`border flex-1 border-border2 rounded-br8 relative`}>
           <TextInput
-            style={tw`flex-1 h-h48 px-sp16 rounded-br8 bg-subtle border border-subtitle pl-sp40 pr-sp16`}
+            style={tw`flex-1 h-h48 px-sp16 rounded-br8 bg-subtle border border-border2 pl-sp40 pr-sp16`}
             placeholder="Search transaction"
             placeholderTextColor="#737373"
             autoCorrect={false}

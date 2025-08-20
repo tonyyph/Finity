@@ -46,7 +46,7 @@ export default function ForgotPINScreen() {
                 </Typography>
                 <View style={tw`rounded-br8 relative`}>
                   <TextInput
-                    style={tw.style('px-sp12 rounded-br8 bg-white border-bw2 border-subtitle h-h48', {
+                    style={tw.style('px-sp12 rounded-br8 bg-white border-bw2 border-border2 h-h48', {
                       'border-black': !!focusUsername,
                       'border-errormessage': !!passwordState.error,
                       'border-bw2': !!passwordState.error,
@@ -76,7 +76,7 @@ export default function ForgotPINScreen() {
                 </Typography>
                 <View style={tw`rounded-br8 relative`}>
                   <TextInput
-                    style={tw.style('px-sp12 rounded-br8 bg-white border-bw2 border-subtitle h-h48', {
+                    style={tw.style('px-sp12 rounded-br8 bg-white border-bw2 border-border2 h-h48', {
                       'border-black': !!focusPassword,
                       'border-errormessage': !!passwordState.error,
                       'border-bw2': !!passwordState.error,

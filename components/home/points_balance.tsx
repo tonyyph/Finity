@@ -12,7 +12,7 @@ type Props = {
 
 export function PointsBalanceCom({title = 'Points balance', value = 0, onTouch}: Props) {
   return (
-    <Touch onPress={onTouch} style={tw`flex-row mx-sp16 bg-white p-sp12 border-subtitle border rounded-br12 justify-between`}>
+    <Touch onPress={onTouch} style={tw`flex-row mx-sp16 bg-white p-sp12 border-border2 border rounded-br12 justify-between`}>
       <View style={tw`gap-sp12`}>
         <Typography textColor="#404040">{title}</Typography>
 

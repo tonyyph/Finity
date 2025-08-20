@@ -64,7 +64,7 @@ function StatementScreen() {
             </Typography>
             <Touch
               onPress={onPressYearFilter}
-              style={tw`flex-1 flex-row justify-between items-center rounded-br8 z-10 border-bw1 border-subtitle px-sp12`}>
+              style={tw`flex-1 flex-row justify-between items-center rounded-br8 z-10 border-bw1 border-border2 px-sp12`}>
               <View style={tw`h-h48 items-center justify-center`}>
                 <Typography weight="medium" type="bd">
                   {yearOfFilter}

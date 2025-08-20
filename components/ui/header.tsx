@@ -4,7 +4,6 @@ import {XIcon} from 'lucide-react-native'
 import {ReactNode} from 'react'
 import {TouchableOpacity, View} from 'react-native'
 import {ArrowBackIcon, Typography} from '../common'
-import {Button} from './button'
 
 type Props = {
   title?: string
@@ -58,9 +57,9 @@ export const Header = ({
         )}
         {renderRightView ??
           (!!onRightFunction ? (
-            <Button.Icon style={tw`flex-shrink items-center`} onPress={onRightFunction}>
+            <TouchableOpacity style={tw`flex-shrink items-center`} onPress={onRightFunction}>
               {Icon ? <Icon style={tw`w-w32 h-h32 text-black`} /> : <XIcon style={tw`w-w32 h-h32 text-black`} />}
-            </Button.Icon>
+            </TouchableOpacity>
           ) : (
             <View style={tw`flex-shrink`}>
               <XIcon style={tw`w-w32 h-h32 text-transparent`} />

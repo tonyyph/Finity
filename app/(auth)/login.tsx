@@ -46,7 +46,7 @@ export default function LoginScreen() {
                 <View style={tw`rounded-br8 relative mt-sp2 mb-sp8`}>
                   <TextInput
                     style={tw.style(
-                      `px-sp12 rounded-br8 bg-white text-bd leading-bs font-rg border-bw1 border-subtitle h-h48`,
+                      `px-sp12 rounded-br8 bg-white text-bd leading-bs font-rg border-bw1 border-border2 h-h48`,
                       !!focusUsername && `border-bw2 border-black`,
                       (!!passwordState.error || !!usernameState.error) && `border-errormessage border-bw2`,
                     )}
@@ -74,7 +74,7 @@ export default function LoginScreen() {
                 <View style={tw`rounded-br8 relative mt-sp2 mb-sp8`}>
                   <TextInput
                     style={tw.style(
-                      `px-sp12 rounded-br8 bg-white border-bw1 text-bd leading-bs font-rg border-subtitle h-h48`,
+                      `px-sp12 rounded-br8 bg-white border-bw1 text-bd leading-bs font-rg border-border2 h-h48`,
                       !!focusPassword && `border-bw2 border-black`,
                       (!!passwordState.error || !!usernameState.error) && `border-errormessage border-bw2`,
                     )}
@@ -100,9 +100,9 @@ export default function LoginScreen() {
                 )}
               </View>
               {/* Login Button */}
-              <Button.Primary title="Sign in" loadingTitle="Signing in..." isLoading={isLoading} onPress={onLogin} style={tw`mt-sp20 h-h48`} />
+              <Button.Primary title="Sign in" loadingTitle="Signing in..." isLoading={isLoading} onPress={onLogin} style={tw`mt-sp16`} />
               {/* Forgot password */}
-              <TouchableOpacity style={tw`px-sp16 mt-sp8`} onPress={onPressForgotPassword}>
+              <TouchableOpacity style={tw`px-sp16`} onPress={onPressForgotPassword}>
                 <Typography type="bd" weight="medium" style={tw`text-center my-sp4`}>
                   Forgot password?
                 </Typography>

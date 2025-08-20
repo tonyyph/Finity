@@ -55,13 +55,13 @@ const EditPhoneNumberScreen = () => {
           </Typography>
           <Typography textColor="#404040">New mobile number</Typography>
           <View style={tw`flex-row gap-sp12`}>
-            <View style={tw`w-w56 h-h48 bg-neutral-100 items-center border border-subtitle justify-center rounded-br8`}>
+            <View style={tw`w-w56 h-h48 bg-neutral-100 items-center border border-border2 justify-center rounded-br8`}>
               <Typography weight="regular" textColor="#404040">
                 +44
               </Typography>
             </View>
             <TextInput
-              style={tw.style('px-sp12 rounded-br8 bg-white flex-1 border border-subtitle h-h48', {
+              style={tw.style('px-sp12 rounded-br8 bg-white flex-1 border border-border2 h-h48', {
                 'border-black border-bw2': !!focusMobileNumber,
               })}
               onFocus={() => setFocusMobileNumber(true)}

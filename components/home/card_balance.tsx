@@ -12,7 +12,7 @@ type Props = {
 
 export function CardBalanceCom({title = 'Card balance', value = 0, currency = '£', onTouch}: Props) {
   return (
-    <Touch onPress={onTouch} style={tw`flex-row bg-white mx-sp16 p-sp12 border rounded-br12 border-subtitle justify-between`}>
+    <Touch onPress={onTouch} style={tw`flex-row bg-white mx-sp16 p-sp12 border rounded-br12 border-border2 justify-between`}>
       <View style={tw`gap-sp12`}>
         <Typography textColor="#404040">{title}</Typography>
         <Typography weight="medium" type="hm">

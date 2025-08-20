@@ -115,7 +115,7 @@ function TransactionResultScreen() {
           {formatDateNow()}
         </Typography>
 
-        <View style={tw`mt-sp32 w-full border border-subtitle rounded-br12 px-sp16 py-sp24 gap-sp8 bg-white`}>
+        <View style={tw`mt-sp32 w-full border border-border2 rounded-br12 px-sp16 py-sp24 gap-sp8 bg-white`}>
           <TransRowItem title="Reference number" value={transactionId.toString()} />
           <TransRowItem title="You loaded" value={`${amount} points`} />
           <TransRowItem title="Conversion rate" value="1 point = £0.1" />
@@ -146,7 +146,7 @@ function TransactionResultScreen() {
           {formatDateTransactionDetails(dateTransacted?.toString())}
         </Typography>
 
-        <View style={tw`mt-sp24 w-full border border-subtitle rounded-br12 px-sp16 py-sp24 gap-sp8 bg-white`}>
+        <View style={tw`mt-sp24 w-full border border-border2 rounded-br12 px-sp16 py-sp24 gap-sp8 bg-white`}>
           <TransRowItem title="Reference number" value={transactionId?.toString()} />
           <TransRowItem title="You sent" value={`${amount} points`} />
 

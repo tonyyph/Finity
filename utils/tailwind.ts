@@ -68,6 +68,7 @@ const customConfig = {
         h200: `${scale(200)}px`,
         h208: `${scale(208)}px`,
         h240: `${scale(240)}px`,
+        h260: `${scale(260)}px`,
         h300: `${scale(300)}px`,
       },
       width: {

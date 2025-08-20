@@ -91,7 +91,7 @@ function LoadCardScreen() {
               <TextInput
                 editable={false}
                 value={formatPointValue}
-                style={tw`bg-neutral-100 rounded-br8 h-h48 border-bw1 border-subtitle px-sp12 text-bl font-bold text-[#404040]`}
+                style={tw`bg-neutral-100 rounded-br8 h-h48 border-bw1 border-border2 px-sp12 text-bl font-bold text-[#404040]`}
               />
               {/* point balance */}
               <View style={tw`flex-row gap-sp4 items-center`}>
@@ -111,7 +111,7 @@ function LoadCardScreen() {
                 {`Enter amount`}
               </Typography>
               <View
-                style={tw.style('flex-row justify-between items-center rounded-br8 border-bw1 border-subtitle px-sp16 gap-sp24', {
+                style={tw.style('flex-row justify-between items-center rounded-br8 border-bw1 border-border2 px-sp16 gap-sp24', {
                   'border-black': !!focusAmount,
                   'border-errormessage': !!error,
                   'border-bw2': !!error || !!focusAmount,

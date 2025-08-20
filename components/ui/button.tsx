@@ -110,7 +110,7 @@ export const Button = {
     <ButtonComponent
       {...props}
       backgroundColor="white"
-      style={tw`border border-subtitle flex-1`}
+      style={tw`border border-border2 flex-1`}
       disableBackgroundColor="border2"
       loadingBackgroundColor="neutral"
       disableTextColor="disabled"

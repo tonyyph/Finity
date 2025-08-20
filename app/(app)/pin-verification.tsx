@@ -1,8 +1,8 @@
 import {changeHomeAddress} from '@/api'
 import {CircleAlert, Header, Keypad, ProgressBar, Typography} from '@/components'
 import {useBiometrics, useCardHolder} from '@/hooks'
-import {useUserAuthenticateStore, userStore} from '@/stores'
-import {BottomIndicatorAvoidingView, scale, TopIndicatorAvoidingView, tw} from '@/utils'
+import {userStore, useUserAuthenticateStore} from '@/stores'
+import {BottomIndicatorAvoidingView, scale, tw} from '@/utils'
 import {BlurView} from 'expo-blur'
 import * as LocalAuthentication from 'expo-local-authentication'
 import {router, useLocalSearchParams} from 'expo-router'
@@ -163,10 +163,9 @@ function PinVerificationScreen() {
       <ProgressBar completeAnimation={true} />
       <View style={tw`flex-1`}>
         <View style={tw`flex-1 flex-col justify-between mx-sp16`}>
-          <TopIndicatorAvoidingView number={2.5} />
-          <View style={tw` py-sp32`}>
+          <View style={tw`pt-sp128`}>
             {/* PIN container */}
-            <View style={tw`flex-row h-h28 flex justify-center items-center gap-sp32 mt-sp32`}>
+            <View style={tw`flex-row h-h28 flex justify-center items-center gap-sp32`}>
               {[...Array(4)].map((_, i) => (
                 <View key={i} style={tw`h-h28 w-w28 items-center justify-center p-sp8 `}>
                   <View style={tw.style('w-w12 h-h12 bg-neutral-300 rounded-full', confirmPin.length > i && 'bg-black')} />

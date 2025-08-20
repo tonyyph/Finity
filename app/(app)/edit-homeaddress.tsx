@@ -59,7 +59,7 @@ const EditHomeAddressScreen = () => {
               <Typography textColor="#404040">Address line 1</Typography>
               <View style={tw`flex-row gap-sp12`}>
                 <TextInput
-                  style={tw.style('px-sp12 rounded-br8 bg-white flex-1 border border-subtitle h-h48', {
+                  style={tw.style('px-sp12 rounded-br8 bg-white flex-1 border border-border2 h-h48', {
                     'border-black border-bw2': !!focusAddressLine1,
                     'border-errormessage border-bw2': addressLine1?.length > 50,
                   })}
@@ -87,7 +87,7 @@ const EditHomeAddressScreen = () => {
               <Typography textColor="#404040">{`Address line 2 (optional)`}</Typography>
               <View style={tw`flex-row gap-sp12`}>
                 <TextInput
-                  style={tw.style('px-sp12 rounded-br8 bg-white flex-1 border border-subtitle h-h48', {
+                  style={tw.style('px-sp12 rounded-br8 bg-white flex-1 border border-border2 h-h48', {
                     'border-black border-bw2': !!focusAddressLine2,
                     'border-errormessage border-bw2': addressLine2?.length > 50,
                   })}
@@ -116,7 +116,7 @@ const EditHomeAddressScreen = () => {
                 <Typography textColor="#404040">{`Town or city`}</Typography>
                 <View style={tw`flex-row gap-sp12`}>
                   <TextInput
-                    style={tw.style('px-sp12 rounded-br8 bg-white flex-1 border border-subtitle h-h48', {
+                    style={tw.style('px-sp12 rounded-br8 bg-white flex-1 border border-border2 h-h48', {
                       'border-black border-bw2': !!focusTownOrCity,
                     })}
                     onFocus={() => setFocusTownOrCity(true)}
@@ -143,7 +143,7 @@ const EditHomeAddressScreen = () => {
                 <Typography textColor="#404040">{`Postcode`}</Typography>
                 <View style={tw`flex-row gap-sp12`}>
                   <TextInput
-                    style={tw.style('px-sp12 rounded-br8 bg-white flex-1 border border-subtitle h-h48', {
+                    style={tw.style('px-sp12 rounded-br8 bg-white flex-1 border border-border2 h-h48', {
                       'border-black border-bw2': !!focusPostCode,
                       'border-errormessage border-bw2': !validateUKPostcode(postCode),
                     })}

@@ -93,7 +93,7 @@ export default function Verify2FactorScreen() {
                 editable={!isLoading}
                 autoFocus={index === 0}
                 style={tw.style(
-                  `text-hsm leading-bl text-black text-center w-w48 h-h48 rounded-br8 bg-white border-bw1 border-subtitle`,
+                  `text-hsm leading-bl text-black text-center w-w48 h-h48 rounded-br8 bg-white border-bw1 border-border2`,
                   indexCursor === index && `border-bw2 border-black`,
                   !!error && `border-errormessage border-bw2`,
                 )}
