@@ -1,5 +1,6 @@
 import {Button, CircleAlert, Typography} from '@/components'
 import {useLogin} from '@/hooks'
+import {FORGOT_PASSWORD_URL} from '@/lib'
 import {TopIndicatorAvoidingView, tw} from '@/utils'
 import {router} from 'expo-router'
 import {EyeIcon, EyeOffIcon} from 'lucide-react-native'
@@ -21,7 +22,7 @@ export default function LoginScreen() {
       pathname: '/un-auth-web-view',
       params: {
         title: 'Forgot password',
-        webLink: 'https://as-rwd-uks-rewards-web-dev.azurewebsites.net/account/forgot-password',
+        webLink: FORGOT_PASSWORD_URL,
       },
     })
   }

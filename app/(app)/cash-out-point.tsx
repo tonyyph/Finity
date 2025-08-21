@@ -3,6 +3,7 @@ import {Button} from '@/components/ui/button'
 import {Header} from '@/components/ui/header'
 import {ProgressBar} from '@/components/ui/progress'
 import {useCardHolder} from '@/hooks/cardholders/useCardHolder'
+import {SUPPORT_URL} from '@/lib'
 import {formatNumber, tw} from '@/utils'
 import {router} from 'expo-router'
 import {Linking, TextInput, View} from 'react-native'
@@ -23,7 +24,7 @@ export default function CashOutPointScreen() {
         pathname: '/web-view',
         params: {
           title: '',
-          webLink: 'https://support.finity.co.uk/en/',
+          webLink: SUPPORT_URL,
         },
       })
     }

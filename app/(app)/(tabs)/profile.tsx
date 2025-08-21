@@ -21,6 +21,7 @@ import {
   toast,
   Typography,
 } from '@/components'
+import {SUPPORT_URL} from '@/lib'
 import {useUserSettingsStore} from '@/stores'
 import {scale, SCREEN_WIDTH, TopIndicatorAvoidingView, tw} from '@/utils'
 import {useAuth} from '@clerk/clerk-expo'
@@ -67,7 +68,7 @@ export default function ProfileScreen() {
       pathname: '/web-view',
       params: {
         title: 'Help centre',
-        webLink: 'https://support.finity.co.uk/en/',
+        webLink: SUPPORT_URL,
       },
     })
   }

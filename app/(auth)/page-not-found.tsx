@@ -1,4 +1,5 @@
 import {CircleAlertX, Typography, Button} from '@/components'
+import {SUPPORT_URL} from '@/lib'
 import {BottomIndicatorAvoidingView, tw} from '@/utils'
 import {router, useNavigation} from 'expo-router'
 import {useEffect} from 'react'
@@ -33,7 +34,7 @@ export default function PageNotFound() {
                 pathname: '/un-auth-web-view',
                 params: {
                   title: '',
-                  webLink: 'https://support.finity.co.uk',
+                  webLink: SUPPORT_URL,
                 },
               })
             }>

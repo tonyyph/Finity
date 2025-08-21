@@ -1,4 +1,5 @@
 import {MenuItem, ArrowRightIcon, ProtectIcon, TermIcon, Header, ProgressBar} from '@/components'
+import {PRIVACY_URL, TNC_URL} from '@/lib'
 import {tw} from '@/utils'
 import {router} from 'expo-router'
 import {View} from 'react-native'
@@ -18,7 +19,7 @@ export default function OurAgreementScreen() {
               pathname: '/web-view',
               params: {
                 title: 'Terms and conditions',
-                pdfLink: 'https://www.finity.co.uk/wp-content/uploads/2025/05/20250506-Finity-Terms-Conditions_Corporate-Rewards.pdf',
+                pdfLink: TNC_URL,
               },
             })
           }}
@@ -33,7 +34,7 @@ export default function OurAgreementScreen() {
               pathname: '/web-view',
               params: {
                 title: 'Privacy policy',
-                webLink: 'https://www.finity.co.uk/privacy-policy/',
+                webLink: PRIVACY_URL,
               },
             })
           }}
